@@ -265,7 +265,13 @@ export default {
                         compressed : base64data.replace('data:'+mType+';base64,' ,'') 
                       , blob : vm.cropped.replace('data:'+mType+';base64,' ,'')
                       , extension :  mType 
-                    }  
+                    }  ,
+                      onUploadProgress: function (progressEvent) {
+                        vm.isLoading = true;
+                      },
+                      onDownloadProgress: function (progressEvent) {
+                        vm.isLoading = true;
+                      },
                   } ,
 
                 }).then(function(response){
