@@ -53,6 +53,8 @@ Route::post('dev/test' , function(){ return 'done'; });
 //DEVELOPERS ROUTES ENDS /////////////////////////////////////////////////////////////
 
 //Check if the user exists 
+Route::post('get_all_users','UserController@returnAllMembers');
+
 Route::post('user/check' , 'UserController@check');
 
 Route::post('email/check' , 'UserController@mailCheck');
@@ -86,12 +88,18 @@ Route::post('retrive_circle' , 'CircleController@retrive' );
 
 Route::post('get_circles' , 'UserController@getUserCircles' );
 
+Route::post('get_circle_members','CircleMemberController@groupPushMembers');
+
+Route::post('/get_all_circles','UserController@getUserAllCircles');
+
 
 //Career
 
 Route::post('career' , 'CareerController@createCareer');
 
 Route::post('career/get' , 'CareerController@retriveCareer');
+
+Route::post('/create_group' , 'GroupController@createGroup');
 
 //Education
 
@@ -168,6 +176,7 @@ Route::get('media/cover/compressed/{id}' , 'BlobController@retriveCoverCompresse
 Route::get('media/avatar/ref/compressed/{id}' , 'BlobController@retriveAvatarCompressed');
 
 Route::post('search/main' , 'UserController@mainSearch');
+ 
 
 
 
@@ -400,9 +409,9 @@ Route::group(['middleware' => 'auth'] , function(){
 
   Route::get('/{user}' , 'UserController@routeToProfile');
 
-  // Route::get('/knock/{knock}' , 'KnockController@viewKnock');
+  Route::get('/knock/{knock}' , 'KnockController@viewKnock');
 
-  // Route::get('/knock/{knock}/{comment}' , 'KnockController@viewKnockWithComment');
+  Route::get('/knock/{knock}/{comment}' , 'KnockController@viewKnockWithComment');
 
 
 

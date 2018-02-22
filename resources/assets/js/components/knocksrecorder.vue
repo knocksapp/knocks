@@ -70,113 +70,113 @@ export default {
 
 
   props : {
-  	upload_data : {
-  		type : Object ,
-  		required : true 
-  	},
-  	upload_on_finish : {
-  		type : Boolean , 
-  		default : false ,
-  	} , 
-  	main_container : {
-  		type : String , 
-  		default : 'row'
-  	} ,
-  	record_button_initial : {
-  		type : String , 
-  		default : 'btn btn-floating knocks_tiny_floating_btn wave-effect knocks_record_button knocks_btn_color_kit'
-  	} ,
-  	record_button_on_record : {
-  		type : String , 
-  		default : 'knocks_btn_recording pulse'
-  	} ,
-  	record_button_on_stop : {
-  		type : String , 
-  		default : 'knocks_color_kit'
-  	} ,
-  	record_icon_on_record : {
-  		type : String , 
-  		default : 'knocks-record'
-  	} ,
-  	record_icon_on_stop : {
-  		type : String , 
-  		default : 'knocks-microphone'
-  	} ,
-  	cancel_button : {
-  		type : String , 
-  		default : 'btn btn-floating knocks_tiny_floating_btn knocks_color_kit knocks_btn_color_kit animated rubberBand'
-  	} ,
-  	cancel_icon : {
-  		type : String , 
-  		default : 'knocks-close'
-  	} ,
-  	timer_class : {
-  		type : String , 
-  		default : 'animated rubberBand infinite knocks_text_dark_active'
-  	} ,
-  	player_container : {
-  		type : String , 
-  		default : ''
-  	} ,
-  	recorder_container : {
-  		type : String , 
-  		default : ''
-  	},
-  	gid : {
-  		type : String ,
-  		required : true ,
-  	},
-  	scope : {
-  		type : Array , 
-  		default : null 
-  	},
+    upload_data : {
+      type : Object ,
+      required : true 
+    },
+    upload_on_finish : {
+      type : Boolean , 
+      default : false ,
+    } , 
+    main_container : {
+      type : String , 
+      default : 'row'
+    } ,
+    record_button_initial : {
+      type : String , 
+      default : 'btn btn-floating knocks_tiny_floating_btn wave-effect knocks_record_button knocks_btn_color_kit'
+    } ,
+    record_button_on_record : {
+      type : String , 
+      default : 'knocks_btn_recording pulse'
+    } ,
+    record_button_on_stop : {
+      type : String , 
+      default : 'knocks_color_kit'
+    } ,
+    record_icon_on_record : {
+      type : String , 
+      default : 'knocks-record'
+    } ,
+    record_icon_on_stop : {
+      type : String , 
+      default : 'knocks-microphone'
+    } ,
+    cancel_button : {
+      type : String , 
+      default : 'btn btn-floating knocks_tiny_floating_btn knocks_color_kit knocks_btn_color_kit animated rubberBand'
+    } ,
+    cancel_icon : {
+      type : String , 
+      default : 'knocks-close'
+    } ,
+    timer_class : {
+      type : String , 
+      default : 'animated rubberBand infinite knocks_text_dark_active'
+    } ,
+    player_container : {
+      type : String , 
+      default : ''
+    } ,
+    recorder_container : {
+      type : String , 
+      default : ''
+    },
+    gid : {
+      type : String ,
+      required : true ,
+    },
+    scope : {
+      type : Array , 
+      default : null 
+    },
     hide_player : {
       type : Boolean , 
       default : false 
     },
 
 
-  	//knocks_player_props
-  	player_initial_class : {
-  		type :String ,
-  		default : 'btn knocks_tiny_floating_btn btn-floating knocks_color_kit knocks_btn_color_kit right'
-  	},
-  	player_play_class : {
-  		type :String ,
-  		default : 'animated flipInX'
-  	},
-  	player_pause_class : {
-  		type :String ,
-  		default : 'animated flipInY'
-  	},
-  	player_icon_play_class : {
-  		type :String ,
-  		default : 'knocks-play5 animated jello'
-  	},
-  	player_icon_pause_class : {
-  		type :String ,
-  		default : 'knocks-pause4 animated rubberBand'
-  	},
-  	player_volume_off_class : {
-  		type : String ,
-  		default : 'knocks-volume8 knocks_text_dark knocks_text right knocks_text_md animated flipInY'
-  	},
-  	player_volume_low_class : {
-  		type : String ,
-  		default : 'knocks-volume6 knocks_text_dark right knocks_text_md animated jello'
-  	},
-  	player_volume_high_class : {
-  		type : String ,
-  		default : 'knocks-volume7 knocks_text_dark_active right knocks_text_md animated rubberBand'
-  	},
-  	player_timer_classes : {
-  		type : String ,
-  		default : 'knocks_text_right knocks_text_dark_active'
-  	},
-  	player_runtime_classes : {
-  		type : String ,
-  		default : 'knocks_text_right knocks_text_dark'
-  	},
+    //knocks_player_props
+    player_initial_class : {
+      type :String ,
+      default : 'btn knocks_tiny_floating_btn btn-floating knocks_color_kit knocks_btn_color_kit right'
+    },
+    player_play_class : {
+      type :String ,
+      default : 'animated flipInX'
+    },
+    player_pause_class : {
+      type :String ,
+      default : 'animated flipInY'
+    },
+    player_icon_play_class : {
+      type :String ,
+      default : 'knocks-play5 animated jello'
+    },
+    player_icon_pause_class : {
+      type :String ,
+      default : 'knocks-pause4 animated rubberBand'
+    },
+    player_volume_off_class : {
+      type : String ,
+      default : 'knocks-volume8 knocks_text_dark knocks_text right knocks_text_md animated flipInY'
+    },
+    player_volume_low_class : {
+      type : String ,
+      default : 'knocks-volume6 knocks_text_dark right knocks_text_md animated jello'
+    },
+    player_volume_high_class : {
+      type : String ,
+      default : 'knocks-volume7 knocks_text_dark_active right knocks_text_md animated rubberBand'
+    },
+    player_timer_classes : {
+      type : String ,
+      default : 'knocks_text_right knocks_text_dark_active'
+    },
+    player_runtime_classes : {
+      type : String ,
+      default : 'knocks_text_right knocks_text_dark'
+    },
     player_main_container : {
       type : String ,
       default : 'row'
@@ -232,70 +232,84 @@ export default {
     upload_on_scope : {
       type : Boolean , 
       default : false
+    },
+    loop_recording : {
+      type : Boolean , 
+      default : false ,
+    },
+    volatile : {
+      type : Boolean , 
+      default : false ,
     }
 
   },
   data () {
     return {
-    	mainRecorder : null ,
-    	chunks : [] , 
-    	isRecording : false ,
-    	len : 0,
-    	recordReady : false ,
-    	currentSource : null ,
-    	isFired : false ,
-    	isSupporting : false ,
-    	recordDuration : 0 ,
-    	currentBlob : null ,
+      mainRecorder : null ,
+      chunks : [] , 
+      isRecording : false ,
+      len : 0,
+      recordReady : false ,
+      currentSource : null ,
+      isFired : false ,
+      isSupporting : false ,
+      recordDuration : 0 ,
+      currentBlob : null ,
       interest : false ,
+      recognition : null ,
+      res : [], 
+      recognitionLang : window.currentUserLanguage , 
+      convertedText : ''
 
 
     }
   },
   mounted(){
-  	this.record();
-  	const vm = this;
+    this.record();
+    const vm = this;
+    this.$emit('input' , { hasRecord : false , text : this.convertedText });
     // this.$on('knocksSwitchRecordingKit',()=>{
     //   vm.record();
     // });
-  	this.$on('recordStarted' , () => {
-  		App.$emit('runningRecord');
-  		vm.recordReady = false ;
-  		vm.mainRecorder.ondataavailable = function(e) {
-	      vm.chunks.push(e.data);
-	      console.log('started');
-	    }
-  	});
+    this.$on('recordStarted' , () => {
+      App.$emit('runningRecord');
 
-  	this.$on('recordStoped' , () => {
-	    vm.mainRecorder.onstop = function(e) {
-	  		var blob = new Blob(vm.chunks, { 'type' : 'audio/webm; codecs=opus'  });
-			//var audElement = document.getElementById('ele');
-			var audioSource = URL.createObjectURL(blob);
-			//console.log(console.log(audioSource));
-			//audElement.controls = true;
-			//audElement.src = audioSource;
-			vm.currentSource = audioSource;
-			var reader = new window.FileReader();
-			 reader.readAsDataURL(blob); 
-			 reader.onloadend = function() {
+      vm.recordReady = false ;
+      vm.mainRecorder.ondataavailable = function(e) {
+        vm.chunks.push(e.data);
+        console.log('started');
+      }
+    });
+
+    this.$on('recordStoped' , () => {
+      vm.mainRecorder.onstop = function(e) {
+        var blob = new Blob(vm.chunks, { 'type' : 'audio/webm; codecs=opus'  });
+      //var audElement = document.getElementById('ele');
+      var audioSource = URL.createObjectURL(blob);
+      //console.log(console.log(audioSource));
+      //audElement.controls = true;
+      //audElement.src = audioSource;
+      vm.currentSource = audioSource;
+      var reader = new window.FileReader();
+       reader.readAsDataURL(blob); 
+       reader.onloadend = function() {
                 vm.currentBlob = reader.result;
                 App.$emit('BlobEncoded');     
                 vm.$emit('LocalBlobEncoded');
-			  }
-			vm.isFired = true;
-			vm.chunks = [];
-			App.$emit('recordFinished');
-			vm.$emit('input' , { hasRecord : true});
-			
-	    }
-  	});
+        }
+      vm.isFired = true;
+      vm.chunks = [];
+      App.$emit('recordFinished');
+      vm.$emit('input' , { hasRecord : true , text : vm.convertedText});
+      
+      }
+    });
 
-  	this.$on('LocalBlobEncoded' , ()=>{
-  		if(vm.upload_on_finish == true){
-				vm.upload();
-			}
-		});
+    this.$on('LocalBlobEncoded' , ()=>{
+      if(vm.upload_on_finish == true){
+        vm.upload();
+      }
+    });
 
     App.$on('knocks_submit' , (scope) =>{
         if(!vm.upload_on_finish && !vm.upload_on_scope){
@@ -318,140 +332,213 @@ export default {
 
 } , 
 computed :{
-	mediaDevicesSupport(){
-		return navigator.mediaDevices ? true : false ;
-	} , 
-	displayDuration(){
-		return moment( parseInt(this.recordDuration )  ).format('m:ss');
-	} , 
-	recordButtonClasses(){
-		let btnClass = [];
-		btnClass.push(this.record_button_initial);
-		if(this.isRecording) btnClass.push(this.record_button_on_record);
-		if(!this.isRecording) btnClass.push(this.record_button_on_stop); 
-		return btnClass;
-	},
-	recordIconClasses(){
-		let iconClass = [];
-		if(this.isRecording) iconClass.push(this.record_icon_on_record);
-		if(!this.isRecording) iconClass.push(this.record_icon_on_stop); 
-		return iconClass;
-	}
+  mediaDevicesSupport(){
+    return navigator.mediaDevices ? true : false ;
+  } , 
+  displayDuration(){
+    return moment( parseInt(this.recordDuration )  ).format('m:ss');
+  } , 
+  recordButtonClasses(){
+    let btnClass = [];
+    btnClass.push(this.record_button_initial);
+    if(this.isRecording) btnClass.push(this.record_button_on_record);
+    if(!this.isRecording) btnClass.push(this.record_button_on_stop); 
+    return btnClass;
+  },
+  recordIconClasses(){
+    let iconClass = [];
+    if(this.isRecording) iconClass.push(this.record_icon_on_record);
+    if(!this.isRecording) iconClass.push(this.record_icon_on_stop); 
+    return iconClass;
+  },
+
 },
 methods : {
-	record(){
-		if(!this.mediaDevicesSupport){
-			console.warn(' KNOCKS Development Team >> Your browser dosn\'t support the audio recording.');
-			if(this.$parent.ballons == null) this.$parent.ballons = [];
-			this.$parent.ballons.push({
-			  		content : 
-			  		'<span>Your browser doesn\'t support the audio recording by KNOCKS, <br/>We recommend both of <br/>'+
-			  		' <i class = "knocks-firefox2 knocks_icon"></i> Mozilla Firefox <br/> or '+
-			  		' <i class = "knocks-chrome2 knocks_icon"></i> Google Chrome    </span>'
-			  		 , 
-			  		index : { replyable : false  , category : 'System'} , 
-			  		poped : 0 ,
-			  		seen : 0 ,
-			  		id : null 
-			  	});
-			return ;
-		}else{
-			  const vm = this;
-			  var constraints = { audio: true , audioBitsPerSecond : 16000 };
-			  navigator.mediaDevices.getUserMedia(constraints).then(function(stream) {
-			  	vm.mainRecorder = new MediaRecorder(stream);
-			  	vm.isSupporting = true ;
-			  }).catch( ()=>{ 
+  record(){
+    if(!this.mediaDevicesSupport){
+      console.warn(' KNOCKS Development Team >> Your browser dosn\'t support the audio recording.');
+      if(this.$parent.ballons == null) this.$parent.ballons = [];
+      this.$parent.ballons.push({
+            content : 
+            '<span>Your browser doesn\'t support the audio recording by KNOCKS, <br/>We recommend both of <br/>'+
+            ' <i class = "knocks-firefox2 knocks_icon"></i> Mozilla Firefox <br/> or '+
+            ' <i class = "knocks-chrome2 knocks_icon"></i> Google Chrome    </span>'
+             , 
+            index : { replyable : false  , category : 'System'} , 
+            poped : 0 ,
+            seen : 0 ,
+            id : null 
+          });
+      return ;
+    }else{
+        const vm = this;
+        var constraints = { audio: true , audioBitsPerSecond : 16000 };
+        navigator.mediaDevices.getUserMedia(constraints).then(function(stream) {
+          vm.mainRecorder = new MediaRecorder(stream);
+          vm.isSupporting = true ;
+        }).catch( ()=>{ 
           if(KnocksRecorderFired){
             return;
           }
           KnocksRecorderFired = true;
-			  	console.warn(' KNOCKS Development Team >> Your browser dosn\'t support the audio recording.');
-				
-				let ballon = {
-				  		content : 
-				  		'<span>Your browser doesn\'t support the audio recording by KNOCKS, <br/>We recommend both of <br/>'+
-				  		' <i class = "knocks-firefox2 knocks_icon"></i> Mozilla Firefox <br/> or '+
-				  		' <i class = "knocks-chrome2 knocks_icon"></i> Google Chrome    </span>'
-				  		 , 
-				  		index : { replyable : false , category : 'System'} , 
-				  		poped : 0 ,
-				  		seen : 0 ,
-				  		id : null ,
+          console.warn(' KNOCKS Development Team >> Your browser dosn\'t support the audio recording.');
+        
+        let ballon = {
+              content : 
+              '<span>Your browser doesn\'t support the audio recording by KNOCKS, <br/>We recommend both of <br/>'+
+              ' <i class = "knocks-firefox2 knocks_icon"></i> Mozilla Firefox <br/> or '+
+              ' <i class = "knocks-chrome2 knocks_icon"></i> Google Chrome    </span>'
+               , 
+              index : { replyable : false , category : 'System'} , 
+              poped : 0 ,
+              seen : 0 ,
+              id : null ,
               
-				  	};
+            };
             App.$emit('KnocksAddBallon' , {ballon : ballon});
-				vm.isSupporting = false ;
-			  	
-			  });
+        vm.isSupporting = false ;
+          
+        });
 
-		}
-	} , 
-	startRecord(){
-		this.isRecording = true ;
-		this.chunks = [];
-		document.getElementById('knocks_recording_vid_src').play();
-		setTimeout(()=>{
-		  this.mainRecorder.start();
-		  this.$emit('recordStarted');
-		},500);
-		const vm = this;
-		vm.recordDuration = 0 ;
-		var interval = setInterval(()=>{
-			App.$on('recordFinished' , ()=>{ clearInterval(interval); });
-			vm.recordDuration += 50;
-		},50);
-	} , 
-	stopRecord(){
-		this.isRecording = false ;
-		const vm = this;
-		this.mainRecorder.stop();
-		this.$emit('recordStoped');
-		vm.recordReady = true ;
-	} ,
-	upload(){
+    }
+  } , 
+  convertToText(){
+    const vm = this
+    let i;
+       for(i=0; i < vm.res.length; i++){
+           vm.convertedText += vm.res[i] + ' '; 
+       }
+
+  },
+  startRecord(){
+    
+    this.isRecording = true ;
+    this.chunks = [];
+    document.getElementById('knocks_recording_vid_src').play();
+    setTimeout(()=>{
+      this.mainRecorder.start();
+      this.$emit('recordStarted');
+      this.$emit('record_started');
+      this.startDictation();
+    },500);
+    const vm = this;
+    vm.recordDuration = 0 ;
+    var interval = setInterval(()=>{
+      App.$on('recordFinished' , ()=>{ clearInterval(interval); });
+      vm.recordDuration += 50;
+    },50);
+  } , 
+  stopRecord(){
+    this.stopRecognition();
+    this.isRecording = false ;
+    const vm = this;
+    //if(this.isRecording)
+    this.mainRecorder.stop();
+    this.$emit('recordStoped');
+    this.$emit('record_stopped');
+
+        if(this.volatile){
+      setTimeout(()=>{this.resetRecord()},500)
+    }
+    vm.recordReady = true ;
+  } ,
+  upload(){
     if(this.currentBlob == null){
       App.$emit('knocksMediaQueryLogged' , { scope : this.scope , token : null , query : 'record' , hasRecord : false });
       return;
     }
-		if(this.upload_data.user == undefined || this.upload_data.user == null || this.upload_data.user.length == 0 ){
-			console.warn('KNOCKS DEVELOPMENT TEAM >> You need to be explicit about the user id, otherwise the operation cant be done.');
-			return ;
-		}
-		let uploadObject = this.upload_data ;
-		uploadObject.blob = this.currentSource.replace('data:audio/webm; codecs=opus;base64,',''); 
-		uploadObject.extended = this.currentBlob.replace('data:audio/webm; codecs=opus;base64,',''); 
-		uploadObject.duration = this.recordDuration	 ;
-		
-		const vm = this;
-		axios({
-			method : 'post' , 
-			url : LaravelOrgin+'blob/record' , 
-			data : uploadObject ,
-			headers :  {'knocks_csrf': window.NodeCsrf }
-		}).then( (response)=>{
-	if(response.data != 'invalid'){
+    if(this.upload_data.user == undefined || this.upload_data.user == null || this.upload_data.user.length == 0 ){
+      console.warn('KNOCKS DEVELOPMENT TEAM >> You need to be explicit about the user id, otherwise the operation cant be done.');
+      return ;
+    }
+    let uploadObject = this.upload_data ;
+    uploadObject.blob = this.currentSource.replace('data:audio/webm; codecs=opus;base64,',''); 
+    uploadObject.extended = this.currentBlob.replace('data:audio/webm; codecs=opus;base64,',''); 
+    uploadObject.duration = this.recordDuration  ;
+    
+    const vm = this;
+    axios({
+      method : 'post' , 
+      url : LaravelOrgin+'blob/record' , 
+      data : uploadObject ,
+      headers :  {'knocks_csrf': window.NodeCsrf }
+    }).then( (response)=>{
+  if(response.data != 'invalid'){
         App.$emit('recordUploaded');
         App.$emit('knocksMediaQueryLogged' , { scope : vm.scope , token : response.data , query : 'record' , hasRecord : true  });
         vm.resetRecord();
       }
-			
-		});
+      
+    });
 
  
-	} , 
+  } , 
   showInterest(){
     if(this.interest) return;
     this.interest = true ;
     this.$emit('knocksSwitchRecordingKit');
     return;
   },
-	resetRecord(){
-		this.currentBlob = null ;
-		this.currentSource = null ;
-		this.recordDuration = 0 ;
-		this.$emit('input' , { hasRecord : false });
-	}
+  resetRecord(){
+    this.currentBlob = null ;
+    this.currentSource = null ;
+    this.recordDuration = 0 ;
+    this.isFired = false ;
+    this.$emit('record_reset');
+    this.$emit('input' , { hasRecord : false , text : this.convertedText });
+  },
+  startDictation() {
+    const vm = this;
+      
+    if (window.hasOwnProperty('webkitSpeechRecognition')) {
+  
+      vm.recognition = new webkitSpeechRecognition();
+
+      vm.recognition.continuous = true;
+      vm.recognition.interimResults = false;
+
+      vm.recognition.lang = vm.recognitionLang;
+      vm.recognition.start();
+
+      vm.recognition.onresult = function(e) {
+
+
+        vm.res = [];
+        vm.convertedText = '';
+        var final = "";
+        var interim = "";
+      for (var i = e.resultIndex; i < e.results.length; ++i) {
+        if (event.results[i].final) {
+          final += e.results[i][0].transcript;
+        } else {
+          interim += e.results[i][0].transcript;
+          vm.res.push(interim)
+        }
+      }
+      
+      vm.convertToText();
+      vm.$emit('recognition',vm.convertedText);
+      vm.$emit('input' , { hasRecord : true , text : vm.convertedText });
+
+        // console.log(e.results)
+        //vm.recognition.stop();
+  
+      };
+
+      vm.recognition.onerror = function(e) {
+        vm.recognition.stop();
+        console.log(vm.res);
+      }
+
+    }
+  },
+  stopRecognition(){
+    console.log('stoped recognition');
+    if(this.recognition){
+          this.recognition.stop();
+    this.recognition = null ;
+    }
+  }
 }
 }
 </script>

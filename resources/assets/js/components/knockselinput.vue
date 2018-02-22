@@ -10,7 +10,7 @@
         v-model = "elinput"
        :id = "gid">
          <template :slot = "labelPosition">
-      	 <i v-if="!isLoading" class="material-icons prefix " :class = "iconClasses"></i>
+         <i v-if="!isLoading" class="material-icons prefix " :class = "iconClasses"></i>
         <static_message :msgid="place_holder" :class="labelClasses" v-if = "placeholder == null && !disable_placeholder"></static_message>
         <static_message :msg="placeholder" :class="labelClasses" v-else-if = "placeholder != null && !disable_placeholder" ></static_message>
       </template>
@@ -346,7 +346,8 @@
         start_as : {
           type : [String , Number, Array , Object] ,
           default : null
-        }
+        },
+
     
 
 
@@ -377,8 +378,8 @@
 
         computed :{
           labelPosition(){
-          	if(this.lang_alignment == 'right') return 'append';
-          	if(this.lang_alignment == 'left') return 'prepend';
+            if(this.lang_alignment == 'right') return 'append';
+            if(this.lang_alignment == 'left') return 'prepend';
           },
           isValid(){
             if(!this.isFired) return false;
@@ -462,6 +463,8 @@
           // }
           if(this.start_as != null){
             this.elinput = this.start_as;
+            this.$emit('input' , this.elinput);
+            this.$emit('change' , this.elinput);
           }
           this.bindErrorBus();
           if(!this.unsubmitable)
@@ -499,6 +502,7 @@
             var label = $(parentNode).find('label');
             $(label).removeClass('active');
             vm.$emit('input','');
+            vm.$emit('change','');
             vm.elinput = '' ; 
             vm.isFired = false ;
                return;
@@ -539,8 +543,10 @@
             //this.spanClass = 'knocks_text_dark';
             this.focus = false;
             if(!this.isFired) this.isFired = true;
+            this.$emit('blur');
           },
           addFocus(){
+            this.$emit('focus');
             //this.knocks_focus = 'knocks_input_focus';
             //this.spanClass = 'knocks_text_dark_active';
             this.focus = true;
@@ -556,6 +562,7 @@
             if(!this.isFired) this.isFired = true;
             const vm = this;
             this.$emit(`input`, this.elinput);
+            this.$emit(`change`, this.elinput);
             if(!this.isFired) this.isFired = true;
             if(this.autocomplete){
               this.autoComplete();
@@ -651,6 +658,7 @@
                   minLength: 1,
                   onAutocomplete : function(val){
                     vm.$emit('input' , val);
+                    vm.$emit('change' , val);
                   }
                 });
             });
@@ -686,4 +694,5 @@
         }
     }
 </script>
+
 

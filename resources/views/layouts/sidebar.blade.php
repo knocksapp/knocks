@@ -65,6 +65,8 @@
        @input = "sidebarRunSearch()"
        id="sidebar_search_box" 
        v-model="sidebarSearch" class="input-with-select">
+       <knocksvoicerecognition @recognition = "runVoiceSearch($event)" @leave="sidebarFocus()" slot = "prepend" ></knocksvoicerecognition>
+
          <el-button slot="append" icon=" knocks_icon knocks-search2"></el-button>
       </el-input>
     
@@ -105,7 +107,9 @@
           <span>Navigator One</span>
         </template>
         <el-menu-item-group title="Group One">
-          <el-menu-item index="1-1">item one</el-menu-item>
+          <el-menu-item index="1-1">
+            
+          </el-menu-item>
           <el-menu-item index="1-2">item one</el-menu-item>
         </el-menu-item-group>
         <el-menu-item-group title="Group Two">

@@ -116,6 +116,7 @@
        :scope = "['profile_picture_handler']" ></knocksimgframeless> -->
        <img :src = "asset('media/avatar/compressed/'+user)" >
        <span :class = "name_class" :href = "userUrl"  v-if="userObject && !hide_text_info"  > {{displayName}} </span>
+       <slot name = "append"></slot>
   </div>
 
 

@@ -103,7 +103,8 @@
           <div class = "col s9 knocks_house_keeper">
                     <div :class = "recorder_container">
           <knocksrecorder
-
+          @recognition="addRecognitionContent($event)"
+          @record_reset="addRecognitionContent('')"
           v-model = "recorder"
           main_container = "knocks_house_keeper"
           :upload_data= "recorder_upload_data"
@@ -532,10 +533,13 @@ export default {
       hasRecord : false ,
       hasFiles : false ,
       hasImages : false ,
+      textContent : {text : '' , voice : ''} ,
+      finalTextBody : '' ,
 
     }
   } , 
   computed : {
+
 
     usernameLens(){
       let user , counter ; 
@@ -918,6 +922,7 @@ export default {
         has_pictures : this.hasImages , 
         images_specifications : imagesTokens , 
         //images_quotes : quotes ,
+        text : this.finalTextBody , 
         has_files : this.hasFiles , 
         files_specifications : filesTokens , 
         has_videos : this.hasRecord , 
@@ -961,6 +966,8 @@ export default {
       this.draggingMode =false ;
       this.recorderResponded = false ;
       this.mfuResponded = false;
+      this.textContent = {text : '' , voice : ''};
+      this.finalTextBody = "";
       App.$emit('knocks_multiple_uploader_reset' , this.scope);
       $('#'+this.gid+'_input').empty()
       $('#'+this.gid+'_input').blur()
@@ -991,6 +998,7 @@ export default {
       },
       watchMyDom(){
        const vm = this;
+        this.updateTextContent();
        let childs = document.getElementById(vm.gid+'_input').children;
        let i;
         for(i = 0 ; i < childs.length; i++){
@@ -1001,6 +1009,17 @@ export default {
           }
         }
       },
+      updateTextContent(){
+      this.textContent.text= $('#'+this.gid+'_input').text();
+      this.hashFinalTextContent();
+    },
+    addRecognitionContent(e){
+      this.textContent.voice = e;
+      this.hashFinalTextContent();
+    },
+    hashFinalTextContent(){
+      this.finalTextBody = this.textContent.text+' '+this.textContent.voice.trim();
+    },
 
 
 
