@@ -241,6 +241,7 @@ export default {
 
   //Validation
   if(vm.cropped == null) return;
+  this.isLoading = true;
   let mType = 'image/jpeg';
    let cBlob = B64toBlob(this.cropped.replace('data:'+mType+';base64,' ,'') , mType );
           new ImageCompressor(cBlob, {
