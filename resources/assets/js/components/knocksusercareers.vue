@@ -18,7 +18,7 @@
                 :mat_follower=  "false"
                 placeholder = "Major ?"
                 gid = "q"
-                
+
                 :max_len = "15"
                 :scope = "[ 'career_adder']"
                 v-model = "works_what"
@@ -63,7 +63,7 @@
     validation_error = "You need to complete some fields"
     reset_on_success
     submit_at = "career"
-    success_at = "done"
+    computed_response
     success_msg = "Mabrok 3alek el shoghlana"
     gid = "stage_one_net"
     :submit_data = " {works_at : works_at , works_since : worksSince, works_to : worksTo , works_what : works_what , works_as : works_as} "

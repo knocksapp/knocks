@@ -49,7 +49,7 @@
     <static_message msg= "Add a new job"></static_message>
   </span>
   <knocksusercareers
-  @knocks_career_submited = "retriveCareer($event)"
+  @knocks_career_submited = "updateCareerAdd($event)"
   ></knocksusercareers>
  </el-collapse-item>
 </el-collapse>
@@ -93,7 +93,7 @@
     <static_message msg= "Add a new study"></static_message>
   </span>
   <knocksusereducation
-@knocks_education_submited = "retriveEducation($event)"
+@knocks_education_submited = "updateEducationAdd($event)"
   >
   </knocksusereducation>
  </el-collapse-item>
@@ -179,7 +179,7 @@
     <static_message msg= "Add a new hobby"></static_message>
   </span>
   <knocksuserhobby
-@knocks_hobby_submited = "retriveHobby($event)"
+@knocks_hobby_submited = "updateHobbyAdd($event)"
   ></knocksuserhobby>
  </el-collapse-item>
 </el-collapse>
@@ -220,7 +220,7 @@
     <static_message msg= "Add a new sport"></static_message>
   </span>
   <knocksusersport
-@knocks_sport_submited = "retriveSport($event)"
+@knocks_sport_submited = "updateSportAdd($event)"
   ></knocksusersport>
  </el-collapse-item>
 </el-collapse>
@@ -305,6 +305,26 @@ export default {
         setTimeout(()=>{
           this.education = temp;
         },500);
+      },
+      updateHobbyAdd(e)
+      {
+        this.hobby.push(e);
+      },
+      updateSportAdd(e)
+      {
+        this.sport.push(e);
+      },
+      updateEducationAdd(e)
+      {
+        this.education.push(e);
+      },
+      updateHighEducationAdd(e)
+      {
+        this.high_education.push(e);
+      },
+      updateCareerAdd(e)
+      {
+        this.career.push(e);
       },
       deleteCareer(index){
         this.career.splice(index,1);
