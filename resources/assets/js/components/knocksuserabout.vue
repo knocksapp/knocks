@@ -295,6 +295,7 @@ export default {
       this.sport = null;
       setTimeout(()=>{
         this.sport = temp;
+        console.log('ahah')
       },500);
     },
      updateEducationList(e , index){
