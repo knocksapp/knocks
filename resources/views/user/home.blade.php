@@ -87,7 +87,7 @@
    <div v-if = "lowerTrigger == 'profile_uploader'">
     <h5 class = "knocks_text_dark">
         <span class = "knocks-pencil9 knocks_icon_border"></span>
-        <static_message msg = "Update Your Profile Picture"></static_message>
+        <static_message msg = "Update Your Profile Picture."></static_message>
     </h5>
 
     <a @click ="clearLowerTrigger()">
