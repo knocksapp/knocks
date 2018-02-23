@@ -646,6 +646,7 @@ Vue.component('knocksgroupcreation', require('./components/knocksgroupcreation.v
          let i ;
          for(i = 0 ; i < images.length; i++)
           images[i].src =payloads.blob;
+          
        }
 
        },500);
