@@ -117,9 +117,10 @@
                 <a class = "btn btn-floating pulse red">
               <span class = "knocks-assistive-listening-systems white-text "></span>
             </a>
-              <static_message msg = "Listening.." classes = "red-text"></static_message>
+              <static_message msg = "Listening..." classes = "red-text"></static_message>
             </div>
             </transition>
+
           
           </div>
           <transition enter-active-class = "animated zoomIn" leave-active-class = "animated zoomOut">

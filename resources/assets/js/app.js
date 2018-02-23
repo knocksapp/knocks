@@ -605,21 +605,6 @@ Vue.component('knocksgroupcreation', require('./components/knocksgroupcreation.v
         vm.windowWidth = $(window).width();
       });
 
-      //Load More Knocks Position
-      // $(window).scroll(function(){
-      //   if(window.scrollY > ($('#knockknock').height()) + 100){
-      //     $('#knocks_load_more_knocks_btn').css({
-      //       'position' : 'fixed' , 
-      //       'z-index' : '2000' , 
-      //       'top' : '80px' , 
-      //       'left' : WindowWidth/2 - ($('#knocks_load_more_knocks_btn').width()) ,
-      //       'margin-left' : '2.5rem'
-      //     });
-      //   }else{
-      //      $('#knocks_load_more_knocks_btn').css({'position' : 'inherit'});
-      //   }
-      // });
-
 
 
       
