@@ -121,13 +121,10 @@ export default {
       type : String , 
       default : 'animated rubberBand infinite knocks_text_dark_active'
     } ,
-<<<<<<< HEAD
-=======
     timer_right : {
       type : Boolean , 
       default : false 
     },
->>>>>>> master
     player_container : {
       type : String , 
       default : ''
@@ -254,13 +251,10 @@ export default {
     volatile : {
       type : Boolean , 
       default : false ,
-<<<<<<< HEAD
-=======
     },
     record_limit : {
       type : Number , 
       default : 300000
->>>>>>> master
     }
 
   },
@@ -280,12 +274,8 @@ export default {
       recognition : null ,
       res : [], 
       recognitionLang : window.currentUserLanguage , 
-<<<<<<< HEAD
-      convertedText : ''
-=======
       convertedText : '' , 
       // limitPercentage : 0 ,  
->>>>>>> master
 
 
     }
@@ -377,15 +367,11 @@ computed :{
     if(!this.isRecording) iconClass.push(this.record_icon_on_stop); 
     return iconClass;
   },
-<<<<<<< HEAD
-
-=======
 limitPercentage (){
   if(!this.isRecording) return 0 ;
   return  parseInt(this.recordDuration / this.record_limit * 100 );
   
 }
->>>>>>> master
 },
 
 
@@ -413,10 +399,7 @@ methods : {
         navigator.mediaDevices.getUserMedia(constraints).then(function(stream) {
           vm.mainRecorder = new MediaRecorder(stream);
           vm.isSupporting = true ;
-<<<<<<< HEAD
-=======
 
->>>>>>> master
         }).catch( ()=>{ 
           if(KnocksRecorderFired){
             return;
@@ -467,14 +450,11 @@ methods : {
     var interval = setInterval(()=>{
       App.$on('recordFinished' , ()=>{ clearInterval(interval); });
       vm.recordDuration += 50;
-<<<<<<< HEAD
-=======
       //vm.$refs.myUniqueID.updateProgress(vm.limitPercentage);
       
       if(vm.recordDuration == vm.record_limit){
         vm.stopRecord();
       }
->>>>>>> master
     },50);
   } , 
   stopRecord(){

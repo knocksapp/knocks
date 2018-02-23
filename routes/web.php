@@ -53,8 +53,6 @@ Route::post('dev/test' , function(){ return 'done'; });
 //DEVELOPERS ROUTES ENDS /////////////////////////////////////////////////////////////
 
 //Check if the user exists 
-Route::post('get_all_users','UserController@returnAllMembers');
-
 Route::post('user/check' , 'UserController@check');
 
 Route::post('email/check' , 'UserController@mailCheck');
@@ -88,22 +86,11 @@ Route::post('retrive_circle' , 'CircleController@retrive' );
 
 Route::post('get_circles' , 'UserController@getUserCircles' );
 
-<<<<<<< HEAD
-Route::post('get_circle_members','CircleMemberController@groupPushMembers');
-
-Route::post('/get_all_circles','UserController@getUserAllCircles');
-
-Route::post('get_user_groups','UserController@retriveUserGroups');
-
-Route::post('get_group_name','GroupController@getGroups');
-
-=======
 Route::post('/create_group' , 'GroupController@createGroup');
 
 Route::post('get_circle_members','CircleMemberController@groupPushMembers');
 
 Route::post('get_all_circles','UserController@getUserAllCircles');
->>>>>>> master
 
 
 //Career
@@ -112,14 +99,10 @@ Route::post('career' , 'CareerController@createCareer');
 
 Route::post('career/get' , 'CareerController@retriveCareer');
 
-<<<<<<< HEAD
-Route::post('/create_group' , 'GroupController@createGroup');
-=======
 Route::post('career/update' , 'CareerController@updateCareer');
 
 Route::post('career/delete' , 'CareerController@deleteCareer');
 
->>>>>>> master
 
 //Education
 
@@ -214,7 +197,6 @@ Route::get('media/cover/compressed/{id}' , 'BlobController@retriveCoverCompresse
 Route::get('media/avatar/ref/compressed/{id}' , 'BlobController@retriveAvatarCompressed');
 
 Route::post('search/main' , 'UserController@mainSearch');
- 
 
 
 
@@ -447,15 +429,9 @@ Route::group(['middleware' => 'auth'] , function(){
 
   Route::get('/{user}' , 'UserController@routeToProfile');
 
-<<<<<<< HEAD
-  Route::get('group/{group_id}' , 'GroupController@routeToGroup');
-
-  Route::get('/knock/{knock}' , 'KnockController@viewKnock');
-=======
   Route::get('/knock/{knock}' , 'KnockController@viewKnock');
   
   Route::get('/cmnt/{comment}' , 'KnockController@viewComment');
->>>>>>> master
 
   Route::get('/knock/{knock}/{comment}' , 'KnockController@viewKnockWithComment');
 

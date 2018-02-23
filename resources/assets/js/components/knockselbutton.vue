@@ -139,11 +139,7 @@ export default {
     computed_response : {
       type : Boolean , 
       default : false
-    },
-    precondition : {
-      type : Boolean , 
-      default : null
-    },
+    }
 
   } ,
   data : function(){
@@ -203,7 +199,7 @@ export default {
       if(!this.validate) return;
       this.errorsStack = [],
       App.$emit('knocks_submit' , this.scope);
-      if(this.errorsStack.length == 0 && (this.precondition == true || this.precondition == null)){
+      if(this.errorsStack.length == 0){
         this.$emit('knocks_stack_passed');
         if(this.submit_flag)
            if(this.submit_on == null){
