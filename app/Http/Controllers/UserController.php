@@ -9,10 +9,14 @@ use App\Circle_member;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use App\Knock;
+<<<<<<< HEAD
+use App\Group_member;
+=======
 use App\Comment;
 use App\Reply;
 use App\obj;
 use DB;
+>>>>>>> master
 class UserController extends Controller
 {
   public function userCircles (){
@@ -83,6 +87,9 @@ class UserController extends Controller
       if($user)
       return $user->getUserKnocksRegularMin($request->min);
     }
+    public function getUserAllCircles(Request $request){
+      return auth()->user()->circles()->get();
+    }
 
      public function getUserAllCircles(Request $request){
       return auth()->user()->circles()->get();
@@ -92,6 +99,11 @@ class UserController extends Controller
       $user = User::find($request->user);
       if($user)
       return $user->getUserKnocksRegularMax($request->max);
+    }
+     public function retriveUserGroups(Request $request){
+          $groups = Group_member::where('user_id','=',auth()->user()->id)
+          ->where('position','=','Owner')->get()->pluck('group_id');
+          return $groups;
     }
 
 
@@ -141,6 +153,7 @@ class UserController extends Controller
     public function getUserCircles(Request $request){
       return auth()->user()->circles()->get()->pluck('id');
     }
+    
 
     public function retriveContact(Request $request){
       $users = User::all();
@@ -176,16 +189,25 @@ class UserController extends Controller
       //Search for friends
 
         $circle = auth()->user()->mainCircle();
+<<<<<<< HEAD
+        $suggestions =  $circle->circleMembers()->join('users' , 'users.id' , '=' ,'circle_members.user_id')
+        ->where('users.first_name' , 'like' , '%'.$request->q.'%')
+        ->orwhere('users.last_name' , 'like', '%'.$request->q.'%')
+        ->orwhere('users.middle_name' , 'like' , '%'.$request->q.'%')
+        ->orwhere('users.nickname' , 'like', '%'.$request->q.'%')
+        ->orwhere('users.username' , 'like' , '%'.$request->q.'%')
+=======
         $suggestions =  $circle->circleMembers()->join('users' , 'users.id' , '=' , 'circle_members.user_id')
         ->orwhere('users.first_name' , 'sounds like' , $request->q)
         ->orwhere('users.last_name' , 'sounds like', $request->q)
         ->orwhere('users.middle_name' , 'sounds like' , $request->q)
         ->orwhere('users.nickname' , 'sounds like', $request->q)
         ->orwhere('users.username' , 'sounds like' , $request->q)
+>>>>>>> master
         ->pluck('users.id');
 
         $result = [];
-        array_push($result, auth()->user()->id);
+       // array_push($result, auth()->user()->id);
         for($i = 0; $i < count($suggestions); $i++){
           $flag = true;
           for($j = 0; $j < count($result); $j++){
@@ -204,6 +226,8 @@ class UserController extends Controller
     public function mainSearch(Request $request){
       $result = array();
       $result['users'] = auth()->user()->soundsLikeID($request->q);
+<<<<<<< HEAD
+=======
       $result['reply'] = array();
       $result['comment'] = array();
       $result['knock'] = array();
@@ -233,6 +257,7 @@ class UserController extends Controller
           elseif($ob->type == 'reply')array_push($result[$ob->type], Reply::where('object_id' , '=' , $ob->id)->first()->id);
         }
       }
+>>>>>>> master
 
       return $result;
 
@@ -242,6 +267,22 @@ class UserController extends Controller
       $c = User::where('username' , '=' , $user)->get()->first();
       return view('user.profile', ['user' => $c]);
     }
+
+     public function routeToGroup(Request $request){
+      $c = Group::where('id' , '=' , $request->group_id)->get()->first();
+      return view('groups.group', ['group_id' => $c]);
+    }
+
+    public function returnAllMembers(Request $request){
+         $members = auth()->user()->mainCircle()->circleMembers()->get();
+         $result = array();
+         foreach($members as $m){
+          $mem = User::find($m->user_id);
+          array_push($result,array("value" => $mem->first_name , "link " => $mem->id));
+         }
+         return $result;
+    }
+    
 
    
    }

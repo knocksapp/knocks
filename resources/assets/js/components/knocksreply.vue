@@ -110,7 +110,11 @@
           </knockspopover>
           <knocksrecorder
           v-if = "!draggingMode"
+<<<<<<< HEAD
+          @input = "showInterest()"
+=======
           
+>>>>>>> master
           @recognition="addRecognitionContent($event)"
           @record_reset="addRecognitionContent('')"
           v-model = "recorder"
@@ -527,7 +531,10 @@ export default {
       hasImages : false ,
       textContent : {text : '' , voice : ''} ,
       finalTextBody : '' ,
+<<<<<<< HEAD
+=======
       focused : false ,
+>>>>>>> master
       
 
     }

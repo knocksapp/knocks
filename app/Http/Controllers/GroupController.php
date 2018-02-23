@@ -35,4 +35,32 @@ class GroupController extends Controller
         }
         return 'done';
     }
+<<<<<<< HEAD
+
+    public function getGroups(Request $request){
+            $allgroups = $request->groups;
+            $res;
+            $var;
+            $result = [];
+            for($i = 0; $i < count($allgroups); $i++)
+            {
+                 $var = Group::where('id','=',$allgroups[$i])->get()->first();
+                $res = array('name' => $var->name, 'group_id' => $var->id);
+                array_push($result ,$res);
+                
+
+
+            }
+
+
+            return $result;
+    }
+
+      public function routeToGroup(Request $request){
+      $c = Group::find($request->group_id);
+      return view('groups.group', ['group' => $c]);
+    }
+
+=======
+>>>>>>> master
 }

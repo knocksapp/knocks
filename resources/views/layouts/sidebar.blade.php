@@ -57,6 +57,32 @@
         gid = "sidebar_search_box"
         icon_class = "teal-text lighten-3"
         knocksclass="knocks_teal_input" icon = "knocks-search12" ></knocksinput> --}}
+<<<<<<< HEAD
+       <el-input 
+       class = "knocks_tinny_top_padding knocks_side_padding"
+       placeholder="Search" 
+       @focus = "searchFocus()"
+       @blur = "searchBlur()"
+       @input = "sidebarRunSearch()"
+       id="sidebar_search_box" 
+       v-model="sidebarSearch" class="input-with-select">
+       <knocksvoicerecognition @recognition = "runVoiceSearch($event)" @leave="sidebarFocus()" slot = "prepend" ></knocksvoicerecognition>
+
+         <el-button slot="append" icon=" knocks_icon knocks-search2"></el-button>
+      </el-input>
+    
+       <div style = "display : none" id = "sidebar_search_results">
+        <div class = "row knocks_side_padding knocks_tinny_top_padding">
+          <el-button id ="sidebar_search_back" type="info" icon=" knocks_icon knocks-chevron-left2" class = "knocks_md_button"></el-button>
+        </div>
+        <transition enter-active-class = "animated zoomIn" leave-active-class = "animated zoomOut">
+        <div class = "row knocks_house_keeper" v-if = "sidebarSearchResult != null">
+          <el-tabs  class = "">
+          <el-tab-pane>
+              <span slot="label"><i class="knocks_icon knocks-user-outline"></i></span>
+              <transition  v-for = "user in sidebarSearchResult.users" enter-active-class = "animated slideInUp" leave-active-class = "animated slideOutLeft">
+                <knocksuser as_result :user ="user" show_accept_shortcut ></knocksuser>
+=======
         <el-input
         class = "knocks_tinny_top_padding knocks_side_padding"
         placeholder="Search"
@@ -171,6 +197,7 @@
                   </el-tab-pane>
                   </el-tabs>
                 </div>
+>>>>>>> master
               </transition>
             </div>
           {{-- </transition> --}}
@@ -184,6 +211,18 @@
           <el-submenu index="1">
           <template slot="title">
           <i class="el-icon-location"></i>
+<<<<<<< HEAD
+<i class="knocks-group2 knocks_text_dark"></i>
+          <span> My Groups</span>
+          
+        </template>
+        <el-menu-item-group>
+
+            <knocksgroupslist></knocksgroupslist>
+      
+        </el-menu-item-group>
+        <el-menu-item-group title="Group Two">
+=======
           <span>Navigator One.</span>
           </template>
           <el-menu-item-group title="Group One">
@@ -191,6 +230,7 @@
           <el-menu-item index="1-2">item one</el-menu-item>
           </el-menu-item-group>
           <el-menu-item-group title="Group Two">
+>>>>>>> master
           <el-menu-item index="1-3">item three</el-menu-item>
           </el-menu-item-group>
           <el-submenu index="1-4">
