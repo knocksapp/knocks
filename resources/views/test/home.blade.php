@@ -477,7 +477,7 @@
 
                    <knocksuserabout :user = "1"></knocksuserabout>
 
-            
+                   <knocksgroupcreation></knocksgroupcreation>
           
       </transition>
     </div>

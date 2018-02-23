@@ -84,6 +84,10 @@ class UserController extends Controller
       return $user->getUserKnocksRegularMin($request->min);
     }
 
+     public function getUserAllCircles(Request $request){
+      return auth()->user()->circles()->get();
+    }
+
      public function retriveNewerUserKnocks(Request $request){
       $user = User::find($request->user);
       if($user)
