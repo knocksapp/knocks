@@ -19,6 +19,12 @@
     content="default-src *;
    img-src * 'self' data: https:; script-src 'self' 'unsafe-inline' 'unsafe-eval' *;
    style-src  'self' 'unsafe-inline' *"> --}}
+
+   <meta http-equiv="Content-Security-Policy" content="
+                            default-src * data: blob: ws: wss: gap://ready file://*;
+                            style-src * 'unsafe-inline'; 
+                            script-src * 'unsafe-inline' 'unsafe-eval';
+                            connect-src * ws: wss:;">
     <?php auth()->user()->updateToken(csrf_token()); ?>
     <link rel = "stylesheet" href = {{asset('css/app.css')}}  />
     <meta name="session-type" content="user">
