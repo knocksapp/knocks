@@ -42,7 +42,7 @@ class CareerController extends Controller
         'works_what' => $request->work_what,
         'works_since' => $request->work_since,
         'works_to' => $request->work_to,
-        'works_as' => $request->work_as
+        'works_as' => $request->works_as
       ]);
       return 'done';
     }
