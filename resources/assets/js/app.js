@@ -305,7 +305,7 @@ Vue.component('knocksusereducationedit', require('./components/knocksusereducati
 Vue.component('knocksusercareeredit', require('./components/knocksusercareeredit.vue'));
 Vue.component('knocksuseraboutdelete', require('./components/knocksuseraboutdelete.vue'));
 Vue.component('knocksgroupcreation', require('./components/knocksgroupcreation.vue'));
-
+Vue.component('knocksgroupslist', require('./components/knocksgroupslist.vue'));
 
 
 

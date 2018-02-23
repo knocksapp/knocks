@@ -12,6 +12,7 @@ use App\Knock;
 use App\Comment;
 use App\Reply;
 use App\obj;
+use App\Group_member;
 use DB;
 class UserController extends Controller
 {
@@ -92,6 +93,12 @@ class UserController extends Controller
       $user = User::find($request->user);
       if($user)
       return $user->getUserKnocksRegularMax($request->max);
+    }
+
+    public function retriveUserGroups(Request $request){
+          $groups = Group_member::where('user_id','=',auth()->user()->id)
+          ->where('position','=','Owner')->get()->pluck('group_id');
+          return $groups;
     }
 
 

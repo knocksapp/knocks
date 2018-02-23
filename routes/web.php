@@ -92,6 +92,9 @@ Route::post('get_circle_members','CircleMemberController@groupPushMembers');
 
 Route::post('get_all_circles','UserController@getUserAllCircles');
 
+Route::post('get_user_groups','UserController@retriveUserGroups');
+
+Route::post('get_group_name','GroupController@getGroups');
 
 //Career
 
@@ -428,6 +431,8 @@ Route::group(['middleware' => 'auth'] , function(){
   Route::post('retrive_knock' , 'KnockController@retrive' );
 
   Route::get('/{user}' , 'UserController@routeToProfile');
+
+  Route::get('group/{group_id}' , 'GroupController@routeToGroup');
 
   Route::get('/knock/{knock}' , 'KnockController@viewKnock');
   
