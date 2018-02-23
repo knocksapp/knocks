@@ -279,7 +279,7 @@ export default {
                   vm.isLoading = false;
                   var temp = response.data;
                   if(temp == vm.success_at){
-                     App.$emit('new_picture_uploaded' , { blob : vm.cropped });
+                     App.$emit('new_picture_uploaded' , { blob : vm.cropped , scope : vm.scope });
                           vm.$emit('knocks_file_uploaded' );
                         vm.notifi();
                         vm.cropped = null;

@@ -75,7 +75,7 @@ import enLocale from 'element-ui/lib/locale/lang/en'  //Local language to avoid 
 import VuePopper from 'vue-popperjs';
 
 import VueCircle from 'vue2-circle-progress'
-Vue.component('vue-circle', require('vue2-circle-progress'));
+// Vue.component('vue-circle', require('vue2-circle-progress'));
 
 
 // import Vuetify from 'vuetify'
@@ -298,18 +298,12 @@ Vue.component('knocksuserabout', require('./components/knocksuserabout.vue'));
 Vue.component('knocksretriver', require('./components/knocksretriver.vue'));
 Vue.component('knocksvoicerecognition', require('./components/knocksvoicerecognition.vue'));
 Vue.component('knockscroppie', require('./components/knockscroppie.vue'));
-
-
-
-
-
 Vue.component('knocksuseraboutedit', require('./components/knocksuseraboutedit.vue'));
 Vue.component('knocksusersportedit', require('./components/knocksusersportedit.vue'));
 Vue.component('knocksuserhobbyedit', require('./components/knocksuserhobbyedit.vue'));
 Vue.component('knocksusereducationedit', require('./components/knocksusereducationedit.vue'));
 Vue.component('knocksusercareeredit', require('./components/knocksusercareeredit.vue'));
 Vue.component('knocksuseraboutdelete', require('./components/knocksuseraboutdelete.vue'));
-
 Vue.component('knocksgroupcreation', require('./components/knocksgroupcreation.vue'));
 
 
@@ -639,25 +633,27 @@ Vue.component('knocksgroupcreation', require('./components/knocksgroupcreation.v
     });
 
     App.$on('new_picture_uploaded' , (payloads)=>{
-       vm.setPorfileTrigger(false);
+
+      //PP
+      if(payloads.scope[0] == 'profile_picture_handler'){
+        console.log('gate 1')
+        vm.setPorfileTrigger(false);
        vm.lowerTrigger = null ;
        setTimeout(()=>{
-       if(document.querySelectorAll("img[src='"+LaravelOrgin+'media/avatar/ref/compressed/'+UserId+"']").length == 0){
-         let images = document.querySelectorAll("img[src='"+LaravelOrgin+'media/avatar/compressed/'+UserId+"']");
+       if(document.querySelectorAll('.knocks_user_profile_scope').length > 0){
+        console.log('gate 2')
+         let images = document.querySelectorAll('.knocks_user_profile_scope').length ;
          let i ;
          for(i = 0 ; i < images.length; i++)
-          images[i].src = LaravelOrgin+'media/avatar/ref/compressed/'+UserId;
-       }else{
-         let images = document.querySelectorAll("img[src='"+LaravelOrgin+'media/avatar/ref/compressed/'+UserId+"']");
-         let i ;
-         for(i = 0 ; i < images.length; i++){
-          images[i].src = "";
-          //images[i].src = LaravelOrgin+'media/avatar/compressed/'+UserId;
-          images[i].src = LaravelOrgin+'media/avatar/ref/compressed/'+UserId;
-        }
+          images[i].src =payloads.blob;
        }
 
        },500);
+
+      }else if(payloads.scope[0] == 'cover_picture_handler'){
+
+      }
+       
     });
     App.$on('circle_adder_status_changed' , (state)=>{
       if(state == false ) {vm.lowerTrigger = null; return }

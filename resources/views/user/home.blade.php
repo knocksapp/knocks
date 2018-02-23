@@ -59,7 +59,7 @@
     :callback_payloads = "{}"
     ref = "ss"
     :special_submit = "true"
-    :scope = "['profile_picture_handler']"
+    :scope = "['cover_picture_handler']"
     upload_at = "media/cover/upload"
         :aspect_ratio = "78/205"
 ></knockscroppie>

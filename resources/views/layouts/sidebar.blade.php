@@ -3,7 +3,7 @@
   <div class="force-overflow"></div>
   <li id = "sidebar_head"><div class="user-view ">
     <div class="background">
-      <img :src="coverPhoto()">
+      <img :src="coverPhoto()" class = "knocks_user_cover_scope">
     </div>
     <a >
       <el-dropdown class = "right" trigger="click">
@@ -43,7 +43,7 @@
       class=" " classes="circle" return_on_null = "{{asset('snaps/avatar.jpg')}}" >
       
       </knocksimgframeless> --}}
-      <img :src="pp()" class = "circle" alt = "{{auth()->user()->username.' Profile Picture'}}"/>
+      <img :src="pp()" class = "circle knocks_user_profile_scope" alt = "{{auth()->user()->username.' Profile Picture'}}"/>
     </a>
     <a href="{{asset(auth()->user()->username)}}"><span class="white-text name">
       {{ ucfirst(auth()->user()->first_name)}} {{ucfirst(auth()->user()->last_name)}}

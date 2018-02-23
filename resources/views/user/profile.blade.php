@@ -19,11 +19,11 @@
 
   <div class = "row knocks_house_keeper" style = "padding : 3px;">
     <div class = "row knocks_house_keeper">
-      <img src = "{{asset('media/cover/'.$user->id)}}" class = "knocks_full_cover_photo"/>
+      <img src = "{{asset('media/cover/'.$user->id)}}" class = "knocks_full_cover_photo knocks_user_cover_scope"/>
     </div>
     <div class = "knocks_profile_avatar_frame knocks_house_keeper">
       <a class = "">
-        <img class = "knocks_profile_avatar z-depth-1" src = "{{asset('media/avatar/'.$user->id)}}"/>
+        <img class = "knocks_profile_avatar z-depth-1 knocks_user_profile_scope" src = "{{asset('media/avatar/'.$user->id)}}"/>
       </a>
     </div>
     <div class = " knocks_profile_name">

@@ -21,7 +21,7 @@
       trigger="hover">
       <div class = "row knocks_house_keeper">
         <div class = "col s4 knocks_house_keeper">
-           <img :src = "asset('media/avatar/compressed/'+user)" >
+           <img :src = "asset('media/avatar/compressed/'+user)" :class = "[{'knocks_user_profile_scope' : thatsMe}]">
         </div>
         <div class = "col s8 knocks_house_keeper">
 
@@ -101,7 +101,7 @@
     </el-popover>
      
       <a :href = "userUrl" v-popover:userpopover>
-        <img :src = "asset('media/avatar/compressed/'+user)" :class = "knocks_avatar_classes" v-if = "!hide_image">
+        <img :src = "asset('media/avatar/compressed/'+user)" :class = "[knocks_avatar_classes, {'knocks_user_profile_scope' : thatsMe}]" v-if = "!hide_image">
         <div :class = "name_container_class" class="" v-if ="!hide_text_info">
         <a :class = "name_class" :href = "userUrl"  v-if="userObject && !hide_name"> {{ displayName }}</a><slot name = "append_to_display_name"></slot><br/>
          <a :class = "username_class" :href = "userUrl" v-if="userObject != null && show_username" style = "display:block"> {{'@'+userObject.username}} </a>
@@ -115,7 +115,7 @@
   <div class="chip" :class="main_container" contenteditable="false" v-if="as_chip">
      <!-- <knocksimgframeless v-model = "pp" fill_from="pp/blob" :specifications="userSpecifications" :show_container = "false"
        :scope = "['profile_picture_handler']" ></knocksimgframeless> -->
-       <img :src = "asset('media/avatar/compressed/'+user)" >
+       <img :src = "asset('media/avatar/compressed/'+user)" :class = "{'knocks_user_profile_scope' : thatsMe}" >
        <span :class = "name_class" :href = "userUrl"  v-if="userObject && !hide_text_info"  > {{displayName}} </span>
        <slot name = "append"></slot>
   </div>
@@ -168,7 +168,7 @@
       trigger="hover">
       <div class = "row knocks_house_keeper">
         <div class = "col s4 knocks_house_keeper">
-           <img :src = "asset('media/avatar/compressed/'+user)" >
+           <img :src = "asset('media/avatar/compressed/'+user)"  :class = "[{'knocks_user_profile_scope' : thatsMe}]">
         </div>
         <div class = "col s8 knocks_house_keeper">
 
@@ -267,7 +267,7 @@
   <div v-if = "as_result">
     <div class = "row">
       <div class = "">
-           <img :src = "asset('media/avatar/compressed/'+user)" :class = "knocks_avatar_classes">
+           <img :src = "asset('media/avatar/compressed/'+user)" :class = "[knocks_avatar_classes,{'knocks_user_profile_scope' : thatsMe}]">
       </div>
       <div class = "">
          <div  class="" v-if ="!hide_text_info">
