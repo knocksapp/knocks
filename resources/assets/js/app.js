@@ -297,11 +297,6 @@ Vue.component('knocksusersport', require('./components/knocksusersport.vue'));
 Vue.component('knocksuserabout', require('./components/knocksuserabout.vue'));
 Vue.component('knocksretriver', require('./components/knocksretriver.vue'));
 Vue.component('knocksvoicerecognition', require('./components/knocksvoicerecognition.vue'));
-<<<<<<< HEAD
-Vue.component('knocksgroupcreation', require('./components/knocksgroupcreation.vue'));
-Vue.component('knocksgroupslist', require('./components/knocksgroupslist.vue'));
-
-=======
 Vue.component('knockscroppie', require('./components/knockscroppie.vue'));
 Vue.component('knocksuseraboutedit', require('./components/knocksuseraboutedit.vue'));
 Vue.component('knocksusersportedit', require('./components/knocksusersportedit.vue'));
@@ -310,7 +305,6 @@ Vue.component('knocksusereducationedit', require('./components/knocksusereducati
 Vue.component('knocksusercareeredit', require('./components/knocksusercareeredit.vue'));
 Vue.component('knocksuseraboutdelete', require('./components/knocksuseraboutdelete.vue'));
 Vue.component('knocksgroupcreation', require('./components/knocksgroupcreation.vue'));
->>>>>>> master
 
 
 
@@ -390,7 +384,7 @@ Vue.component('knocksgroupcreation', require('./components/knocksgroupcreation.v
    staticMessagesIdTranslate  : 0 ,
    TranslateMessagesLoading : false ,
    TranslateMessagesRes : null ,
-   devStage : 'Components' , 
+   devStage : 'Dictionary' , 
 
 
    //Knocks Data
@@ -1426,12 +1420,9 @@ window.NavInstance = new Vue({
       this.sidebarRunSearch();
 
     },
-<<<<<<< HEAD
-=======
     plusNumber(input){
       return input > 9 ? '+9' : input;
     },
->>>>>>> master
     isSmallWindow(){
       return WindowWidth < 900 ? true : false ;
     },

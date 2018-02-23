@@ -478,17 +478,6 @@
                    <knocksuserabout :user = "1"></knocksuserabout>
 
                    <knocksgroupcreation></knocksgroupcreation>
-<<<<<<< HEAD
-
-                   <br/>
-                   <br/>
-                   <br/>
-                   <br/>
-                   <br/>
-
-                   <knocksgroupslist></knocksgroupslist>
-=======
->>>>>>> master
           
       </transition>
     </div>
