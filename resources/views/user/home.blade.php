@@ -22,7 +22,7 @@
    :scope= "['knock']" 
    :error_at="[]" 
    submit_at = "post/create"
-   :recorder_upload_data = "{ user : '7esam' , index : {}}"
+   :recorder_upload_data = "{ }"
    :player_show_options = "false"
    :post_at = "{{ auth()->user()->id }}"
    parent_type = "self"
