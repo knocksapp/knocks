@@ -3,14 +3,18 @@
   <div :class = "recorder_container">
     <knockspopover v-if="currentBlob == null || isRecording" >
     <template slot = "container">
+
+       <span v-if = "isRecording && timer_right" :class = "timer_class" >{{ displayDuration }}</span>
     <button @mousedown="startRecord()"  @mouseup="stopRecord()"  :class = "recordButtonClasses" 
     v-if="currentBlob == null || isRecording">
     <span :class = "recordIconClasses"></span>
     </button>
     </template>
     <span slot = "content"  class = "knocks_tooltip animated flipInX" v-if="currentBlob == null || isRecording">
+
       <span :class = "record_icon_on_stop"></span>
-      <static_message msg = "Hold To Record"></static_message>
+      <static_message msg = "Hold To Record" v-if = "!isRecording"></static_message>
+      <span v-if = "isRecording">Recording{{ displayDuration }}</span>
     </span>
     </knockspopover>
     <knockspopover v-if="currentBlob != null && !isRecording">
@@ -24,10 +28,13 @@
     </template>
     <span slot = "content"  class = "knocks_tooltip animated flipInX" v-if="currentBlob != null && !isRecording" >
       <span :class = "cancel_icon"></span>
+
       <static_message msg = "Cancel Record"></static_message> {{ displayDuration }}
     </span>
     </knockspopover>
-    <span v-if = "isRecording" :class = "timer_class">{{ displayDuration }}</span>
+<el-progress text-inside type="circle" :percentage="limitPercentage" status="exception" :width = "35" v-if = "isRecording && !timer_right">
+    <span  :class = "timer_class" >{{ displayDuration }}</span>
+  </el-progress>
   </div>
   <transition enter-active-class = "animated zoomIn" leave-active-class = "animated flipOutX">
   <div :class = "player_container" v-if = "isFired && currentSource != null && !upload_on_finish && !hide_player">
@@ -114,6 +121,13 @@ export default {
       type : String , 
       default : 'animated rubberBand infinite knocks_text_dark_active'
     } ,
+<<<<<<< HEAD
+=======
+    timer_right : {
+      type : Boolean , 
+      default : false 
+    },
+>>>>>>> master
     player_container : {
       type : String , 
       default : ''
@@ -240,6 +254,13 @@ export default {
     volatile : {
       type : Boolean , 
       default : false ,
+<<<<<<< HEAD
+=======
+    },
+    record_limit : {
+      type : Number , 
+      default : 300000
+>>>>>>> master
     }
 
   },
@@ -259,7 +280,12 @@ export default {
       recognition : null ,
       res : [], 
       recognitionLang : window.currentUserLanguage , 
+<<<<<<< HEAD
       convertedText : ''
+=======
+      convertedText : '' , 
+      // limitPercentage : 0 ,  
+>>>>>>> master
 
 
     }
@@ -351,8 +377,19 @@ computed :{
     if(!this.isRecording) iconClass.push(this.record_icon_on_stop); 
     return iconClass;
   },
+<<<<<<< HEAD
 
+=======
+limitPercentage (){
+  if(!this.isRecording) return 0 ;
+  return  parseInt(this.recordDuration / this.record_limit * 100 );
+  
+}
+>>>>>>> master
 },
+
+
+
 methods : {
   record(){
     if(!this.mediaDevicesSupport){
@@ -376,6 +413,10 @@ methods : {
         navigator.mediaDevices.getUserMedia(constraints).then(function(stream) {
           vm.mainRecorder = new MediaRecorder(stream);
           vm.isSupporting = true ;
+<<<<<<< HEAD
+=======
+
+>>>>>>> master
         }).catch( ()=>{ 
           if(KnocksRecorderFired){
             return;
@@ -426,6 +467,14 @@ methods : {
     var interval = setInterval(()=>{
       App.$on('recordFinished' , ()=>{ clearInterval(interval); });
       vm.recordDuration += 50;
+<<<<<<< HEAD
+=======
+      //vm.$refs.myUniqueID.updateProgress(vm.limitPercentage);
+      
+      if(vm.recordDuration == vm.record_limit){
+        vm.stopRecord();
+      }
+>>>>>>> master
     },50);
   } , 
   stopRecord(){

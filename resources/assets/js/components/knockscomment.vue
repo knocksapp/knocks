@@ -5,7 +5,7 @@
     <center><knocksloader :gid= "gid+'_knock_loading_span'" v-if = "knockObject == null" ></knocksloader></center>  
    </transition>
 
-  <div v-if = "knockObject != null" >
+  <div v-if = "knockObject != null && !as_shortcut"  >
     <div v-if = "knock_type == 'normal' " class=" panel pink lighten-4">
       <knocksuser :user="knockObject.user_id" main_container = "col s2" show_image>
       </knocksuser>
@@ -176,6 +176,56 @@
     <knockschildreply  :gid= "gid+'_comment_'+index":comment="com" :current_user="current_user" parent_type = "comment"></knockschildreply>
   </div> -->
 </div>
+<div v-if = "knockObject != null && as_shortcut">
+        <div class = "row knocks_house_keeper">
+      <div class=" knocks_house user">
+        <div class=" ">
+          <!-- <center> -->
+            <knocksuser
+            class = "knocks_house_keeper"
+hide_popover
+           v-model = "ownerObject"
+           image_container_class = "knocks_inline" 
+           name_container_class = " knocks_inline"
+           main_container = "row knocks_house_keeper"
+          :user="knockObject.user_id" show_image>
+            <template slot = "append_to_display_name" class = "" >
+
+            </template>
+          </knocksuser>
+      </div>   
+      </div>
+      <div class="cnt row  knocks_house_keeper" style="border-radius :0px !important; border-bottom: 1px solid #ccc; background-color:rgba(192,192,192,0.1);" >
+       
+        <div class="row knocks_house_keeper  ">
+          <span class = "">
+          <span  
+           @dblclick = "flowtext()"
+           class="knocks_text_dark content " :id = "gid"></span>
+         </span>
+        </div>
+        <div class="row knocks_house_keeper" v-if="bodyLen > 350" ><div v-if="bodyLen > 350" class="top"><a class="rdmore right" @click="rd();" href="javascript:void(0);" :id = "gid+'_readmore'">See more</a></div>
+      </div>
+      <div class="voice_pad knocks_house_keeper"   v-if = "knockObject.index.has_voices">
+        <!--       <knocksplayer class="voice col s8" gid="noded" live :specifications = "{id : 1}" fill_from="vn/blob" meta = "vn/meta" :load_on_mount="false" :show_volume="true" v-if="knockObject.index.has_voices" :show_options="false"></knocksplayer> -->
+        <knocksplayer
+        :gid="gid+'_player'"
+        initial_class ="btn btn-floating knocks_super_tiny_floating_btn knocks_color_kit knocks_btn_color_kit right"
+        main_container = "row knocks_house_keeper"
+        class="voice col s12 knocks_content_padding" style = "padding-bottom : 2px"
+        :show_volume="true"
+        buttons_container = "col knocks_house_keeper"
+        :show_options="false"
+        :specifications = "{id : knockObject.index.voices_specifications , user : current_user , object : knockObject.object_id }"
+        full_back_loading
+        :load_on_mount="false"></knocksplayer>
+        
+      </div>
+        <a :href ="asset('cmnt/'+knock)" class = "knocks_text_sm"><static_message msg = "More Details"></static_message></a>
+      <!-- <a class=" knocks_text_dark lens right" @click="flowtext()" href="#!"  ><i :id="gid+'_lns'" class="knocks-zoomin3 knocks_text_md lensm" @mouseover="lensHover()" @mouseleave="lensLeave()"></i></a> -->
+    </div>
+  </div>
+</div>
 <!-- <hr class="uk-divider-icon knocks_ultimate_house_keeper"> -->
 </div>
 </template>
@@ -197,7 +247,8 @@ showKey : 0 ,
 passedOnce : false , 
 ownerObject : null ,
 interest : false ,
-userId : UserId 
+userId : UserId  , 
+parentKnockOwner : null ,
 };
 },
 props:{
@@ -218,6 +269,10 @@ knock_type : {
 type : String,
 default : 'voice_note'
 },
+  as_shortcut : {
+    type : Boolean , 
+    default : false 
+  }
 
 },
 computed : {
@@ -232,12 +287,26 @@ const vm = this;
 console.log(vm.bodyLen);
 
    App.$on('knocksShowInterest' , (payloads)=>{
-      if(vm.knockObject == null) return;
+      if(vm.knockObject == null && !vm.as_shortcut) return;
       if(vm.interest) return;
       if(payloads.objectId == vm.knockObject.object_id && payloads.parentType == 'comment'){
         vm.interest = true;
         vm.retriveComments();
       }else return;
+    });
+
+       App.$on('knocks_refresh_posts_done' , ()=>{
+      setTimeout( ()=>{
+          if(vm.knockObject != null)
+      if(vm.knockObject.id != vm.knock){
+        //console.log(vm.knockObject.id+' << obid  decl>> '+vm.knock);   
+        vm.knockObject = null;
+        vm.comments = null;
+        vm.loadKnockData(); 
+
+
+      }
+      } ,300)
     });
 
 },
@@ -255,6 +324,7 @@ loadKnockData(){
           $('#'+this.gid).empty();
           this.knockObject.time = moment.tz(this.knockObject.created_at , moment.tz.guess() ).fromNow();
           this.knockObject.timedate = moment.tz(this.knockObject.created_at,  moment.tz.guess()).format('MMMM Do YYYY, h:mm a');
+          //this.parentKnockOwner = UserKnocks[this.knockObject.post_id].user_id;
           setTimeout( ()=>{
             if(this.knockObject.body == null){
               $('#'+this.gid).remove();
@@ -301,7 +371,7 @@ loadKnockData(){
           window.UserComments[vm.knock] = vm.knockObject;
           vm.knockObject.time = null;
           vm.knockObject.timedate = null;
-
+          vm.parentKnockOwner = UserKnocks[vm.knockObject.post_id].user_id;
 
           
           setTimeout( ()=>{
@@ -571,6 +641,7 @@ border-radius: 15px;
 //margin-top: -6% !important;
 height: 40% !important;
 }
+
 .lens{
 //margin-right: 1% !important;
 //margin-top: 1%;

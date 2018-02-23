@@ -2,12 +2,20 @@
 <div>
 	<knocksretriver
 	v-model=  "allcircles"
+<<<<<<< HEAD
 	url = "/get_all_circles"
+=======
+	url = "get_all_circles"
+>>>>>>> master
 	
 	>
 	</knocksretriver>
 	
+<<<<<<< HEAD
 	<el-button type="primary" @click="outerVisible = true" class="btncreate knocks_fair_bounds knocks_color_kit" style="border-color : #691a40 !important"><i class="knocks-group2"></i> Create Group</el-button>
+=======
+	<el-button type="text" @click="outerVisible = true" class="btncreate">Create Group</el-button>
+>>>>>>> master
 	<el-dialog
 	:visible.sync="outerVisible"
 	width="30%"
@@ -83,7 +91,11 @@
 				</div>
 			</div>
 		</transition>
+<<<<<<< HEAD
 
+=======
+				 <div class="col s12"> 
+>>>>>>> master
 					    <knockselinput
 						placeholder = "Search Name"
 						gid = "search"
@@ -92,7 +104,11 @@
 						:scope = "['CreateGroup']"
 						v-model = "search"
 						></knockselinput>
+<<<<<<< HEAD
 
+=======
+				 </div>
+>>>>>>> master
 			<div class="col s12">
 				<h4 style="margin-top: 25px" class="col s4 knocks_text_dark"><i class="knocks-lock7"></i> Group Privacy</h4>
 				<div style="margin-top: 20px" class="col s8">
@@ -185,7 +201,11 @@ export default {
   		vm.circle_members = [];
   		vm.circle_id = circle_id;
        axios({
+<<<<<<< HEAD
        	   url : 'get_circle_members',
+=======
+       	   url : LaravelOrgin+'get_circle_members',
+>>>>>>> master
        	   method : 'post',
        	   data :{circle_id : vm.circle_id}
        }).then((response)=>{
@@ -193,10 +213,14 @@ export default {
             {
                  vm.circle_members = response.data;
                  let i = 0;
+<<<<<<< HEAD
                  let j = 0;
                  let len = vm.retrivedFriends.length;
                  let len1 = vm.search.length;
                  console.log('here '+vm.search_members.length)
+=======
+                 let len = vm.retrivedFriends.length;
+>>>>>>> master
                  while(i < len)
                  {
                  	if(vm.circle_members.indexOf(vm.retrivedFriends[i]) != -1){
@@ -205,6 +229,7 @@ export default {
                  		i--;
  
                  	}
+<<<<<<< HEAD
                  	len = vm.retrivedFriends.length;
                  	i++;
                  }
@@ -219,6 +244,12 @@ export default {
                   }
                   len1 = vm.search_members.length;
                   j++;
+=======
+                 	console.log('a7a')
+                 	len = vm.retrivedFriends.length;
+                 	i++;
+                 	console.log(vm.retrivedFriends.length);
+>>>>>>> master
                  }
 
                  vm.circle_name = circle_name
@@ -226,9 +257,12 @@ export default {
 				        if(vm.retrivedFriends == 0){
 				        	vm.flag2= false
 				        }
+<<<<<<< HEAD
                 if(vm.search_members == 0){
                   vm.flag1= false
                 }
+=======
+>>>>>>> master
                  vm.flag = true;
 
             }
@@ -239,7 +273,10 @@ export default {
   	removeMember(index){
         const vm = this;
         vm.circle_members.splice(index,1)
+<<<<<<< HEAD
         App.$emit('KnocksContentChanged');
+=======
+>>>>>>> master
         if(vm.circle_members == 0){
         	vm.flag = false
         }
@@ -247,7 +284,10 @@ export default {
   	removeMembers(index){
         const vm = this;
         vm.search_members.splice(index,1)
+<<<<<<< HEAD
         App.$emit('KnocksContentChanged');
+=======
+>>>>>>> master
         if(vm.search_members == 0){
         	vm.flag1= false
         }
@@ -255,7 +295,10 @@ export default {
   	removeMemberss(index){
         const vm = this;
         vm.retrivedFriends.splice(index,1)
+<<<<<<< HEAD
         App.$emit('KnocksContentChanged');
+=======
+>>>>>>> master
         if(vm.retrivedFriends == 0){
         	vm.flag2= false
         }

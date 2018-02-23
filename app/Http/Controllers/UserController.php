@@ -9,7 +9,14 @@ use App\Circle_member;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use App\Knock;
+<<<<<<< HEAD
 use App\Group_member;
+=======
+use App\Comment;
+use App\Reply;
+use App\obj;
+use DB;
+>>>>>>> master
 class UserController extends Controller
 {
   public function userCircles (){
@@ -81,6 +88,10 @@ class UserController extends Controller
       return $user->getUserKnocksRegularMin($request->min);
     }
     public function getUserAllCircles(Request $request){
+      return auth()->user()->circles()->get();
+    }
+
+     public function getUserAllCircles(Request $request){
       return auth()->user()->circles()->get();
     }
 
@@ -178,12 +189,21 @@ class UserController extends Controller
       //Search for friends
 
         $circle = auth()->user()->mainCircle();
+<<<<<<< HEAD
         $suggestions =  $circle->circleMembers()->join('users' , 'users.id' , '=' ,'circle_members.user_id')
         ->where('users.first_name' , 'like' , '%'.$request->q.'%')
         ->orwhere('users.last_name' , 'like', '%'.$request->q.'%')
         ->orwhere('users.middle_name' , 'like' , '%'.$request->q.'%')
         ->orwhere('users.nickname' , 'like', '%'.$request->q.'%')
         ->orwhere('users.username' , 'like' , '%'.$request->q.'%')
+=======
+        $suggestions =  $circle->circleMembers()->join('users' , 'users.id' , '=' , 'circle_members.user_id')
+        ->orwhere('users.first_name' , 'sounds like' , $request->q)
+        ->orwhere('users.last_name' , 'sounds like', $request->q)
+        ->orwhere('users.middle_name' , 'sounds like' , $request->q)
+        ->orwhere('users.nickname' , 'sounds like', $request->q)
+        ->orwhere('users.username' , 'sounds like' , $request->q)
+>>>>>>> master
         ->pluck('users.id');
 
         $result = [];
@@ -206,6 +226,38 @@ class UserController extends Controller
     public function mainSearch(Request $request){
       $result = array();
       $result['users'] = auth()->user()->soundsLikeID($request->q);
+<<<<<<< HEAD
+=======
+      $result['reply'] = array();
+      $result['comment'] = array();
+      $result['knock'] = array();
+      // $obs = obj::
+      // where('keywords' , 'like' , "%$request->q%  ")
+      // ->get();
+
+
+       //  $obs = collect(DB::select( DB::raw("SELECT id FROM objs 
+       //    WHERE keywords sounds like '$request->q'
+       //    or keywords like '%$request->q%'
+       //    "
+       //  ) 
+       // ));
+      $objs = obj::where('type' , '=' , 'knock')
+      ->orwhere('type' , '=','comment')
+      ->orwhere('type' , '=','reply')->get();
+      foreach($objs as $ob){
+
+  
+        if( $ob->isAvailable(auth()->user()->id)){
+          similar_text($ob->keywords, $request->q,$percent);
+
+          if( $percent > 50 || strpos($ob->keywords, $request->q) )
+          if($ob->type == 'knock')array_push($result[$ob->type], Knock::where('object_id' , '=' , $ob->id)->first()->id);
+          elseif($ob->type == 'comment')array_push($result[$ob->type], Comment::where('object_id' , '=' , $ob->id)->first()->id);
+          elseif($ob->type == 'reply')array_push($result[$ob->type], Reply::where('object_id' , '=' , $ob->id)->first()->id);
+        }
+      }
+>>>>>>> master
 
       return $result;
 

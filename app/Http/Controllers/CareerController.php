@@ -35,5 +35,22 @@ class CareerController extends Controller
        return $array ;
     }
 
+    
+    public function updateCareer(Request $request){
+      $newCareer = Career::where('id','=',$request->career_id)->update([
+        'works_at' => $request->work_at,
+        'works_what' => $request->work_what,
+        'works_since' => $request->work_since,
+        'works_to' => $request->work_to,
+        'works_as' => $request->works_as
+      ]);
+      return 'done';
+    }
+
+    public function deleteCareer(Request $request){
+          Career::where('id','=',$request->about_id)->delete();
+          return 'done';
+      }
+
 
 }

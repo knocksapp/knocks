@@ -34,4 +34,20 @@ class HighEducationController extends Controller
        }
        return $array ;
     }
+    
+    public function updateHighEducation(Request $request){
+      $newEducation = High_education::where('id','=',$request->higheducation_id)->update([
+        'study_at' => $request->study_at,
+        'study_what' => $request->study_what,
+        'study_since' => $request->study_since,
+        'study_to' => $request->study_to,
+        'grade' => $request->grade
+      ]);
+      return $request->higheducation_id;
+    }
+
+    public function deleteHighEducation(Request $request){
+          High_education::where('id','=',$request->about_id)->delete();
+          return 'done';
+      }
 }

@@ -11,15 +11,15 @@ class EducationController extends Controller
 {
      public function createEducation(Request $request){
 
-    	$newEducation = new Education();
-    	$newEducation->initialaize(
+      $newEducation = new Education();
+      $newEducation->initialaize(
            $request->study_at,
            $request->study_what,
            $request->study_since,
            $request->study_to,
            $request->grade
-    	);
-    	return'done';
+      );
+      return'done';
 
     }
 
@@ -35,4 +35,20 @@ class EducationController extends Controller
        return $array ;
 
     }
+
+    public function updateEducation(Request $request){
+      $newEducation = Education::where('id','=',$request->education_id)->update([
+        'study_at' => $request->study_at,
+        'study_what' => $request->study_what,
+        'study_since' => $request->study_since,
+        'study_to' => $request->study_to,
+        'grade' => $request->grade
+      ]);
+      return 'done';
+    }
+
+    public function deleteEducation(Request $request){
+      Education::where('id','=',$request->about_id)->delete();
+      return 'done';
+  }
 }

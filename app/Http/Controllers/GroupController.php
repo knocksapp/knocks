@@ -35,6 +35,7 @@ class GroupController extends Controller
         }
         return 'done';
     }
+<<<<<<< HEAD
 
     public function getGroups(Request $request){
             $allgroups = $request->groups;
@@ -60,4 +61,6 @@ class GroupController extends Controller
       return view('groups.group', ['group' => $c]);
     }
 
+=======
+>>>>>>> master
 }

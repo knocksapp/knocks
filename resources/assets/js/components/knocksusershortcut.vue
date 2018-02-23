@@ -7,10 +7,11 @@
 <template>
   <div v-if = "userObject != null" >
 
-    <div :class = "main_container" v-if = "!as_chip && !as_result && !as_report" >
+    <div :class = "main_container" v-if = "!as_chip && !as_result && !as_report && !as_name" >
 
    <div v-if="show_image">
         <el-popover
+        v-if = "!hide_popover"
       ref="userpopover"
       width = "400"
       placement="top-start"
@@ -20,7 +21,7 @@
       trigger="hover">
       <div class = "row knocks_house_keeper">
         <div class = "col s4 knocks_house_keeper">
-           <img :src = "asset('media/avatar/compressed/'+user)" >
+           <img :src = "asset('media/avatar/compressed/'+user)" :class = "[{'knocks_user_profile_scope' : thatsMe}]">
         </div>
         <div class = "col s8 knocks_house_keeper">
 
@@ -100,7 +101,7 @@
     </el-popover>
      
       <a :href = "userUrl" v-popover:userpopover>
-        <img :src = "asset('media/avatar/compressed/'+user)" :class = "knocks_avatar_classes">
+        <img :src = "asset('media/avatar/compressed/'+user)" :class = "[knocks_avatar_classes, {'knocks_user_profile_scope' : thatsMe}]" v-if = "!hide_image">
         <div :class = "name_container_class" class="" v-if ="!hide_text_info">
         <a :class = "name_class" :href = "userUrl"  v-if="userObject && !hide_name"> {{ displayName }}</a><slot name = "append_to_display_name"></slot><br/>
          <a :class = "username_class" :href = "userUrl" v-if="userObject != null && show_username" style = "display:block"> {{'@'+userObject.username}} </a>
@@ -114,7 +115,7 @@
   <div class="chip" :class="main_container" contenteditable="false" v-if="as_chip">
      <!-- <knocksimgframeless v-model = "pp" fill_from="pp/blob" :specifications="userSpecifications" :show_container = "false"
        :scope = "['profile_picture_handler']" ></knocksimgframeless> -->
-       <img :src = "asset('media/avatar/compressed/'+user)" >
+       <img :src = "asset('media/avatar/compressed/'+user)" :class = "{'knocks_user_profile_scope' : thatsMe}" >
        <span :class = "name_class" :href = "userUrl"  v-if="userObject && !hide_text_info"  > {{displayName}} </span>
        <slot name = "append"></slot>
   </div>
@@ -153,12 +154,120 @@
      
   </div>
 
+  <div v-if = "as_name">
+
+
+
+    <el-popover
+      ref="userpopover"
+      width = "400"
+      placement="top-start"
+      @show = "updateBalloonsTimer()"
+      @hide="runBalloonsTimer()"
+      popper-class = "knocks_house_keeper"
+      trigger="hover">
+      <div class = "row knocks_house_keeper">
+        <div class = "col s4 knocks_house_keeper">
+           <img :src = "asset('media/avatar/compressed/'+user)"  :class = "[{'knocks_user_profile_scope' : thatsMe}]">
+        </div>
+        <div class = "col s8 knocks_house_keeper">
+
+          <div class = "row knocks_text_dark">
+            <div class = "col s12">
+             <span  :href = "userUrl"  v-if="userObject"  > {{ displayName }}</span>
+         </div>
+         <div class = "col s12">
+           <a  :href = "userUrl" v-if="userObject != null && show_username"> {{'@'+userObject.username}} </a>
+         </div>
+         </div>
+         <div class = "row knocks_text_dark">
+           <div class = "col s12" style="margin-top : -10px;">
+            <span class = "knocks-user4"></span>
+
+             <span v-if ="userObject.first_name != null && userObject.first_name != undefined" >{{userObject.first_name}} </span>
+             <span v-if ="userObject.middle_name != null && userObject.middle_name != undefined" >{{userObject.middle_name}} </span>
+             <span v-if ="userObject.last_name != null && userObject.last != undefined" >{{userObject.last_name}} </span>
+           </div>
+           <div class = "col s12" v-if ="userObject.gender != null && userObject.gender != undefined && userObject.gender == 'male'" >
+             <span class = "knocks-male2"></span><span><static_message msg = "Male"></static_message></span>
+           </div>
+           <div class = "col s12" v-if ="userObject.gender != null && userObject.gender != undefined && userObject.gender == 'female'" >
+             <span class = "knocks-female2"></span><span><static_message msg = "Female"></static_message></span>
+           </div>
+           <div class = "col s12" v-if ="userObject.birthdate != null && userObject.birthdate != undefined" >
+             <span class = "knocks-birthday-cake"></span> <span> {{ birthDate(userObject.birthdate) }}</span>
+           </div>
+           <div class = "col s12" v-if ="userObject.email != null && userObject.email != undefined" >
+             <span class = "knocks-email3"></span> <span> {{ userObject.email }}</span>
+           </div>
+
+           
+         </div>
+           <div class = "col s12">
+             
+             <knockspopover>
+              <template slot = "container">
+                 <el-button type = "primary" round icon = " knocks-plus-circle knocks_icon" class ="knocks_left_button"></el-button>
+              </template>
+              <span slot = "content"  class = "knocks_tooltip animated flipInX" >
+              <span class = "knocks-plus-circle"></span>
+              <static_message msg = "Add To My People"></static_message>
+            </span>
+            </knockspopover>
+
+            <knockspopover>
+              <template slot = "container">
+                  <el-button type = "success" round icon = " knocks-chat10 knocks_icon" class = "knocks_center_button"></el-button>
+              </template>
+              <span slot = "content"  class = "knocks_tooltip animated flipInX" >
+              <span class = "knocks-chat10"></span>
+              <static_message msg = "Start Chatting"></static_message>
+            </span>
+            </knockspopover>
+
+            <knockspopover>
+              <template slot = "container">
+                 <el-button type = "danger" round icon = " knocks-blocked3 knocks_icon " class ="knocks_right_button"></el-button>
+              </template>
+              <span slot = "content"  class = "knocks_tooltip animated flipInX" >
+              <span class = "knocks-blocked3"></span>
+              <static_message msg = "Block"></static_message>
+            </span>
+            </knockspopover>
+
+
+               
+
+           
+         </div>
+          
+        </div>
+            
+         
+      </div>
+    </el-popover>
+
+
+        <span  v-popover:userpopover :class = "main_container">
+       
+        
+        <span :class = "name_class" :href = "userUrl"  v-if="userObject && !hide_name"> {{ displayName }}</span>
+        <slot name = "append_to_display_name"></slot>
+
+        </span>
+         
+        </div>
+
+
+    
+
+
 
 
   <div v-if = "as_result">
     <div class = "row">
       <div class = "">
-           <img :src = "asset('media/avatar/compressed/'+user)" :class = "knocks_avatar_classes">
+           <img :src = "asset('media/avatar/compressed/'+user)" :class = "[knocks_avatar_classes,{'knocks_user_profile_scope' : thatsMe}]">
       </div>
       <div class = "">
          <div  class="" v-if ="!hide_text_info">
@@ -265,6 +374,14 @@ props : {
   hide_popover : {
     type : Boolean , 
     default : false ,
+  },
+    as_name : {
+    type : Boolean , 
+    default : false ,
+  },
+      hide_image : {
+    type : Boolean , 
+    default : false ,
   }
 } ,
   data () {
@@ -339,7 +456,7 @@ props : {
         vm.userObject = response.data;
         //vm.userObject.desplayName = JSON.parse(vm.userObject.display_name);
         //vm.$parent.loadedUsers[vm.user] = response.data;
-        vm.userUrl = vm.userObject.username ;
+        vm.userUrl = vm.asset(vm.userObject.username );
         vm.first_name = vm.userObject.first_name ;
         vm.last_name = vm.userObject.last_name ;
         $('.tooltipped').tooltip({delay: 50});

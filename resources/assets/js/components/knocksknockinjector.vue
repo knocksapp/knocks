@@ -147,6 +147,7 @@ export default {
 
   window.onscroll = function(ev) {
     if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight ) {
+      if(!vm.loadingKnocks)
         vm.retriveOlderPosts();
     }
   };

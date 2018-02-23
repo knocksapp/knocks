@@ -241,22 +241,32 @@ export default {
             }
         },
       cropRes(){
+
         const vm = this ;
         $($('body').find('#'+vm.gid+'_container')).addClass('bounceOut');
          $($('body').find('#knocks_upload_port_'+vm.gid)).removeClass('knocks_hidden')
          .removeClass('bounceOut').addClass('animated bounceIn');
          $($('body').find('#knocks_upload_port_'+vm.gid)).css({'position' : 'absolute' , 'top' : 1+'px'});
          vm.basic = new Croppie( document.getElementById('knocks_upload_port_'+vm.gid ), {
-                  viewport: { width: 200, height: 200  },
-                  boundary: { width: 300, height: 300 },
-                  showZoomer: true,
-                 
-                  enableOrientation: true , 
+                     enableExif: true,
+    viewport: {
+        width: 200,
+        height: 200,
+        type: 'circle'
+    },
+    boundary: {
+        width: 300,
+        height: 300
+    }
                 });
+
+         
                 vm.basic.bind({
                   url : vm.source , 
                   //orientation : 4
                 });
+
+
 
                 vm.cropMode = true;    
                 App.$emit('refreshMatListeners');     
@@ -321,7 +331,7 @@ export default {
             console.log(result);
             //Bring it back to base64
             var reader = new FileReader();
-           reader.readAsDataURL(result ); 
+           reader.readAsDataURL(result); 
            reader.onloadend = function() {
                let base64data = reader.result;                
                //console.log(base64data);

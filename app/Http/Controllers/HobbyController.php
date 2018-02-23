@@ -29,4 +29,17 @@ class HobbyController extends Controller
        }
        return $array ;
     }
+
+    
+    public function updateHobby(Request $request){
+      $hobby = Hobby::where('id','=',$request->hobby_id)->update([
+        'name'=>$request->name
+      ]);
+      return 'done';
+    }
+
+    public function deleteHobby(Request $request){
+      Hobby::where('id','=',$request->about_id)->delete();
+      return 'done';
+  }
 }

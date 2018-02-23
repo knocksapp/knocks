@@ -20,17 +20,22 @@
       	Pick Your privacy options
       </slot>
       <div class="col s12 knocks_fair_bounds">
-      <div class = "col s3">
+      <div class = "row ">
           <el-button round class = "knocks_el_round_btn knocks_color_kit knocks_btn_color_kit knocks_borderless">Set default
           </el-button>
       </div>
-      <div class = "col s6">
+      <div class = "row">
         <ul class="tabs knocks_text knocks_tabs">
-        <li class="tab col s6"><a class="active knocks_tab_anchor" :href="'#'+gid+'_circles_tab'">Circles</a></li>
-        <li class="tab col s6"><a class=" knocks_tab_anchor"  :href="'#'+gid+'_users_tab'">Users</a></li>
+        <li class="tab col s6"><a class="active knocks_tab_anchor" :href="'#'+gid+'_circles_tab'">
+          <span class = "knocks-atom2"></span>
+          <span class = "hide-on-med-and-down">Circles</span>
+        </a></li>
+        <li class="tab col s6"><a class=" knocks_tab_anchor"  :href="'#'+gid+'_users_tab'">
+          <span class = "knocks-user-outline"></span>
+          <span class = "hide-on-med-and-down">Users</span></a></li>
       </ul>
       </div>
-      <div class = "col s6"></div>
+      
       <div :id = "gid+'_circles_tab'">
       	 <table  class = "highlight bordered ">
       	 	<tbody>
