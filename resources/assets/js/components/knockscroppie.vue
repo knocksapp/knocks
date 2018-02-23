@@ -241,6 +241,7 @@ export default {
 
   //Validation
   if(vm.cropped == null) return;
+  this.isLoading = true;
   let mType = 'image/jpeg';
    let cBlob = B64toBlob(this.cropped.replace('data:'+mType+';base64,' ,'') , mType );
           new ImageCompressor(cBlob, {
@@ -265,7 +266,13 @@ export default {
                         compressed : base64data.replace('data:'+mType+';base64,' ,'') 
                       , blob : vm.cropped.replace('data:'+mType+';base64,' ,'')
                       , extension :  mType 
-                    }  
+                    }  ,
+                      onUploadProgress: function (progressEvent) {
+                        vm.isLoading = true;
+                      },
+                      onDownloadProgress: function (progressEvent) {
+                        vm.isLoading = true;
+                      },
                   } ,
 
                 }).then(function(response){

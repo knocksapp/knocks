@@ -17,4 +17,11 @@ class Group_member extends Model
     {
         return $this->belongsTo('App\Group','group_id');
     }
+
+    public function initialize($user_id ,$group_id, $position){
+      $this->user_id = $user_id ;
+      $this->group_id = $group_id;
+      $this->position = $position;
+      $this->save();
+    }
 }

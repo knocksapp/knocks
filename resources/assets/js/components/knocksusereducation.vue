@@ -29,7 +29,7 @@
         :mat_follower=  "false"
         placeholder = "Your Grade ?"
         gid = "q"
-        
+
         :max_len = "15"
         :scope = "[ 'education_adder']"
         v-model = "grade"
@@ -65,7 +65,7 @@
     validation_error = "You need to complete some fields"
     reset_on_success
     submit_at = "education"
-    success_at = "done"
+    computed_response
     success_msg = "Mabrok 3alek el Ta3lem"
     gid = "stage_one_net"
     :submit_data = " {study_at : study_at , study_what : study_what, study_since : studySince, study_to : studyTo , grade : grade} "

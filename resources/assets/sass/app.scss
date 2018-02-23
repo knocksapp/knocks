@@ -2059,3 +2059,8 @@ font-size: 70%;
   width: 100% !important; 
   border-radius : 15px;
 }
+
+.el-dialog{
+  max-height: 800px !important;
+    overflow: scroll !important;
+  }

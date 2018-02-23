@@ -308,8 +308,9 @@ Vue.component('knocksusersportedit', require('./components/knocksusersportedit.v
 Vue.component('knocksuserhobbyedit', require('./components/knocksuserhobbyedit.vue'));
 Vue.component('knocksusereducationedit', require('./components/knocksusereducationedit.vue'));
 Vue.component('knocksusercareeredit', require('./components/knocksusercareeredit.vue'));
-
 Vue.component('knocksuseraboutdelete', require('./components/knocksuseraboutdelete.vue'));
+
+Vue.component('knocksgroupcreation', require('./components/knocksgroupcreation.vue'));
 
 
 

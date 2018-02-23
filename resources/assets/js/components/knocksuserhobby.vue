@@ -19,7 +19,7 @@
     validation_error = "You need to complete some fields"
     reset_on_success
     submit_at = "hobby"
-    success_at = "done"
+    computed_response
     success_msg = "Hobby Added"
     gid = "stage_one_net"
     :submit_data = " { name : name} "
