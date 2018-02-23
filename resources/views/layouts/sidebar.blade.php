@@ -184,7 +184,7 @@
           <el-submenu index="1">
           <template slot="title">
           <i class="el-icon-location"></i>
-          <span>Navigator One.</span>
+          <span>Navigator One...</span>
           </template>
           <el-menu-item-group title="Group One">
           <el-menu-item index="1-1">item one</el-menu-item>
