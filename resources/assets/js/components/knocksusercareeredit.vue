@@ -1,5 +1,7 @@
 <template>
+
 	<div class = "row">
+<el-tooltip class="item" effect="light" content="Edit" placement="bottom">
 		<knockselbutton
 		 icon = "knocks-pencil8 knocks_text_md"
          class = "right knocks_tinny_margin"
@@ -10,6 +12,7 @@
 		 @knocks_button_clicked="dialogVisible = true"
 		 :submit_flag = "false"
 		 ></knockselbutton>
+	 </el-tooltip>
 <div class = "row">
     <el-dialog
       title="Career Edit"
@@ -24,7 +27,7 @@
         placeholder = "Work at ?"
 				is_required
         gid = "q"
-        :max_len = "15"
+        :max_len = "100"
         v-model = "work_at_e"
         :scope = "[ 'career_edit']"
 
@@ -39,7 +42,7 @@
 								:start_as="careerObject.works_what"
                 gid = "q"
 
-                :max_len = "15"
+                :max_len = "100"
                 :scope = "[ 'career_edit']"
                 v-model = "work_what_e"
                 ></knockselinput>
@@ -54,7 +57,7 @@
 								:start_as="careerObject.works_as"
                 gid = "q"
 
-                :max_len = "15"
+                :max_len = "100"
                 :scope = "[ 'career_edit']"
                 v-model = "work_as_e"
                 ></knockselinput>
