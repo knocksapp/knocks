@@ -14,7 +14,7 @@
 </span>
 <center v-if = "career != null &&  career.length == 0">
 <span class = "knocks-alert-circle"></span>
-<static_message msg = "Nothing to show here"></static_message>
+<static_message msg = "Nothing to show here."></static_message>
 </center>
  <!--  -->
 <el-collapse accordion>
