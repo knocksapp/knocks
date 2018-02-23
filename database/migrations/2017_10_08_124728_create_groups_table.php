@@ -18,8 +18,8 @@ class CreateGroupsTable extends Migration
             $table->timestamps();
             $table->string('name');
             $table->string('category');
-            $table->longText('thumbnail');
-            $table->longText('picture');
+            $table->longText('thumbnail')->nullable();
+            $table->longText('picture')->nullable();
             $table->string('preset');
             $table->json('index')->nullable();
         });
