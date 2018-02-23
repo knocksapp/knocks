@@ -19,6 +19,7 @@ class CreateKnocksTable extends Migration
             $table->longText('body')->nullable()->default(NULL);
             $table->bigInteger('at');
             $table->string('type');
+            $table->longText('text_content')->nullable()->default(NULL);
             $table->bigInteger('user_id')->unsigned(); //user foreign key
             $table->bigInteger('object_id')->unsigned(); //object foreign key
             $table->json('index')->nullable();

@@ -16,7 +16,8 @@
 
 
   <div class = "">
-
+ 
+                   <knocksgroupcreation></knocksgroupcreation>
   <knock 
    :scope= "['knock']" 
    :error_at="[]" 

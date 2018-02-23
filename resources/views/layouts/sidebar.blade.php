@@ -65,6 +65,8 @@
        @input = "sidebarRunSearch()"
        id="sidebar_search_box" 
        v-model="sidebarSearch" class="input-with-select">
+       <knocksvoicerecognition @recognition = "runVoiceSearch($event)" @leave="sidebarFocus()" slot = "prepend" ></knocksvoicerecognition>
+
          <el-button slot="append" icon=" knocks_icon knocks-search2"></el-button>
       </el-input>
     
@@ -102,11 +104,14 @@
       <el-submenu index="1">
         <template slot="title">
           <i class="el-icon-location"></i>
-          <span>Navigator One</span>
+<i class="knocks-group2 knocks_text_dark"></i>
+          <span> My Groups</span>
+          
         </template>
-        <el-menu-item-group title="Group One">
-          <el-menu-item index="1-1">item one</el-menu-item>
-          <el-menu-item index="1-2">item one</el-menu-item>
+        <el-menu-item-group>
+
+            <knocksgroupslist></knocksgroupslist>
+      
         </el-menu-item-group>
         <el-menu-item-group title="Group Two">
           <el-menu-item index="1-3">item three</el-menu-item>

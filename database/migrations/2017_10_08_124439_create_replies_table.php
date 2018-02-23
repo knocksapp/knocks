@@ -19,6 +19,7 @@ class CreateRepliesTable extends Migration
           $table->longText('body');
           $table->bigInteger('at');
           $table->string('type');
+          $table->longText('text_content')->nullable()->default(NULL);
           // $table->bigInteger('comment_id')->unsigned()->nullable()->default(Null); //comment foreign key
           // $table->bigInteger('post_id')->unsigned()->nullable()->default(Null); //post foreign key
           $table->bigInteger('user_id')->unsigned(); //user foreign key

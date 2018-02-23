@@ -8,6 +8,8 @@ use App\Circle;
 use App\Language;
 use App\Knock;
 use App\Blob;
+use DB;
+use App\Quotation;
 
 class User extends Authenticatable
 {
@@ -758,6 +760,35 @@ class User extends Authenticatable
           asort($knocks);
           $collection = collect($knocks);
           return array ('knocks' => $collection->chunk(3)->toArray()[0] , 'last_index' => null);
+    }
+
+
+    public function soundsLike($q){
+        return  DB::select( DB::raw("SELECT * FROM users 
+          WHERE first_name sounds like '$q'
+          or last_name sounds like '$q'
+          or middle_name sounds like '$q'
+          or nickname sounds like '$q'
+          or username sounds like '$q'
+          "
+        ) 
+       );
+    }
+   public function soundsLikeID($q){
+        return  collect(DB::select( DB::raw("SELECT id FROM users 
+          WHERE first_name sounds like '%$q%'
+          or last_name sounds like '%$q%'
+          or middle_name sounds like '%$q%'
+          or nickname sounds like '%$q%'
+          or username sounds like '%$q%'
+          or first_name like '%$q%'
+          or last_name like '%$q%'
+          or middle_name like '%$q%'
+          or nickname like '%$q%'
+          or username like '%$q%'
+          "
+        ) 
+       ))->pluck('id');
     }
 
 

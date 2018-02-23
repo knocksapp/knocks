@@ -103,6 +103,8 @@
           <knocksrecorder
           v-if = "!draggingMode"
           @input = "showInterest()"
+          @recognition="addRecognitionContent($event)"
+          @record_reset="addRecognitionContent('')"
           v-model = "recorder"
           hide_player
           main_container = "knocks_house_keeper knocks_inline"
@@ -509,6 +511,8 @@ export default {
       hasRecord : false ,
       hasFiles : false ,
       hasImages : false ,
+      textContent : {text : '' , voice : ''} ,
+      finalTextBody : '' ,
       
 
     }
@@ -853,6 +857,7 @@ export default {
         voices_specifications : this.recordToken ,
         seen : 0 , 
         feelings : [] , 
+        text : this.finalTextBody , 
         post_id : this.parent_id ,
         check_in : this.locationResult ,
         tags : this.tagged ,
@@ -872,7 +877,8 @@ export default {
       this.submitFormat();
     },
     watchMyDomKeeper(){
-       const vm = this;
+        const vm = this;
+        this.updateTextContent();
        let childs = document.getElementById(vm.gid+'_input').children;
        let i;
         for(i = 0 ; i < childs.length; i++){
@@ -937,6 +943,8 @@ export default {
       this.draggingMode =false ;
       this.recorderResponded = false ;
       this.mfuResponded = false;
+      this.textContent = {text : '' , voice : ''};
+      this.finalTextBody = "";
       App.$emit('knocks_multiple_uploader_reset' , this.scope);
       $('#'+this.gid+'_input').empty()
       $('#'+this.gid+'_input').blur()
@@ -967,6 +975,17 @@ export default {
         });
       
       },
+            updateTextContent(){
+      this.textContent.text= $('#'+this.gid+'_input').text();
+      this.hashFinalTextContent();
+    },
+    addRecognitionContent(e){
+      this.textContent.voice = e;
+      this.hashFinalTextContent();
+    },
+    hashFinalTextContent(){
+      this.finalTextBody = this.textContent.text+' '+this.textContent.voice.trim();
+    },
 
 
 

@@ -18,6 +18,7 @@ class CreateObjsTable extends Migration
             $table->timestamps();
             $table->bigInteger('user_id')->unsigned(); //User id
             $table->string('type');
+            $table->longText('keywords')->nullable()->default(NULL);
             $table->boolean('has_media');
             $table->json('index')->nullable();
         });

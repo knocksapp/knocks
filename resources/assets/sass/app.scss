@@ -1452,6 +1452,21 @@ table.highlight > tbody > tr:hover {
   @include knocks_border_radius(50%);
   border : 1px solid;
 }
+.knocks_theme_border  {
+  border : 1px solid $knocksPrimaryColor;
+}
+@media only screen and (min-width : 801px) {
+.el-dialog--small{
+  width: 70% ;
+}
+}
+@media only screen and (max-width : 800px) {
+.el-dialog--small{
+  width: 90% !important;
+}
+
+  }
+
 .knocks_rounded_border {
   border-radius : 50%;
 }
@@ -1896,3 +1911,10 @@ span.badge.new{
   width: 100% !important; 
   border-radius : 15px;
 }
+.el-dialog{
+  max-height: 800px !important;
+    overflow: scroll !important;
+  }
+// button:focus{
+//   background-color: transparent !important;
+// }

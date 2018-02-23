@@ -44,10 +44,13 @@ class Knock extends Model
       $parent_object = new obj();
       $parent_object->initialize('knock');
       $object = json_decode($object);
+      $parent_object->keywords = $object->text;
+      $parent_object->update();
       $this->body = $object->body ;
       $this->at = $object->at ;
       $this->type = $object->type ;
       $this->object_id = $parent_object->id;
+      $this->text_content = $object->text;
       //$object->$user_privacy ;
       //Images specifications reactions
       //images_quotes

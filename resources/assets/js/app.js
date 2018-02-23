@@ -282,6 +282,10 @@ Vue.component('knocksuserhobby', require('./components/knocksuserhobby.vue'));
 Vue.component('knocksusersport', require('./components/knocksusersport.vue'));
 Vue.component('knocksuserabout', require('./components/knocksuserabout.vue'));
 Vue.component('knocksretriver', require('./components/knocksretriver.vue'));
+Vue.component('knocksvoicerecognition', require('./components/knocksvoicerecognition.vue'));
+Vue.component('knocksgroupcreation', require('./components/knocksgroupcreation.vue'));
+Vue.component('knocksgroupslist', require('./components/knocksgroupslist.vue'));
+
 
 
 
@@ -358,7 +362,7 @@ Vue.component('knocksretriver', require('./components/knocksretriver.vue'));
    staticMessagesIdTranslate  : 0 ,
    TranslateMessagesLoading : false ,
    TranslateMessagesRes : null ,
-   devStage : 'Dictionary' , 
+   devStage : 'Components' , 
 
 
    //Knocks Data
@@ -1357,6 +1361,11 @@ window.NavInstance = new Vue({
         
       }).catch(()=>{ vm.sidebarSeachLoading = false });
     },
+    runVoiceSearch(e){
+      this.sidebarSearch = e;
+      this.sidebarRunSearch();
+
+    },
     isSmallWindow(){
       return WindowWidth < 900 ? true : false ;
     },
@@ -1365,6 +1374,19 @@ window.NavInstance = new Vue({
     },
     searchBlur(){
          this.sidebarSearchFocus = false;
+    },
+    sidebarFocus(){
+      const vm = this;
+      vm.sidebarSearchFocus = true;
+     console.log('f');
+    $('#sidebar_contents').slideUp( 200 , function(){
+      $('#sidebar_head').slideUp(200);
+      $('#sidebar_search_results').slideDown(200);
+    });
+
+    },
+    sidebarBlur(){
+
     },
     logout(){
       App.$emit('logged_out' );
@@ -1386,8 +1408,7 @@ window.NavInstance = new Vue({
         if(this.currentIndex == -1) this.showProfileUploader = true;
       }
     },
-  }
-});
+  }});
 window.hoverIcon = function(node){
   $(node).removeClass('rubberBand');
   $(node).addClass('swing');

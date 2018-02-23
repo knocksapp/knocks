@@ -41,8 +41,11 @@ class Reply extends Model
       $parent_object = new obj();
       $parent_object->initialize('reply');
       $object = json_decode($object);
+      $parent_object->keywords = $object->text;
+      $parent_object->update();
       $this->body = $object->body ;
       $this->at = $object->at ;
+      $this->text_content = $object->text;
       $this->type = $object->type ;
       $this->parent_type = $object->type ;
       $this->object_id = $parent_object->id;
