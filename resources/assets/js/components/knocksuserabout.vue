@@ -14,11 +14,11 @@
 </span>
 <center v-if = "career != null &&  career.length == 0">
 <span class = "knocks-alert-circle"></span>
-<static_message msg = "Nothing to show here"></static_message>
+<static_message msg = "Nothing to show here."></static_message>
 </center>
  <!--  -->
 <el-collapse accordion>
-<el-collapse-item v-for="(com,index) in career" :key = "index"  :name="'career_'+index">
+<el-collapse-item v-for="(com,index) in career" :key = "index"  :name="'career_'+index" v-if="career[index] != null && inCareerRange(index)" >
   <knocksusercareeredit
   :careerObject="com"
   class="col right"
@@ -53,7 +53,25 @@
   ></knocksusercareers>
  </el-collapse-item>
 </el-collapse>
+<div class="row">
+<div v-if="career != null && career.length > 3 ">
+<a v-if = "career != null && showCareerKey < career.length"
+   @click = "increaseCareerRang()"
+   class = "left knocks_side_padding knocks_text_sm knocks_text_anchor knocks_pointer" >
+  <span class = "knocks-suitcase3"></span> See More
+</a>
+</div>
+  <div v-if = "career != null && showCareerKey != 3 && career.length > 3">
+<a v-if = "career != null && showCareerKey > 3 "
+   @click = "reduceCareerRang()"
+   class = "right knocks_side_padding knocks_text_sm knocks_text_anchor knocks_pointer">
+  <span class = "knocks-suitcase3"></span> See Less
+</a>
+</div>
+</div>
 </el-tab-pane>
+
+
 <el-tab-pane name = "education" v-loading = "educationIsLoading">
 <span class ="knocks_text_anchor" slot="label">
   <i class="knocks-home7"></i>
@@ -64,7 +82,7 @@
 <static_message msg = "Nothing to show here"></static_message>
 </center>
 <el-collapse accordion>
-<el-collapse-item   v-if = "education[index] != null" v-for="(com,index) in education" :key = "index" :name="'education_'+index">
+<el-collapse-item   v-if = "education[index] != null && inEducationRange(index)" v-for="(com,index) in education" :key = "index" :name="'education_'+index" >
   <knocksusereducationedit
   :educationObject="com"
   class="col right"
@@ -98,7 +116,24 @@
   </knocksusereducation>
  </el-collapse-item>
 </el-collapse>
+<div class="row">
+<div v-if="education != null && education.length > 3 ">
+<a v-if = "education != null && showEducationKey < education.length"
+   @click = "increaseEducationRang()"
+   class = "left knocks_side_padding knocks_text_sm knocks_text_anchor knocks_pointer" >
+  <span class = "knocks-home12"></span> See More
+</a>
+</div>
+  <div v-if = "education != null && showEducationKey != 3 && education.length > 3 ">
+<a v-if = "education != null && showEducationKey > 3 "
+   @click = "reduceEducationRang()"
+   class = "right knocks_side_padding knocks_text_sm knocks_text_anchor knocks_pointer">
+  <span class = "knocks-home12"></span> See Less
+</a>
+</div>
+</div>
 </el-tab-pane>
+
 <el-tab-pane name = "high_education" v-loading = "higheducationIsLoading">
 <span class ="knocks_text_anchor" slot="label">
   <i class="knocks-graduate"></i>
@@ -109,7 +144,7 @@
 <static_message msg = "Nothing to show here"></static_message>
 </center>
 <el-collapse accordion>
-<el-collapse-item v-if = "high_education[index] != null" v-for="(com,index) in high_education" :key = "index" :name="'high_education_'+index">
+<el-collapse-item v-if = "high_education[index] != null && inHighEducationRange(index)" v-for="(com,index) in high_education" :key = "index" :name="'high_education_'+index">
   <knocksuseraboutedit
    class = "col right"
   :highEducationObject="com"
@@ -142,6 +177,22 @@
   ></knocksuserhigheducation>
  </el-collapse-item>
 </el-collapse>
+<div class="row">
+<div v-if="high_education != null && high_education.length > 3 ">
+<a v-if = "high_education != null && showHighEducationKey < high_education.length"
+   @click = "increaseHighEducationRang()"
+   class = "left knocks_side_padding knocks_text_sm knocks_text_anchor knocks_pointer" >
+  <span class = "knocks-home12"></span> See More
+</a>
+</div>
+  <div v-if = "high_education != null && showHighEducationKey > 3 && high_education.length > 3 ">
+<a v-if = "high_education != null && showHighEducationKey > 3 "
+   @click = "reduceHighEducationRang()"
+   class = "right knocks_side_padding knocks_text_sm knocks_text_anchor knocks_pointer">
+  <span class = "knocks-home12"></span> See Less
+</a>
+</div>
+</div>
 </el-tab-pane>
 <el-tab-pane name = "hobby" v-loading = "hobbyIsLoading">
 <span class ="knocks_text_anchor" slot="label">
@@ -153,7 +204,7 @@
 <static_message msg = "Nothing to show here"></static_message>
 </center>
 <el-collapse accordion>
-<el-collapse-item v-for="(com,index) in hobby"v-if = "hobby[index] != null" :key = "index" :name="'hobby_'+index">
+<el-collapse-item v-for="(com,index) in hobby "v-if = "hobby[index] != null && inHobbyRange(index)" :key = "index" :name="'hobby_'+index">
   <knocksuserhobbyedit
   :hobbyObject="com"
   class="col right"
@@ -183,6 +234,22 @@
   ></knocksuserhobby>
  </el-collapse-item>
 </el-collapse>
+<div class="row">
+<div v-if="hobby != null && hobby.length > 3">
+<a v-if = "hobby != null && showHobbyKey < hobby.length"
+   @click = "increaseHobbyRang()"
+   class = "left knocks_side_padding knocks_text_sm knocks_text_anchor knocks_pointer" >
+  <span class = "knocks-puzzle-piece"></span> See More
+</a>
+</div>
+  <div v-if = "hobby != null && showHobbyKey > 3 && hobby.length > 3">
+<a v-if = "hobby != null && showHobbyKey > 3 "
+   @click = "reduceHobbyRang()"
+   class = "right knocks_side_padding knocks_text_sm knocks_text_anchor knocks_pointer">
+  <span class = "knocks-puzzle-piece"></span> See Less
+</a>
+</div>
+</div>
 </el-tab-pane>
 <el-tab-pane name = "sport" v-loading = "sportIsLoading">
 <span class ="knocks_text_anchor" slot="label">
@@ -194,7 +261,7 @@
 <static_message msg = "Nothing to show here"></static_message>
 </center>
 <el-collapse accordion>
-<el-collapse-item  v-if = "sport[index] != null" v-for="(com,index) in sport" :key = "index" :name="'sport_'+index">
+<el-collapse-item  v-if = "sport[index] != null && inSportRange(index)" v-for="(com,index) in sport" :key = "index" :name="'sport_'+index">
   <knocksusersportedit
   :sportObject="com"
   class = "col right"
@@ -224,6 +291,22 @@
   ></knocksusersport>
  </el-collapse-item>
 </el-collapse>
+<div class="row">
+<div v-if=" sport != null && sport.length > 3">
+<a v-if = "sport != null && showSportKey < sport.length"
+   @click = "increaseSportRang()"
+   class = "left knocks_side_padding knocks_text_sm knocks_text_anchor knocks_pointer" >
+  <span class = "knocks-checkered-flag2"></span> See More
+</a>
+</div>
+  <div v-if = "sport != null && showSportKey > 3 && sport.length > 3">
+<a v-if = "sport != null && showSportKey > 3 "
+   @click = "reduceSportRang()"
+   class = "right knocks_side_padding knocks_text_sm knocks_text_anchor knocks_pointer">
+  <span class = "knocks-checkered-flag2"></span> See Less
+</a>
+</div>
+</div>
 </el-tab-pane>
 <!-- <el-tab-pane label="Config" name="second">Config</el-tab-pane>
 <el-tab-pane label="Role" name="third">Role</el-tab-pane>
@@ -257,10 +340,15 @@ export default {
     sportLoaded: false,
     sportIsLoading: false,
     userObject : null ,
-    careerLen : 0
+    showCareerKey : 3,
+    showEducationKey : 3,
+    showHighEducationKey : 3,
+    showSportKey : 3,
+    showHobbyKey : 3,
   }
   },
   computed:{
+
   },
   mounted(){
   },
@@ -350,6 +438,7 @@ export default {
         onDownloadProgress : ()=>{ vm.careerIsLoading = true ; }
       }).then((response)=>{
           vm.career = response.data;
+          vm.careerLength = vm.career.length;
           vm.careerLoaded = true ;
           vm.careerIsLoading = false ;
       });
@@ -380,10 +469,6 @@ export default {
         vm.higheducationIsLoading = false ;
       });
     },
-    updateHighEducationAdd(event){
-      this.high_education.push(event);
-    },
-
     retriveHobby($event){
       const vm = this
       axios({
@@ -435,6 +520,111 @@ export default {
   return false;
   else return true;
 },
+increaseCareerRang(){
+  if(this.career.length - this.showCareerKey > 2 ) {
+    this.showCareerKey += 3;
+  }else{
+     this.showCareerKey += this.career.length - this.showCareerKey;
+    }
+},
+reduceCareerRang(){
+  if( this.showCareerKey - 4 < 3) {
+    this.showCareerKey = 3;
+  }else{
+     this.showCareerKey -= 3 ;
+    }
+},
+showCareerRange(){
+    return this.career.length - this.showCareerKey - 1;
+  },
+  inCareerRange(index){
+    return index > this.showCareerRange() ? true : false;
+  },
+
+  increaseEducationRang(){
+    if(this.education.length - this.showEducationKey > 2 ) {
+      this.showEducationKey += 3;
+    }else{
+       this.showEducationKey += this.education.length - this.showEducationKey;
+      }
+  },
+  reduceEducationRang(){
+    if( this.showEducationKey - 4 < 3) {
+      this.showEducationKey = 3;
+    }else{
+       this.showEducationKey -= 3 ;
+      }
+  },
+  showEducationRange(){
+      return this.education.length - this.showEducationKey - 1;
+    },
+    inEducationRange(index){
+      return index > this.showEducationRange() ? true : false;
+    },
+
+    increaseHighEducationRang(){
+      if(this.high_education.length - this.showHighEducationKey > 2 ) {
+        this.showHighEducationKey += 3;
+      }else{
+         this.showHighEducationKey += this.high_education.length - this.showHighEducationKey;
+        }
+    },
+    reduceHighEducationRang(){
+      if( this.showHighEducationKey - 4 < 3) {
+        this.showHighEducationKey = 3;
+      }else{
+         this.showHighEducationKey -= 3 ;
+        }
+    },
+    showHighEducationRange(){
+        return this.high_education.length - this.showHighEducationKey - 1;
+      },
+      inHighEducationRange(index){
+        return index > this.showHighEducationRange() ? true : false;
+      },
+
+      increaseHobbyRang(){
+        if(this.hobby.length - this.showHobbyKey > 2 ) {
+          this.showHobbyKey += 3;
+        }else{
+           this.showHobbyKey += this.hobby.length - this.showHobbyKey;
+          }
+      },
+      reduceHobbyRang(){
+        if( this.showHobbyKey - 4 < 3) {
+          this.showHobbyKey = 3;
+        }else{
+           this.showHobbyKey -= 3 ;
+          }
+      },
+      showHobbyRange(){
+          return this.hobby.length - this.showHobbyKey - 1;
+        },
+        inHobbyRange(index){
+          return index > this.showHobbyRange() ? true : false;
+        },
+
+        increaseSportRang(){
+          if(this.sport.length - this.showSportKey > 2 ) {
+            this.showSportKey += 3;
+          }else{
+             this.showSportKey += this.sport.length - this.showSportKey;
+            }
+        },
+        reduceSportRang(){
+          if( this.showSportKey - 4 < 3) {
+            this.showSportKey = 3;
+          }else{
+             this.showSportKey -= 3 ;
+            }
+        },
+        showSportRange(){
+            return this.sport.length - this.showSportKey - 1;
+          },
+          inSportRange(index){
+            return index > this.showSportRange() ? true : false;
+          },
+
   }
 }
 </script>
