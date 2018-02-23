@@ -642,17 +642,26 @@ Vue.component('knocksgroupcreation', require('./components/knocksgroupcreation.v
        setTimeout(()=>{
        if(document.querySelectorAll('.knocks_user_profile_scope').length > 0){
         console.log('gate 2')
-         let images = document.querySelectorAll('.knocks_user_profile_scope').length ;
+         let images = document.querySelectorAll('.knocks_user_profile_scope') ;
+         let i ;
+          console.log('gate 2 '+i)
+         for(i = 0 ; i < images.length; i++)
+          images[i].src =payloads.blob;
+       }
+       $('body , html').animate({scrollTop : 0} , 'slow');
+       },500);
+      }else if(payloads.scope[0] == 'cover_picture_handler'){
+             
+       vm.lowerTrigger = null ;
+       setTimeout(()=>{
+       if(document.querySelectorAll('.knocks_user_cover_scope').length > 0){
+         let images = document.querySelectorAll('.knocks_user_cover_scope') ;
          let i ;
          for(i = 0 ; i < images.length; i++)
           images[i].src =payloads.blob;
-          
        }
-
+       $('body , html').animate({scrollTop : 0} , 'slow');
        },500);
-
-      }else if(payloads.scope[0] == 'cover_picture_handler'){
-
       }
        
     });
