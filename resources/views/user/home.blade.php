@@ -27,7 +27,7 @@
    :post_at = "{{ auth()->user()->id }}"
    parent_type = "self"
    success_at = "done"
-   success_msg = "yess"
+   success_msg = "Done"
    gid = "knockknock"></knock>
   </div>
 
