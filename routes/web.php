@@ -86,6 +86,12 @@ Route::post('retrive_circle' , 'CircleController@retrive' );
 
 Route::post('get_circles' , 'UserController@getUserCircles' );
 
+Route::post('/create_group' , 'GroupController@createGroup');
+
+Route::post('get_circle_members','CircleMemberController@groupPushMembers');
+
+Route::post('get_all_circles','UserController@getUserAllCircles');
+
 
 //Career
 
