@@ -26,7 +26,7 @@
    :post_at = "{{ auth()->user()->id }}"
    parent_type = "self"
    success_at = "done"
-   success_msg = "yess"
+   success_msg = "Done."
    gid = "knockknock"></knock>
   </div>
 
@@ -49,23 +49,6 @@
     <a @click ="clearLowerTrigger()">
           <span class = "knocks-close red-text right knocks_text_md "></span>    
     </a>
-{{--      <knockscoveruploader
-    gid = "coveru"
-    :valid_ex="['image/png' , 'image/jpeg']"
-    :crop = "true"
-    v-model = "fileup"
-    success_at = "done"
-    success_msg = "done !"
-    :upload_data = "{ }"
-    :error_at = "[]"
-    callback_event = "update"
-    :callback_payloads = "{}"
-    ref = "ss"
-    :special_submit = "true"
-    :scope = "['profile_picture_handler']"
-    upload_at = "media/cover/upload">
-    </knockscoveruploader> --}}
-
         <knockscroppie
     gid = "knocks_cover_picture_uploader"
     success_at = "done"
