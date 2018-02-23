@@ -355,7 +355,7 @@ export default {
     showHighEducationKey : 3,
     showSportKey : 3,
     showHobbyKey : 3,
-    thatsMe : false , 
+    thatsMe : false ,
   }
   },
   computed:{

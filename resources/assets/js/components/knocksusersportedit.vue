@@ -31,15 +31,15 @@
 
         ></knockselinput>
 </div>
-
+<el-tooltip class="item" effect="light" content="Edit" placement="bottom">
         <knockselbutton
         placeholder = "Done!"
         :error_at = []
         :scope = "[ 'sport_edit']"
         validation_error = "You need to complete some fields"
-        reset_on_success
+
         submit_at = "sport/update"
-        success_at = "done"
+        computed_response
         success_msg = "Sport is Updated Successfully"
         gid = "stage_one_net"
         :submit_data = " {sport_id : sport_id, name : name_e} "
@@ -47,6 +47,7 @@
         @knocks_submit_accepted = "passToParent($event)"
         >
         </knockselbutton>
+			</el-tooltip>
     </el-dialog>
     </div>
 </div>
@@ -57,7 +58,7 @@
 <script>
 export default {
 
-  name: 'knocksusersport',
+  name: 'knocksusersportedit',
   methods:{
 		passToParent(e){
 

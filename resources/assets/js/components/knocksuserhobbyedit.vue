@@ -1,6 +1,6 @@
 <template>
 	<div>
-
+		<el-tooltip class="item" effect="light" content="Edit" placement="bottom">
     <knockselbutton
      icon = "knocks-pencil8 knocks_text_md"
          class = "right knocks_tinny_margin"
@@ -11,7 +11,7 @@
      @knocks_button_clicked="dialogVisible = true"
      :submit_flag = "false"
      ></knockselbutton>
-
+</el-tooltip>
     <div class = "row">
       <el-dialog
         title="Hobby Edit"
@@ -37,9 +37,9 @@
         :error_at = []
         :scope = "[ 'hobby_edit']"
         validation_error = "You need to complete some fields"
-        reset_on_success
+
         submit_at = "hobby/update"
-        success_at = "done"
+        computed_response
         success_msg = "Hobby is Updated Successfully"
         gid = "stage_one_net"
         :submit_data = " {hobby_id : hobby_id, name : name_e} "
@@ -57,7 +57,7 @@
 <script>
 export default {
 
-  name: 'knocksuserhobby',
+  name: 'knocksuserhobbyedit',
   methods:{
 		passToParent(e){
 

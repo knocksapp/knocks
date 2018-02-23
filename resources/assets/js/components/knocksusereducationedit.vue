@@ -1,5 +1,7 @@
 <template>
 	<div class = "row">
+		<el-tooltip class="item" effect="light" content="Edit" placement="bottom">
+
 		<knockselbutton
 		 icon = "knocks-pencil8 knocks_text_md"
          class = "right knocks_tinny_margin"
@@ -10,6 +12,7 @@
 		 @knocks_button_clicked="dialogVisible = true"
 		 :submit_flag = "false"
 		 ></knockselbutton>
+	 </el-tooltip>
 <div class = "row">
     <el-dialog
       title="Education Edit"
@@ -53,7 +56,7 @@
                 placeholder = "Your Grade ?"
 								:start_as="educationObject.grade"
                 gid = "q"
-                
+
                 :max_len = "15"
                 :scope = "[ 'education_edit']"
                 v-model = "grade_e"
@@ -89,9 +92,9 @@ placeholder = "Done!"
 :error_at = []
 :scope = "[ 'education_edit']"
 validation_error = "You need to complete some fields"
-reset_on_success
+computed_response
 submit_at = "education/update"
-success_at = "done"
+
 success_msg = "Education is Updated Successfully"
 gid = "stage_one_net"
 :submit_data = " {education_id : education_id,study_at : study_at_e , study_since : study_since_e , study_to : study_to_e , study_what : study_what_e , grade : grade_e} "
@@ -110,7 +113,7 @@ button_classes = "right"
 <script>
 export default {
 
-  name: 'knockseducation',
+  name: 'knockseducationedit',
   methods:{
 		passToParent(e){
 

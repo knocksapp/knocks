@@ -92,9 +92,8 @@ placeholder = "Done!"
 :error_at = []
 :scope = "[ 'career_edit']"
 validation_error = "You need to complete some fields"
-reset_on_success
 submit_at = "career/update"
-success_at = "done"
+computed_response
 success_msg = "Career is Updated Successfully"
 gid = "stage_one_net"
 :submit_data = " {career_id : career_id,works_at : work_at_e , works_since : workSince_e , works_to : workTo_e , works_what : work_what_e , works_as : work_as_e} "
@@ -113,7 +112,7 @@ button_classes = "right"
 <script>
 export default {
 
-  name: 'knockscareer',
+  name: 'knockscareeredit',
   methods:{
 		passToParent(e){
 

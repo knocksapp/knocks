@@ -1,5 +1,6 @@
 <template>
 	<div class = "row">
+		<el-tooltip class="item" effect="light" content="Edit" placement="bottom">
 		<knockselbutton
 		 icon = "knocks-pencil8 knocks_text_md"
          class = "right knocks_tinny_margin"
@@ -10,6 +11,7 @@
 		 @knocks_button_clicked="dialogVisible = true"
 		 :submit_flag = "false"
 		 ></knockselbutton>
+	 </el-tooltip>
 <div class = "row">
     <el-dialog
       title="High Education Edit"
@@ -25,7 +27,7 @@
         placeholder = "Study at ?"
 				is_required
         gid = "q"
-        :max_len = "15"
+        :max_len = "100"
         v-model = "study_at_e"
         :scope = "[ 'higheducation_edit']"
 
@@ -40,7 +42,7 @@
 								:start_as="highEducationObject.study_what"
                 gid = "q"
 
-                :max_len = "15"
+                :max_len = "100"
                 :scope = "[ 'higheducation_edit']"
                 v-model = "study_what_e"
                 ></knockselinput>
@@ -54,8 +56,8 @@
                 placeholder = "Your Grade ?"
 								:start_as="highEducationObject.grade"
                 gid = "q"
-                
-                :max_len = "15"
+
+                :max_len = "100"
                 :scope = "[ 'higheducation_edit']"
                 v-model = "grade_e"
                 ></knockselinput>
@@ -96,10 +98,8 @@
 	:error_at = []
 	:scope = "[ 'higheducation_edit']"
 	validation_error = "You need to complete some fields"
-	reset_on_success
 	submit_at = "high_education/update"
 	computed_response
-	success_at = "done"
 	success_msg = "High Education is Updated Successfully"
 	gid = "stage_one_net"
 	:submit_data = " {higheducation_id : higheducation_id,study_at : study_at_e , study_since : study_since_e , study_to : study_to_e , study_what : study_what_e , grade : grade_e} "
@@ -119,7 +119,7 @@
 <script>
 export default {
 
-  name: 'knockshigheducation',
+  name: 'knockshigheducationedit',
   methods:{
 		passToParent(e){
 
