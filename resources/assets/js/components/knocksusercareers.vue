@@ -7,7 +7,7 @@
         placeholder = "Works at ?"
                 is_required
         gid = "q"
-        :max_len = "15"
+        :max_len = "100"
         v-model = "works_at"
         :scope = "[ 'career_adder']"
         ></knockselinput>
@@ -19,7 +19,7 @@
                 placeholder = "Major ?"
                 gid = "q"
 
-                :max_len = "15"
+                :max_len = "100"
                 :scope = "[ 'career_adder']"
                 v-model = "works_what"
                 ></knockselinput>
@@ -30,7 +30,7 @@
                 :mat_follower=  "false"
                 placeholder = "Works as ?"
                 gid = "q"
-                :max_len = "15"
+                :max_len = "100"
                 :scope = "[ 'career_adder']"
                 v-model = "works_as"
                 ></knockselinput>
