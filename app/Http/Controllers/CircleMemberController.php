@@ -75,7 +75,10 @@ class CircleMemberController extends Controller
       return 'done';
 
     }
+<<<<<<< HEAD
 
+=======
+>>>>>>> master
     public function groupPushMembers(Request $request){
                $members = Circle::find($request->circle_id)->circleMembers()->get()->pluck('user_id');
 

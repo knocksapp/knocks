@@ -2,7 +2,7 @@
 
 <div>
   <transition    name="custom-classes-transition" enter-active-class="animated fadeIn" leave-active-class="animated fadeOut">
-  <div class="panel knocks_color_kit_light  knocks_standard_border_radius knocks_gray_border">
+  <div class=" ":class = "{'knocks_color_kit_light knocks_gray_border knocks_standard_border_radius panel' : !as_shortcut}">
 
   <transition    name="custom-classes-transition"  enter-active-class="animated fadeIn" leave-active-class="animated fadeOut">
   
@@ -10,14 +10,14 @@
   
   </transition>
 
-  <div v-if = "knockObject != null && knock_type == 'normal' " class=" panel knocks_color_kit_light ">
+  <div v-if = "knockObject != null && knock_type == 'normal' && !as_shortcut" class=" panel knocks_color_kit_light ">
     <knocksuser  image_container_class = "knocks_inline" name_container_class = " knocks_inline" :user="knockObject.user_id" show_image>
     </knocksuser>
     <div class="knocks_text_dark content " :id = "gid" @dblclick = "flowtext()"></div>
     <!-- <a  class="rdmore right" :id = "gid+'_readmore'" @click="rd();" href="javascript:void(0);">See more</a> -->
     <p class="right knocks_text_dark">{{knockObject.time}}</p>
   </div>
-  <div v-if="knock_type == 'voice_note' && knockObject != null"  @mouseover = "tickSeen()">
+  <div v-if="knock_type == 'voice_note' && knockObject != null && !as_shortcut"  @mouseover = "tickSeen()">
         <div :id = "'knocks_date'+knockObject.numericDate"  class="section scrollspy knocks_house_keeper">
 
  <!--    <div class="col s12  knocks_house_keeper"  style="max-height:20px; padding-bottom:2px !important;"
@@ -27,7 +27,7 @@
       <span v-if="knockObject.exceptions" class="badge sec left knocks_tinny_badge" data-badge-caption="Secured"><i class="knocks-eye-off"></i></span>
     </div> -->
     
-    <div class="row user knocks_house_keeper" style="">
+    <div class="row user knocks_house_keeper" style="" >
       <div class="col s6 knocks_house_keeper">
         <knocksuser
            v-model = "ownerObject"
@@ -223,6 +223,50 @@
  
  </div>
    </div>
+   <div v-if = "as_shortcut && knockObject != null "  class = "row"style="border-bottom : 1px solid #ccc">
+
+            <knocksuser
+            class = "knocks_house_keeper"
+            hide_popover
+           v-model = "ownerObject"
+           image_container_class = "knocks_inline" 
+           name_container_class = " knocks_inline"
+          :user="knockObject.user_id" show_image>
+            <template slot = "append_to_display_name" class = "" v-if = "!expiry() || knockObject.exceptions || knockObject.index.check_in != null && knockObject != null">
+              <span v-if="!expiry() && !hasSeen()" class="knocks_mp_top_margin new badge knocks_tinny_badge " ></span>
+               <span v-if="knockObject.exceptions" class="knocks_mp_top_margin badge sec knocks_tinny_badge " data-badge-caption="Secured"><i class="knocks-eye-off"></i></span>
+            </template>
+          </knocksuser>
+
+      
+
+     <div class="col s12 cnt  knocks_house_keeper">
+
+      <div class="row knocks_house_keeper">
+        <div  class="knocks_text_dark content knocks_content_padding" :id = "gid" @dblclick = "flowtext()"></div>
+      </div>
+      <div class="row knocks_house_keeper"  v-if="bodyLen > 350" ><div class="top">
+        <a class="rdmore right" :id="gid+'_readmore'" style="padding-left : 0.2 rem !important; padding-right : 0.2 rem !important;"  @click="rd();" href="javascript:void(0);">See more</a></div>
+    </div>
+    <div class="voice_pad"   v-if = "knockObject.index.has_voices">
+<!--       <knocksplayer class="voice col s8" gid="noded" live :specifications = "{id : 1}" fill_from="vn/blob" meta = "vn/meta" :load_on_mount="false" :show_volume="true" v-if="knockObject.index.has_voices" :show_options="false"></knocksplayer> -->
+ <knocksplayer
+  :gid="gid+'_player'"
+  main_container = "row knocks_house_keeper"
+  class="voice col 12 knocks_house_keeper"
+  :show_volume="true"
+  buttons_container = "col"
+  :show_options="false"
+  :specifications = "{id : knockObject.index.voices_specifications , user : current_user , object : knockObject.object_id }"
+  full_back_loading
+  :load_on_mount="false"></knocksplayer>
+
+    
+  </div>
+   <a :href ="asset('knock/'+knock)" class = "knocks_text_sm"><static_message msg = "More Details"></static_message></a>
+     
+   </div>
+ </div>
 </div>
 </transition>
 
@@ -260,6 +304,10 @@ export default {
       default : null
      },
      interested : {
+      type : Boolean , 
+      default : false
+     },
+    as_shortcut : {
       type : Boolean , 
       default : false
      }
@@ -318,7 +366,7 @@ export default {
     });
     
     App.$on('knocksShowInterest' , (payloads)=>{
-      if(vm.knockObject == null) return;
+      if(vm.knockObject == null || vm.as_shortcut) return;
       if(vm.interest) return;
       if(payloads.objectId == vm.knockObject.object_id && payloads.parentType == 'knock'){
         vm.interest = true;
@@ -331,6 +379,9 @@ export default {
     
   }, 
   methods : {
+    asset(url){
+      return LaravelOrgin+url;
+    },
     toNumericDate(date){
       return moment(date).format('YYYYMMDD');
     },

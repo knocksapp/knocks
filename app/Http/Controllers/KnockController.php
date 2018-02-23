@@ -115,6 +115,30 @@ class KnockController extends Controller
          return view('user.knock', ['knock' => $k]);
     }
 
+    public function knockMasterData(Request $request){
+      $k = Knock::find($request->id);
+      if($k){
+        return array(
+          'id' => $k->id , 
+          'user' => $k->user_id , 
+        );
+      }
+    }
+
+    public function viewComment(Request $request,  $comment ){
+      $c = Comment::find($comment);
+      if($c){
+        $k = Knock::find($c->post_id);
+      }else{
+        return 'invalid';
+      }
+      if($k && $c && $k->comments()->where('id' , '=' , $c->id)->exists())
+         return view('user.comment',
+          ['knock' => $k ,
+           'comment' => $c ,
+            'owner' => User::find($k->user_id) , 'commenter' => User::find($c->user_id)]);
+    }
+
     public function viewKnockWithComment(Request $request, $knock , $comment ){
       $k = Knock::find($knock);
       $c = Comment::find($comment);

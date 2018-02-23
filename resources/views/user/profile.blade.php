@@ -42,7 +42,55 @@
 
   <div class = "row knocks_house_keeper white knocks_standard_border_radius" style="border : 1px solid #cfd8dc">
      <knocksuserabout :user = "{{$user->id}}"></knocksuserabout>
-     <hr class="uk-divider-icon knocks_house_keeper">
+    <h4 class="ui horizontal divider header transparent">
+  <i class="knocks-newspaper5"></i>
+  <static_message msg = "** 's Knocks" replaceable :replacements = "[{target : '**' , body : '{{$user->first_name}}' }]"></static_message>
+</h4>
+
+
+  <transition name="custom-classes-transition" enter-active-class="animated zoomIn" leave-active-class="animated zoomOut">
+   <div v-if = "lowerTrigger == 'cover_uploader'">
+    <h5 class = "knocks_text_dark">
+        <span class = "knocks-atom2 knocks_icon_border"></span>
+        <static_message msg = "Add cover photo"></static_message>
+    </h5>
+
+    <a @click ="clearLowerTrigger()">
+          <span class = "knocks-close red-text right knocks_text_md "></span>    
+    </a>
+{{--      <knockscoveruploader
+    gid = "coveru"
+    :valid_ex="['image/png' , 'image/jpeg']"
+    :crop = "true"
+    v-model = "fileup"
+    success_at = "done"
+    success_msg = "done !"
+    :upload_data = "{ }"
+    :error_at = "[]"
+    callback_event = "update"
+    :callback_payloads = "{}"
+    ref = "ss"
+    :special_submit = "true"
+    :scope = "['profile_picture_handler']"
+    upload_at = "media/cover/upload">
+    </knockscoveruploader> --}}
+
+        <knockscroppie
+    gid = "knocks_cover_picture_uploader"
+    success_at = "done"
+    success_msg = "Updated Your cover picture succecfully!"
+    :upload_data = "{ }"
+    :error_at = "[]"
+    callback_event = "update"
+    :callback_payloads = "{}"
+    ref = "ss"
+    :special_submit = "true"
+    :scope = "['profile_picture_handler']"
+    upload_at = "media/cover/upload"
+    :aspect_ratio = "78/205"
+></knockscroppie>
+   </div>
+  </transition>
     <knocksknockinjector 
     :current_user = "{{auth()->user()->id}}"
     as_atimeline

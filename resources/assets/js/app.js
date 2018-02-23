@@ -7,9 +7,16 @@ require('axios'); //AJAX XHR Performer.
 require('vue');   //Front End Framework.
 require('materialize-css'); //Front/JS/CSS Framework based on JS/CSS.
 require('croppie'); //Image Processing JS Based Library
+require('cropperjs')
 require('google-maps'); //Google Maps API
 require('pnotify');  //Notifier JS Based Library.
+
 require('vue-popperjs');
+
+import Croppie from 'croppie'
+import 'croppie/croppie.css'
+
+
 
 window.axios = require('axios');   //AXIOS >> AJAX XHR Performer.
 window.Vue = require('vue');      //Front End Framework.
@@ -39,6 +46,8 @@ window.UserReplies = {};
 window.LaravelCSRF = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
 window.KnocksRecorderFired = false;
 window.UserCirclesList = [];
+window.AllLangs = null;
+window.Cropper = require('cropperjs');
 
 //Packages Configration
 GoogleMapsLoader.KEY = 'AIzaSyAtO8ZPlOkAAlV6oxGu-dD_ghyk9obCOXk'; //Google maps api configuration >> Key.
@@ -64,6 +73,11 @@ import ElementUI from 'element-ui'  //Front/JS/CSS Framework based on JS/CSS/VUE
 import locale from 'element-ui/lib/locale'
 import enLocale from 'element-ui/lib/locale/lang/en'  //Local language to avoid chinees typography for Element-UI.
 import VuePopper from 'vue-popperjs';
+
+import VueCircle from 'vue2-circle-progress'
+Vue.component('vue-circle', require('vue2-circle-progress'));
+
+
 // import Vuetify from 'vuetify'
 
 import ImageCompressor from '@xkeshi/image-compressor';
@@ -283,6 +297,22 @@ Vue.component('knocksusersport', require('./components/knocksusersport.vue'));
 Vue.component('knocksuserabout', require('./components/knocksuserabout.vue'));
 Vue.component('knocksretriver', require('./components/knocksretriver.vue'));
 Vue.component('knocksvoicerecognition', require('./components/knocksvoicerecognition.vue'));
+<<<<<<< HEAD
+=======
+Vue.component('knockscroppie', require('./components/knockscroppie.vue'));
+
+
+
+
+
+Vue.component('knocksuseraboutedit', require('./components/knocksuseraboutedit.vue'));
+Vue.component('knocksusersportedit', require('./components/knocksusersportedit.vue'));
+Vue.component('knocksuserhobbyedit', require('./components/knocksuserhobbyedit.vue'));
+Vue.component('knocksusereducationedit', require('./components/knocksusereducationedit.vue'));
+Vue.component('knocksusercareeredit', require('./components/knocksusercareeredit.vue'));
+Vue.component('knocksuseraboutdelete', require('./components/knocksuseraboutdelete.vue'));
+
+>>>>>>> master
 Vue.component('knocksgroupcreation', require('./components/knocksgroupcreation.vue'));
 
 
@@ -334,6 +364,8 @@ Vue.component('knocksgroupcreation', require('./components/knocksgroupcreation.v
     loadingKnocks : false ,
     balloonsLooper : true ,
 
+    sideBarSearchLanguage : currentUserLanguage ,
+
    /* CORE DATA ENDS */
 
 
@@ -344,6 +376,7 @@ Vue.component('knocksgroupcreation', require('./components/knocksgroupcreation.v
    languages : null ,
    staticMessages : null ,
    wordAdderSelector : 'en' , 
+
    wordAdderInput :  '' ,
    addNewWordRes : null ,
    allMessgesBodyInput : '' , 
@@ -387,6 +420,8 @@ Vue.component('knocksgroupcreation', require('./components/knocksgroupcreation.v
     knocksTapsDevOptionsStatic : [] ,
     knocksTapsDevRadioReset : false ,
     knocksTapsDevIsRequired : false ,
+
+    userTest : null ,
 
 
    /* Developers Zone End */
@@ -658,7 +693,7 @@ Vue.component('knocksgroupcreation', require('./components/knocksgroupcreation.v
 
 
    //Developers On Mount
-   //this.collectLanguages();
+   this.collectLanguages();
    //this.collectMessages();
   },
 
@@ -809,6 +844,11 @@ Vue.component('knocksgroupcreation', require('./components/knocksgroupcreation.v
     },
    fromNowDate(date){
       date = this.formatToOffset(date);
+      return date == null ? '' : moment(date).fromNow();
+    },
+    fromNowDateAsync(date){
+      date = this.formatToOffset(date);
+      setTimeout(()=>{this.fromNowDateAsync()} , 10000);
       return date == null ? '' : moment(date).fromNow();
     },
     detailsDate(date){
@@ -1122,6 +1162,7 @@ Vue.component('knocksgroupcreation', require('./components/knocksgroupcreation.v
         method : 'post'
       }).then((response)=>{
         vm.languages = response.data;
+        window.AllLangs = response.data;
         let filter ;
         for(filter in response.data)
           vm.langFilters.push({ text : response.data[filter].display_name , value : response.data[filter].name })
@@ -1280,6 +1321,9 @@ window.NavInstance = new Vue({
   sidebarSearchResult : null ,
   rightSideBarMainTabs : 'chat' ,
   showRightSideBar : true ,
+  sideBarSearchLanguage : currentUserLanguage , 
+  sidebarSearchTaps : 'users' ,
+  sidebarSearchRecognition : {loading : false , speaking : false , result : ''}
   },
   mounted(){
   const vm = this ;
@@ -1343,6 +1387,7 @@ window.NavInstance = new Vue({
        return this.asset('media/cover/'+UserId);
     },
     sidebarRunSearch(){
+      if(this.sidebarSearch.length == 0) return;
       const vm = this;
       axios({
         url : LaravelOrgin + '/search/main' , 
@@ -1352,9 +1397,17 @@ window.NavInstance = new Vue({
       }).then((res)=>{
         vm.sidebarSeachLoading = false ;
         let lastRes = vm.sidebarSearchResult;
-        if(res.data != lastRes) App.$emit('KnocksContentChanged');
+        App.$emit('KnocksContentChanged');
+        App.$emit('knocks_refresh_posts_done');
         setTimeout(()=>{
-          vm.sidebarSearchResult = res.data;
+          vm.sidebarSearchResult = null;
+           vm.sidebarSearchResult = res.data;
+           if(vm.sidebarSearchResult.users.length > vm.sidebarSearchResult.comment.length && vm.sidebarSearchResult.users.length > vm.sidebarSearchResult.knock.length )
+            vm.sidebarSearchTaps = 'users';
+             if(vm.sidebarSearchResult.knock.length > vm.sidebarSearchResult.comment.length && vm.sidebarSearchResult.knock.length > vm.sidebarSearchResult.users.length )
+            vm.sidebarSearchTaps = 'knock';
+            if(vm.sidebarSearchResult.comment.length > vm.sidebarSearchResult.users.length && vm.sidebarSearchResult.comment.length > vm.sidebarSearchResult.knock.length )
+            vm.sidebarSearchTaps = 'comment';
         } , 200);
         
       }).catch(()=>{ vm.sidebarSeachLoading = false });
@@ -1364,6 +1417,12 @@ window.NavInstance = new Vue({
       this.sidebarRunSearch();
 
     },
+<<<<<<< HEAD
+=======
+    plusNumber(input){
+      return input > 9 ? '+9' : input;
+    },
+>>>>>>> master
     isSmallWindow(){
       return WindowWidth < 900 ? true : false ;
     },

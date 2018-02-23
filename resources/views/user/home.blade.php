@@ -32,8 +32,6 @@
   </div>
 
 
-  
-
 
  
 
@@ -52,13 +50,10 @@
     <a @click ="clearLowerTrigger()">
           <span class = "knocks-close red-text right knocks_text_md "></span>    
     </a>
-     <knockscoveruploader
-    gid = "coveru"
-    :valid_ex="['image/png' , 'image/jpeg']"
-    :crop = "true"
-    v-model = "fileup"
+        <knockscroppie
+    gid = "knocks_cover_picture_uploader"
     success_at = "done"
-    success_msg = "done !"
+    success_msg = "Updated Your cover picture succecfully!"
     :upload_data = "{ }"
     :error_at = "[]"
     callback_event = "update"
@@ -66,8 +61,9 @@
     ref = "ss"
     :special_submit = "true"
     :scope = "['profile_picture_handler']"
-    upload_at = "media/cover/upload">
-    </knockscoveruploader>
+    upload_at = "media/cover/upload"
+        :aspect_ratio = "78/205"
+></knockscroppie>
    </div>
   </transition>
 
@@ -97,13 +93,10 @@
     <a @click ="clearLowerTrigger()">
           <span class = "knocks-close red-text right knocks_text_md "></span>    
     </a>
-    <knocksfileupload
-    gid = "file"
-    :valid_ex="['image/png' , 'image/jpeg']"
-    :crop = "true"
-    v-model = "fileup"
+    <knockscroppie
+    gid = "knocks_profile_picture_uploader"
     success_at = "done"
-    success_msg = "done !"
+    success_msg = "Updated Your profile picture succecfully!"
     :upload_data = "{ }"
     :error_at = "[]"
     callback_event = "update"
@@ -111,8 +104,8 @@
     ref = "ss"
     :special_submit = "true"
     :scope = "['profile_picture_handler']"
-    upload_at = "media/avatar/upload">
-    </knocksfileupload>
+    upload_at = "media/avatar/upload"
+></knockscroppie>
    </div>
   </transition>
 </div>

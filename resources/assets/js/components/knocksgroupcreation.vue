@@ -2,7 +2,11 @@
 <div>
 	<knocksretriver
 	v-model=  "allcircles"
+<<<<<<< HEAD
 	url = "/get_all_circles"
+=======
+	url = "get_all_circles"
+>>>>>>> master
 	
 	>
 	</knocksretriver>
@@ -18,7 +22,11 @@
 	<span>
 		
 		<div>
+<<<<<<< HEAD
 			<h6 class="knocks_text_dark"> Groups are great for getting things done and staying in touch with the people you want. You can share photos and videos, have conversations, make plans and more.</h6>
+=======
+			<h6 class="knocks_text_dark"> Groups are great for getting things done and staying in touch with just the people you want. Share photos and videos, have conversations, make plans and more.</h6>
+>>>>>>> master
 			<el-carousel  type="card" :autoplay="false" indicator-position	="none" height="100px">
 			<el-carousel-item v-for="(circle,index) in allcircles.response" :key="index" style="background-color : rgb(245,245,245) !important; border-radius : 35px !important; border: 1px solid #e7e7e7">
 			<h3 class="animated fadeIn center knocks_text_dark" ><a @click="pushMembers(allcircles.response[index].id,allcircles.response[index].circle_name)" class="knocks_text_dark"><i :class="'knocks-'+getThumbnails(index)"></i> {{allcircles.response[index].circle_name}}</a></h3>
@@ -185,7 +193,11 @@ export default {
   		vm.circle_members = [];
   		vm.circle_id = circle_id;
        axios({
+<<<<<<< HEAD
        	   url : 'get_circle_members',
+=======
+       	   url : LaravelOrgin+'get_circle_members',
+>>>>>>> master
        	   method : 'post',
        	   data :{circle_id : vm.circle_id}
        }).then((response)=>{

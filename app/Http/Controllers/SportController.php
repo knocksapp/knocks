@@ -30,4 +30,17 @@ class SportController extends Controller
        }
        return $array ;
     }
+
+        public function updateSport(Request $request){
+      $sport = Sport::where('id','=',$request->sport_id)->update([
+        'name'=>$request->name,
+
+      ]);
+      return 'done';
+    }
+
+    public function deleteSport(Request $request){
+      Sport::where('id','=',$request->about_id)->delete();
+      return 'done';
+  }
 }
