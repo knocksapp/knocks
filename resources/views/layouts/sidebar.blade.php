@@ -3,7 +3,7 @@
   <div class="force-overflow"></div>
   <li id = "sidebar_head"><div class="user-view ">
     <div class="background">
-      <img :src="coverPhoto()">
+      <img :src="coverPhoto()" class = "knocks_user_cover_scope">
     </div>
     <a >
       <el-dropdown class = "right" trigger="click">
@@ -43,7 +43,7 @@
       class=" " classes="circle" return_on_null = "{{asset('snaps/avatar.jpg')}}" >
       
       </knocksimgframeless> --}}
-      <img :src="pp()" class = "circle" alt = "{{auth()->user()->username.' Profile Picture'}}"/>
+      <img :src="pp()" class = "circle knocks_user_profile_scope" alt = "{{auth()->user()->username.' Profile Picture'}}"/>
     </a>
     <a href="{{asset(auth()->user()->username)}}"><span class="white-text name">
       {{ ucfirst(auth()->user()->first_name)}} {{ucfirst(auth()->user()->last_name)}}
@@ -57,32 +57,6 @@
         gid = "sidebar_search_box"
         icon_class = "teal-text lighten-3"
         knocksclass="knocks_teal_input" icon = "knocks-search12" ></knocksinput> --}}
-<<<<<<< HEAD
-       <el-input 
-       class = "knocks_tinny_top_padding knocks_side_padding"
-       placeholder="Search" 
-       @focus = "searchFocus()"
-       @blur = "searchBlur()"
-       @input = "sidebarRunSearch()"
-       id="sidebar_search_box" 
-       v-model="sidebarSearch" class="input-with-select">
-       <knocksvoicerecognition @recognition = "runVoiceSearch($event)" @leave="sidebarFocus()" slot = "prepend" ></knocksvoicerecognition>
-
-         <el-button slot="append" icon=" knocks_icon knocks-search2"></el-button>
-      </el-input>
-    
-       <div style = "display : none" id = "sidebar_search_results">
-        <div class = "row knocks_side_padding knocks_tinny_top_padding">
-          <el-button id ="sidebar_search_back" type="info" icon=" knocks_icon knocks-chevron-left2" class = "knocks_md_button"></el-button>
-        </div>
-        <transition enter-active-class = "animated zoomIn" leave-active-class = "animated zoomOut">
-        <div class = "row knocks_house_keeper" v-if = "sidebarSearchResult != null">
-          <el-tabs  class = "">
-          <el-tab-pane>
-              <span slot="label"><i class="knocks_icon knocks-user-outline"></i></span>
-              <transition  v-for = "user in sidebarSearchResult.users" enter-active-class = "animated slideInUp" leave-active-class = "animated slideOutLeft">
-                <knocksuser as_result :user ="user" show_accept_shortcut ></knocksuser>
-=======
         <el-input
         class = "knocks_tinny_top_padding knocks_side_padding"
         placeholder="Search"
@@ -117,10 +91,9 @@
                 <a class = "btn btn-floating pulse red">
               <span class = "knocks-assistive-listening-systems white-text "></span>
             </a>
-              <static_message msg = "Listening..." classes = "red-text"></static_message>
+              <static_message msg = "Listening.." classes = "red-text"></static_message>
             </div>
             </transition>
-
           
           </div>
           <transition enter-active-class = "animated zoomIn" leave-active-class = "animated zoomOut">
@@ -198,7 +171,6 @@
                   </el-tab-pane>
                   </el-tabs>
                 </div>
->>>>>>> master
               </transition>
             </div>
           {{-- </transition> --}}
@@ -212,18 +184,10 @@
           <el-submenu index="1">
           <template slot="title">
           <i class="el-icon-location"></i>
-          <span>Navigator One</span>
-<<<<<<< HEAD
-        </template>
-        <el-menu-item-group title="Group One">
-          <el-menu-item index="1-1">
-            
-          </el-menu-item>
-=======
+          <span>Navigator One.</span>
           </template>
           <el-menu-item-group title="Group One">
           <el-menu-item index="1-1">item one</el-menu-item>
->>>>>>> master
           <el-menu-item index="1-2">item one</el-menu-item>
           </el-menu-item-group>
           <el-menu-item-group title="Group Two">
@@ -236,11 +200,11 @@
           </el-submenu>
           <el-menu-item index="2">
           <i class="el-icon-menu"></i>
-          <span>Navigator Two</span>
+          <span>Navigator Two.</span>
           </el-menu-item>
           <el-menu-item index="3">
           <i class="el-icon-setting"></i>
-          <span>Navigator Three</span>
+          <span>Navigator Three..</span>
           </el-menu-item>
           </el-menu>
           
