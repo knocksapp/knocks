@@ -21,6 +21,7 @@
 <el-collapse-item v-for="(com,index) in career" :key = "index"  :name="'career_'+index" v-if="career[index] != null && inCareerRange(index)" >
   <knocksusercareeredit
   :careerObject="com"
+  v-if = "thatsMe"
   class="col right"
   @knocks_career_updated ="updateCareer($event , index)"
   >
@@ -30,6 +31,7 @@
   @knocks_about_deleted ="deleteCareer(index)"
   route="career"
   message="career"
+  v-if = "thatsMe"
   class="col right"
   >
 </knocksuseraboutdelete>
@@ -86,6 +88,7 @@
   <knocksusereducationedit
   :educationObject="com"
   class="col right"
+  v-if = "thatsMe"
  @knocks_education_updated = "updateEducationList($event , index)"
   >
 </knocksusereducationedit>
@@ -94,6 +97,7 @@
   @knocks_about_deleted ="deleteEducation(index)"
   route="education"
   message="education"
+  v-if = "thatsMe"
   class="col right"
   >
 </knocksuseraboutdelete>
@@ -147,6 +151,7 @@
 <el-collapse-item v-if = "high_education[index] != null && inHighEducationRange(index)" v-for="(com,index) in high_education" :key = "index" :name="'high_education_'+index">
   <knocksuseraboutedit
    class = "col right"
+   v-if = "thatsMe"
   :highEducationObject="com"
    @knocks_high_education_updated = "updateHighEducationList($event , index)"
   >
@@ -157,6 +162,7 @@
   route="high_education"
   message="high education"
   class="col right"
+  v-if = "thatsMe"
   >
 </knocksuseraboutdelete>
 <span slot="title" class="knocks_text_md  ">{{com.study_at}}</span>
@@ -209,6 +215,7 @@
   :hobbyObject="com"
   class="col right"
   @knocks_hobby_updated ="updateHobby($event , index)"
+  v-if = "thatsMe"
   >
 </knocksuserhobbyedit>
 <knocksuseraboutdelete
@@ -217,6 +224,7 @@
   route="hobby"
   message="hobby"
   class="col right"
+  v-if = "thatsMe"
   >
 </knocksuseraboutdelete>
 <span slot="title" class="knocks_text_md  ">{{com.name}}</span>
@@ -266,12 +274,14 @@
   :sportObject="com"
   class = "col right"
   @knocks_sport_updated ="updateSport($event , index)"
+  v-if = "thatsMe"
   >
 </knocksusersportedit>
 <knocksuseraboutdelete
   :about_object="com"
   @knocks_about_deleted ="deleteSport(index)"
   route="sport"
+  v-if = "thatsMe"
   message="sport"
   class="col right"
   >
@@ -345,12 +355,14 @@ export default {
     showHighEducationKey : 3,
     showSportKey : 3,
     showHobbyKey : 3,
+    thatsMe : false , 
   }
   },
   computed:{
 
   },
   mounted(){
+    this.thatsMe = this.user == UserId ? true : false ;
   },
   methods:{
     updateHighEducationList(e , index){
