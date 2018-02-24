@@ -65,16 +65,7 @@
 
 
 <div class="row">
-                <div class="col s12 l4 block">
-                    <span class="uk-badge knocks_fair_bounds  light-blue lighten-1" style="border-radius : 5px !important">
-           <static_message msg = "To"></static_message>
-         </span>
-	                <el-date-picker
-	                v-model="work_to_e"
-	                type="date"
-	                placeholder="Work to ?" >
-                </el-date-picker>
-			</div>
+
                <div class="col s12 l4">
                   <span class="uk-badge knocks_fair_bounds  light-blue lighten-1" style="border-radius : 5px !important">
            <static_message msg = "Since"></static_message>
@@ -87,13 +78,23 @@
     </el-date-picker>
 </div>
 
+<div class="col s12 l4 block">
+		<span class="uk-badge knocks_fair_bounds  light-blue lighten-1" style="border-radius : 5px !important">
+<static_message msg = "To"></static_message>
+</span>
+	<el-date-picker
+	v-model="work_to_e"
+	type="date"
+	placeholder="Work to ?" >
+</el-date-picker>
+</div>
 <knockselbutton
 placeholder = "Done!"
-:error_at = []
+:error_at = "[{res : 'not_found' , msg : 'This data is invalid'}]"
 :scope = "[ 'career_edit']"
 validation_error = "You need to complete some fields"
 submit_at = "career/update"
-computed_response
+success_at = "done"
 success_msg = "Career is Updated Successfully"
 gid = "stage_one_net"
 :submit_data = " {career_id : career_id,works_at : work_at_e , works_since : workSince_e , works_to : workTo_e , works_what : work_what_e , works_as : work_as_e} "
@@ -117,7 +118,7 @@ export default {
 		passToParent(e){
 
 			let ob = e.submit_data ;
-			ob.id = e.response;
+			ob.id = e.submit_data.career_id;
 			this.$emit('knocks_career_updated' , ob );
 			this.dialogVisible=false;
 		}

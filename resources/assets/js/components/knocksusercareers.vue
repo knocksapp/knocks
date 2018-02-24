@@ -35,16 +35,7 @@
                 v-model = "works_as"
                 ></knockselinput>
             </div>
-                <div class="col s12 l4 block">
-                    <span class="uk-badge knocks_fair_bounds  light-blue lighten-1" style="border-radius : 5px !important">
-           <static_message msg = "To"></static_message>
-         </span>
-                    <el-date-picker
-                    v-model="works_to"
-                    type="date"
-                    placeholder="Works to ?" >
-                </el-date-picker>
-            </div>
+
                <div class="col s12 l4">
                    <span class="uk-badge knocks_fair_bounds  light-blue lighten-1" style="border-radius : 5px !important">
            <static_message msg = "Since"></static_message>
@@ -55,6 +46,17 @@
       placeholder="Works since ?"
   >
     </el-date-picker>
+</div>
+
+<div class="col s12 l4 block">
+    <span class="uk-badge knocks_fair_bounds  light-blue lighten-1" style="border-radius : 5px !important">
+<static_message msg = "To"></static_message>
+</span>
+    <el-date-picker
+    v-model="works_to"
+    type="date"
+    placeholder="Works to ?" >
+</el-date-picker>
 </div>
     <knockselbutton
     placeholder = "Done!"

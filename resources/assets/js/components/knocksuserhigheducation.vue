@@ -29,22 +29,13 @@
                 :mat_follower=  "false"
                 placeholder = "Your Grade ?"
                 gid = "q"
-                
+
                 :max_len = "15"
                 :scope = "[ 'higheducation_adder']"
                 v-model = "grade"
                 ></knockselinput>
             </div>
-                <div class="col s12 l4 block">
-                    <span class="uk-badge knocks_fair_bounds  light-blue lighten-1" style="border-radius : 5px !important">
-           <static_message msg = "To"></static_message>
-         </span>
-                    <el-date-picker
-                    v-model="study_to"
-                    type="date"
-                    placeholder="Study to ?" >
-                </el-date-picker>
-            </div>
+
                <div class="col s12 l4">
                   <span class="uk-badge knocks_fair_bounds  light-blue lighten-1" style="border-radius : 5px !important">
            <static_message msg = "Since"></static_message>
@@ -55,6 +46,17 @@
       placeholder="Study since ?"
   >
     </el-date-picker>
+</div>
+
+<div class="col s12 l4 block">
+    <span class="uk-badge knocks_fair_bounds  light-blue lighten-1" style="border-radius : 5px !important">
+<static_message msg = "To"></static_message>
+</span>
+    <el-date-picker
+    v-model="study_to"
+    type="date"
+    placeholder="Study to ?" >
+</el-date-picker>
 </div>
     <knockselbutton
     placeholder = "Done!"

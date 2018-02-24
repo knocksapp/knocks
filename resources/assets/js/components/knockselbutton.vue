@@ -2,9 +2,9 @@
   <el-button class=" " v-loading = "isLoading" :disabled = "disabled" :size = "size" :round = "rounded"
   :type = "type"
   :class = "[lang_alignment, button_classes]" @click = "construct()">
-    <i :class = "[icon , {right: !disable_placeholder && align == 'right'} , 
+    <i :class = "[icon , {right: !disable_placeholder && align == 'right'} ,
     {left: !disable_placeholder && align == 'left'} , {center : disable_placeholder}]" v-if="!isLoading"></i>
-    
+
         <static_message :msgid="place_holder" :class="label_classes" v-if = "placeholder == null && !disable_placeholder">
         </static_message>
         <static_message :msg="placeholder" :class="label_classes" v-else-if = "placeholder != null && !disable_placeholder" >
@@ -25,7 +25,7 @@ export default {
       default : 'left'
     } ,
     button_classes : {
-      type : String , 
+      type : String ,
       default : ''
     },
     place_holder : {
@@ -33,11 +33,11 @@ export default {
       default : null ,
     } ,
     placeholder : {
-      type : String , 
+      type : String ,
       default : null ,
     },
     disable_placeholder : {
-      type : Boolean , 
+      type : Boolean ,
       default : false ,
     },
     label_classes : {
@@ -61,7 +61,7 @@ export default {
       default : true,
     } ,
     timeout : {
-      type : Number , 
+      type : Number ,
       default : 10000
     },
     submit_at : {
@@ -87,7 +87,7 @@ export default {
     scope : {
       type : Array ,
       default : null
-    } , 
+    } ,
     reset_on_success : {
       type : Boolean ,
       default : false ,
@@ -97,8 +97,8 @@ export default {
       default : false ,
     },
     submit_on : {
-      type : Array , 
-      default : null 
+      type : Array ,
+      default : null
     },
     hover_class : {
       type : String ,
@@ -113,31 +113,31 @@ export default {
       default : ''
     },
     validate : {
-      type : Boolean , 
-      default : true 
+      type : Boolean ,
+      default : true
     },
     materialize_feedback : {
-      type : Boolean , 
-      default : true 
+      type : Boolean ,
+      default : true
     },
     disabled : {
-    	type : Boolean , 
-    	default : false 
+    	type : Boolean ,
+    	default : false
     },
     type : {
-    	type : String , 
+    	type : String ,
     	default : 'info'
     },
     size : {
-      type : String , 
+      type : String ,
       default : 'default'
     },
     rounded : {
-      type : Boolean , 
-      default : false 
+      type : Boolean ,
+      default : false
     },
     computed_response : {
-      type : Boolean , 
+      type : Boolean ,
       default : false
     }
 
@@ -220,7 +220,7 @@ export default {
     },
     isAnError(res){
       if(this.error_at == null) return false ;
-      let err ; 
+      let err ;
       for(err in this.error_at){
         if(this.error_at[err].res == res)
           return true;
@@ -261,9 +261,9 @@ export default {
           for( i = 0; i < vm.error_at.length ; i++ ){
             if(vm.error_at[i].res == temp){
               if(vm.materialize_feedback)
-                Materialize.toast('<span class="knocks_text_danger">'+vm.error_at[i].msg+'</span>', 3000, 'rounded');
+                vm.elementCategoryNotify({ type : 'error' , msg : vm.error_at[i].msg , title : 'Warining' });
               return false;
-            }else Materialize.toast('<span class="knocks_text_danger">'+vm.error_at[i].msg+'</span>', 3000, 'rounded');
+            }else vm.elementCategoryNotify({ type : 'error' , msg : vm.error_at[i].msg , title : 'Warining' });
           }
         }
       }).catch((err)=>{
