@@ -34,7 +34,7 @@ class HighEducationController extends Controller
        }
        return $array ;
     }
-    
+
     public function updateHighEducation(Request $request){
       $newEducation = High_education::where('id','=',$request->higheducation_id)->update([
         'study_at' => $request->study_at,
@@ -43,7 +43,7 @@ class HighEducationController extends Controller
         'study_to' => $request->study_to,
         'grade' => $request->grade
       ]);
-      return $request->higheducation_id;
+      return 'done';
     }
 
     public function deleteHighEducation(Request $request){

@@ -24,7 +24,7 @@
         placeholder = "hobby ?"
 				is_required
         gid = "q"
-        :max_len = "15"
+        :max_len = "100"
         v-model = "name_e"
         :scope = "[ 'hobby_edit']"
         :start_as="hobbyObject.name"
@@ -37,9 +37,8 @@
         :error_at = []
         :scope = "[ 'hobby_edit']"
         validation_error = "You need to complete some fields"
-
+        success_at = "done"
         submit_at = "hobby/update"
-        computed_response
         success_msg = "Hobby is Updated Successfully"
         gid = "stage_one_net"
         :submit_data = " {hobby_id : hobby_id, name : name_e} "
@@ -62,7 +61,7 @@ export default {
 		passToParent(e){
 
 			let ob = e.submit_data ;
-			ob.id = e.response;
+			ob.id = e.submit_data.hobby_id;
 			this.$emit('knocks_hobby_updated' , ob );
 			this.dialogVisible=false;
 		}

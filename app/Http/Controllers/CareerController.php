@@ -35,16 +35,18 @@ class CareerController extends Controller
        return $array ;
     }
 
-    
+
     public function updateCareer(Request $request){
-      $newCareer = Career::where('id','=',$request->career_id)->update([
-        'works_at' => $request->work_at,
-        'works_what' => $request->work_what,
-        'works_since' => $request->work_since,
-        'works_to' => $request->work_to,
-        'works_as' => $request->works_as
-      ]);
-      return 'done';
+      $newCareer = Career::find($request->career_id);
+      if($newCareer){
+        $newCareer->works_at = $request->works_at;
+        $newCareer->works_what = $request->works_what;
+        $newCareer->works_since = $request->works_since;
+        $newCareer->works_to = $request->works_to;
+        $newCareer->works_as = $request->works_as;
+        $newCareer->update();
+        return 'done';
+      }else return 'not found';
     }
 
     public function deleteCareer(Request $request){

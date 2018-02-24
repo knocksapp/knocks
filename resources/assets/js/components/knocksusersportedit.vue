@@ -24,7 +24,7 @@
         placeholder = "sport ?"
 				is_required
         gid = "q"
-        :max_len = "15"
+        :max_len = "100"
         v-model = "name_e"
         :scope = "[ 'sport_edit']"
         :start_as="sportObject.name"
@@ -37,9 +37,8 @@
         :error_at = []
         :scope = "[ 'sport_edit']"
         validation_error = "You need to complete some fields"
-
+        success_at = "done"
         submit_at = "sport/update"
-        computed_response
         success_msg = "Sport is Updated Successfully"
         gid = "stage_one_net"
         :submit_data = " {sport_id : sport_id, name : name_e} "
@@ -63,7 +62,7 @@ export default {
 		passToParent(e){
 
 			let ob = e.submit_data ;
-			ob.id = e.response;
+			ob.id = e.submit_data.sport_id;
 			this.$emit('knocks_sport_updated' , ob );
 			this.dialogVisible=false;
 		}

@@ -65,16 +65,7 @@
 
 
 <div class="row">
-                <div class="col s12 l4 block">
-                    <span class="uk-badge knocks_fair_bounds  light-blue lighten-1" style="border-radius : 5px !important">
-           <static_message msg = "To"></static_message>
-         </span>
-	                <el-date-picker
-	                v-model="study_to_e"
-	                type="date"
-	                placeholder="Study to ?" >
-                </el-date-picker>
-			</div>
+
                <div class="col s12 l4">
                   <span class="uk-badge knocks_fair_bounds  light-blue lighten-1" style="border-radius : 5px !important">
            <static_message msg = "Since"></static_message>
@@ -87,17 +78,26 @@
     </el-date-picker>
 </div>
 
+<div class="col s12 l4 block">
+		<span class="uk-badge knocks_fair_bounds  light-blue lighten-1" style="border-radius : 5px !important">
+<static_message msg = "To"></static_message>
+</span>
+	<el-date-picker
+	v-model="study_to_e"
+	type="date"
+	placeholder="Study to ?" >
+</el-date-picker>
+</div>
 <knockselbutton
 placeholder = "Done!"
 :error_at = []
 :scope = "[ 'education_edit']"
 validation_error = "You need to complete some fields"
-computed_response
 submit_at = "education/update"
-
+success_at = "done"
 success_msg = "Education is Updated Successfully"
 gid = "stage_one_net"
-:submit_data = " {education_id : education_id,study_at : study_at_e , study_since : study_since_e , study_to : study_to_e , study_what : study_what_e , grade : grade_e} "
+:submit_data = " {education_id : education_id,study_at : study_at_e , study_since : studySince_e , study_to : studyTo_e , study_what : study_what_e , grade : grade_e} "
 :disabled = "!testDate"
 button_classes = "right"
 @knocks_submit_accepted = "passToParent($event)"
@@ -118,7 +118,7 @@ export default {
 		passToParent(e){
 
 			let ob = e.submit_data ;
-			ob.id = e.response;
+			ob.id = e.submit_data.education_id;
 			this.$emit('knocks_education_updated' , ob );
 			this.dialogVisible=false;
 		}

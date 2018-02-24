@@ -37,16 +37,7 @@
       </div>
     </div>
     <div class = "row">
-        <div class="col s12 l4 ">
-          <span class="uk-badge knocks_fair_bounds  light-blue lighten-1" style="border-radius : 5px !important">
-           <static_message msg = "To"></static_message>
-         </span>
-            <el-date-picker
-            v-model="study_to"
-            type="date" class = "knocks_fair_bounds"
-            placeholder="Study to ?" >
-          </el-date-picker>
-              </div>
+
         <div class="col s12 l4">
          <span class="uk-badge knocks_fair_bounds  light-blue lighten-1" style="border-radius : 5px !important">
            <static_message msg = "Since"></static_message>
@@ -57,6 +48,17 @@
             placeholder="Study since ?" >
      </el-date-picker>
     </div>
+
+    <div class="col s12 l4 ">
+      <span class="uk-badge knocks_fair_bounds  light-blue lighten-1" style="border-radius : 5px !important">
+       <static_message msg = "To"></static_message>
+     </span>
+        <el-date-picker
+        v-model="study_to"
+        type="date" class = "knocks_fair_bounds"
+        placeholder="Study to ?" >
+      </el-date-picker>
+          </div>
     <div class = "col s12 l4">
       <knockselbutton
     placeholder = "Done!"
