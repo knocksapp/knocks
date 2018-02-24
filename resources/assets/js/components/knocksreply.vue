@@ -46,9 +46,9 @@
 
 
     <!--LEVEL TWO -->
-   <div>
-    <div>
-   <div class ="white col s10 knocks_house_keeper knocks_standard_border_radius" 
+   <div class = "">
+    <div class = "">
+   <div class ="white col s10 knocks_house_keeper knocks_standard_border_radius" style="margin-top : 1px !important;" 
     :class = "[{'knocks_theme_active_border':focused},{'knocks_pink_border' : !focused}]">
     <div :class = "[input_container , {'col s12':focused}, {'col m8 s6':!focused}]" v-if="!draggingMode" 
     contenteditable = "true" 
@@ -545,7 +545,8 @@ export default {
 
     hasAContent(){
       return (
-       ( this.bodyContent == null || this.bodyContent.length == 0 ) && this.uploader == null && this.locationResult == null && this.recorder == null
+       ( this.bodyContent == null || this.bodyContent.length == 0 ) && this.uploader == null && this.locationResult == null && 
+       (this.recorder == null || !this.recorder.hasRecord)
       ) ? false : true;
     }
     // hasRecord(){
