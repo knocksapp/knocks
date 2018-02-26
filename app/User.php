@@ -583,7 +583,11 @@ class User extends Authenticatable
         foreach($current as $c ) array_push($knocks, $c);
           foreach($friends as $friend){
             $current =  knock::where('user_id' , '=' ,$friend->user_id)->get()->pluck('id');
-            foreach($current as $c ) array_push($knocks, $c);
+            foreach($current as $c ) {
+                $ob = obj::find($c->object_id);
+                if($ob->isAvailable($this->id))
+                array_push($knocks, $c->id);
+            }
           }
           if(count($knocks) == 0) return array ('knocks' => [] , 'last_index' => null);
           rsort($knocks);
@@ -609,7 +613,11 @@ class User extends Authenticatable
           foreach($friends as $friend){
             $current =  knock::where('user_id' , '=' ,$friend->user_id)->
             where('id' , '<' , $limits->min)->get()->pluck('id');
-            foreach($current as $c ) array_push($knocks, $c);
+                          foreach($current as $c ) {
+                $ob = obj::find($c->object_id);
+                if($ob->isAvailable($this->id))
+                array_push($knocks, $c->id);
+            }
           }
           }
           rsort($knocks);
