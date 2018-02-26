@@ -582,7 +582,7 @@ class User extends Authenticatable
           $current =  knock::where('user_id' , '=' ,auth()->user()->id)->get()->pluck('id');
         foreach($current as $c ) array_push($knocks, $c);
           foreach($friends as $friend){
-            $current =  knock::where('user_id' , '=' ,$friend->user_id)->get()->pluck('id');
+            $current =  knock::where('user_id' , '=' ,$friend->user_id)->get();
             foreach($current as $c ) {
                 $ob = obj::find($c->object_id);
                 if($ob->isAvailable($this->id))
