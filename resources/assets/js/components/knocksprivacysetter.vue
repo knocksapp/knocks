@@ -35,7 +35,7 @@
           <span class = "hide-on-med-and-down">Users</span></a></li>
       </ul> -->
                                   <center>    <knockstaps :multiple = "false"  
-                                    anchor_active_class = "knocks_anchor_color_kit_dark knocks_theme_borderi"
+                                    anchor_active_class = "knocks_anchor_color_kit_dark knocks_theme_border"
                                     anchor_regular_class = "knocks_anchor_color_kit_light "
                                   anchor_class = "btn knocks_theme_border knocks_noshadow_ps"
                                  v-model="taps" hide_labels_on_small
