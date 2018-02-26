@@ -597,7 +597,11 @@ class User extends Authenticatable
           foreach($friends as $friend){
             $current =  knock::where('user_id' , '=' ,$friend->user_id)->
             where('id' , '>' , $limits->max)->get()->pluck('id');
-            foreach($current as $c ) array_push($knocks, $c);
+              foreach($current as $c ) {
+                $ob = obj::find($c->object_id);
+                if($ob->isAvailable($this->id))
+                array_push($knocks, $c->id);
+            }
           }
           if(count($knocks) < 3 && $limits->min){
             $current =  knock::where('user_id' , '=' ,auth()->user()->id)->where('id' , '<' , $limits->min)->get()->pluck('id');
@@ -650,8 +654,12 @@ class User extends Authenticatable
           foreach($friends as $friend){
             $current =  knock::where('user_id' , '=' ,$friend->user_id)
             ->where('id' , '<' , $min)
-            ->get()->pluck('id');
-            foreach($current as $c ) array_push($knocks, $c);
+            ->get();
+            foreach($current as $c ) {
+                $ob = obj::find($c->object_id);
+                if($ob->isAvailable($this->id))
+                array_push($knocks, $c->id);
+            }
           }
           if(count($knocks) == 0) return array ('knocks' => [] , 'last_index' => null);
           rsort($knocks);
@@ -670,8 +678,12 @@ class User extends Authenticatable
           foreach($friends as $friend){
             $current =  knock::where('user_id' , '=' ,$friend->user_id)
             ->where('id' , '>' , $max)
-            ->get()->pluck('id');
-            foreach($current as $c ) array_push($knocks, $c);
+            ->get();
+            foreach($current as $c ) {
+                $ob = obj::find($c->object_id);
+                if($ob->isAvailable($this->id))
+                array_push($knocks, $c->id);
+            }
           }
           if(count($knocks) == 0) return array ('knocks' => [] , 'last_index' => null);
           asort($knocks);
