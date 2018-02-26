@@ -55,6 +55,14 @@ export default {
   		type : Boolean , 
   		default : false 
   	},
+    scope : {
+      type : Array , 
+      default : null ,
+    } , 
+    prevent_on_mount : {
+      type : Boolean , 
+      default : false ,
+    }
   },
   data () {
     return {
@@ -77,23 +85,21 @@ export default {
   },
   mounted(){
   	this.resultCollector();
-  	this.retrive();
-  	const vm = this;
-  	$(document).ready(function(){
-  	$(window).focus(function(){
-  		vm.windowStatus = true ;
-  		console.log('screen on '+moment().format('mm:ss'))
-  	    if(vm.behind_recursion || (!vm.behind_recursion && vm.windowStatus) ){
-  	       vm.recursionStopped = false;
-  	       console.log('resume '+moment().format('mm:ss'))
-  	       vm.retrive(); 
-  		}
-  	});
-  	$(window).blur(function(){
-  	    vm.windowStatus = false ;
-  	    console.log('screen off '+moment().format('mm:ss'))
-  	});
-  });
+  	if(!this.prevent_on_mount) this.retrive();
+    this.watchMyWindow();
+    const vm = this;
+    App.$on('knocksRetriver' , (payloads)=>{
+      if(vm.scope == null) return;
+      let i, j;
+      for (i = 0 ; i < payloads.scope.length; i++){
+        for(j = 0; j < vm.scope.length; j++){
+          if(payloads.scope[i] == vm.scope[j]){
+            vm.retrive();
+            return;
+          }
+        }
+      }
+    });
   },
   methods : {
   	retrive(){
@@ -156,7 +162,25 @@ export default {
   			}
   		}
   		this.$emit('input' , this.result); 
-  	}
+  	},
+    watchMyWindow(){
+        const vm = this;
+        $(document).ready(function(){
+        $(window).focus(function(){
+          vm.windowStatus = true ;
+          console.log('screen on '+moment().format('mm:ss'))
+            if(vm.behind_recursion || (!vm.behind_recursion && vm.windowStatus) ){
+               vm.recursionStopped = false;
+               console.log('resume '+moment().format('mm:ss'))
+               vm.retrive(); 
+          }
+        });
+        $(window).blur(function(){
+            vm.windowStatus = false ;
+            console.log('screen off '+moment().format('mm:ss'))
+        });
+      });
+    }
   }
 }
 </script>

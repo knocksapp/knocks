@@ -4,8 +4,9 @@
 <a :href="circle_url" data-position="bottom" >
   <div class="chip ":class="chip_bg_color"v-if = "circleObject != null" >
     <i v-if = "circleObject.icon != null && circleObject.icon.length > 0 && circleObject.icon != ''" :class="['knocks-'+icn.class , chip_text_color]" v-for = "icn in circleObject.icon"></i>
-    <span v-if="circleObject.icon == null || circleObject.icon =='' "  :class="['knocks_chip_icon' , chip_text_color]">{{circleObject.name[0].toUpperCase()}}</span>
+    <span v-if="circleObject.icon == null || circleObject.icon =='' "  :class="[ chip_text_color]">{{circleObject.name[0].toUpperCase()}}</span>
     <span :class="chip_text_color" v-if = "!only_icon">  {{circleObject.name}}</span>
+
   </div></a>
   </template>
   <span slot = "content" class = "knocks_tooltip animated flipInX" v-if = "circleObject != null && popover">

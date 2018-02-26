@@ -1,5 +1,5 @@
 <template>
-<div class = "panel   knocks"  >
+<div class = "panel   knocks"  v-if = "isLoading || knockObject != null">
 
    <transition    name="custom-classes-transition"  enter-active-class="animated fadeIn" leave-active-class="animated fadeOut"> 
     <center><knocksloader :gid= "gid+'_knock_loading_span'" v-if = "knockObject == null" ></knocksloader></center>  
@@ -195,7 +195,8 @@ showKey : 0 ,
 passedOnce : false , 
 ownerObject : null ,
 interest : false ,
-userId : UserId 
+userId : UserId ,
+isLoading : false ,
 };
 },
 props:{
@@ -223,6 +224,7 @@ knock_type : {
 type : String,
 default : 'voice_note'
 },
+
 
 },
 computed : {
@@ -292,8 +294,10 @@ loadKnockData(){
         axios({
           method : 'post' ,
           url : LaravelOrgin + 'retrive_reply' , 
-          data : { reply : vm.knock}
+          data : { reply : vm.knock},
+          onDownloadProgress : ()=>{vm.isLoading = true;} , 
         }).then( (response)=>{
+          vm.isLoading = false ;
           console.log(vm.knock+'  loaded');
           vm.knockObject = response.data;
           if(response.data == 'invalid'){

@@ -1756,13 +1756,13 @@ input[type=range]:focus::-moz-range-track {
   background-color : transparent !important;
 }
 .tabs .tab a:hover, .tabs .tab a.active {
-    background-color: transparent;
-    color: $knocksActiveColor;
+    //background-color: transparent;
+    //color: $knocksActiveColor;
     font-weight: 600 !important
 }
 .tabs .tab a {
-    background-color: transparent;
-    color: $knocksPrimaryColor;
+   // background-color: transparent;
+    //color: $knocksPrimaryColor;
     font-weight: 600 !important
 }
 .knocks_tooltip {
@@ -1996,8 +1996,8 @@ font-size: 70%;
 }
  .tabs .tab a.active{
   border : 0px solid transparent !important;
-  background-color: $knocksPrimaryColor;
-  color : $knocksLightActiveColor;
+  //background-color: $knocksPrimaryColor;
+  //color : $knocksLightActiveColor;
 }
 .knocks_tabs .indicator{
   background-color : transparent !important;
