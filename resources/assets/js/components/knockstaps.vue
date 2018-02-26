@@ -3,7 +3,7 @@
 		<a :class = "[indexEquiv(index) , valueEquiv(option.value) , anchor_class]" 
 		v-for = "(option, index) in options" @click = "assign(option.value)" >
 			<span :class = "label_class" v-if="option.label != undefined && (option.static == undefined || option.static == false )">{{ option.label }}</span>
-			<static_message :classes = "label_class" v-if="option.label != undefined && (option.static != undefined && option.static)" :msg="option.label"></static_message>
+			<static_message :class = "{'hide-on-med-and-down' : hide_labels_on_small}" :classes = "label_class" v-if="option.label != undefined && (option.static != undefined && option.static)" :msg="option.label"></static_message>
 			<span :class = "[icon_class , option.icon]" v-if="option.icon != undefined"></span>
 		</a>
 	</div>
@@ -77,6 +77,10 @@ export default {
     radio_unset : {
       type : Boolean , 
       default : false
+    },
+    hide_labels_on_small : {
+      type : Boolean , 
+      default : false ,
     }
   },
   data () {

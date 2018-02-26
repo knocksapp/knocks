@@ -89,8 +89,15 @@ class KnockController extends Controller
         'knock' => 'required' ,
       ]);
       if($request->max == null){
-        if(Knock::find($request->knock)->comments())
-          return Knock::find($request->knock)->comments()->get()->pluck('id');
+        if(Knock::find($request->knock)->comments()){
+          $array = array();
+          $comments =  Knock::find($request->knock)->comments()->get();
+          foreach($comments as $comment){
+            $object = obj::find($comment->object_id);
+            if($object->isAvailable(auth()->user()->id)) array_push($array, $comment->id);
+          }
+          return $array;
+        }
         else return array();
       }else{
         if(Knock::find($request->knock)->comments()->where('id' , '>' , $request->max))

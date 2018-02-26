@@ -1,12 +1,12 @@
 <template>
 
-<div>
+<div v-if = "knockObject != null || isLoading">
   <transition    name="custom-classes-transition" enter-active-class="animated fadeIn" leave-active-class="animated fadeOut">
   <div class=" ":class = "{'knocks_color_kit_light knocks_gray_border knocks_standard_border_radius panel' : !as_shortcut}">
 
   <transition    name="custom-classes-transition"  enter-active-class="animated fadeIn" leave-active-class="animated fadeOut">
   
-    <center><knocksloader :gid= "gid+'_knock_loading_span'" v-if = "knockObject == null" ></knocksloader></center>
+    <center><knocksloader :gid= "gid+'_knock_loading_span'" v-if = "isLoading" ></knocksloader></center>
   
   </transition>
 
@@ -206,6 +206,7 @@
      v-if="inRange(index)" 
      :gid= "gid+'_comment_'+index"
      :knock="com" 
+     @invalid = "removeComment($event)"
      :current_user="current_user" 
      replier_message = "Reply here" ></knockscomment>
    </div>
@@ -332,7 +333,8 @@ export default {
         passedOnce : false , 
         ownerObject : null ,
         interest : false ,
-        userId : UserId 
+        userId : UserId ,
+        isLoading : false ,
     }; 
 },
   computed : {
@@ -432,8 +434,10 @@ export default {
         axios({
           method : 'post' ,
           url : LaravelOrgin + 'retrive_knock' , 
-          data : { knock : vm.knock}
+          data : { knock : vm.knock} ,
+          onDownloadProgress : ()=>{vm.isLoading = true;}
         }).then( (response)=>{
+          vm.isLoading = false ;
           console.log(vm.knock+'  loaded');
           vm.knockObject = response.data;
           if(response.data == 'invalid'){
@@ -660,6 +664,12 @@ export default {
       notInMountedComments(key){
         if(this.comments_to_show == null) return true;
         return this.comments_to_show.indexOf(key) == -1 ? true : false;
+      },
+      removeComment(e){
+        let i ;
+        for(i = 0; i < this.comments.length; i++){
+          if(this.comments[i] == e) this.comments.splice(i , 1);
+        }
       },
 
      datecalc(){
