@@ -25,18 +25,28 @@
           </el-button>
       </div>
       <div class = "row">
-        <ul class="tabs knocks_text knocks_tabs">
-        <li class="tab col s6"><a class="active knocks_tab_anchor" :href="'#'+gid+'_circles_tab'">
+<!--         <ul class="tabs knocks_text ">
+        <li class="tab col s6"><a class="active " :href="'#'+gid+'_circles_tab'">
           <span class = "knocks-atom2"></span>
           <span class = "hide-on-med-and-down">Circles</span>
         </a></li>
-        <li class="tab col s6"><a class=" knocks_tab_anchor"  :href="'#'+gid+'_users_tab'">
+        <li class="tab col s6"><a class=" "  :href="'#'+gid+'_users_tab'">
           <span class = "knocks-user-outline"></span>
           <span class = "hide-on-med-and-down">Users</span></a></li>
-      </ul>
+      </ul> -->
+                                  <center>    <knockstaps :multiple = "false"  
+                                    anchor_active_class = "knocks_anchor_color_kit_dark knocks_theme_borderi"
+                                    anchor_regular_class = "knocks_anchor_color_kit_light "
+                                  anchor_class = "btn knocks_theme_border knocks_noshadow_ps"
+                                 v-model="taps" hide_labels_on_small
+                                :options = "[
+                                 { icon : 'knocks-atom2' , label : 'Circles' , static : true , value : 'circles'} , 
+                                 { icon : 'knocks-user-outline' , label : 'Users' , static : true , value : 'users'} , 
+                                 { icon : 'knocks-globe' , label : 'Public' , static : true , value : 'public'} ,
+                                ]" ></knockstaps> </center>
       </div>
       
-      <div :id = "gid+'_circles_tab'">
+      <div :id = "gid+'_circles_tab'" :class = "[{'knocks_hidden' :  taps != 'circles'} , {'animated slideInUp' :  taps == 'circles'} ]">
       	 <table  class = "highlight bordered ">
       	 	<tbody>
       	 <tr v-for = "(circle , index) in userCircles" >
@@ -58,13 +68,13 @@
       	 	</tbody>
       </table>
       </div>
-      <div :id = "gid+'_users_tab'">
+      <div :id = "gid+'_users_tab'" :class = "[{'knocks_hidden' :  taps != 'users'} , {'animated slideInUp' :  taps == 'users'} ]">
       	<table class = "highlight bordered ">
       		<tbody>
       			<tr v-for = "(user , index) in usersObject">
       			<td>
       				<knocksuser :user="user.user" as_chip show_image name_class = "knocks_text_dark knocks_text_bold" 
-		             main_container =  "animated bounceInLeft  knocks_inline right" >
+		             main_container =  "animated bounceInLeft  knocks_inline " >
 		           </knocksuser> 
       			</td>
       			<td>
@@ -73,7 +83,7 @@
 		           </span>
       			</td>
       			<td>
-				  <div class="switch">
+				  <div class="switch right">
 				    <label>
 				      <span class = "knocks-eye-off animated jello red-text knocks_circular_border"></span>    
 				      <input type="checkbox" v-model = "usersCog[index].value" @change = "mapPrivacySetting()">
@@ -121,6 +131,7 @@ export default {
     	circlesContainer : [],
     	privacySettingObject :{ users : [] , circles : []} ,
     	privacySetting : {} ,
+      taps : null , 
     }
   },
   mounted(){
