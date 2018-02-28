@@ -63,11 +63,17 @@ class Blob extends Model
         $this->extension = $object->extension;
         $this->object_id = $parent_object->id ;
         $this->album = 'Profile Pictures' ;
-
+        if($object->compressed != null)
         $this->index = json_encode(array(
             'blob' => $object->blob ,
             'compressed' => $object->compressed
         ));
+        else{
+             $this->index = json_encode(array(
+            'blob' => $object->blob ,
+            'compressed' => $object->blob ,
+        ));
+        }
         $this->save();
         return true;
 
@@ -83,9 +89,15 @@ class Blob extends Model
         $this->object_id = $parent_object->id ;
         $this->album = 'Profile Pictures' ;
 
+      if($object->compressed != null)
         $this->index = json_encode(array(
             'blob' => $object->blob ,
             'compressed' => $object->compressed
+        ));
+        else{
+             $this->index = json_encode(array(
+            'blob' => $object->blob ,
+            'compressed' => $object->blob ,
         ));
         $this->save();
         return true;

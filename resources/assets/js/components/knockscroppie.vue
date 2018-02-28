@@ -307,7 +307,50 @@ export default {
            }
           },
           error(e) {
-            alert(e.message)
+
+                            axios({
+                  method : 'POST' ,
+                  url : LaravelOrgin+vm.upload_at ,
+                  data : { 
+                    object : { 
+                        compressed : base64data.replace('data:'+mType+';base64,' ,'') 
+                      , blob : vm.cropped.replace('data:'+mType+';base64,' ,'')
+                      , extension :  mType 
+                    }  ,
+                      onUploadProgress: function (progressEvent) {
+                        vm.isLoading = true;
+                      },
+                      onDownloadProgress: function (progressEvent) {
+                        vm.isLoading = true;
+                      },
+                  } ,
+
+                }).then(function(response){
+                  vm.isLoading = false;
+                  var temp = response.data;
+                  if(temp == vm.success_at){
+                     App.$emit('new_picture_uploaded' , { blob : vm.cropped , scope : vm.scope });
+                          vm.$emit('knocks_file_uploaded' );
+                        vm.notifi();
+                        vm.cropped = null;
+                       vm.cancel();
+                        if(vm.callback_event != null){
+                          App.$emit(vm.callback_event , vm.callback_payloads);
+                        }
+                      return true;
+                  }else{
+                    var i ;
+                    for( i = 0; i < vm.error_at.length ; i++ ){
+                      if(vm.error_at[i].res == temp){
+                        vm.notifiError(vm.error_at[i]);
+                        return false;
+                      }else  vm.notifiError(vm.error_at[i].msg);
+                    }
+                  }
+                }).catch(()=>{
+                   vm.notifiError('Upload was not completed, please check your internet connection and try again.');
+                });
+            
           },
         });
 
