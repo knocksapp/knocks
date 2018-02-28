@@ -243,27 +243,27 @@ export default {
   if(vm.cropped == null) return;
   this.isLoading = true;
   let mType = 'image/jpeg';
-   let cBlob = B64toBlob(this.cropped.replace('data:'+mType+';base64,' ,'') , mType );
-          new ImageCompressor(cBlob, {
-          quality: 0.6,
-           maxHeight : 300  , 
-           maxWidth : 300 ,
+   // let cBlob = B64toBlob(this.cropped.replace('data:'+mType+';base64,' ,'') , mType );
+   //        new ImageCompressor(cBlob, {
+   //        quality: 0.6,
+   //         maxHeight : 300  , 
+   //         maxWidth : 300 ,
 
-          success(result) {
-            console.log(result);
-            //Bring it back to base64
-            var reader = new FileReader();
-           reader.readAsDataURL(result); 
-           reader.onloadend = function() {
-           let base64data = reader.result;                
-               //console.log(base64data);
+   //        success(result) {
+   //          console.log(result);
+   //          //Bring it back to base64
+   //          var reader = new FileReader();
+   //         reader.readAsDataURL(result); 
+   //         reader.onloadend = function() {
+   //         let base64data = reader.result;                
+   //             //console.log(base64data);
 
                 axios({
                   method : 'POST' ,
                   url : LaravelOrgin+vm.upload_at ,
                   data : { 
                     object : { 
-                        compressed : base64data.replace('data:'+mType+';base64,' ,'') 
+                        compressed :  vm.cropped.replace('data:'+mType+';base64,' ,'')
                       , blob : vm.cropped.replace('data:'+mType+';base64,' ,'')
                       , extension :  mType 
                     }  ,
@@ -304,12 +304,12 @@ export default {
 
 
 
-           }
-          },
-          error(e) {
-            console.log(e.message);
-          },
-        });
+        //    }
+        //   },
+        //   error(e) {
+        //     console.log(e.message);
+        //   },
+        // });
 
   }
   }
