@@ -94,7 +94,7 @@ class Blob extends Model
             'blob' => $object->blob ,
             'compressed' => $object->compressed
         ));
-        else{
+        else
              $this->index = json_encode(array(
             'blob' => $object->blob ,
             'compressed' => $object->blob ,
