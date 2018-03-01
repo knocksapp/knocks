@@ -1,7 +1,7 @@
 <template>
 
 
-      <div :class = "main_container" :id = "gid" class = " "   v-loading = "submitButton.isLoading">
+      <div :class = "main_container" :id = "gid" class = " "  >
       <div class = "  knocks_color_kit_light knocks_gray_border knocks_ragular_border row knocks_xs_padding ">
                     <!-- LEVEL ONE -->
     <div class = "row knocks_house_keeper" style = "margin-top : 1px !important; padding : 5px !important;">

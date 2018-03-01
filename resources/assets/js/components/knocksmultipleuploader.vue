@@ -1,5 +1,5 @@
 <template>
-<div v-loading = "isLoading">
+<div >
     <div class="file-field input-field" v-if = "draggingMode">
         <div class="col s12 btn knocks_bordered_uploader valign-wrapper animated rubberBand"  >
             <span class = "knocks_text_md knocks_multiple_uploader_span" >
@@ -8,11 +8,13 @@
             </span>
             <input type="file"  multiple :id="gid"  @change = "construct()" :content = "content">
         </div>
-        <span>{{nwerrors}}</span>
+       
         <div class="file-path-wrapper ">
             <input class="file-path validate knocks_hidden "  v-model = "names" type="text" placeholder="Upload one or more files">
         </div>
     </div>
+     <span v-if = "nwerrors">{{nwerrors}}</span>
+     <span v-if = "isUploading">uploading ..</span>
     <div class = "row knocks_house_keeper" v-if = "files.length > 0">
         <div class = "col s3 knocks_house_keeper offset-s1 knocks_image_mup_port" v-for = "(img , index) in images" style="line-hight : 200px">
             
@@ -155,6 +157,8 @@ export default {
         blobsIndex : 0 ,
         isLoading : false , 
         nwerrors : null ,
+        isUploading : false , 
+
 
 
 
@@ -485,9 +489,9 @@ export default {
                     album : 'Timeline'  },
                 },
                 onDownloadProgress : ()=>{ vm.isLoading = true ;} , 
-                onUploadProgress : ()=>{ vm.isLoading = true ;} , 
+                onUploadProgress : ()=>{ vm.isLoading = true ; vm.isUploading = true;} , 
             }).then((response)=>{
-        
+                vm.isUploading = false ;
                 if(response.data != 'invalid')
                   
                   console.log('final res');
@@ -517,9 +521,10 @@ export default {
                     album : 'Timeline'  },
                 },
                 onDownloadProgress : ()=>{ vm.isLoading = true ;} , 
-                onUploadProgress : ()=>{ vm.isLoading = true ;} , 
+                onUploadProgress : ()=>{ vm.isLoading = true ; vm.isUploading = true;} 
 
             }).then((response)=>{
+                vm.isUploading = false ;
                 if(response.data != 'invalid')
                   vm.filesTokens.push(response.data);
                   vm.$emit('mediaQueryCounter');
