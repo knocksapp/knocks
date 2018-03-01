@@ -424,6 +424,7 @@ methods : {
           vm.isSupporting = true ;
 
         }).catch( ()=>{ 
+          vm.mainRecorder = null ;
           if(KnocksRecorderFired){
             return;
           }
