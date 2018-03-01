@@ -98,9 +98,7 @@
           <h4 class="ui horizontal divider header transparent">
 
       <i class="knocks-cloud-upload4 blue-text   knocks_text_ms"></i>
-      <static_message msg = "Uploading ** files.." classes = "blue-text animated pulse infinite" replaceable :replacements = "[
-       { target : '**' ,  body :  ''+emitCounter+1+'/'+filesCounter }
-        ]"></static_message>
+      <span classe = "blue-text animated pulse infinite">Uploading {{emitCounter+1}}/{{filesCounter}}</span>
       </h4>
        <center> <el-progress type="circle" :percentage="loadingPercentage"></el-progress> </center>
     </div>
