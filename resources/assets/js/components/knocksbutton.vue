@@ -1,6 +1,6 @@
 <template>
   <button class=" " :id = "gid" @mouseover = "isHovered = true; emit()" @mouseleave = "isHovered = false; emit()"
-  :class = "buttonClasses" @click = "construct()">
+  :class = "buttonClasses" @click = "construct()" :disabled = "isLoading || disabled">
     <i class="material-icons" :class = "[icon , {right: !disable_placeholder && align == 'right'} , 
     {left: !disable_placeholder && align == 'left'} , {center : disable_placeholder}]" v-if="!isLoading"></i>
     <knocksloader size = "small" v-if="isLoading"></knocksloader>
@@ -22,6 +22,7 @@ export default {
       type :String , 
       required : true 
     },
+
     align : {
       type : String ,
       default : 'left'
@@ -156,11 +157,11 @@ export default {
     buttonClasses(){
       let array = [];
       array.push(this.lang_alignment);
-      if(this.isLoading) array.push('disabled animated pulse');
+       if(this.isLoading) array.push('animated pulse');
       if(this.isHovered) array.push(this.hover_class);
       else array.push(this.leave_class);
       array.push(this.button_classes);
-      if(this.disabled) array.push('disabled');
+      if(this.disabled || this.isLoading) array.push('disabled');
       return array;
 
       // [lang_alignment, {'disabled animated pulse': isLoading} , {hover_class , isHovered} ,{ 'disabled' : disabled } , button_classes]
@@ -217,6 +218,7 @@ export default {
   },
   methods:{
     construct(){
+      if(this.isLoading || this.disabled) return;
       this.$emit('knocks_button_clicked' , this.scope);
       if(!this.validate) return;
       this.errorsStack = [],
