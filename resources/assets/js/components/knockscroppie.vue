@@ -308,12 +308,12 @@ export default {
           },
           error(e) {
 
-                            axios({
+                  axios({
                   method : 'POST' ,
                   url : LaravelOrgin+vm.upload_at ,
                   data : { 
                     object : { 
-                        compressed : base64data.replace('data:'+mType+';base64,' ,'') 
+                        compressed : vm.cropped.replace('data:'+mType+';base64,' ,'')
                       , blob : vm.cropped.replace('data:'+mType+';base64,' ,'')
                       , extension :  mType 
                     }  ,
