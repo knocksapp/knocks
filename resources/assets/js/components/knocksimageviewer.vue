@@ -30,7 +30,7 @@
                   <span class= "knocks-pictures3"></span> {{sources.length+' photo by '+owner_object.name}}
                 </h3>
                 <!-- <p class="uk-margin-remove">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p> -->
-                <imagequote v-if = "unquoted" :gid = "gid" :object_id = "object_id" :blob_token = "src"></imagequote>
+                <imagequote v-if = "!unquoted" :gid = "gid" :object_id = "object_id" :blob_token = "src"></imagequote>
          </div>
       </li>
     </ul>
