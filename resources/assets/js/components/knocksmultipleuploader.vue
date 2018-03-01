@@ -1,5 +1,5 @@
 <template>
-<div>
+<div v-loading = "isLoading">
     <div class="file-field input-field" v-if = "draggingMode">
         <div class="col s12 btn knocks_bordered_uploader valign-wrapper animated rubberBand"  >
             <span class = "knocks_text_md knocks_multiple_uploader_span" >
@@ -152,6 +152,8 @@ export default {
         imagesQuotes : [],
         emitCounter : 0 ,
         blobsIndex : 0 ,
+        isLoading : false , 
+
 
 
 
@@ -251,8 +253,7 @@ export default {
             let hasImages = vm.finalResult.images.length > 0 ? true : false ;
 
             App.$emit('knocksMediaQueryLogged' , { scope : vm.scope , token : tokens , query : 'file' , hasFiles : hasFiles , hasImages : hasImages });
-            console.log('logged -');
-            console.log({ scope : vm.scope , token : tokens , query : 'file'  })
+            vm.isLoading = false;
         }
     });
 
@@ -479,8 +480,11 @@ export default {
                     extension : vm.finalResult.imagesTypes[img] , 
                     quote : vm.finalResult.images[img].quote , 
                     album : 'Timeline'  },
-                }
+                },
+                onDownloadProgress : ()=>{ vm.isLoading = true ;} , 
+                onUploadProgress : ()=>{ vm.isLoading = true ;} , 
             }).then((response)=>{
+        
                 if(response.data != 'invalid')
                   
                   console.log('final res');
@@ -488,6 +492,7 @@ export default {
                   vm.imagesTokens.push(response.data);
                   vm.$emit('mediaQueryCounter');
                   counter++;
+
             });
         }
 
@@ -503,10 +508,11 @@ export default {
                     object : { 
                     blob : vm.regularFiles[file].blob.replace('data:'+vm.regularFiles[file].type+';base64,',''),
                     name : vm.regularFiles[file].name , 
-                    extension : vm.regularFiles[file].type , 
-                    
+                    extension : vm.regularFiles[file].type ,       
                     album : 'Timeline'  },
-                }
+                },
+                onDownloadProgress : ()=>{ vm.isLoading = true ;} , 
+                onUploadProgress : ()=>{ vm.isLoading = true ;} , 
 
             }).then((response)=>{
                 if(response.data != 'invalid')

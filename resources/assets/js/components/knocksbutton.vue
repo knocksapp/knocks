@@ -1,5 +1,5 @@
 <template>
-  <button class=" " :id = "gid" @mouseover = "isHovered = true" @mouseleave = "isHovered = false"
+  <button class=" " :id = "gid" @mouseover = "isHovered = true; emit()" @mouseleave = "isHovered = false; emit()"
   :class = "buttonClasses" @click = "construct()">
     <i class="material-icons" :class = "[icon , {right: !disable_placeholder && align == 'right'} , 
     {left: !disable_placeholder && align == 'left'} , {center : disable_placeholder}]" v-if="!isLoading"></i>
@@ -147,6 +147,9 @@ export default {
       errorsStack : [],
       isLoading : false ,
       isHovered : false ,
+      response : null , 
+      networkHasErrors : false , 
+      networkErrors : null , 
     }
   },
   computed : {
@@ -165,6 +168,7 @@ export default {
   },
   mounted(){
     const vm = this;
+    this.emit();
 
     App.$on('knocks_input_status' , function(status){
       if(!status) vm.errorsStack.push(1);
@@ -222,6 +226,9 @@ export default {
         if(this.submit_flag)
            if(this.submit_on == null){
             this.submit();
+           }else{
+            this.isLoading = true ;
+            this.emit();
            }
       }else{
         Materialize.toast('<span class="knocks_text_danger">'+this.validation_error+'</span>');
@@ -229,10 +236,21 @@ export default {
         console.log(this.errorsStack);
       }
     },
+    emit(){
+      this.$emit('input' , 
+        { 
+          isLoading : this.isLoading , 
+          isHovered : this.isHovered , 
+          response  : this.response , 
+          networkErrors : this.networkHasErrors ,
+          networkHasErrors :  this.networkErrors
+        });
+    },
     submit(){
       console.log(this.submit_data);
       App.$emit('knocks_submit_passed');
       const vm = this;
+      this.emit();
       axios
       ({
           method:'post',
@@ -241,13 +259,22 @@ export default {
           data : vm.submit_data ,
           onDownloadProgress: function (progressEvent) {
             vm.isLoading = true;
+            vm.emit();
+          },
+          onUploadProgress: function (progressEvent) {
+            vm.isLoading = true;
+            vm.emit();
           },
       })
       .then(function(response) {
         vm.isLoading = false;
-        vm.$emit('input' , response.data);
+        vm.response = response.data;
+        vm.emit();
+        // vm.$emit('input' , response.data);
         if(vm.reset_on_submit)App.$emit('knocks_input_reset' , vm.scope);
         var temp = response.data;
+        vm.networkHasErrors = false ;
+        vm.networkErrors = null ;
         if(temp == vm.success_at && vm.success_at != null){
           if(vm.materialize_feedback && !vm.hide_success_msg)
              Materialize.toast(vm.success_msg, 3000, 'rounded');
@@ -269,7 +296,10 @@ export default {
         }
 
 
-      }).catch(()=>{
+      }).catch((err)=>{
+        vm.networkHasErrors = true ;
+        vm.networkErrors = err ;
+
         vm.$emit('knocks_submit_error');
         Materialize.toast('<span class="knocks_text_danger">'+vm.connection_error+'</span>', 3000, 'rounded');
         vm.isLoading = false ;
