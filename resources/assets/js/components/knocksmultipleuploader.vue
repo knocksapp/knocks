@@ -13,9 +13,8 @@
             <input class="file-path validate knocks_hidden "  v-model = "names" type="text" placeholder="Upload one or more files">
         </div>
     </div>
-     <span v-if = "nwerrors">{{nwerrors}}</span>
-     <span v-if = "isUploading">uploading ..</span>
-    <div class = "row knocks_house_keeper" v-if = "files.length > 0">
+
+    <div class = "row knocks_house_keeper" v-if = "files.length > 0" :class = "[{'knocks_hidden':isLoading}]">
         <div class = "col s3 knocks_house_keeper offset-s1 knocks_image_mup_port" v-for = "(img , index) in images" style="line-hight : 200px">
             
             <knockspopover>
@@ -63,7 +62,7 @@
     </div>
     <br v-if="images.length > 0" />
     <hr v-if="images.length > 0" />
-    <div :class = "[icons_parent_holder]" v-if = "files.length > 0">
+    <div :class = "[icons_parent_holder , {'knocks_hidden':isLoading}]" v-if = "files.length > 0">
         <div v-for = "(file, index) in files" v-if = "files.length > 0 && notAnImage(index)" :class = "[icons_container]">
             <a @click = "spliceFile(index)" class="red circle" >
                 <span class="badge red-text"><span class = "knocks-close"></span></span>
@@ -93,6 +92,10 @@
             </knockspopover>
             
         </div>
+    </div>
+    <div v-if = "isLoading" class = "animated fadeIn    ">
+        <center>{{emitCounter}} / {{filesCounter}}</center>
+       <center> <el-progress type="circle" :percentage="loadingPercentage"></el-progress> </center>
     </div>
 </div>
 </template>
@@ -158,6 +161,7 @@ export default {
         isLoading : false , 
         nwerrors : null ,
         isUploading : false , 
+        loadingPercentage : 0 , 
 
 
 
@@ -381,23 +385,6 @@ export default {
                })(document.getElementById(this.gid).files[file] );   
                fileReader.readAsDataURL(document.getElementById(this.gid).files[file]);
             }
-
-            
-            // for(fileHasher in vm.content){
-                
-            //     // console.log(vm.content[fileHasher]);
-            //     if(vm.content[fileHasher].name != undefined && vm.content[fileHasher].type != undefined){
-            //          vm.files.push(
-            //             {
-            //                 name : this.content[fileHasher].name , 
-            //                 type : this.content[fileHasher].type , 
-            //                 size : this.content[fileHasher].size
-            //             }
-            //         )
-                    
-                 
-            //     }
-            // }
     	}
     }, imageHasher(){
         if(this.files.length == 0){
@@ -489,7 +476,11 @@ export default {
                     album : 'Timeline'  },
                 },
                 onDownloadProgress : ()=>{ vm.isLoading = true ;} , 
-                onUploadProgress : ()=>{ vm.isLoading = true ; vm.isUploading = true;} , 
+                onUploadProgress : (progressEvent)=>{ 
+                    vm.isLoading = true ; 
+                    vm.isUploading = true;
+                    vm.loadingPercentage = Math.floor((progressEvent.loaded * 100) / progressEvent.total);
+                } , 
             }).then((response)=>{
                 vm.isUploading = false ;
                 if(response.data != 'invalid')
@@ -521,7 +512,10 @@ export default {
                     album : 'Timeline'  },
                 },
                 onDownloadProgress : ()=>{ vm.isLoading = true ;} , 
-                onUploadProgress : ()=>{ vm.isLoading = true ; vm.isUploading = true;} 
+                onUploadProgress : (progressEvent)=>{ 
+                    vm.isLoading = true ; vm.isUploading = true;
+                    vm.loadingPercentage = Math.floor((progressEvent.loaded * 100) / progressEvent.total);
+                } 
 
             }).then((response)=>{
                 vm.isUploading = false ;
@@ -530,6 +524,8 @@ export default {
                   vm.$emit('mediaQueryCounter');
             }).catch((err)=>{
                 vm.nwerrors = err ; 
+                vm.isUploading = false ; 
+                vm.isLoading = false ;
             });
         }
       

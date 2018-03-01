@@ -4,7 +4,7 @@
       <div :class = "main_container" :id = "gid" class = " "  >
       <div class = "  knocks_color_kit_light knocks_gray_border knocks_ragular_border row knocks_xs_padding ">
                     <!-- LEVEL ONE -->
-    <div class = "row knocks_house_keeper" style = "margin-top : 1px !important; padding : 5px !important;">
+    <div class = "row knocks_house_keeper" style = "margin-top : 1px !important; padding : 5px !important;"  v-loading = "submitButton.isLoading">
       <div class = " col s7 m9 knocks_house_keeper">
         <span class = "knocks-knocks grey-text text-lighten-2 knocks_text_ms animated fadeIn" v-if = "userSuggestions.length == 0 && tagged.length == 0"></span>
         <static_message classes = "text-lighten-2  grey-text  knocks_text_ms fadeIn" msg = "Who's There!" v-if = "userSuggestions.length == 0 && tagged.length == 0"></static_message>
@@ -86,7 +86,7 @@
     <!--LEVEL TWO -->
 
 
-    <div :class = "[input_container , {'knocks_hidden': draggingMode}]" 
+    <div :class = "[input_container , {'knocks_hidden': draggingMode}]"   v-loading = "submitButton.isLoading"
     contenteditable = "true" 
     class = "knocks_language_follower white" data-text="Enter text here..." :id = "gid+'_input'" v-model = "bodyContent" @input = "constructInput()">
 
@@ -98,7 +98,7 @@
 
 
         
-        <div :class = "options_bar_class" class = "" style = "margin-top:4px; margin-bottom:0px">
+        <div :class = "options_bar_class" class = "" style = "margin-top:4px; margin-bottom:0px"  v-loading = "submitButton.isLoading">
    
           <div class = "col s9 knocks_house_keeper">
                     <div :class = "recorder_container">
