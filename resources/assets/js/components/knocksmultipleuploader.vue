@@ -8,6 +8,7 @@
             </span>
             <input type="file"  multiple :id="gid"  @change = "construct()" :content = "content">
         </div>
+        <span>{{nwerrors}}</span>
         <div class="file-path-wrapper ">
             <input class="file-path validate knocks_hidden "  v-model = "names" type="text" placeholder="Upload one or more files">
         </div>
@@ -153,6 +154,7 @@ export default {
         emitCounter : 0 ,
         blobsIndex : 0 ,
         isLoading : false , 
+        nwerrors : null ,
 
 
 
@@ -339,6 +341,7 @@ export default {
         this.draggingMode = false ; 
         this.emitCounter = 0 ;
         this.blobsIndex = 0;
+
     },
     analysis(){
         const vm  = this;
@@ -493,6 +496,8 @@ export default {
                   vm.$emit('mediaQueryCounter');
                   counter++;
 
+            }).catch((err)=>{
+                vm.nwerrors = err ; 
             });
         }
 
@@ -518,6 +523,8 @@ export default {
                 if(response.data != 'invalid')
                   vm.filesTokens.push(response.data);
                   vm.$emit('mediaQueryCounter');
+            }).catch((err)=>{
+                vm.nwerrors = err ; 
             });
         }
       
