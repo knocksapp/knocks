@@ -1,7 +1,7 @@
 <template>
-<div v-if = "isSupporting" :class = "main_container" @mouseover = "showInterest()">
+<div  :class = "main_container" @mouseover = "showInterest()">
   <div :class = "recorder_container">
-    <knockspopover v-if="currentBlob == null || isRecording" >
+    <knockspopover v-if="(currentBlob == null || isRecording) && mainRecorder != null" >
     <template slot = "container">
 
        <span v-if = "isRecording && timer_right" :class = "timer_class" >{{ displayDuration }}</span>
@@ -17,6 +17,24 @@
       <span v-if = "isRecording">Recording{{ displayDuration }}</span>
     </span>
     </knockspopover>
+
+        <knockspopover v-if=" mainRecorder == null" >
+    <template slot = "container">
+
+       <span v-if = "isRecording && timer_right" :class = "timer_class" >{{ displayDuration }}</span>
+    <button @click = "record()"  :class = "recordButtonClasses" 
+    v-if="currentBlob == null || isRecording">
+    <span :class = "recordIconClasses"></span>
+    </button>
+    </template>
+    <span slot = "content"  class = "knocks_tooltip animated flipInX"  v-if=" mainRecorder == null" >
+
+      <span :class = "record_icon_on_stop"></span>
+      <static_message msg = "Click to Record" v-if = "!isRecording"></static_message>
+    </span>
+    </knockspopover>
+
+
     <knockspopover v-if="currentBlob != null && !isRecording">
     <template slot = "container">
     <button v-if="currentBlob != null && !isRecording"
@@ -92,6 +110,10 @@ export default {
     record_button_initial : {
       type : String , 
       default : 'btn btn-floating knocks_tiny_floating_btn wave-effect knocks_record_button knocks_btn_color_kit'
+    } ,
+    record_button_tester : {
+      type : String , 
+      default : 'btn btn-floating knocks_tiny_floating_btn wave-effect knocks_record_button pink white-text'
     } ,
     record_button_on_record : {
       type : String , 
@@ -281,7 +303,7 @@ export default {
     }
   },
   mounted(){
-    this.record();
+ 
     const vm = this;
     this.$emit('input' , { hasRecord : false , text : this.convertedText });
     // this.$on('knocksSwitchRecordingKit',()=>{
@@ -356,9 +378,10 @@ computed :{
   } , 
   recordButtonClasses(){
     let btnClass = [];
-    btnClass.push(this.record_button_initial);
+    if(this.mainRecorder != null ) btnClass.push(this.record_button_initial);
+    else btnClass.push(this.record_button_tester);
     if(this.isRecording) btnClass.push(this.record_button_on_record);
-    if(!this.isRecording) btnClass.push(this.record_button_on_stop); 
+    if(!this.isRecording && this.mainRecorder != null) btnClass.push(this.record_button_on_stop); 
     return btnClass;
   },
   recordIconClasses(){
