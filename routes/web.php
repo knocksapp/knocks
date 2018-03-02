@@ -432,7 +432,7 @@ Route::group(['middleware' => 'auth'] , function(){
 
   Route::post('retrive_comment' , 'CommentController@retrive');
 
-  Route::post('retrive_reply' , 'replyController@retrive');
+  Route::post('retrive_reply' , 'ReplyController@retrive');
 
   Route::post('retrive_knock' , 'KnockController@retrive' );
 
