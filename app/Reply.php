@@ -50,16 +50,29 @@ class Reply extends Model
       $this->parent_type = $object->type ;
       $this->object_id = $parent_object->id;
       $this->parent_id = $object->post_id ;
-
-
+      //$object->$user_privacy ;
+      //Images specifications reactions
+      //images_quotes
       $images_reactions = array();
       $images_comments = array();
       if( isset($object->images_specifications) && count($object->images_specifications) > 0){
          for($i = 0 ; $i < count($object->images_specifications); $i++){
           Blob::find((int) $object->images_specifications[$i])->assignParent($parent_object->id);
-
+          //Create an image blob
+          // $blob = new Blob();
+          // $blob->imageBlob(json_encode(array(
+          //   'extension' => 'image' ,
+          //   'parent_object' => $parent_object->id ,
+          //   'parent_type' => 'knock' ,
+          //   'album' => 'timeline' ,
+          //   'quote' => $object->images_quotes[$i] ,
+          //   'mongo_token' => $object->images_specifications[$i]
+          // )));
+          // $images_reactions[$object->images_specifications[$i]] = array();
         }
-  
+        //  for($i = 0 ; $i < count($object->images_specifications); $i++){
+        //   $images_comments[$object->images_specifications[$i]] = array();
+        // }
       }
       if($object->has_voices){
         $blob = Blob::find($object->voices_specifications);
@@ -94,7 +107,8 @@ class Reply extends Model
         'images_comments' => $images_comments
 
       ));
-
+      // $this->UserShowPost($object->user_privacy,$this->object_id);
+      // $this->CircleShowPost($object->user_privacy,$this->object_id);
 
       $user_ps_object = $object->user_privacy;
       foreach ($user_ps_object as $ob)
@@ -120,4 +134,6 @@ class Reply extends Model
       $this->user_id = auth()->user()->id;
       $this->save();
     }
+
+
 }
