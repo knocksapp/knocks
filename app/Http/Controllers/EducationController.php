@@ -19,7 +19,7 @@ class EducationController extends Controller
            $request->study_to,
            $request->grade
       );
-      return'done';
+    return  $newEducation->id;
 
     }
 
@@ -37,14 +37,18 @@ class EducationController extends Controller
     }
 
     public function updateEducation(Request $request){
-      $newEducation = Education::where('id','=',$request->education_id)->update([
-        'study_at' => $request->study_at,
-        'study_what' => $request->study_what,
-        'study_since' => $request->study_since,
-        'study_to' => $request->study_to,
-        'grade' => $request->grade
-      ]);
+      $newEducation = Education::find($request->education_id);
+       if($newEducation){
+
+        $newEducation->study_at = $request->study_at;
+        $newEducation->study_what = $request->study_wha;
+        $newEducation->study_since = $request->study_since;
+        $newEducation->study_to = $request->study_to;
+        $newEducation->grade = $request->grade;
+        $newEducation->update();
       return 'done';
+         }
+    else return 'not found';
     }
 
     public function deleteEducation(Request $request){

@@ -8,7 +8,7 @@
         placeholder = "Study at ?"
                 is_required
         gid = "q"
-        :max_len = "15"
+        :max_len = "100"
         v-model = "study_at"
         :scope = "[ 'education_adder']"></knockselinput>
     </div>
@@ -18,7 +18,7 @@
       :mat_follower=  "false"
       placeholder = "Study what ?"
       gid = "q"
-      :max_len = "15"
+      :max_len = "100"
       :scope = "[ 'education_adder']"
       v-model = "study_what"
       ></knockselinput>
@@ -30,7 +30,7 @@
         placeholder = "Your Grade ?"
         gid = "q"
 
-        :max_len = "15"
+        :max_len = "100"
         :scope = "[ 'education_adder']"
         v-model = "grade"
         ></knockselinput>
@@ -69,7 +69,7 @@
     submit_at = "education"
     computed_response
     success_msg = "Mabrok 3alek el Ta3lem"
-    gid = "stage_one_net"
+    gid = "stage_two_net"
     :submit_data = " {study_at : study_at , study_what : study_what, study_since : studySince, study_to : studyTo , grade : grade} "
     :disabled = "!testDate"
         @knocks_submit_accepted = "passToParent($event)">
