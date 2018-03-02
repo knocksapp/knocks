@@ -306,7 +306,7 @@ Vue.component('knocksusercareeredit', require('./components/knocksusercareeredit
 Vue.component('knocksuseraboutdelete', require('./components/knocksuseraboutdelete.vue'));
 Vue.component('knocksgroupcreation', require('./components/knocksgroupcreation.vue'));
 Vue.component('knocksgroupslist', require('./components/knocksgroupslist.vue'));
-
+Vue.component('knocksgroupmembers', require('./components/knocksgroupmembers.vue'));
 
 
 
@@ -385,6 +385,7 @@ Vue.component('knocksgroupslist', require('./components/knocksgroupslist.vue'));
    TranslateMessagesLoading : false ,
    TranslateMessagesRes : null ,
    devStage : 'Dictionary' , 
+   uploadGroupPic : true,
 
 
    //Knocks Data
@@ -656,6 +657,18 @@ Vue.component('knocksgroupslist', require('./components/knocksgroupslist.vue'));
        setTimeout(()=>{
        if(document.querySelectorAll('.knocks_user_cover_scope').length > 0){
          let images = document.querySelectorAll('.knocks_user_cover_scope') ;
+         let i ;
+         for(i = 0 ; i < images.length; i++)
+          images[i].src =payloads.blob;
+       }
+       $('body , html').animate({scrollTop : 0} , 'slow');
+       },500);
+      }else if(payloads.scope[0] == 'group_picture_handler'){
+             
+       vm.lowerTrigger = null ;
+       setTimeout(()=>{
+       if(document.querySelectorAll('.knocks_group_avatar_scope').length > 0){
+         let images = document.querySelectorAll('.knocks_group_avatar_scope') ;
          let i ;
          for(i = 0 ; i < images.length; i++)
           images[i].src =payloads.blob;

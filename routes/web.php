@@ -88,6 +88,8 @@ Route::post('get_circles' , 'UserController@getUserCircles' );
 
 Route::post('/create_group' , 'GroupController@createGroup');
 
+Route::post('/get_group_members' , 'GroupMemberController@getGroupMembers');
+
 Route::post('get_circle_members','CircleMemberController@groupPushMembers');
 
 Route::post('get_all_circles','UserController@getUserAllCircles');
@@ -181,6 +183,8 @@ Route::post('media/file/upload' , 'BlobController@uploadFile');
 
 Route::post('media/avatar/upload' , 'BlobController@uploadAvatar');
 
+Route::post('media/group/upload' , 'BlobController@uploadGroupPicture');
+
 Route::post('media/cover/upload' , 'BlobController@uploadCover');
 
 Route::get('media/record/retrive/{id}' , 'BlobController@retriveRecord');
@@ -190,6 +194,8 @@ Route::get('media/image/retrive/{id}' , 'BlobController@retriveImage');
 Route::get('media/file/retrive/{id}' , 'BlobController@retriveFile');
 
 Route::get('media/avatar/{id}' , 'BlobController@retriveAvatar');
+
+Route::get('media/group/picture/{id}' , 'BlobController@retriveGroupPicture');
 
 Route::get('media/avatar/compressed/{id}' , 'BlobController@retriveAvatarCompressed');
 
