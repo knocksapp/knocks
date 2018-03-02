@@ -235,9 +235,19 @@ class UserController extends Controller
           similar_text($ob->keywords, $request->q,$percent);
 
           if( $percent > 50 || strpos($ob->keywords, $request->q) )
-          if($ob->type == 'knock')array_push($result[$ob->type], Knock::where('object_id' , '=' , $ob->id)->first()->id);
-          elseif($ob->type == 'comment')array_push($result[$ob->type], Comment::where('object_id' , '=' , $ob->id)->first()->id);
-          elseif($ob->type == 'reply')array_push($result[$ob->type], Reply::where('object_id' , '=' , $ob->id)->first()->id);
+          if($ob->type == 'knock'){
+            $res = Knock::where('object_id' , '=' , $ob->id);
+            if($res->count() > 0)
+              array_push($result[$ob->type], $res->first()->id);
+          }elseif($ob->type == 'comment'){
+            $res = Comment::where('object_id' , '=' , $ob->id);
+            if($res->count() > 0)
+              array_push($result[$ob->type], $res->first()->id);
+          }elseif($ob->type == 'reply'){
+            $res = Reply::where('object_id' , '=' , $ob->id);
+            if($res->count() > 0)
+              array_push($result[$ob->type], $res->first()->id);
+          }
         }
       }
 
