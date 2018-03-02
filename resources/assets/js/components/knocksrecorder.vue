@@ -22,7 +22,7 @@
     <template slot = "container">
 
        <span v-if = "isRecording && timer_right" :class = "timer_class" >{{ displayDuration }}</span>
-    <button @click = "record()"  :class = "[recordButtonClasses , {'disabled' : !isSupporting}]" 
+    <button @click = "record()"  :class = "[recordButtonClasses  , {'disabled' : !mediaDevicesSupport} ]" 
     v-if="currentBlob == null || isRecording">
     <span :class = "recordIconClasses"></span>
     </button>
@@ -30,8 +30,8 @@
     <span slot = "content"  class = "knocks_tooltip animated flipInX"  v-if=" mainRecorder == null" >
 
       <span :class = "record_icon_on_stop"></span>
-      <static_message msg = "Click to Record" v-if = "!isRecording && isSupporting" ></static_message>
-      <static_message msg = "Recording is not supported for your browser" v-if = "!isRecording && !isSupporting" ></static_message>
+      <static_message msg = "Click to Record" v-if = "!isRecording && mediaDevicesSupport" ></static_message>
+      <static_message msg = "Recording is not supported for your browser" v-if = "!isRecording && !mediaDevicesSupport" ></static_message>
     </span>
     </knockspopover>
 
@@ -373,7 +373,7 @@ export default {
 } , 
 computed :{
   mediaDevicesSupport(){
-    return navigator.mediaDevices && navigator.mediaDevices.getUserMedia ? true : false ;
+    return navigator.mediaDevices && navigator.mediaDevices.getUserMedia && window.MediaRecorder !== undefined ? true : false ;
   } , 
   displayDuration(){
     return moment( parseInt(this.recordDuration )  ).format('m:ss');
@@ -403,7 +403,7 @@ limitPercentage (){
 
 methods : {
   record(){
-    if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+    if (!(navigator.mediaDevices && navigator.mediaDevices.getUserMedia && window.MediaRecorder !== undefined)) {
       console.warn(' KNOCKS Development Team >> Your browser dosn\'t support the audio recording.');
       if(this.$parent.ballons == null) this.$parent.ballons = [];
       this.$parent.ballons.push({
