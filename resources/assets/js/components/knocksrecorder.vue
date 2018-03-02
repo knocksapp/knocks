@@ -22,7 +22,7 @@
     <template slot = "container">
 
        <span v-if = "isRecording && timer_right" :class = "timer_class" >{{ displayDuration }}</span>
-    <button @click = "record()"  :class = "recordButtonClasses" 
+    <button @click = "record()"  :class = "[recordButtonClasses , {'disabled' : !isSupporting}]" 
     v-if="currentBlob == null || isRecording">
     <span :class = "recordIconClasses"></span>
     </button>
@@ -30,7 +30,8 @@
     <span slot = "content"  class = "knocks_tooltip animated flipInX"  v-if=" mainRecorder == null" >
 
       <span :class = "record_icon_on_stop"></span>
-      <static_message msg = "Click to Record" v-if = "!isRecording"></static_message>
+      <static_message msg = "Click to Record" v-if = "!isRecording && isSupporting" ></static_message>
+      <static_message msg = "Recording is not supported for your browser" v-if = "!isRecording && !isSupporting" ></static_message>
     </span>
     </knockspopover>
 
@@ -297,6 +298,7 @@ export default {
       res : [], 
       recognitionLang : window.currentUserLanguage , 
       convertedText : '' , 
+      stream : null , 
       // limitPercentage : 0 ,  
 
 
@@ -371,7 +373,7 @@ export default {
 } , 
 computed :{
   mediaDevicesSupport(){
-    return navigator.mediaDevices ? true : false ;
+    return navigator.mediaDevices && navigator.mediaDevices.getUserMedia ? true : false ;
   } , 
   displayDuration(){
     return moment( parseInt(this.recordDuration )  ).format('m:ss');
@@ -401,7 +403,7 @@ limitPercentage (){
 
 methods : {
   record(){
-    if(!this.mediaDevicesSupport){
+    if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
       console.warn(' KNOCKS Development Team >> Your browser dosn\'t support the audio recording.');
       if(this.$parent.ballons == null) this.$parent.ballons = [];
       this.$parent.ballons.push({
@@ -421,10 +423,15 @@ methods : {
         var constraints = { audio: true , audioBitsPerSecond : 16000 };
         navigator.mediaDevices.getUserMedia(constraints).then(function(stream) {
           vm.mainRecorder = new MediaRecorder(stream);
+          vm.stream = stream;
+
           vm.isSupporting = true ;
 
-        }).catch( ()=>{ 
+        }).catch( (stream)=>{ 
           vm.mainRecorder = null ;
+    
+          
+
           if(KnocksRecorderFired){
             return;
           }
@@ -445,6 +452,7 @@ methods : {
             };
             App.$emit('KnocksAddBallon' , {ballon : ballon});
         vm.isSupporting = false ;
+
           
         });
 
@@ -489,6 +497,8 @@ methods : {
     this.mainRecorder.stop();
     this.$emit('recordStoped');
     this.$emit('record_stopped');
+            vm.stream.getTracks() // get all tracks from the MediaStream
+  .forEach( track => track.stop() );
 
         if(this.volatile){
       setTimeout(()=>{this.resetRecord()},500)
