@@ -4,7 +4,9 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use Carbon\Carbon;
-use 
+
+use App\obj ;
+
 use App\Knock;
 use App\Comment ;
 

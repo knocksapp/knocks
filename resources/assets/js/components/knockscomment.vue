@@ -440,6 +440,8 @@ loadKnockData(){
             if(vm.interest)
               vm.retriveComments(); 
           } , 10000);
+        }).catch((err)=>{
+                  Materialize.toast('<span class="knocks_text_danger">'+err+'</span>', 3000, 'rounded');
         });
       },
 rd(){

@@ -118,7 +118,7 @@
     style="padding: 1rem; margin-top: -3%; 
     margin-bottom: -3%; 
     min-height:-webkit-fill-available;" >
-     <div class = "row ">Right</div>
+     <div class = "row ">Right Area</div>
    </div>
 
   </div>

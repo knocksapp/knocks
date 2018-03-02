@@ -141,8 +141,8 @@ class Knock extends Model
     public function typing($user){
       $index = $this->knockIndex();
       $typing = $index->typing;
-      if(!isset($typing->$user)) $typing[$user] = substr(json_decode(json_encode(Carbon::now()))->date,0,19);
-      else $typing->$user = substr(json_decode(json_encode(Carbon::now()))->date,0,19);
+      // if(!isset($typing->$user)) $typing[$user] = substr(json_decode(json_encode(Carbon::now()))->date,0,19);
+      // else $typing->$user = substr(json_decode(json_encode(Carbon::now()))->date,0,19);
       // $typing->$user = substr(json_decode(json_encode(Carbon::now()))->date,0,19);
       $index->typing = $typing;
       $this->index = json_encode($index);
