@@ -632,12 +632,12 @@
             return this.errorsStack.indexOf(errorId) == -1 ? false : true;
           },
           autoComplete(){
+            if(this.elinput.length < this.autocomplete_start) return;
             const vm = this;
             axios
             ({
                 method:'post',
-                url:window.location.protocol + '//' + window.location.hostname + ':'+window.location.port+'/'+vm.autocomplete_from,
-                responseType:"json",
+                url:LaravelOrgin+vm.autocomplete_from,
                 timeout : 10000,
                 data : {q : this.elinput},
                 onDownloadProgress: function (progressEvent) {
@@ -646,21 +646,7 @@
             })
             .then(function(response) {
               vm.isLoading = false;
-              var temp = response.data;
-              vm.autoCompleteResults = {};
-              var i ;
-              for( i = 0; i < temp.length ; i++ ){
-                vm.autoCompleteResults[temp[i]] = null;
-              }
-              $('#'+vm.gid).autocomplete({
-                  data: vm.autoCompleteResults,
-                  limit: vm.autocomplete_max_results,
-                  minLength: 1,
-                  onAutocomplete : function(val){
-                    vm.$emit('input' , val);
-                    vm.$emit('change' , val);
-                  }
-                });
+              vm.$emit('autocomplete' , response.data)
             });
           },
           bindErrorBus(){
