@@ -12,7 +12,7 @@
       <div class="row">
               <el-input
       v-if = "groups_name != null && groups_name.length > 0"
-      placeholder = "Search for group"
+      placeholder = "Search for groups .."
       gid = "search"
       class="col s12"
           
