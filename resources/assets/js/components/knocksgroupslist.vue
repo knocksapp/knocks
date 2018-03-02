@@ -9,18 +9,28 @@
 		
    
 		<div class="row">
-			<el-input
-			placeholder = "Search for group"
-			gid = "search"
-			class="col s12"
-			prefix-icon = "knocks-search10"
-			v-model = "search"
-			></el-input>
-
-			<ol>
-				<li v-for="(item,index) in filteredItems" class="knocks_text_dark">
-					<a class="knocks_text_dark" @click="returnView(item.id)"><span class="knocks-group2 knocks_text_dark"></span>  {{item.name}}</a></li>
-			</ol>
+      <div class="row">
+              <el-input
+      v-if = "groups_name != null && groups_name.length > 0"
+      placeholder = "Search for group"
+      gid = "search"
+      class="col s12"
+          
+      v-model = "search"
+      >
+          <template slot="prepend"> <span class="knocks-search2"></span> </template>
+      </el-input>
+      </div>
+      <div class = "row">
+          <ul class= "uk-list uk-list-divider">
+        <li v-for="(item,index) in filteredItems" class="knocks_text_dark knocks_house_keeper">
+          <a class="knocks_text_dark" :href= "asset('group/'+getId(item.name))">
+            <img class = "circle" :src = "asset('media/group/picture/compressed/'+getId(item.name))" style="width : 30px">
+            <span>{{item.name}}</span>
+          </a>
+          </li>
+      </ul>
+      </div>
 
 		</div>
 	</div>
@@ -43,6 +53,16 @@ export default {
      
   },
   methods:{
+    asset(url){
+      return LaravelOrgin+url
+    },
+    getId(name){
+      let i ;
+      for(i = 0 ; i < this.groups_name.length; i++){
+        if(name == this.groups_name[i].name) return this.groups_name[i].group_id;
+      }
+      return false
+    },
        getGroupsName(){
        	const vm = this
        	axios({
@@ -53,15 +73,15 @@ export default {
                   vm.groups_name = response.data;
        	});
        },
-       returnView(id){
-       	axios({
-       		url : 'group/'+id,
-       		method : 'get',
-       		data : {groups_id : id}
-       	}).then({
+       // returnView(id){
+       // 	axios({
+       // 		url : 'group/'+id,
+       // 		method : 'get',
+       // 		data : {groups_id : id}
+       // 	}).then({
              
-       	});
-       }
+       // 	});
+       // }
   },
   computed: {
  filteredItems() {

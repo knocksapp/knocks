@@ -186,6 +186,23 @@ class BlobController extends Controller
         }
     }
 
+      public function retriveGroupCompressed(Request $request , $id){
+        $user = Group::find($id);
+        if($user == null) return redirect('snaps/avatar.jpg');
+        $pp = $user->picture ;
+        if($pp == null) return redirect('snaps/avatar.jpg');
+        $blob = Blob::find($pp);
+        if($blob == null)return redirect('snaps/avatar.jpg'); else {
+            if($blob->type != 'avatar') return redirect('snaps/avatar.jpg');
+
+            return response($blob->retriveImgCompressed())
+            ->header( 'Content-Disposition', 'inline; filename="Knocks ')
+            ->header('Content-Type', $blob->extension);
+
+
+        }
+    }
+
       public function retriveAvatarCompressed(Request $request , $id){
         $user = User::find($id);
         if($user == null) return redirect('snaps/avatar.jpg');

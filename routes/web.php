@@ -197,6 +197,8 @@ Route::get('media/avatar/{id}' , 'BlobController@retriveAvatar');
 
 Route::get('media/group/picture/{id}' , 'BlobController@retriveGroupPicture');
 
+Route::get('media/group/picture/compressed/{id}' , 'BlobController@retriveGroupCompressed');
+
 Route::get('media/avatar/compressed/{id}' , 'BlobController@retriveAvatarCompressed');
 
 Route::get('media/cover/{id}' , 'BlobController@retriveCover');
