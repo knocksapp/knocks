@@ -467,8 +467,12 @@ methods : {
 
   },
   startRecord(){
-    
-    this.isRecording = true ;
+    if(!this.stream.active && this.mediaDevicesSupport){
+      console.log('reinitial')
+      this.record();
+    }
+    else{
+          this.isRecording = true ;
     this.chunks = [];
     document.getElementById('knocks_recording_vid_src').play();
     setTimeout(()=>{
@@ -488,6 +492,7 @@ methods : {
         vm.stopRecord();
       }
     },50);
+    }
   } , 
   stopRecord(){
     this.stopRecognition();
@@ -497,8 +502,10 @@ methods : {
     this.mainRecorder.stop();
     this.$emit('recordStoped');
     this.$emit('record_stopped');
-            vm.stream.getTracks() // get all tracks from the MediaStream
-  .forEach( track => track.stop() );
+
+    
+    vm.stream.getTracks().forEach( track => track.stop() );
+    vm.mainRecorder = null ;
 
         if(this.volatile){
       setTimeout(()=>{this.resetRecord()},500)
