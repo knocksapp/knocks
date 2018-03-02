@@ -7,7 +7,7 @@
         placeholder = "sport ?"
                 is_required
         gid = "q"
-        :max_len = "15"
+        :max_len = "100"
         v-model = "name"
         :scope = "[ 'sport_adder']"
         ></knockselinput>

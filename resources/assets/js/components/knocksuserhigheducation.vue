@@ -7,7 +7,7 @@
         placeholder = "Study at ?"
                 is_required
         gid = "q"
-        :max_len = "15"
+        :max_len = "100"
         v-model = "study_at"
         :scope = "[ 'higheducation_adder']"
         ></knockselinput>
@@ -18,7 +18,7 @@
                 :mat_follower=  "false"
                 placeholder = "Study what ?"
                 gid = "q"
-                :max_len = "15"
+                :max_len = "100"
                 :scope = "[ 'higheducation_adder']"
                 v-model = "study_what"
                 ></knockselinput>
@@ -30,7 +30,7 @@
                 placeholder = "Your Grade ?"
                 gid = "q"
 
-                :max_len = "15"
+                :max_len = "100"
                 :scope = "[ 'higheducation_adder']"
                 v-model = "grade"
                 ></knockselinput>

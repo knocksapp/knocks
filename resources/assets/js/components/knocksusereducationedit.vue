@@ -27,7 +27,7 @@
         placeholder = "Study at ?"
 				is_required
         gid = "q"
-        :max_len = "15"
+        :max_len = "100"
         v-model = "study_at_e"
         :scope = "[ 'education_edit']"
 
@@ -42,7 +42,7 @@
 								:start_as="educationObject.study_what"
                 gid = "q"
 
-                :max_len = "15"
+                :max_len = "100"
                 :scope = "[ 'education_edit']"
                 v-model = "study_what_e"
                 ></knockselinput>
@@ -57,7 +57,7 @@
 								:start_as="educationObject.grade"
                 gid = "q"
 
-                :max_len = "15"
+                :max_len = "100"
                 :scope = "[ 'education_edit']"
                 v-model = "grade_e"
                 ></knockselinput>
@@ -90,13 +90,13 @@
 </div>
 <knockselbutton
 placeholder = "Done!"
-:error_at = []
+:error_at = "[{res : 'not_found' , msg : 'This data is invalid'}]"
 :scope = "[ 'education_edit']"
 validation_error = "You need to complete some fields"
 submit_at = "education/update"
 success_at = "done"
 success_msg = "Education is Updated Successfully"
-gid = "stage_one_net"
+gid = "stage_two_net"
 :submit_data = " {education_id : education_id,study_at : study_at_e , study_since : studySince_e , study_to : studyTo_e , study_what : study_what_e , grade : grade_e} "
 :disabled = "!testDate"
 button_classes = "right"
