@@ -239,6 +239,8 @@ export default {
  upload(){
   const vm = this ;
 
+
+
   //Validation
   if(vm.cropped == null) return;
   this.isLoading = true;
@@ -258,22 +260,31 @@ export default {
            let base64data = reader.result;                
                //console.log(base64data);
 
+
+
+                let ob = {
+                  object : { 
+                              compressed : base64data.replace('data:'+mType+';base64,' ,'') 
+                            , blob : vm.cropped.replace('data:'+mType+';base64,' ,'')
+                            , extension :  mType 
+                          }  ,
+                  externals : vm.upload_data
+
+                }
+
+
                 axios({
                   method : 'POST' ,
                   url : LaravelOrgin+vm.upload_at ,
-                  data : { 
-                    object : { 
-                        compressed : base64data.replace('data:'+mType+';base64,' ,'') 
-                      , blob : vm.cropped.replace('data:'+mType+';base64,' ,'')
-                      , extension :  mType 
-                    }  ,
+                  data : ob , 
+                    
                       onUploadProgress: function (progressEvent) {
                         vm.isLoading = true;
                       },
                       onDownloadProgress: function (progressEvent) {
                         vm.isLoading = true;
                       },
-                  } ,
+                  
 
                 }).then(function(response){
                   vm.isLoading = false;
@@ -308,22 +319,28 @@ export default {
           },
           error(e) {
 
+
+
+                          let ob = {
+                  object : { 
+                              compressed : null
+                            , blob : vm.cropped.replace('data:'+mType+';base64,' ,'')
+                            , extension :  mType 
+                          }  ,
+                  externals : vm.upload_data
+
+                }
                   axios({
                   method : 'POST' ,
                   url : LaravelOrgin+vm.upload_at ,
-                  data : { 
-                    object : { 
-                        compressed : vm.cropped.replace('data:'+mType+';base64,' ,'')
-                      , blob : vm.cropped.replace('data:'+mType+';base64,' ,'')
-                      , extension :  mType 
-                    }  ,
+                  data : ob ,
                       onUploadProgress: function (progressEvent) {
                         vm.isLoading = true;
                       },
                       onDownloadProgress: function (progressEvent) {
                         vm.isLoading = true;
                       },
-                  } ,
+                  
 
                 }).then(function(response){
                   vm.isLoading = false;
