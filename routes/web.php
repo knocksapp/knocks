@@ -167,7 +167,6 @@ Route::post('reply/replies' , 'ReplyController@getReplies');
 
 Route::post('blob/qoute' , 'BlobController@quote');
 
-
 Route::post('reply/create' , 'ReplyController@create');
 
 
