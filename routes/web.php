@@ -163,11 +163,11 @@ Route::post('comment/create' , 'CommentController@create');
 
 Route::post('comment/replies' , 'CommentController@getReplies');
 
-Route::post('reply/replies' , 'replyController@getReplies');
+Route::post('reply/replies' , 'ReplyController@getReplies');
 
 Route::post('blob/qoute' , 'BlobController@quote');
 
-Route::post('reply/create' , 'replyController@create');
+Route::post('reply/create' , 'ReplyController@create');
 
 
 //MultiMedia
