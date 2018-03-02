@@ -303,7 +303,7 @@ export default {
         vm.networkErrors = err ;
 
         vm.$emit('knocks_submit_error');
-        Materialize.toast('<span class="knocks_text_danger">'+vm.connection_error+'</span>', 3000, 'rounded');
+        Materialize.toast('<span class="knocks_text_danger">'+err+'</span>', 3000, 'rounded');
         vm.isLoading = false ;
       });
     }
