@@ -1,22 +1,26 @@
 @extends('layouts.user')
 @section('content')
-<div class = "row knocks_house_keeper">
+<div class = "row knocks_tinny_top_padding" style = "">
 
 
-	   <div class="row">
-
-      <div class = "col s4 l2" style="border-raduis: 25px;">
-          <img class = "knocks_group_avatar_scope red" src = "{{ asset('media/group/picture/'.$group->id) }}" style="width : 100%; border-radius : 25px;" />
+	   <div class="row knocks_parent_container lighten-4 z-depth-1 knocks_fair_bounds" style="border-radius : 15px; padding : 10px; width : 98%; border: 3px solid rgba(0,0,0,.1); background-color : rgba(255,255,255,0.5) ">
+      <div class = "col s4 l3 knocks_house_keeper z-depth-1" style=" border: 2px solid white;
+    background-color: white; border-radius: 25px;">
+          <img class = "knocks_group_avatar_scope" src = "{{ asset('media/group/picture/'.$group->id) }}" style="width : 100%; border-radius : 25px; padding : 3px; " />
       </div>
-      <div class="col s8 l9">
-         <h3 class="knocks_sp_top_margin" >{{$group->name}}</h3>
-         <h6 class="knocks_sp_top_margin" >Member : {{$group->groupMembers()->count()}}</h6>
+      <div class="col s6 l7 push-l1 push-s1 knocks_house_keeper knocks_fair_bounds" style="padding-top : 120px !important">
+         <h3 class="knocks_house_keeper knocks_text_dark" >{{$group->name}}</h3>
+
+         <h6 class="knocks_sp_top_margin knocks_text_dark" style="opacity : 0.5"><i class="knocks-user"></i> Members : <span class="green-text">{{$group->groupMembers()->count()}} </span></h6>
+    
+         
      </div>
-   </div>  
-   <div class="col s9 knocks_fair_bounds">
+
+
+      <div class="col l12 s12 knocks_fair_bounds ">
   <knocksgroupmembers :group_object="{{$group}}"></knocksgroupmembers>
 </div>
-  <div class="knocks_fair_bounds col s9">
+  <div class="knocks_fair_bounds col l9 s12">
    <knock 
    :scope= "['knock']" 
    :error_at="[]" 
@@ -30,7 +34,7 @@
    gid = "knockknock"></knock>
   </div>
   
-</div>
+
   @if($group->picture == null)
 		<div class="row knocks_fair_bounds" v-if="uploadGroupPic">
 			<div class="col l6 s12 push-l3">
@@ -51,13 +55,13 @@
 		</div>
   </div>
   @endif
-<div class="knocks knocks_fair_bounds">
+<div class=" col s12 knocks_fair_bounds">
 
-<h4 class="ui horizontal divider header transparent">
+<h4 class="ui horizontal divider header transparent col l9 s12">
       <i class="knocks-newspaper5"></i>
       <static_message msg = "** 's Knocks" replaceable :replacements = "[{target : '**' , body : '{{$group->name}}' }]"></static_message>
       </h4>
-      <knocksknockinjector class = ""
+      <knocksknockinjector class = "col s12"
       :current_user = "{{auth()->user()->id}}"
       as_atimeline
       newer_retrive = "user/profile/posts/newer"
@@ -69,5 +73,13 @@
 </div>
 
 
-</div>
+
+
+
+   </div>
+
+
+  
+
+</div> 
   @endsection
