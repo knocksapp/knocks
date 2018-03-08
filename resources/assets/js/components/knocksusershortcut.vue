@@ -173,8 +173,8 @@
         <knocksimg :src = "asset('media/avatar/compressed/'+user)" :classes = "[knocks_avatar_classes,{'knocks_user_profile_scope' : thatsMe}]"></knocksimg>
         <span :class ="[name_class]" >{{ displayName }}</span>
         <slot name = "append"></slot>
-        <span v-if = "userObject.chatStatus && !clashProp" class="right uk-badge" :class = "[{'red' : !userObject.calcStatus} , {'green' : userObject.calcStatus}]">
-        {{userObject.chatStatus}}</span>
+        <span v-if = "userObject.chatStatus && !clashProp" class="right uk-badge" :class = "[{'red' : !calcStatus} , {'green' : calcStatus}]">{{userObject.chatStatus}}
+        </span>
         <slot name = "preppend"></slot>
       </a>
     </div>
@@ -428,15 +428,23 @@ export default {
       if(this.userObject.status !== undefined && this.userObject.last_seen !== undefined ){
         if(this.status == 'offline'){
           this.clashProp = false ;
-          return this.userObject.chatStatus  = 'offline';
+           this.userObject.chatStatus  = 'offline';
+           return;
+        }
+        if(this.userObject.status == 'online' && this.userObject.last_seen == null ) {
+          this.clashProp = false ; 
+          this.userObject.chatStatus = ' ';
+          return;
         }
         this.clashProp = false ;
         let offset = new Date().getTimezoneOffset();
         let finalDate = moment(this.userObject.last_seen).subtract(offset ,'m');
         if(this.userObject.chatStatus = moment().diff(finalDate , 'minutes') < 3) { 
           this.calcStatus = true;
-          this.userObject.chatStatus = ''; 
+          this.userObject.chatStatus = ' '; 
+          return;
         }else{
+          this.clashProp = false ;
           this.calcStatus = false;
           this.userObject.chatStatus = this.formatLastSeen(finalDate);
         }
