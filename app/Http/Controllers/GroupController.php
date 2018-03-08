@@ -46,11 +46,7 @@ class GroupController extends Controller
                  $var = Group::where('id','=',$allgroups[$i])->get()->first();
                 $res = array('name' => $var->name, 'group_id' => $var->id);
                 array_push($result ,$res);
-                
-
-
             }
-
 
             return $result;
     }
@@ -58,6 +54,23 @@ class GroupController extends Controller
       public function routeToGroup(Request $request){
       $c = Group::find($request->group_id);
       return view('groups.group', ['group' => $c]);
+    }
+    public function retriveGroupKnocks(Request $request){
+      $group = Group::find($request->user);
+      if($group)
+      return $group->getGroupKnocks(json_encode($request->limits));
+    }
+
+    public function retriveOlderGroupKnocks(Request $request){
+       $group = Group::find($request->user);
+      if($group)
+      return $group->getGroupKnocksRegularMin($request->min);
+    }
+
+    public function retriveNewerGroupKnocks(Request $request){
+      $group = Group::find($request->user);
+      if($group)
+      return $group->getGroupKnocksRegularMax($request->max);
     }
 
 }
