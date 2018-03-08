@@ -24,17 +24,5 @@ class GroupMemberController extends Controller
 
     }
 
-    public function joinPublicGroup(Request $request){
-    	$newUser = new Group_member;
-    	$newUser->initialize(
-    		$user_id = auth()->user()->id,
-    		$group_id = $request->group,
-    		$position = 'Member'
-    	);
-    	
-    	$group = Group::where('id','=', $request->group);
-    	$group->increaseMembers();
-$newUser->save();
-    	return 'done';
-    }
+    
 }
