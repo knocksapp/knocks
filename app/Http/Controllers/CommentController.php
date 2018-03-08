@@ -60,8 +60,8 @@ class CommentController extends Controller
         }
         else return array();
       }else{
-        if(Knock::find($request->knock)->comments()->where('id' , '>' , $request->max))
-          return Knock::find($request->knock)->comments()->where('id' , '>' , $request->max)->get()->pluck('id');
+        if(Comment::find($request->knock)->commentReplies()->where('id' , '>' , $request->max))
+          return Comment::find($request->knock)->commentReplies()->where('id' , '>' , $request->max)->get()->pluck('id');
         else return array();
       }
     }
