@@ -17,7 +17,23 @@ class Group extends Model
       $this->category = $category;
       $this->thumbnail = $thumbnail;
       $this->preset = $preset;
+      $this->index = json_encode(array(
+            "members_count" => 0 , 
+            "requests" => []
+      ));
       $this->save();
+    }
+
+    public function index(){
+    	return json_decode($this->index);
+    }
+
+    public function increaseMembers(){
+    	$index = $this->index();
+
+    	$index->members_count++;
+    	$this->index = json_encode($index);
+    	$this->update();
     }
 
      public function getGroupKnocks($limits){
