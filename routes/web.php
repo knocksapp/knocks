@@ -106,6 +106,9 @@ Route::post('get_user_groups','UserController@retriveUserGroups');
 
 Route::post('get_group_name','GroupController@getGroups');
 
+Route::post('get_groupname','GroupController@getGroupName');
+
+
 //Career
 
 Route::post('career' , 'CareerController@createCareer');
@@ -159,6 +162,9 @@ Route::post('sport/update' , 'SportController@updateSport');
 
 Route::post('sport/delete' , 'SportController@deleteSport');
 
+Route::post('check_user_ingroup','GroupMemberController@checkUserInGroup');
+
+Route::post('join_public_group','GroupController@joinPublicGroup');
 
 
 Route::post('post/create' , 'KnockController@create');
