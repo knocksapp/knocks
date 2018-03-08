@@ -1,5 +1,5 @@
-<transition enter-active-class = "animated slideInRight" leave-active-class = "animated slideOutRight">
-<ul id = "knocks_rightbar" class = "knocks_house_keeper fixed  grey lighten-5" v-if = "showRightSideBar" >
+
+<ul id = "knocks_rightbar" class = "knocks_house_keeper fixed  grey lighten-5" :class = '[{"animated slideInRight" : showRightSideBar} ,  {"animated slideOutRight" : !showRightSideBar} ]' >
   
   <div class="force-overflow"></div>
 
@@ -44,4 +44,3 @@
   </el-tabs>
   </div>
 </ul>
-</transition>
