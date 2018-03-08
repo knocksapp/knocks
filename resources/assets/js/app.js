@@ -307,6 +307,9 @@ Vue.component('knocksuseraboutdelete', require('./components/knocksuseraboutdele
 Vue.component('knocksgroupcreation', require('./components/knocksgroupcreation.vue'));
 Vue.component('knocksgroupslist', require('./components/knocksgroupslist.vue'));
 Vue.component('knocksgroupmembers', require('./components/knocksgroupmembers.vue'));
+Vue.component('knocksimg', require('./components/knocksimg.vue'));
+Vue.component('knockschattingzone', require('./components/knockschattingzone.vue'));
+Vue.component('knocksconversation', require('./components/knocksconversation.vue'));
 
 
 
@@ -384,7 +387,7 @@ Vue.component('knocksgroupmembers', require('./components/knocksgroupmembers.vue
    staticMessagesIdTranslate  : 0 ,
    TranslateMessagesLoading : false ,
    TranslateMessagesRes : null ,
-   devStage : 'Dictionary' , 
+   devStage : 'Components' , 
    uploadGroupPic : true,
 
 
@@ -1336,6 +1339,7 @@ window.NavInstance = new Vue({
   sidebarSeachLoading: false ,
   sidebarSearchResult : null ,
   rightSideBarMainTabs : 'chat' ,
+  
   showRightSideBar : true ,
   sideBarSearchLanguage : currentUserLanguage , 
   sidebarSearchTaps : 'users' ,
@@ -1390,6 +1394,7 @@ window.NavInstance = new Vue({
   });
   },
   methods : {
+
     asset(url){
       return LaravelOrgin + url;
     },
@@ -1519,6 +1524,9 @@ $(document).ready(function(){
 });
 
 //GLOBAL METHODS
+window.Asset = (url)=>{
+  return window.LaravelOrgin + url ;
+}
 window.ExsistsInUsersObject = (index)=>{
   return window.UsersObject[index]== undefined ? false : true ;
 }
@@ -1555,4 +1563,4 @@ window.GetTranslationByWord = (word)=>{
              window.StaticMessages[word] = translation;
         }});
         return translation;
-    }
+}
