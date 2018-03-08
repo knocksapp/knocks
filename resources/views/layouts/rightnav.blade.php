@@ -4,8 +4,10 @@
   <div class="force-overflow"></div>
 
 
-    <el-tabs v-model = "rightSideBarMainTabs">
-    <el-tab-pane name="chat">
+
+
+    <el-tabs v-model = "rightSideBarMainTabs" class = "knocks_house_keeper">
+    <el-tab-pane name="chat" class = "knocks_house_keeper">
     	 <span slot = "label">
     	 	<el-tooltip class="knocks_tabs_item" effect="dark"  placement="bottom-end">
     	 		<span slot = "content">
@@ -15,6 +17,7 @@
     		   <span class = "knocks-chat"></span>
     	   </el-tooltip>
     	</span>
+      <knockschattingzone></knockschattingzone>
     </el-tab-pane>
     <el-tab-pane  name="balloons">
       <span slot = "label">
