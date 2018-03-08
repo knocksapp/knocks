@@ -65,6 +65,8 @@ Route::post('update_notifications' , 'BallonController@setToPoped');
 
 Route::post('user/info' , 'UserController@getInfo');
 
+Route::post('user/info/lazy' , 'UserController@getInfoLazy');
+
 Route::post('user/posts' , 'UserController@retrivePeopleKnocks');
 
 Route::post('user/posts/older' , 'UserController@retriveOlderPeopleKnocks');
@@ -417,7 +419,7 @@ Route::get('signin' , function(){auth()->logout(); return view('guest.signup');}
 
 
 Route::group(['middleware' => 'auth'] , function(){
-
+Route::group(['middleware' => 'lastseen'] , function(){
   Route::get('faq/survey' , function(){
     if(auth()->user()->age() > 13)
       return view('guest.survey');
@@ -460,7 +462,7 @@ Route::post('checkinit_reaction/reaction' , 'ReactionController@checkinit_reacti
 
 
 
-  Route::get('/user/logout' , function(){auth()->logout(); return view('guest.signup');});
+  Route::get('/user/logout' , function(){ auth()->user()->turnOffChat(); auth()->logout(); return view('guest.signup');});
 
 
   //APIS routes
@@ -485,6 +487,10 @@ Route::post('checkinit_reaction/reaction' , 'ReactionController@checkinit_reacti
 
   Route::post('view/circle' , 'CircleController@view');
 
+  Route::post('user/friendstochat' , 'UserController@friendsToChat');
+
+  Route::post('chat/init' , 'UserController@initChat');
+
   // Route::get('cir' , function(){
   //   $c = auth()->user()->circles()->get();
   //    $arr = array();
@@ -501,6 +507,7 @@ Route::post('checkinit_reaction/reaction' , 'ReactionController@checkinit_reacti
   // });
 
 
+});
 });
 // Route::get('test' , function(){
 //   return view('test');
