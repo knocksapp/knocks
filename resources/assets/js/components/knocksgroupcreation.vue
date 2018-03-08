@@ -2,8 +2,7 @@
 <div>
   <knocksretriver
   v-model=  "allcircles"
-  url = "/get_all_circles"
-  
+  url = "get_all_circles" 
   >
   </knocksretriver>
   
