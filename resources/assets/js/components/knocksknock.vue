@@ -229,6 +229,7 @@
             <knocksuser
             class = "knocks_house_keeper"
             hide_popover
+            
            v-model = "ownerObject"
            image_container_class = "knocks_inline" 
            name_container_class = " knocks_inline"

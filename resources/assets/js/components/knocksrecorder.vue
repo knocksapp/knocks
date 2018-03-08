@@ -10,7 +10,7 @@
     <span :class = "recordIconClasses"></span>
     </button>
     </template>
-    <span slot = "content"  class = "knocks_tooltip animated flipInX" v-if="currentBlob == null || isRecording">
+    <span slot = "content"  class = "knocks_tooltip animated flipInX" v-if="(currentBlob == null || isRecording) && mainRecorder != null">
 
       <span :class = "record_icon_on_stop"></span>
       <static_message msg = "Hold To Record" v-if = "!isRecording"></static_message>
@@ -18,7 +18,7 @@
     </span>
     </knockspopover>
 
-        <knockspopover v-if=" mainRecorder == null" >
+    <knockspopover v-if=" mainRecorder == null" >
     <template slot = "container">
 
        <span v-if = "isRecording && timer_right" :class = "timer_class" >{{ displayDuration }}</span>
@@ -27,11 +27,12 @@
     <span :class = "recordIconClasses"></span>
     </button>
     </template>
-    <span slot = "content"  class = "knocks_tooltip animated flipInX"  v-if=" mainRecorder == null" >
+    <span slot = "content"  class = "knocks_tooltip animated flipInX"  v-if=" mainRecorder == null || !mainRecorder" >
 
       <span :class = "record_icon_on_stop"></span>
-      <static_message msg = "Click to Record" v-if = "!isRecording && mediaDevicesSupport" ></static_message>
-      <static_message msg = "Recording is not supported for your browser" v-if = "!isRecording && !mediaDevicesSupport" ></static_message>
+      <static_message msg = "Hold To Record" v-if = "!isRecording && mediaDevicesSupport && mainRecorder != null"></static_message>
+      <static_message msg = "Click to Record" v-if = "!isRecording && mediaDevicesSupport && mainRecorder == null" ></static_message>
+      <static_message msg = "Recording is not supported for your browser" v-if = "!isRecording && !mediaDevicesSupport && mainRecorder == null" ></static_message>
     </span>
     </knockspopover>
 
@@ -114,7 +115,7 @@ export default {
     } ,
     record_button_tester : {
       type : String , 
-      default : 'btn btn-floating knocks_tiny_floating_btn wave-effect knocks_record_button pink white-text'
+      default : 'btn btn-floating knocks_tiny_floating_btn wave-effect knocks_record_button transparent pink-text'
     } ,
     record_button_on_record : {
       type : String , 
