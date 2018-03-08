@@ -10,6 +10,7 @@ use App\Knock;
 use App\Blob;
 use DB;
 use App\Quotation;
+use App\user_blocks;
 
 class User extends Authenticatable
 {
@@ -81,6 +82,20 @@ class User extends Authenticatable
                 return true;
             }else return false;
          } else return false;
+    }
+
+    public function updateLastSeen(){
+        $this->last_seen = now();
+        $this->status = 'online';
+        $this->update();
+        return true;
+    }
+
+    public function turnOffChat(){
+        $this->last_seen = now();
+        $this->status = 'offline';
+        $this->update();
+        return true;
     }
 
     public function jamCircles()
@@ -188,6 +203,10 @@ class User extends Authenticatable
         return $this->hasMany('App\saved_object', 'user_id');
     }
 
+    public function cog(){
+        return json_decode($this->configuration);
+    }
+
 
 
 
@@ -292,10 +311,17 @@ class User extends Authenticatable
     public function blobObject(){
         return Blob::find($this->profile_picture)->object_id;
     }
-
+    public function retriveForUserLazy( $requester ){
+        return array(
+            'first_name' => $this->first_name , 
+            'last_name' => $this->last_name , 
+            'middle_name' => $this->middle_name , 
+            'user_name' => $this->username , 
+            'display_name' => $this->cog()->display_name
+        );
+    }
     public function retriveForUser( $requester ){
         //Get the configuration
-
         $cog = json_decode($this->configuration);
         $privacyUserSet = $cog->privacy_user_set;
         $privacyCircleSet = $cog->privacy_circle_set;
@@ -306,21 +332,19 @@ class User extends Authenticatable
             "middle_name" => $this->middle_name ,
             "nickname" => $this->nickname ,
             "username" => $this->username ,
+            "gender" => $this->gender ,
             "display_name" => $cog->display_name
         );
-
         //Declaring the user propirties
-
         $userProperties = array(
             "birthdate" => null,
             "marital_status" => null ,
             "orientation"  => null ,
             "email" => null ,
             "religon" => null ,
+            "gender" => null ,
             "bio" => null ,
-
         );
-
         $userExeptions = array(
             "birthdate" => false ,
             "marital_status" => false ,
@@ -328,17 +352,15 @@ class User extends Authenticatable
             "email" => false ,
             "religon" => false ,
             "bio" => false ,
+            "gender" => false ,
         );
-
         /*
         We are having three types of presets
         Valid : switches on the property and make it returnable.
         Invalid : Switches off the property, but could be overrided.
         InvalidForAll : switches off the property and can't be overrided.
         */
-
          foreach($userProperties as $prop => $value){
-
                 foreach($privacyUserSet->$prop as $pus){
                     if($pus->user == $requester){
                         $userExeptions[$prop] = true;
@@ -349,14 +371,6 @@ class User extends Authenticatable
                     }
             }
          }
-         // $resultObject['Exeptions'] = $userExeptions;
-
-         // $nonExepted = [];
-         // $overrided = [];
-         // $nonoverrided = [];
-         // $checkedcircles = [];
-         // $public = [];
-
          //Search in the circles
            foreach($userProperties as $prop => $value){
             if(!$userExeptions[$prop]){
@@ -390,40 +404,30 @@ class User extends Authenticatable
                     }
             }
          }
-
          //Check the public restrictions
-
-        // $resultObject['nonExepted'] = $nonExepted;
-        // $resultObject['overrided'] = $overrided;
-        // $resultObject['nonoverrided'] = $nonoverrided;
-        // $resultObject['checkedcircles'] = $checkedcircles;
-        // $resultObject['public'] = $public;
-
-
          //Handling the final output
          foreach($resultObject as $prop => $value){
             if($value == 'INVALID' || $value == 'INVALIDFORALL')
                 $resultObject[$prop] = null;
          }
-
          $resultObject['profile_index'] = $this->currentProfilePicture();
          $isFriend = $this->isFriend($requester);
          $resultObject['is_friend'] = $isFriend;
-         if(!$isFriend){
-            $resultObject['requested'] = $this->hasFriendRequest($requester);
-            $resultObject['requester'] = $this->hasSentRequest($requester);
-         } else {
+         if($isFriend || $requester == $this->id){
             $resultObject['requested'] =false;
             $resultObject['requester'] =false;
+            $resultObject['last_seen'] = $this->last_seen;
+            $resultObject['status'] = $this->status;
+         } else {
+            $resultObject['requested'] = $this->hasFriendRequest($requester);
+            $resultObject['requester'] = $this->hasSentRequest($requester);
         }
         //Return the result
-
-
         return $resultObject;
     }
 
     public function hasSentRequest($target){
-        return $this->userSentRequests()->where('reciver_id' , '=' , $target)->exists();
+        return $this->userSentRequests()->where('reciver_id' , '=' , $target)->where('response' , '=' , 'waiting')->exists();
     }
 
     public function hasFriendRequest($from){
@@ -809,6 +813,63 @@ class User extends Authenticatable
           "
         ) 
        ))->pluck('id');
+    }
+
+       public function FriendsSoundsLikeID($q){
+        $mainCircle = $this->mainCircle()->id;
+        return  collect(DB::select( DB::raw("SELECT * FROM users 
+         INNER JOIN circle_members ON users.id=circle_members.user_id
+          WHERE circle_members.circle_id = '$mainCircle'
+          AND ( users.first_name sounds like '%$q%'
+          or users.last_name sounds like '%$q%'
+          or users.middle_name sounds like '%$q%'
+          or users.nickname sounds like '%$q%'
+          or users.username sounds like '%$q%'
+          or users.first_name like '%$q%'
+          or users.last_name like '%$q%'
+          or users.middle_name like '%$q%'
+          or users.nickname like '%$q%'
+          or users.username like '%$q%' )
+          "
+        ) 
+       ))->pluck('user_id');
+    }
+
+    public function friendsObjects(){
+        $mainCircle = $this->mainCircle()->id;
+        return  collect(DB::select( DB::raw("SELECT * FROM users 
+         INNER JOIN circle_members ON users.id=circle_members.user_id
+          WHERE circle_members.circle_id = '$mainCircle'"
+        ) 
+       ));
+    }
+
+      public function friendsToChat(){
+        $mainCircle = $this->mainCircle()->id;
+        return  collect(DB::select( DB::raw("SELECT users.id , users.last_seen , users.status FROM users 
+         INNER JOIN circle_members ON users.id=circle_members.user_id
+          WHERE circle_members.circle_id = '$mainCircle'
+          ORDER BY users.last_seen DESC
+          "
+        ) 
+       ));
+    }
+
+    public function isMatched($q){
+        $arr = [];
+        array_push($arr, $this->first_name);
+        array_push($arr, $this->last_name);
+        array_push($arr, $this->middle_name);
+        array_push($arr, $this->username);
+        array_push($arr, $this->nickname);
+        array_push($arr, join(" ",$arr));
+
+        for($i = 0; $i < count($arr) ; $i++){       
+          similar_text($arr[$i], $q ,$percent);
+          if($percent > 50 || strpos($arr[$i], $q))
+            return true;
+        }
+        return false ;
     }
 
 
