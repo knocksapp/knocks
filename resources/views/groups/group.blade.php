@@ -22,13 +22,13 @@
 </div>
   <div class="knocks_fair_bounds col l9 s12">
    <knock 
-   :scope= "['knock']" 
+   :scope= "['knockgroup']" 
    :error_at="[]" 
    submit_at = "post/create"
    :recorder_upload_data = "{ user : '7esam' , index : {}}"
    :player_show_options = "false"
-   :post_at = "{{ auth()->user()->id }}"
-   parent_type = "self"
+   :post_at = "{{$group->id}}"
+   parent_type = "group"
    success_at = "done"
    success_msg = "Done."
    gid = "knockknock"></knock>
@@ -64,10 +64,10 @@
       <knocksknockinjector class = "col s12"
       :current_user = "{{auth()->user()->id}}"
       as_atimeline
-      newer_retrive = "user/profile/posts/newer"
-      older_retrive = "user/profile/posts/older"
-      basic_retrive = "user/profile/posts"
-      :requsted = "{{auth()->user()->id}}">
+      newer_retrive = "group/posts/newer"
+      older_retrive = "group/posts/older"
+      basic_retrive = "group/posts"
+      :requsted = "{{$group->id}}">
       </knocksknockinjector>
 
 </div>

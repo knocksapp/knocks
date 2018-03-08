@@ -79,6 +79,12 @@ Route::post('user/profile/posts/older' , 'UserController@retriveOlderUserKnocks'
 
 Route::post('user/profile/posts/newer' , 'UserController@retriveNewerUserKnocks');
 
+Route::post('group/posts' , 'GroupController@retriveGroupKnocks');
+
+Route::post('group/posts/older' , 'GroupController@retriveOlderGroupKnocks');
+
+Route::post('group/posts/newer' , 'GroupController@retriveNewerGroupKnocks');
+
 Route::post('user/search' , 'UserController@searchForFriends');
 
 Route::post('userlogin' , 'UserController@userlogin');
