@@ -14,7 +14,7 @@ class GroupMemberController extends Controller
     }
      public function checkUserInGroup(Request $request){
              $ingroup = Group_member::where('group_id','=',$request->group)
-             ->where('user_id','=',auth()->user()->id)->get();
+             ->where('user_id','=',$request->user)->get();
              if(count($ingroup) > 0){
              	return 'true';
              }

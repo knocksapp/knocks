@@ -115,12 +115,12 @@ export default {
        asset(url){
       return LaravelOrgin + url ;
     },
-     checkUserInGroup(){
+     checkUserInGroups(){
      	const vm = this;
      	axios({
-           url : 'check_user_ingroup',
+           url : LaravelOrgin + 'check_user_ingroup',
            method : 'post',
-           data : {group : vm.group_id}
+           data : {group : vm.group_id , user : parseInt(UserId)}
      	}).then((response)=>{
             if(response.data == true)
                vm.checkUser = true;
@@ -159,7 +159,7 @@ export default {
   },
   mounted(){
      this.getGroupsName();
-     this.checkUserInGroup();
+     this.checkUserInGroups();
   },
 }
 </script>
