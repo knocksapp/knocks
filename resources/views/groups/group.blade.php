@@ -13,7 +13,7 @@
 
          <h6 class="knocks_sp_top_margin knocks_text_dark" style="opacity : 0.5"><i class="knocks-user"></i> Members : <span class="green-text">{{$group->groupMembers()->count()}} </span></h6>
     
-          <el-checkbox-button class="right" label="city">Join <i class="knocks-plus2"></i></el-checkbox-button>
+       <knocksgroupjoining class="right" as_public></knocksgroupjoining>
      </div>
 
 
