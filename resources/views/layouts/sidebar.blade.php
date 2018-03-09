@@ -1,5 +1,5 @@
 <ul id = "knocks_sidebar" class = "side-nav fixed knocks_house_keeper grey lighten-5" >
-  
+
   <div class="force-overflow"></div>
   <li id = "sidebar_head"><div class="user-view ">
     <div class="background">
@@ -8,7 +8,7 @@
     <a >
       <el-dropdown class = "right" trigger="click">
       <span class="el-dropdown-link knocks_blured_bg  btn btn-floating knocks_super_tiny_floating_btn knocks_text_light">
-        
+
         <span class="knocks-chevron-down2"></span>
       </span>
       <el-dropdown-menu slot="dropdown" sty>
@@ -41,7 +41,7 @@
       {{--  <knocksimgframeless  fill_from="pp/blob" :specifications="{ id : {{auth()->user()->id}} , index : {{auth()->user()-()}} }"
       :show_container = "false" :scope = "['profile_picture_handler']"
       class=" " classes="circle" return_on_null = "{{asset('snaps/avatar.jpg')}}" >
-      
+
       </knocksimgframeless> --}}
       <img :src="pp()" class = "circle knocks_user_profile_scope" alt = "{{auth()->user()->username.' Profile Picture'}}"/>
     </a>
@@ -57,8 +57,10 @@
         gid = "sidebar_search_box"
         icon_class = "teal-text lighten-3"
         knocksclass="knocks_teal_input" icon = "knocks-search12" ></knocksinput> --}}
+        <form action = "{{asset('search')}}" method="get">
         <el-input
         class = "knocks_tinny_top_padding knocks_side_padding"
+         name = "q"
         placeholder="Search"
         @focus = "searchFocus()"
         @blur = "searchBlur()"
@@ -66,12 +68,12 @@
         id="sidebar_search_box"
         v-model="sidebarSearch" class="input-with-select">
         <knocksvoicerecognition v-model = "sidebarSearchRecognition" :lang = "sideBarSearchLanguage" @recognition = "runVoiceSearch($event)" @leave="sidebarFocus()" slot = "prepend"></knocksvoicerecognition>
-        <el-button slot="append" icon=" knocks_icon knocks-search2"></el-button>
+        <el-button native-type ="submit" slot="append" icon=" knocks_icon knocks-search2"></el-button>
         </el-input>
-        
+         </form>
         <div style = "display : none" id = "sidebar_search_results">
           <div class = "row knocks_side_padding knocks_tinny_top_padding">
-            
+
             <el-button id ="sidebar_search_back" type="info" icon=" knocks_icon knocks-chevron-left2" class = ""></el-button>
             <div class = "right">
                           <el-select v-model="sideBarSearchLanguage" slot="prepend"  style = "width :110px !important">
@@ -81,7 +83,7 @@
             <span class = "knocks-globe9 blue-text knocks_text_md"></span>
             </div>
             <transition enter-active-class = "animated bounceInLeft" leave-active-class = "animated bounceOutRight">
-            <div v-if = "sidebarSearchRecognition.loading" class = "animated bounceInLeft"> 
+            <div v-if = "sidebarSearchRecognition.loading" class = "animated bounceInLeft">
               <span class = "blue-text knocks-spinner13 knocks_spinner"></span>
               <static_message msg = "Processing your voice.." classes = "blue-text"></static_message>
             </div>
@@ -94,7 +96,7 @@
               <static_message msg = "Listening.." classes = "red-text"></static_message>
             </div>
             </transition>
-          
+
           </div>
           <transition enter-active-class = "animated zoomIn" leave-active-class = "animated zoomOut">
             <div class = "row knocks_house_keeper" v-if = "sidebarSearchResult != null">
@@ -186,12 +188,12 @@
           <i class="el-icon-location"></i>
 <i class="knocks-group2 knocks_text_dark"></i>
           <span> My Groups</span>
-          
+
         </template>
         <el-menu-item-group>
 
             <knocksgroupslist></knocksgroupslist>
-      
+
         </el-menu-item-group>
         <el-menu-item-group title="Group Two">
           <el-menu-item index="1-3">item three</el-menu-item>
@@ -210,7 +212,7 @@
         <span>Navigator Three</span>
       </el-menu-item>
     </el-menu>
-  
+
       </ul>
     </div>
   </div>
