@@ -4,17 +4,20 @@
 		v-model=  "groups_id"
 		url = "get_user_groups"
 		@success="getGroupsName()"
+		:xdata = "{ q : search }"
+		:scope = "['group_filter']"
 	     >
 		</knocksretriver>
 		
    
 		<div class="row">
       <div class="row">
-              <el-input
-      v-if = "groups_name != null && groups_name.length > 0"
+       <el-input
+      
       placeholder = "Search for groups .."
       gid = "search"
       class="col s12"
+      @input = "searchForGroups"
           
       v-model = "search"
       >
@@ -23,11 +26,8 @@
       </div>
       <div class = "row">
           <ul class= "uk-list uk-list-divider">
-        <li v-for="(item,index) in filteredItems" class="knocks_text_dark knocks_house_keeper">
-          <a class="knocks_text_dark" :href= "asset('group/'+getId(item.name))">
-            <img class = "circle" :src = "asset('media/group/picture/compressed/'+getId(item.name))" style="width : 30px">
-            <span>{{item.name}}</span>
-          </a>
+        <li v-for="(item,index) in groupsIds" class="knocks_text_dark knocks_fair_bounds">
+        	<knocksgroupshortcut as_dialog :group_id = "item" v-model = "groupsObjects[index]"></knocksgroupshortcut>
           </li>
       </ul>
       </div>
@@ -47,12 +47,22 @@ export default {
     groups_name : [],
     search : '',
     thisId : '',
+    groupsObjects : [] ,
+    groupsIds : [] , 
+    lastResultQuery : null ,
     }
   },
   mounted(){
-     
+  	 const vm = this;
+     App.$on('knocksPushNewGroup' , (payloads)=>{
+     	vm.groupsIds.push(payloads.id);
+     })
   },
   methods:{
+  	searchForGroups(){
+  
+  		App.$emit('knocksRetriver' , {scope : ['group_filter']})
+  	},
     asset(url){
       return LaravelOrgin+url
     },
@@ -64,14 +74,16 @@ export default {
       return false
     },
        getGroupsName(){
-       	const vm = this
+       /*	const vm = this
        	axios({
              url : LaravelOrgin+'get_group_name',
              method : 'post',
              data : {groups : vm.groups_id.response}
        	}).then((response)=>{
                   vm.groups_name = response.data;
-       	});
+       	});*/
+       	this.groupsIds = this.groups_id.response; 
+       	if(this.groupsIds.length > 0) this.lastResultQuery = this.search;
        },
        // returnView(id){
        // 	axios({
