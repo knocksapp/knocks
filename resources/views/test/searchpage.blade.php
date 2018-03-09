@@ -11,7 +11,11 @@
 
 
 @if(isset($_GET['q']))
-<knockspagesearch start_as = "{{$_GET['q']}}"></knockspagesearch>
+<knockspagesearch
+@if(isset($_GET['t']))
+start_tap = "<?= $_GET['t'] ?>"
+@endif
+start_as = "{{$_GET['q']}}"></knockspagesearch>
 @endif
 @if(!isset($_GET['q']))
 <knockspagesearch></knockspagesearch>

@@ -672,7 +672,7 @@ Vue.component('knocksgroupjoining', require('./components/knocksgroupjoining.vue
        $('body , html').animate({scrollTop : 0} , 'slow');
        },500);
       }else if(payloads.scope[0] == 'group_picture_handler'){
-             
+
        vm.lowerTrigger = null ;
        setTimeout(()=>{
        if(document.querySelectorAll('.knocks_group_avatar_scope').length > 0){
@@ -1344,7 +1344,10 @@ window.NavInstance = new Vue({
   sidebarSeachLoading: false ,
   sidebarSearchResult : null ,
   rightSideBarMainTabs : 'chat' ,
-  
+  showSidebarCommentKey : 3 ,
+  showSidebarKnockKey : 3 ,
+  showSidebarUserKey : 3 ,
+
   showRightSideBar : true ,
   sideBarSearchLanguage : currentUserLanguage ,
   sidebarSearchTaps : 'users' ,
@@ -1359,6 +1362,9 @@ window.NavInstance = new Vue({
     if(WindowWidth < 900){
     vm.showRightSideBar = false;
   }
+
+
+
   // $(window).resize(function(){
   //   if(WindowWidth < 900){
   //     vm.showRightSideBar = true ;
@@ -1421,6 +1427,9 @@ window.NavInstance = new Vue({
     coverExtended(){
        return this.asset('media/cover/'+UserId);
     },
+    submitSearch(){
+      $('#knocks_sidebar_search_form').submit();
+    },
     sidebarRunSearch(){
       if(this.sidebarSearch.length == 0) return;
       const vm = this;
@@ -1452,6 +1461,24 @@ window.NavInstance = new Vue({
       this.sidebarRunSearch();
 
     },
+    showSidebarCommentRange(){
+         return this.showSidebarCommentKey ;
+      },
+      inSidebarCommentRange(index){
+        return index < this.showSidebarCommentRange() ? true : false;
+      },
+      showSidebarKnockRange(){
+           return this.showSidebarKnockKey ;
+        },
+        inSidebarKnockRange(index){
+          return index < this.showSidebarKnockRange() ? true : false;
+        },
+        showSidebarUserRange(){
+             return this.showSidebarCommentKey ;
+          },
+          inSidebarUserRange(index){
+            return index < this.showSidebarUserRange() ? true : false;
+          },
 
     plusNumber(input){
       return input > 9 ? '+9' : input;

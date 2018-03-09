@@ -255,13 +255,18 @@ export default {
     start_as : {
       type : String ,
       default : null ,
+    },
+    start_tap : {
+      type : String ,
+      default : 'all'
     }
   },
   mounted(){
     if(this.start_as != null ){
       this.pageSearch = this.start_as;
-      this.pageRunSearch();
+      this.pageRunSearchInit();
     }
+    this.pageSearchTaps = this.start_tap;
   },
   methods:{
     pageRunSearch(){
@@ -295,6 +300,42 @@ export default {
 
       }).catch(()=>{ vm.pageSeachLoading = false });
     },
+
+
+    pageRunSearchInit(){
+      if(this.pageSearch.length == 0) return;
+      const vm = this;
+      axios({
+        url : LaravelOrgin + '/search/main' ,
+        method : 'post' ,
+        onDownloadProgress : ()=> { vm.pageSeachLoading = true; } ,
+        data : {q : vm.pageSearch}
+      }).then((res)=>{
+        vm.pageSeachLoading = false ;
+        let lastRes = vm.pageSearchResult;
+
+
+        App.$emit('KnocksContentChanged');
+        App.$emit('knocks_refresh_posts_done');
+
+        setTimeout(()=>{
+          vm.pageSearchResult = null;
+           vm.pageSearchResult = res.data;
+           vm.pageSearchTaps = 'all';
+
+           if(vm.pageSearchResult.knock !== undefined && vm.pageSearchResult.knock.length > 0)
+           vm.pageSearchResult.knock = vm.pageSearchResult.knock.reverse();
+
+           if(vm.pageSearchResult.comment !== undefined && vm.pageSearchResult.comment.length > 0)
+           vm.pageSearchResult.comment = vm.pageSearchResult.comment.reverse();
+           setTimeout( ()=>{ vm.pageSearchTaps = vm.start_tap; } , 500);
+
+        } , 200);
+
+      }).catch(()=>{ vm.pageSeachLoading = false });
+    },
+
+
 
     runVoicePageSearch(e){
       this.pageSearch = e;

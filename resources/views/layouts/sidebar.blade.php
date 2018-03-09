@@ -57,7 +57,8 @@
         gid = "sidebar_search_box"
         icon_class = "teal-text lighten-3"
         knocksclass="knocks_teal_input" icon = "knocks-search12" ></knocksinput> --}}
-        <form action = "{{asset('search')}}" method="get">
+        <form action = "{{asset('search')}}" method="get" id = "knocks_sidebar_search_form">
+
         <el-input
         class = "knocks_tinny_top_padding knocks_side_padding"
         name = "q"
@@ -70,6 +71,7 @@
         <knocksvoicerecognition v-model = "sidebarSearchRecognition" :lang = "sideBarSearchLanguage" @recognition = "runVoiceSearch($event)" @leave="sidebarFocus()" slot = "prepend"></knocksvoicerecognition>
         <el-button native-type ="submit" slot="append" icon=" knocks_icon knocks-search2"></el-button>
         </el-input>
+        <input type = "hidden" name = "t" :value = "sidebarSearchTaps"/>
       </form>
 
         <div style = "display : none" id = "sidebar_search_results">
@@ -119,8 +121,20 @@
                   <span class = "knocks-alert-circle knocks_text_ms"></span>
                   <static_message msg = "No users matches your search." classes = "knocks_fair_bounds knocks_text_ms"></static_message>
                   </center>
-                <transition  v-for = "user in sidebarSearchResult.users" enter-active-class = "animated slideInUp" leave-active-class = "animated slideOutLeft">
-                  <knocksuser as_result :user ="user" show_accept_shortcut ></knocksuser>
+                <transition   enter-active-class = "animated slideInUp" leave-active-class = "animated slideOutLeft">
+                  <div>
+                      <div class = "row"  v-for = "(user,index) in sidebarSearchResult.users" :key = "index" v-if="inSidebarUserRange(index)" >
+                        <knocksuser as_result :user ="user" show_accept_shortcut ></knocksuser>
+                      </div>
+
+                    <div  v-if="sidebarSearchResult != null && sidebarSearchResult.users.length > 3">
+                    <a v-if = "sidebarSearchResult != null && showSidebarUserKey < sidebarSearchResult.users.length"
+                       @click = "submitSearch()"
+                       class = " knocks_side_padding knocks_text_anchor knocks_pointer" >
+                      <span class = "knocks-user-outline"></span> See More
+                    </a>
+                    </div></div>
+
                 </transition>
                 </el-tab-pane>
                 <el-tab-pane name = "knock">
@@ -140,11 +154,21 @@
                   <span class = "knocks-alert-circle knocks_text_ms"></span>
                   <static_message msg = "No Knocks matches your search." classes = "knocks_fair_bounds knocks_text_ms"></static_message>
                   </center>
-                  <transition  v-for = "(knock , index) in sidebarSearchResult.knock" enter-active-class = "animated slideInUp" leave-active-class = "animated slideOutLeft">
-                    <div class = "row knocks_house_keeper">
-                      <knocksknock  :knock = "knock" :gid="'knock_side_search_result_'+index" as_shortcut
-                      :current_user = "{{auth()->user()->id}}" replier_message = "Leave a comment" ></knocksknock>
-                    </div>
+                  <transition enter-active-class = "animated slideInUp" leave-active-class = "animated slideOutLeft">
+                    <div>
+                        <div class = "row"  v-for = "(knock , index) in sidebarSearchResult.knock" :key = "index" v-if="inSidebarKnockRange(index)" >
+
+                          <knocksknock  :knock = "knock" :gid="'knock_side_search_result_'+index" as_shortcut
+                          :current_user = "{{auth()->user()->id}}" replier_message = "Leave a comment" ></knocksknock>
+                        </div>
+
+                      <div  v-if="sidebarSearchResult != null && sidebarSearchResult.knock.length > 3">
+                      <a v-if = "sidebarSearchResult != null && showSidebarKnockKey < sidebarSearchResult.knock.length"
+                      @click = "submitSearch()"
+                         class = " knocks_side_padding knocks_text_anchor knocks_pointer" >
+                        <span class = "knocks-newspaper5 "></span> See More
+                      </a>
+                      </div></div>
                   </transition>
                   </el-tab-pane>
                   <el-tab-pane name = "comment">
@@ -165,11 +189,22 @@
                   <span class = "knocks-alert-circle knocks_text_ms"></span>
                   <static_message msg = "No Comments matches your search." classes = "knocks_fair_bounds knocks_text_ms"></static_message>
                   </center>
-                  <transition  v-for = "(knock , index) in sidebarSearchResult.comment" enter-active-class = "animated slideInUp" leave-active-class = "animated slideOutLeft">
-                    <div class = "row">
-                      <knockscomment  :knock = "knock" :gid="'knocks_comment_side_search_result_'+index"
-                      :current_user = "{{auth()->user()->id}}" replier_message = "Leave a reply" as_shortcut ></knockscomment>
-                    </div>
+                  <transition enter-active-class = "animated slideInUp" leave-active-class = "animated slideOutLeft">
+                    <div>
+                        <div class = "row" v-for = "(knock , index) in sidebarSearchResult.comment" :key = "index" v-if="inSidebarCommentRange(index)" >
+
+                          <knockscomment  :knock = "knock" :gid="'knocks_comment_side_search_result_'+index"
+                         :current_user = "{{auth()->user()->id}}" replier_message = "Leave a reply" as_shortcut ></knockscomment>
+                        </div>
+
+                      <div  v-if="sidebarSearchResult != null && sidebarSearchResult.comment.length > 3">
+                      <a v-if = "sidebarSearchResult != null && showSidebarCommentKey < sidebarSearchResult.comment.length"
+                      @click = "submitSearch()"
+
+                         class = " knocks_side_padding knocks_text_anchor knocks_pointer" >
+                        <span class = "knocks-comment-square center"></span> See More
+                      </a>
+                      </div></div>
                   </transition>
                   </el-tab-pane>
                   </el-tabs>
