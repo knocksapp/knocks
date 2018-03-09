@@ -4,10 +4,10 @@
 
       <div>
       	
-			      	<div class="chip" v-if="as_chip">
+			      <a v-if="as_chip" :href = "asset('group/'+group_id)">	<div class="chip" >
 						    <knocksimg :src = "asset('media/group/picture/compressed/'+group_id)"></knocksimg>
 						    {{group_name}}
-			        </div>
+			        </div></a>
 
 			        <div v-if="as_dialog"> 
 			        	<a @click="dialogVisible = true"><div class="chip">
@@ -86,12 +86,17 @@ export default {
        group_name : null,
        group_object : null,
        members_count : '',
-         dialogVisible: false,
-         checkUser: false,
+       dialogVisible: false,
+       checkUser: false,
     }
   },
   methods : {
-       
+       formatGroupData(object){
+
+       	this.group_object = object;
+       	window.UserGroups[this.group_id] = object;
+       	this.$emit('input' , this.group_object);
+       },
         getGroupsName(){
        	const vm = this
        	axios({
@@ -101,7 +106,10 @@ export default {
        	}).then((response)=>{
                   vm.group_name = response.data.name;
                   vm.group_object = response.data;
-                  vm.members_count = JSON.parse(response.data.index);
+                  vm.group_object.index = JSON.parse(response.data.index);
+                  vm.formatGroupData(vm.group_object);
+                  vm.members_count = vm.group_object.index;
+
        	});
        },
        asset(url){
@@ -129,6 +137,7 @@ export default {
              	data : {user : UserId , group : vm.group_id}
              }).then((response)=>{
                    if(response.data == 'done'){
+                   	App.$emit('knocksPushNewGroup' , { id : vm.group_id });
                    	this.$notify({
 				          title: 'Success',
 				          message: 'You Have Joined Group '+vm.group_name+' Successfully',

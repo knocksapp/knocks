@@ -43,6 +43,7 @@ window.WindowHeight = $(window).innerHeight();
 window.UserKnocks = {};
 window.UserComments = {};
 window.UserReplies = {};
+window.UserGroups = {};
 window.LaravelCSRF = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
 window.KnocksRecorderFired = false;
 window.UserCirclesList = [];
@@ -310,7 +311,7 @@ Vue.component('knocksgroupmembers', require('./components/knocksgroupmembers.vue
 Vue.component('knocksimg', require('./components/knocksimg.vue'));
 Vue.component('knockschattingzone', require('./components/knockschattingzone.vue'));
 Vue.component('knocksconversation', require('./components/knocksconversation.vue'));
-
+Vue.component('knocksgroupshortcut', require('./components/knocksgroupshortcut.vue'));
 
 
 

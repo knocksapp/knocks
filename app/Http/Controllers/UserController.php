@@ -98,7 +98,9 @@ class UserController extends Controller
 
     public function retriveUserGroups(Request $request){
           $groups = Group_member::where('user_id','=',auth()->user()->id)
-          ->where('position','=','Owner')->get()->pluck('group_id');
+           ->join('groups', 'groups.id', '=', 'group_members.group_id')
+           ->where('groups.name', 'like' , '%'.$request->q.'%')
+          ->get()->pluck('group_id');
           return $groups;
     }
 
