@@ -34,7 +34,9 @@ Route::get('/dev' , function(){
   return view('test.home');
 });
 
-
+Route::get('/search' , function(){
+  return view('test.searchpage' , compact('q'));
+});
 
 
 Route::post('dev/all_langs' , 'LanguageController@collect');
@@ -52,7 +54,7 @@ Route::post('dev/test' , function(){ return 'done'; });
 
 //DEVELOPERS ROUTES ENDS /////////////////////////////////////////////////////////////
 
-//Check if the user exists 
+//Check if the user exists
 Route::post('user/check' , 'UserController@check');
 
 Route::post('email/check' , 'UserController@mailCheck');
@@ -435,7 +437,7 @@ Route::group(['middleware' => 'auth'] , function(){
   Route::get('group/{group_id}' , 'GroupController@routeToGroup');
 
   Route::get('/knock/{knock}' , 'KnockController@viewKnock');
-  
+
   Route::get('/cmnt/{comment}' , 'KnockController@viewComment');
 
   Route::get('/knock/{knock}/{comment}' , 'KnockController@viewKnockWithComment');
@@ -499,14 +501,14 @@ Route::post('checkinit_reaction/reaction' , 'ReactionController@checkinit_reacti
 // });
 
 
-// Route::get('currentcsrf/{user}/{tooken}' , function($user ,$tooken ){ 
+// Route::get('currentcsrf/{user}/{tooken}' , function($user ,$tooken ){
 //   $userObject =  App\User::where( 'id' , '=' , $user)->get();
 //   if($userObject->count() == 0) return 'not_found'.$user;
 //   else $userObject = $userObject[0];
 //   if($userObject->upload_tooken == $tooken) return 'valid'; else return 'invalid';
 // })->middleware('cors');
 
-// Route::get('validobj/{user}/{object}' , function($user ,$object ){ 
+// Route::get('validobj/{user}/{object}' , function($user ,$object ){
 
 //  return App\Object::find($object)->isAvailable($user) ? 'valid' : 'invalid';
 // })->middleware('cors');
@@ -540,7 +542,3 @@ Route::post('qis' , function(){
   $x = 'invalid';
   return $x;
 });
-
-  
-
-

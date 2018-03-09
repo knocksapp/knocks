@@ -21,7 +21,7 @@ import 'croppie/croppie.css'
 window.axios = require('axios');   //AXIOS >> AJAX XHR Performer.
 window.Vue = require('vue');      //Front End Framework.
 window.moment = require('moment');   //TimeDate JS Library.
-require('moment-timezone');  
+require('moment-timezone');
 window.GoogleMapsLoader = require('google-maps');   //Google Maps API.
 window.currentUserLanguage = document.querySelector('meta[name="user_lang"]').getAttribute('content'); //Meta Collector (User Language).
 window.currentUserLanguageFont = document.querySelector('meta[name="lang_font"]').getAttribute('content'); //Meta Collector (User Language Font Family).
@@ -29,9 +29,9 @@ window.currentUserLanguageAlignment = document.querySelector('meta[name="lang_al
 window.NodeOrgin = 'http://127.0.0.1:3000/'; //NodeJS Requests Orgin %/  in Axsios XHR url no need to specify the root, eg: (url : NodeOrgin + 'parent_x/child_y') /%
 window.LaravelOrgin = window.location.protocol + '//'+ window.location.hostname +':'+window.location.port +'/' ; //Same as NodeOrgin but scopes Laravel this time.
 window.PNotify = require('pnotify'); //Notifier JS Based Library.
-window.UsersObject = {}; //Empty Object to be contacting knocksuser component, applying dynamic programming, and machine learning approach. 
-window.ImgBlobs = {}; //Empty Object to be contacting knockspreview, knocksframelesspreview components, applying dynamic programming, and machine learning approach. 
-window.UserCircles = {}; //Empty Object to be contacting circles data, applying dynamic programming, and machine learning approach. 
+window.UsersObject = {}; //Empty Object to be contacting knocksuser component, applying dynamic programming, and machine learning approach.
+window.ImgBlobs = {}; //Empty Object to be contacting knockspreview, knocksframelesspreview components, applying dynamic programming, and machine learning approach.
+window.UserCircles = {}; //Empty Object to be contacting circles data, applying dynamic programming, and machine learning approach.
 window.UserId = document.querySelector('meta[name="user"]').getAttribute('content');
 
 window.StaticMessages = {};
@@ -48,15 +48,16 @@ window.KnocksRecorderFired = false;
 window.UserCirclesList = [];
 window.AllLangs = null;
 window.Cropper = require('cropperjs');
+window.CurrentHref = window.location.href;
 
 //Packages Configration
 GoogleMapsLoader.KEY = 'AIzaSyAtO8ZPlOkAAlV6oxGu-dD_ghyk9obCOXk'; //Google maps api configuration >> Key.
 GoogleMapsLoader.LIBRARIES = ['geometry', 'places'];  //Google maps api configuration >> Libraries.
-window.axios.defaults.headers.common = 
+window.axios.defaults.headers.common =
 {             //Axios Default Headers.
   'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),  //Laravel CSRF Token.
   'X-Requested-With': 'XMLHttpRequest' ,    //XHR Type.
-  'KNOCKS-USER' : window.UserId , 
+  'KNOCKS-USER' : window.UserId ,
   'KNOCKS-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),  //Laravel CSRF Token.
 
 };
@@ -86,7 +87,7 @@ window.ImageCompressor = require('@xkeshi/image-compressor');
 require('b64-to-blob');
 window.B64toBlob = require('b64-to-blob');
 
- 
+
 // Vue.use(Vuetify)
 
 Vue.use(HTML) //Usage Scope to contact between both of VUE and VUE-HTML.
@@ -264,7 +265,7 @@ Vue.component('knocksrecorder', require('./components/knocksrecorder.vue'));
 Vue.component('knocksplayer', require('./components/knocksplayer.vue'));
 Vue.component('knocksimg', require('./components/knockspreview.vue'));
 Vue.component('knocksimgframeless', require('./components/knocksframelesspreview.vue'));
-Vue.component('knocksviewcircle', require('./components/viewer.vue'));    
+Vue.component('knocksviewcircle', require('./components/viewer.vue'));
 Vue.component('knocksreactor', require('./components/knocksreactor.vue'));
 Vue.component('knock', require('./components/knock.vue'));
 Vue.component('knocksmultipleuploader', require('./components/knocksmultipleuploader.vue'));
@@ -306,13 +307,7 @@ Vue.component('knocksusercareeredit', require('./components/knocksusercareeredit
 Vue.component('knocksuseraboutdelete', require('./components/knocksuseraboutdelete.vue'));
 Vue.component('knocksgroupcreation', require('./components/knocksgroupcreation.vue'));
 Vue.component('knocksgroupslist', require('./components/knocksgroupslist.vue'));
-
-
-
-
-
-
-
+Vue.component('knockspagesearch', require('./components/knockspagesearch.vue'));
 
  window.App = new Vue();
  new Vue({
@@ -321,16 +316,16 @@ Vue.component('knocksgroupslist', require('./components/knocksgroupslist.vue'));
   data: {
 
     /* CORE DATA BEGINS */
-    
+
     //Erros messages bus as we dont need to load the error messages more than once
     errorsMessageBus : [],
     //At every submit the global error stack would be saved here.
     errorStack : {},
     //The ballons global object
     ballons : null ,
-    /* Saves when was the last notifications for update so 
+    /* Saves when was the last notifications for update so
        the next request will only search from that date.
-    */ 
+    */
    lastBallonsUpdate : null ,
    //As we need to figure out the users browser, we keep it in user navigator
     userNavigator : '' ,
@@ -338,7 +333,7 @@ Vue.component('knocksgroupslist', require('./components/knocksgroupslist.vue'));
     nodeCsrf : null ,
     //Loaded Users data
     loadedUsers : {} ,
-    //User Session Type 
+    //User Session Type
     sessionType : document.querySelector('meta[name="session-type"]').getAttribute('content'),
     //Current Address
     currentHref : window.location.href ,
@@ -349,14 +344,13 @@ Vue.component('knocksgroupslist', require('./components/knocksgroupslist.vue'));
 
     currentKnocks : null ,
 
-    maxRetrived : null , 
+    maxRetrived : null ,
     minRetrived : null ,
     lastIndex  : null ,
     loadingKnocks : false ,
     balloonsLooper : true ,
 
     sideBarSearchLanguage : currentUserLanguage ,
-
    /* CORE DATA ENDS */
 
 
@@ -366,25 +360,25 @@ Vue.component('knocksgroupslist', require('./components/knocksgroupslist.vue'));
    //Dictionary
    languages : null ,
    staticMessages : null ,
-   wordAdderSelector : 'en' , 
+   wordAdderSelector : 'en' ,
 
    wordAdderInput :  '' ,
    addNewWordRes : null ,
-   allMessgesBodyInput : '' , 
+   allMessgesBodyInput : '' ,
    allMessgesLanguageInput : '' ,
    langFilters : [] ,
    staticMessagesIdFilter : [] ,
    showStaticMessagesTable : true ,
-   staticMessagesLanguageQuery : '' , 
+   staticMessagesLanguageQuery : '' ,
    staticMessagesBodyQuery : '' ,
    staticMessagesIdQuery : 0 ,
    collectMessagesLoading : false ,
-   staticMessagesLanguageTranslate : '' , 
+   staticMessagesLanguageTranslate : '' ,
    staticMessagesBodyTranslate  : '' ,
    staticMessagesIdTranslate  : 0 ,
    TranslateMessagesLoading : false ,
    TranslateMessagesRes : null ,
-   devStage : 'Dictionary' , 
+   devStage : 'Dictionary' ,
 
 
    //Knocks Data
@@ -393,20 +387,19 @@ Vue.component('knocksgroupslist', require('./components/knocksgroupslist.vue'));
    resetKnocksDialog : false ,
    resetAllDialog : false ,
    reinstallDialog : false ,
-
    //DOM & Components
 
    //Knockstaps
    knocksTapsDevModel : null ,
-   knocksTapsDevOptions : [ { icon : 'knocks-male2' , label : 'Male' , static : true , value : 'male'} , 
+   knocksTapsDevOptions : [ { icon : 'knocks-male2' , label : 'Male' , static : true , value : 'male'} ,
                             { icon : 'knocks-female2' , label : 'Female' , static : true , value : 'female'} ,
-                            { label : 'Other' , static : true , value : 'other'} 
-                          ], 
+                            { label : 'Other' , static : true , value : 'other'}
+                          ],
     knocksTapsDevMultiple : true ,
     knocksTapsDevDefineIndex : 5 ,
     knocksTapsDevDefineZero : true ,
     knocksTapsDevOptionsIcons : [] ,
-    knocksTapsDevOptionsLabels : [] , 
+    knocksTapsDevOptionsLabels : [] ,
     knocksTapsDevOptionsValues : [] ,
     knocksTapsDevOptionsStatic : [] ,
     knocksTapsDevRadioReset : false ,
@@ -418,19 +411,19 @@ Vue.component('knocksgroupslist', require('./components/knocksgroupslist.vue'));
    /* Developers Zone End */
 
     recorder : null ,
-    //Register 
-    first_name : '' , 
-    last_name : '' , 
+    //Register
+    first_name : '' ,
+    last_name : '' ,
     middle_name : '',
     nickname : '' ,
-    username : '' , 
+    username : '' ,
     birthdate : '' ,
-    birthdateIsFired: false , 
+    birthdateIsFired: false ,
     gender : '' ,
     email : '' ,
     password : '' ,
     password_confirmation : '',
-    stageNumber : 1 , 
+    stageNumber : 1 ,
     fileup : null ,
     pp : null ,
     contacts : null,
@@ -445,37 +438,37 @@ Vue.component('knocksgroupslist', require('./components/knocksgroupslist.vue'));
 
     //Login
 
-    username_login : 'username' , 
+    username_login : 'username' ,
     password_login : 'password123123',
-  
+
 
 
     //Document
 
     //Survey
 
-    q1 : 'yes' , 
-    q2 : [] , 
+    q1 : 'yes' ,
+    q2 : [] ,
     q2o : '' ,
     q3 : '3' ,
     q4 : 10 ,
     q5 : '2' ,
-    q6 : [] , 
-    q6o : [] , 
+    q6 : [] ,
+    q6o : [] ,
     q6i : '' ,
     q7 : 2 ,
     q8 : 2 ,
-    q9 : [] , 
-    q10 : 'yes' , 
+    q9 : [] ,
+    q10 : 'yes' ,
     q11 : '2' ,
-    q12 : '2' , 
-    q13 : '2' , 
-     
-    q14 : 'yes' , 
+    q12 : '2' ,
+    q13 : '2' ,
+
+    q14 : 'yes' ,
     q15 : 'yes' ,
-    q16 : '2', 
-    q17 : '2' , 
-    q18 : '2' , 
+    q16 : '2',
+    q17 : '2' ,
+    q18 : '2' ,
     q19o : '',
 
    qv : 'first',
@@ -509,7 +502,7 @@ Vue.component('knocksgroupslist', require('./components/knocksgroupslist.vue'));
 
     validDate(){
       if(!this.hasDate) return false ;
-      if(this.formateMySqlDate == 'Invalid date') return false ; 
+      if(this.formateMySqlDate == 'Invalid date') return false ;
       let year = parseInt(moment(this.formateMySqlDate).format('YYYY'));
       let currentYear = parseInt(moment().format('YYYY'));
       if(currentYear - year < 5) return false ;
@@ -547,7 +540,7 @@ Vue.component('knocksgroupslist', require('./components/knocksgroupslist.vue'));
         //return score;
         if(score != 100)
           return { percentage :  score , status : 'exception' } ;
-        else return { percentage :  score , status : 'success' } 
+        else return { percentage :  score , status : 'success' }
     }
   },
   watch :{
@@ -576,9 +569,9 @@ Vue.component('knocksgroupslist', require('./components/knocksgroupslist.vue'));
       //sthis.answersPatch();
 
 
-    
 
-     //Get User Browser 
+
+     //Get User Browser
 
      if(typeof InstallTrigger !== 'undefined')
       Window.UserNavigator = 'firefox' ;
@@ -600,9 +593,9 @@ Vue.component('knocksgroupslist', require('./components/knocksgroupslist.vue'));
       // $(window).scroll(function(){
       //   if(window.scrollY > ($('#knockknock').height()) + 100){
       //     $('#knocks_load_more_knocks_btn').css({
-      //       'position' : 'fixed' , 
-      //       'z-index' : '2000' , 
-      //       'top' : '80px' , 
+      //       'position' : 'fixed' ,
+      //       'z-index' : '2000' ,
+      //       'top' : '80px' ,
       //       'left' : WindowWidth/2 - ($('#knocks_load_more_knocks_btn').width()) ,
       //       'margin-left' : '2.5rem'
       //     });
@@ -613,7 +606,7 @@ Vue.component('knocksgroupslist', require('./components/knocksgroupslist.vue'));
 
 
 
-      
+
     }) ;
 
     App.$on('profile_uploader_status_changed' , (state)=>{
@@ -651,7 +644,7 @@ Vue.component('knocksgroupslist', require('./components/knocksgroupslist.vue'));
        $('body , html').animate({scrollTop : 0} , 'slow');
        },500);
       }else if(payloads.scope[0] == 'cover_picture_handler'){
-             
+
        vm.lowerTrigger = null ;
        setTimeout(()=>{
        if(document.querySelectorAll('.knocks_user_cover_scope').length > 0){
@@ -663,7 +656,7 @@ Vue.component('knocksgroupslist', require('./components/knocksgroupslist.vue'));
        $('body , html').animate({scrollTop : 0} , 'slow');
        },500);
       }
-       
+
     });
     App.$on('circle_adder_status_changed' , (state)=>{
       if(state == false ) {vm.lowerTrigger = null; return }
@@ -676,7 +669,7 @@ Vue.component('knocksgroupslist', require('./components/knocksgroupslist.vue'));
       vm.getuserCircles();
     });
 
-    
+
     App.$on('logged_out' , ()=>{
       vm.loggedIn = false;
     });
@@ -686,7 +679,7 @@ Vue.component('knocksgroupslist', require('./components/knocksgroupslist.vue'));
       this.ballons.push(payloads.ballon);
     });
 
-  
+
 
 
 
@@ -704,7 +697,7 @@ Vue.component('knocksgroupslist', require('./components/knocksgroupslist.vue'));
   //Methods
 
   methods: {
-    hashAnswers(){  
+    hashAnswers(){
      this.lastAnswerUpdate = this.retrivedAnswers.response.last_update;
      if(this.retrivedAnswers.response.answers.length > 0){
       this.answersPatch = this.retrivedAnswers.response.answers;
@@ -798,7 +791,7 @@ Vue.component('knocksgroupslist', require('./components/knocksgroupslist.vue'));
       // let key;
       // for(key in window.UserKnocks){
       //   this.currentKnocks.push(parseInt(key));
-      //   this.currentKnocks.sort().reverse();  
+      //   this.currentKnocks.sort().reverse();
       // }
       const vm = this;
       axios({
@@ -837,7 +830,7 @@ Vue.component('knocksgroupslist', require('./components/knocksgroupslist.vue'));
         //   vm.retriveNewerPosts();
         // } , 5000);
         //console.log(assign);
-        //setTimeout( ()=>{ this.retrivePosts()}, 5000);  
+        //setTimeout( ()=>{ this.retrivePosts()}, 5000);
 
       });
     },
@@ -864,7 +857,7 @@ Vue.component('knocksgroupslist', require('./components/knocksgroupslist.vue'));
       // let key;
       // for(key in window.UserKnocks){
       //   this.currentKnocks.push(parseInt(key));
-      //   this.currentKnocks.sort().reverse();  
+      //   this.currentKnocks.sort().reverse();
       // }
       const vm = this;
       axios({
@@ -897,7 +890,7 @@ Vue.component('knocksgroupslist', require('./components/knocksgroupslist.vue'));
         console.log(vm.currentKnocks);
         console.log (vm.currentKnocks[vm.currentKnocks.length-1]);
         //console.log(assign);
-        //setTimeout( ()=>{ this.retrivePosts()}, 5000);  
+        //setTimeout( ()=>{ this.retrivePosts()}, 5000);
 
       });
     },
@@ -907,7 +900,7 @@ Vue.component('knocksgroupslist', require('./components/knocksgroupslist.vue'));
       // let key;
       // for(key in window.UserKnocks){
       //   this.currentKnocks.push(parseInt(key));
-      //   this.currentKnocks.sort().reverse();  
+      //   this.currentKnocks.sort().reverse();
       // }
       const vm = this;
       axios({
@@ -942,7 +935,7 @@ Vue.component('knocksgroupslist', require('./components/knocksgroupslist.vue'));
         console.log(vm.currentKnocks);
         console.log (vm.currentKnocks[vm.currentKnocks.length-1]);
         //console.log(assign);
-        //setTimeout( ()=>{ this.retriveNewerPosts()}, 5000);  
+        //setTimeout( ()=>{ this.retriveNewerPosts()}, 5000);
 
       });
     },
@@ -951,7 +944,7 @@ Vue.component('knocksgroupslist', require('./components/knocksgroupslist.vue'));
       // let key;
       // for(key in window.UserKnocks){
       //   this.currentKnocks.push(parseInt(key));
-      //   this.currentKnocks.sort().reverse();  
+      //   this.currentKnocks.sort().reverse();
       // }
       const vm = this;
       axios({
@@ -986,7 +979,7 @@ Vue.component('knocksgroupslist', require('./components/knocksgroupslist.vue'));
         console.log(vm.currentKnocks);
         console.log (vm.currentKnocks[vm.currentKnocks.length-1]);
         //console.log(assign);
-        //setTimeout( ()=>{ this.retrivePosts()}, 5000);  
+        //setTimeout( ()=>{ this.retrivePosts()}, 5000);
 
       });
     },
@@ -995,8 +988,8 @@ Vue.component('knocksgroupslist', require('./components/knocksgroupslist.vue'));
       const vm = this;
       axios({
           method : 'post' ,
-          url : LaravelOrgin + 'get_circles' , 
-          
+          url : LaravelOrgin + 'get_circles' ,
+
         }).then( (response)=>{
           UserCirclesList = response.data;
           App.$emit('KnocksGlogbalCirclesList');
@@ -1050,7 +1043,7 @@ Vue.component('knocksgroupslist', require('./components/knocksgroupslist.vue'));
       } , 2000);
     },
     submitSurvey(){
-      
+
       this.stageSwitch(5);
       this.elementCategoryNotify({ type : 'success' , msg : 'Thanks for your time', title : 'Success' });
     },
@@ -1063,10 +1056,10 @@ Vue.component('knocksgroupslist', require('./components/knocksgroupslist.vue'));
       } ,15000);
     },
     stageIcon(stage , icon){
-      return this.stageNumber < stage ? ' '+icon+' knocks_text_light knocks_icon' : ' '+icon+' knocks_text_success knocks_icon' ; 
+      return this.stageNumber < stage ? ' '+icon+' knocks_text_light knocks_icon' : ' '+icon+' knocks_text_success knocks_icon' ;
     },
     stageIconDark(stage , icon){
-      return this.stageNumber < stage ? ' '+icon+' knocks_text_dark knocks_icon' : ' '+icon+' knocks_text_success knocks_icon' ; 
+      return this.stageNumber < stage ? ' '+icon+' knocks_text_dark knocks_icon' : ' '+icon+' knocks_text_success knocks_icon' ;
     },
     unboundSinstive(){
       this.sinstiveTrigger = false ;
@@ -1115,7 +1108,7 @@ Vue.component('knocksgroupslist', require('./components/knocksgroupslist.vue'));
       const vm = this;
       axios({
         url : window.location.protocol+'//'+window.location.hostname+':'+window.location.port+'/get_notification' ,
-        method : 'post' , 
+        method : 'post' ,
         timeout : 10000
 
 
@@ -1135,7 +1128,7 @@ Vue.component('knocksgroupslist', require('./components/knocksgroupslist.vue'));
         }
         vm.updatePoped();
       }).catch(()=>{ vm.balloonsLooper = false ; });
-    } , 
+    } ,
     updatePoped(){
       var i ;
       const vm = this ;
@@ -1147,7 +1140,7 @@ Vue.component('knocksgroupslist', require('./components/knocksgroupslist.vue'));
       axios({
         url : window.location.protocol+'//'+window.location.hostname+':'+window.location.port+'/update_notifications',
         method : 'post' ,
-        timeout : 10000 , 
+        timeout : 10000 ,
         data : { obj : obj }
       }).then((response) => {
         vm.lastBallonsUpdate = response.data;
@@ -1156,7 +1149,7 @@ Vue.component('knocksgroupslist', require('./components/knocksgroupslist.vue'));
     },tellme(){console.log('typing right there')},
 
 
-    //DEVELOPERS METHODS 
+    //DEVELOPERS METHODS
     //Collect LAngauges
     collectLanguages(){
       const vm = this;
@@ -1170,18 +1163,18 @@ Vue.component('knocksgroupslist', require('./components/knocksgroupslist.vue'));
         for(filter in response.data)
           vm.langFilters.push({ text : response.data[filter].display_name , value : response.data[filter].name })
       });
-    } , 
+    } ,
     collectMessages(){
       this.staticMessages = [] ;
       this.staticMessagesIdFilter = [];
       const vm = this;
       axios({
         url : LaravelOrgin+'dev/all_msgs' ,
-        method : 'post' , 
+        method : 'post' ,
         onDownloadProgress : ()=>{ vm.collectMessagesLoading = true; },
         onUploadProgress : ()=>{ vm.collectMessagesLoading = true; },
-        data : { 
-          language : vm.staticMessagesLanguageQuery , body : vm.staticMessagesBodyQuery , id : vm.staticMessagesIdQuery 
+        data : {
+          language : vm.staticMessagesLanguageQuery , body : vm.staticMessagesBodyQuery , id : vm.staticMessagesIdQuery
         }
       }).then((response)=>{
         vm.collectMessagesLoading = false;
@@ -1193,59 +1186,59 @@ Vue.component('knocksgroupslist', require('./components/knocksgroupslist.vue'));
         for(filter in vm.staticMessagesIdFilter)
           vm.staticMessagesIdFilter[filter] = { text : vm.staticMessagesIdFilter[filter] , value : vm.staticMessagesIdFilter[filter]  }
       });
-    } , 
+    } ,
 
      translateMessageDev(){
-      if(this.staticMessagesLanguageTranslate.length == 0) 
+      if(this.staticMessagesLanguageTranslate.length == 0)
         {this.elementNotify({ title : 'Invalid Operation' , msg: 'The language is messing'});  return;}
-      if(this.staticMessagesBodyTranslate.length == 0) 
+      if(this.staticMessagesBodyTranslate.length == 0)
         {this.elementNotify({ title : 'Invalid Operation' , msg: 'The Body is messing'});  return;}
       if(this.staticMessagesIdTranslate.length == 0)
         {this.elementNotify({ title : 'Invalid Operation' , msg: 'The ID is messing'});  return;}
       const vm = this;
       axios({
         url : LaravelOrgin+'dev/translate' ,
-        method : 'post' , 
+        method : 'post' ,
         onDownloadProgress : ()=>{ vm.TranslateMessagesLoading = true; },
         onUploadProgress : ()=>{ vm.TranslateMessagesLoading = true; },
-        data : { 
-          language : vm.staticMessagesLanguageTranslate , body : vm.staticMessagesBodyTranslate , id : vm.staticMessagesIdTranslate 
+        data : {
+          language : vm.staticMessagesLanguageTranslate , body : vm.staticMessagesBodyTranslate , id : vm.staticMessagesIdTranslate
         }
       }).then((response)=>{
         vm.TranslateMessagesLoading = false;
         vm.TranslateMessagesRes = response.data;
         vm.collectMessages();
       });
-    } , 
+    } ,
 
     translateForceMessageDev(){
-      if(this.staticMessagesLanguageTranslate.length == 0) 
+      if(this.staticMessagesLanguageTranslate.length == 0)
         {this.elementNotify({ title : 'Invalid Operation' , msg: 'The language is messing'});  return;}
-      if(this.staticMessagesBodyTranslate.length == 0) 
+      if(this.staticMessagesBodyTranslate.length == 0)
         {this.elementNotify({ title : 'Invalid Operation' , msg: 'The Body is messing'});  return;}
       if(this.staticMessagesIdTranslate.length == 0)
         {this.elementNotify({ title : 'Invalid Operation' , msg: 'The ID is messing'});  return;}
       const vm = this;
       axios({
         url : LaravelOrgin+'dev/translate/force' ,
-        method : 'post' , 
+        method : 'post' ,
         onDownloadProgress : ()=>{ vm.TranslateMessagesLoading = true; },
         onUploadProgress : ()=>{ vm.TranslateMessagesLoading = true; },
-        data : { 
-          language : vm.staticMessagesLanguageTranslate , body : vm.staticMessagesBodyTranslate , id : vm.staticMessagesIdTranslate 
+        data : {
+          language : vm.staticMessagesLanguageTranslate , body : vm.staticMessagesBodyTranslate , id : vm.staticMessagesIdTranslate
         }
       }).then((response)=>{
         vm.TranslateMessagesLoading = false;
         vm.TranslateMessagesRes = response.data;
         vm.collectMessages();
       });
-    } , 
+    } ,
 
       resetKnocks(){
       const vm = this;
       axios({
         url : LaravelOrgin+'dev/trunc/knocks' ,
-        method : 'post' , 
+        method : 'post' ,
         onDownloadProgress : ()=>{ vm.resetKnocksLoading = true; },
         onUploadProgress : ()=>{ vm.resetKnocksLoading = true; },
       }).then((response)=>{
@@ -1254,13 +1247,13 @@ Vue.component('knocksgroupslist', require('./components/knocksgroupslist.vue'));
         vm.resetKnocksDialog = false;
         if(response.data == 'done') vm.elementNotify({title : 'Success' , msg : 'Ballons, Reactions, Blobs, Comments, Knocks tables has been truncated.'})
       }).catch((err)=>{vm.resetKnocksLoading=false;vm.elementNotify({title : 'Internal Server Error' , msg : 'Check your browser Dev tools > Network'})});
-    } , 
+    } ,
 
     resetUsers(){
       const vm = this;
       axios({
         url : LaravelOrgin+'dev/trunc/users' ,
-        method : 'post' , 
+        method : 'post' ,
         onDownloadProgress : ()=>{ vm.resetKnocksLoading = true; },
         onUploadProgress : ()=>{ vm.resetKnocksLoading = true; },
       }).then((response)=>{
@@ -1269,12 +1262,12 @@ Vue.component('knocksgroupslist', require('./components/knocksgroupslist.vue'));
         vm.resetKnocksDialog = false;
         if(response.data == 'done') vm.elementNotify({title : 'Success' , msg : 'Ballons, Reactions, Blobs, Comments, Knocks tables has been truncated.'})
       }).catch((err)=>{vm.resetKnocksLoading=false;vm.elementNotify({title : 'Internal Server Error' , msg : 'Check your browser Dev tools > Network'})});
-    } , 
+    } ,
     reboundInitialData(){
       const vm = this;
       axios({
         url : LaravelOrgin+'dev/db/reinstall' ,
-        method : 'post' , 
+        method : 'post' ,
         onDownloadProgress : ()=>{ vm.resetKnocksLoading = true; },
         onUploadProgress : ()=>{ vm.resetKnocksLoading = true; },
       }).then((response)=>{
@@ -1318,20 +1311,20 @@ window.NavInstance = new Vue({
 
   currentIndex : null ,
   showProfileUploader : false ,
-  sidebarSearch : '' , 
+  sidebarSearch : '' ,
   sidebarSearchFocus : false ,
   sidebarSeachLoading: false ,
   sidebarSearchResult : null ,
   rightSideBarMainTabs : 'chat' ,
   showRightSideBar : true ,
-  sideBarSearchLanguage : currentUserLanguage , 
+  sideBarSearchLanguage : currentUserLanguage ,
   sidebarSearchTaps : 'users' ,
   sidebarSearchRecognition : {loading : false , speaking : false , result : ''}
   },
   mounted(){
   const vm = this ;
 
-  //Right Sidebar 
+  //Right Sidebar
 
   $(document).ready(function(){
     if(WindowWidth < 900){
@@ -1347,7 +1340,14 @@ window.NavInstance = new Vue({
   });
 
 
-
+  // $(document).on('#sidebar_search_box' , function(){
+  //   vm.sidebarSearchFocus = true;
+  //    console.log('f');
+  //   $('#sidebar_contents').slideUp( 200 , function(){
+  //     $('#sidebar_head').slideUp(200);
+  //     $('#sidebar_search_results').slideDown(200);
+  //   });
+  // });
 
   $(document).on('focus' , '#sidebar_search_box > input' , function(){
     vm.sidebarSearchFocus = true;
@@ -1375,12 +1375,14 @@ window.NavInstance = new Vue({
       $('#sidebar_search_results').slideUp(200);
     });
   });
+
+
   },
   methods : {
     asset(url){
       return LaravelOrgin + url;
     },
-    pp(){ 
+    pp(){
       return this.asset('media/avatar/compressed/'+UserId);
     },
     coverPhoto(){
@@ -1393,9 +1395,9 @@ window.NavInstance = new Vue({
       if(this.sidebarSearch.length == 0) return;
       const vm = this;
       axios({
-        url : LaravelOrgin + '/search/main' , 
-        method : 'post' , 
-        onDownloadProgress : ()=> { vm.sidebarSeachLoading = true; } , 
+        url : LaravelOrgin + '/search/main' ,
+        method : 'post' ,
+        onDownloadProgress : ()=> { vm.sidebarSeachLoading = true; } ,
         data : {q : vm.sidebarSearch}
       }).then((res)=>{
         vm.sidebarSeachLoading = false ;
@@ -1412,7 +1414,7 @@ window.NavInstance = new Vue({
             if(vm.sidebarSearchResult.comment.length > vm.sidebarSearchResult.users.length && vm.sidebarSearchResult.comment.length > vm.sidebarSearchResult.knock.length )
             vm.sidebarSearchTaps = 'comment';
         } , 200);
-        
+
       }).catch(()=>{ vm.sidebarSeachLoading = false });
     },
     runVoiceSearch(e){
@@ -1420,6 +1422,7 @@ window.NavInstance = new Vue({
       this.sidebarRunSearch();
 
     },
+
     plusNumber(input){
       return input > 9 ? '+9' : input;
     },
@@ -1448,7 +1451,7 @@ window.NavInstance = new Vue({
     logout(){
       App.$emit('logged_out' );
       setTimeout(()=>{ window.location.href = LaravelOrgin+'user/logout' },1500);
-      
+
     },
     setCoverTrigger(state){
       App.$emit('cover_uploader_status_changed' , state);
@@ -1488,7 +1491,7 @@ window.leaveIcon = function(node){
 $(document).ready(function(){
 
   $('.knocks_language_follower').css({'text-align' : window.currentUserLanguageAlignment , 'font-family' : window.currentUserLanguageFont});
-  
+
    $(".button-collapse").sideNav();
 
 
@@ -1496,13 +1499,13 @@ $(document).ready(function(){
         ({'margin-top' : ($('.knocks_valign').parent().height()/2)-($('.knocks_valign').height()/2) });
 
 
-   ///Resize Actions 
-   
+   ///Resize Actions
+
    $(window).resize(function(){
       window.WindowWidth = $(window).width();
       window.DocumentWidth = $(document).width();
       window.WindowHeight = $(window).innerHeight();
-    });     
+    });
 });
 
 //GLOBAL METHODS
@@ -1521,7 +1524,7 @@ window.KnocksVerticalAlign = ()=>{
 }
 window.UserCirclesLength = ()=>{
   let counter , circle ;
-  counter = 0; 
+  counter = 0;
   for( circle in window.UserCircles)
     counter++;
   return counter;
