@@ -10,8 +10,8 @@ use App\Reply;
 class CommentController extends Controller
 {
     public function create(Request $request){
+      if(!isset($request->submit_object) || $request->submit_object == null) return 'invalid';
       $comment = new Comment();
-
       $comment->initialize(json_encode($request->submit_object));
       return 'done';
     }
@@ -41,19 +41,27 @@ class CommentController extends Controller
         else return array();
       }
     }
-    public function getReplies(Request $request){
+
+
+     public function getReplies(Request $request){
       $request->validate([
         'knock' => 'required' ,
       ]);
       if($request->max == null){
-        $replies = Comment::find($request->knock)->commentReplies();
-        if($replies != null)
-          return $replies->pluck('id');
+        if(Comment::find($request->knock)->commentReplies()){
+          $array = array();
+          $comments =  Comment::find($request->knock)->commentReplies()->get();
+          if($comments->count() > 0)
+          foreach($comments as $comment){
+            $object = obj::find($comment->object_id);
+            if($object->isAvailable(auth()->user()->id)) array_push($array, $comment->id);
+          }
+          return $array;
+        }
         else return array();
       }else{
-        $replies = Comment::find($request->knock)->commentReplies()->where('id' , '>' , $request->max);
-        if($replies)
-          return $replies->pluck('id');
+        if(Comment::find($request->knock)->commentReplies()->where('id' , '>' , $request->max))
+          return Comment::find($request->knock)->commentReplies()->where('id' , '>' , $request->max)->get()->pluck('id');
         else return array();
       }
     }

@@ -415,7 +415,7 @@ loadKnockData(){
         vm.retriveComments();
           
            
-        }).catch((err)=>{ console.log(err); });
+        });
 
 },
      retriveComments(){

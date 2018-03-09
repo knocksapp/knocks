@@ -1,6 +1,6 @@
 @extends('layouts.user')
 @section('content')
-<title>Knocks</title>
+<title>Knocks | Home</title>
   <transition    name="custom-classes-transition" enter-active-class="animated tada" leave-active-class="animated bounceOutRight">
    <h3 v-if = "!loggedIn" class = "center knocks_text_dark">See you again, Bye!</h3>
   </transition>
@@ -118,7 +118,7 @@
     style="padding: 1rem; margin-top: -3%; 
     margin-bottom: -3%; 
     min-height:-webkit-fill-available;" >
-     <div class = "row ">Right</div>
+     <div class = "row ">Right Area</div>
    </div>
 
   </div>

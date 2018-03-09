@@ -43,6 +43,7 @@ window.WindowHeight = $(window).innerHeight();
 window.UserKnocks = {};
 window.UserComments = {};
 window.UserReplies = {};
+window.UserGroups = {};
 window.LaravelCSRF = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
 window.KnocksRecorderFired = false;
 window.UserCirclesList = [];
@@ -307,7 +308,20 @@ Vue.component('knocksusercareeredit', require('./components/knocksusercareeredit
 Vue.component('knocksuseraboutdelete', require('./components/knocksuseraboutdelete.vue'));
 Vue.component('knocksgroupcreation', require('./components/knocksgroupcreation.vue'));
 Vue.component('knocksgroupslist', require('./components/knocksgroupslist.vue'));
+
 Vue.component('knockspagesearch', require('./components/knockspagesearch.vue'));
+
+Vue.component('knocksgroupmembers', require('./components/knocksgroupmembers.vue'));
+Vue.component('knocksimg', require('./components/knocksimg.vue'));
+Vue.component('knockschattingzone', require('./components/knockschattingzone.vue'));
+Vue.component('knocksconversation', require('./components/knocksconversation.vue'));
+Vue.component('knocksgroupshortcut', require('./components/knocksgroupshortcut.vue'));
+
+
+
+
+
+
 
  window.App = new Vue();
  new Vue({
@@ -378,7 +392,9 @@ Vue.component('knockspagesearch', require('./components/knockspagesearch.vue'));
    staticMessagesIdTranslate  : 0 ,
    TranslateMessagesLoading : false ,
    TranslateMessagesRes : null ,
+
    devStage : 'Dictionary' ,
+
 
 
    //Knocks Data
@@ -649,6 +665,18 @@ Vue.component('knockspagesearch', require('./components/knockspagesearch.vue'));
        setTimeout(()=>{
        if(document.querySelectorAll('.knocks_user_cover_scope').length > 0){
          let images = document.querySelectorAll('.knocks_user_cover_scope') ;
+         let i ;
+         for(i = 0 ; i < images.length; i++)
+          images[i].src =payloads.blob;
+       }
+       $('body , html').animate({scrollTop : 0} , 'slow');
+       },500);
+      }else if(payloads.scope[0] == 'group_picture_handler'){
+             
+       vm.lowerTrigger = null ;
+       setTimeout(()=>{
+       if(document.querySelectorAll('.knocks_group_avatar_scope').length > 0){
+         let images = document.querySelectorAll('.knocks_group_avatar_scope') ;
          let i ;
          for(i = 0 ; i < images.length; i++)
           images[i].src =payloads.blob;
@@ -1316,6 +1344,7 @@ window.NavInstance = new Vue({
   sidebarSeachLoading: false ,
   sidebarSearchResult : null ,
   rightSideBarMainTabs : 'chat' ,
+  
   showRightSideBar : true ,
   sideBarSearchLanguage : currentUserLanguage ,
   sidebarSearchTaps : 'users' ,
@@ -1379,6 +1408,7 @@ window.NavInstance = new Vue({
 
   },
   methods : {
+
     asset(url){
       return LaravelOrgin + url;
     },
@@ -1509,6 +1539,9 @@ $(document).ready(function(){
 });
 
 //GLOBAL METHODS
+window.Asset = (url)=>{
+  return window.LaravelOrgin + url ;
+}
 window.ExsistsInUsersObject = (index)=>{
   return window.UsersObject[index]== undefined ? false : true ;
 }
@@ -1545,4 +1578,4 @@ window.GetTranslationByWord = (word)=>{
              window.StaticMessages[word] = translation;
         }});
         return translation;
-    }
+}

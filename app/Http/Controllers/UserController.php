@@ -14,6 +14,7 @@ use App\Reply;
 use App\obj;
 use App\Group_member;
 use DB;
+use App\Envelope;
 class UserController extends Controller
 {
   public function userCircles (){
@@ -97,7 +98,9 @@ class UserController extends Controller
 
     public function retriveUserGroups(Request $request){
           $groups = Group_member::where('user_id','=',auth()->user()->id)
-          ->where('position','=','Owner')->get()->pluck('group_id');
+           ->join('groups', 'groups.id', '=', 'group_members.group_id')
+           ->where('groups.name', 'like' , '%'.$request->q.'%')
+          ->get()->pluck('group_id');
           return $groups;
     }
 
@@ -141,10 +144,23 @@ class UserController extends Controller
       );
       return 'done';
     }
+    public function initChat(Request $request){
+      return Envelope::where('sender_id' , '=' , auth()->user()->id)
+      ->orwhere('reciever_id' , '=' , auth()->user()->id)
+      ->orwhere('reciever_id' , '=' , $request->q)
+      ->orwhere('sender_id' , '=' , $request->q)->orderBy('id', 'DESC')->get()->chunk(7);
+    }
     public function getInfo(Request $request){
       $user = User::find($request->q);
       return $user != null ? $user->retriveForUser(auth()->user()->id) : 'invalid';
     }
+
+    public function getInfoLazy(Request $request){
+      $user = User::find($request->q);
+      return $user != null ? $user->retriveForUserLazy(auth()->user()->id) : 'invalid';
+    }
+
+
     public function getUserCircles(Request $request){
       return auth()->user()->circles()->get()->pluck('id');
     }
@@ -182,17 +198,19 @@ class UserController extends Controller
       }
       //Search for friends
 
-        $circle = auth()->user()->mainCircle();
-        $suggestions =  $circle->circleMembers()->join('users' , 'users.id' , '=' , 'circle_members.user_id')
-        ->orwhere('users.first_name' , 'sounds like' , $request->q)
-        ->orwhere('users.last_name' , 'sounds like', $request->q)
-        ->orwhere('users.middle_name' , 'sounds like' , $request->q)
-        ->orwhere('users.nickname' , 'sounds like', $request->q)
-        ->orwhere('users.username' , 'sounds like' , $request->q)
-        ->pluck('users.id');
+        // $circle = auth()->user()->mainCircle();
+        // $suggestions =  $circle->circleMembers()->join('users' , 'users.id' , '=' , 'circle_members.user_id')
+        // ->where('users.first_name' , 'sounds like' , $request->q)
+        // ->orwhere('users.last_name' , 'sounds like', $request->q)
+        // ->orwhere('users.middle_name' , 'sounds like' , $request->q)
+        // ->orwhere('users.nickname' , 'sounds like', $request->q)
+        // ->orwhere('users.username' , 'sounds like' , $request->q)
+        // ->pluck('users.id');
+      $suggestions = auth()->user()->FriendsSoundsLikeID($request->q);
 
         $result = [];
-        array_push($result, auth()->user()->id);
+        if(auth()->user()->isMatched($request->q))
+          array_push($result, auth()->user()->id);
         for($i = 0; $i < count($suggestions); $i++){
           $flag = true;
           for($j = 0; $j < count($result); $j++){
@@ -253,6 +271,10 @@ class UserController extends Controller
 
       return $result;
 
+    }
+
+    public function friendsToChat(Request $request){
+      return auth()->user()->friendsToChat();
     }
 
     public function routeToProfile(Request $request , $user){

@@ -125,13 +125,13 @@ export default {
   			if(vm.recursed && ( vm.recursion_precondition == null || vm.recursion_precondition == true ) ){
   				   setTimeout( ()=>{ 
   				   	if(vm.behind_recursion || (!vm.behind_recursion && vm.windowStatus) ){
-  				   		console.log('recursion '+ moment().format('mm:ss') )
+  				   		//Recursion
   				   		vm.$emit('recursion' , vm.result);
   				    	vm.retrive(); 
   				    }else{
   				    	vm.$emit('stop' , vm.result);
   				    	vm.recursionStopped = true;
-  				    	console.log('stop '+moment().format('mm:ss'))
+  				    	//Stop
   				    }
   				   } , vm.recursion_time);
   			}
@@ -168,16 +168,13 @@ export default {
         $(document).ready(function(){
         $(window).focus(function(){
           vm.windowStatus = true ;
-          console.log('screen on '+moment().format('mm:ss'))
             if(vm.behind_recursion || (!vm.behind_recursion && vm.windowStatus) ){
                vm.recursionStopped = false;
-               console.log('resume '+moment().format('mm:ss'))
-               vm.retrive(); 
+              if(vm.behind_recursion) vm.retrive(); 
           }
         });
         $(window).blur(function(){
             vm.windowStatus = false ;
-            console.log('screen off '+moment().format('mm:ss'))
         });
       });
     }

@@ -2,8 +2,7 @@
 <div>
   <knocksretriver
   v-model=  "allcircles"
-  url = "/get_all_circles"
-  
+  url = "get_all_circles" 
   >
   </knocksretriver>
   
@@ -21,7 +20,9 @@
       <h6 class="knocks_text_dark"> Groups are great for getting things done and staying in touch with just the people you want. Share photos and videos, have conversations, make plans and more.</h6>
       <el-carousel  type="card" :autoplay="false" indicator-position  ="none" height="100px">
       <el-carousel-item v-for="(circle,index) in allcircles.response" :key="index" style="background-color : rgb(245,245,245) !important; border-radius : 35px !important; border: 1px solid #e7e7e7">
-      <h3 class="animated fadeIn center knocks_text_dark" ><a @click="pushMembers(allcircles.response[index].id,allcircles.response[index].circle_name)" class="knocks_text_dark"><i :class="'knocks-'+getThumbnails(index)"></i> {{allcircles.response[index].circle_name}}</a></h3>
+      <h3 class="animated fadeIn center knocks_text_dark" ><a @click="pushMembers(allcircles.response[index].id,allcircles.response[index].circle_name)" class="knocks_text_dark">
+        <i v-for = "ic in JSON.parse(allcircles.response[index].thumbnail) " :class = "'knocks-'+ic.class" ></i>
+       {{allcircles.response[index].circle_name}}</a></h3>
       
       </el-carousel-item>
       </el-carousel>
@@ -77,7 +78,7 @@
         <h3  class="animated bounceIn knocks_text_dark">Suggestions :</h3>
                 
         <div v-for="(user,index) in search_members">
-          <knocksuser class="animated bounceIn col knocks_fair_bounds" :user="user" :as_chip="true">
+          <knocksuser class="animated bounceIn col knocks_fair_bounds" :user="user" :as_chip="true" v-if = "thatsMe(user)">
           <a slot="append" @click="addToMembers(index)"><i class="green-text knocks-plus5"></i></a>
           </knocksuser>
         </div>
@@ -175,9 +176,14 @@ export default {
     
   },
   methods:{
+    thatsMe(id){
+      return id == UserId ? true : false ;
+    },
+
     getThumbnails(index){
      const vm = this;
-     return JSON.parse(this.allcircles.response[index].thumbnail)[0].class;
+     if(this.allcircles.response != null)
+     return JSON.parse(this.allcircles.response[index].thumbnail)[0].class; else return '';
     },
     pushMembers(circle_id,circle_name){
 
@@ -305,7 +311,7 @@ export default {
                     
                    }else{
                     vm.search_members = []
-                    console.log(vm.search_members)
+                    if(!vm.thatsMe(response.data[i]))
                     vm.search_members.push(response.data[i]);
                     vm.flag1 = true;
                     App.$emit('KnocksContentChanged');

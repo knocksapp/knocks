@@ -4,7 +4,9 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use Carbon\Carbon;
-use App\Object ;
+
+use App\obj ;
+
 use App\Knock;
 use App\Comment ;
 
@@ -50,8 +52,6 @@ class Reply extends Model
       $this->parent_type = $object->type ;
       $this->object_id = $parent_object->id;
       $this->parent_id = $object->post_id ;
-
-      //$this->post_id = null ;
       //$object->$user_privacy ;
       //Images specifications reactions
       //images_quotes
@@ -64,7 +64,7 @@ class Reply extends Model
           // $blob = new Blob();
           // $blob->imageBlob(json_encode(array(
           //   'extension' => 'image' ,
-          //   'parent_obj' => $parent_object->id ,
+          //   'parent_object' => $parent_object->id ,
           //   'parent_type' => 'knock' ,
           //   'album' => 'timeline' ,
           //   'quote' => $object->images_quotes[$i] ,
@@ -136,4 +136,6 @@ class Reply extends Model
       $this->user_id = auth()->user()->id;
       $this->save();
     }
+
+
 }

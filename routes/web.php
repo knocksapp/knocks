@@ -67,6 +67,8 @@ Route::post('update_notifications' , 'BallonController@setToPoped');
 
 Route::post('user/info' , 'UserController@getInfo');
 
+Route::post('user/info/lazy' , 'UserController@getInfoLazy');
+
 Route::post('user/posts' , 'UserController@retrivePeopleKnocks');
 
 Route::post('user/posts/older' , 'UserController@retriveOlderPeopleKnocks');
@@ -79,6 +81,12 @@ Route::post('user/profile/posts/older' , 'UserController@retriveOlderUserKnocks'
 
 Route::post('user/profile/posts/newer' , 'UserController@retriveNewerUserKnocks');
 
+Route::post('group/posts' , 'GroupController@retriveGroupKnocks');
+
+Route::post('group/posts/older' , 'GroupController@retriveOlderGroupKnocks');
+
+Route::post('group/posts/newer' , 'GroupController@retriveNewerGroupKnocks');
+
 Route::post('user/search' , 'UserController@searchForFriends');
 
 Route::post('userlogin' , 'UserController@userlogin');
@@ -90,6 +98,8 @@ Route::post('get_circles' , 'UserController@getUserCircles' );
 
 Route::post('/create_group' , 'GroupController@createGroup');
 
+Route::post('/get_group_members' , 'GroupMemberController@getGroupMembers');
+
 Route::post('get_circle_members','CircleMemberController@groupPushMembers');
 
 Route::post('get_all_circles','UserController@getUserAllCircles');
@@ -97,6 +107,9 @@ Route::post('get_all_circles','UserController@getUserAllCircles');
 Route::post('get_user_groups','UserController@retriveUserGroups');
 
 Route::post('get_group_name','GroupController@getGroups');
+
+Route::post('get_groupname','GroupController@getGroupName');
+
 
 //Career
 
@@ -151,6 +164,9 @@ Route::post('sport/update' , 'SportController@updateSport');
 
 Route::post('sport/delete' , 'SportController@deleteSport');
 
+Route::post('check_user_ingroup','GroupMemberController@checkUserInGroup');
+
+Route::post('join_public_group','GroupController@joinPublicGroup');
 
 
 Route::post('post/create' , 'KnockController@create');
@@ -163,11 +179,11 @@ Route::post('comment/create' , 'CommentController@create');
 
 Route::post('comment/replies' , 'CommentController@getReplies');
 
-Route::post('reply/replies' , 'replyController@getReplies');
+Route::post('reply/replies' , 'ReplyController@getReplies');
 
 Route::post('blob/qoute' , 'BlobController@quote');
 
-Route::post('reply/create' , 'replyController@create');
+Route::post('reply/create' , 'ReplyController@create');
 
 
 //MultiMedia
@@ -183,6 +199,8 @@ Route::post('media/file/upload' , 'BlobController@uploadFile');
 
 Route::post('media/avatar/upload' , 'BlobController@uploadAvatar');
 
+Route::post('media/group/upload' , 'BlobController@uploadGroupPicture');
+
 Route::post('media/cover/upload' , 'BlobController@uploadCover');
 
 Route::get('media/record/retrive/{id}' , 'BlobController@retriveRecord');
@@ -192,6 +210,10 @@ Route::get('media/image/retrive/{id}' , 'BlobController@retriveImage');
 Route::get('media/file/retrive/{id}' , 'BlobController@retriveFile');
 
 Route::get('media/avatar/{id}' , 'BlobController@retriveAvatar');
+
+Route::get('media/group/picture/{id}' , 'BlobController@retriveGroupPicture');
+
+Route::get('media/group/picture/compressed/{id}' , 'BlobController@retriveGroupCompressed');
 
 Route::get('media/avatar/compressed/{id}' , 'BlobController@retriveAvatarCompressed');
 
@@ -411,7 +433,7 @@ Route::get('signin' , function(){auth()->logout(); return view('guest.signup');}
 
 
 Route::group(['middleware' => 'auth'] , function(){
-
+Route::group(['middleware' => 'lastseen'] , function(){
   Route::get('faq/survey' , function(){
     if(auth()->user()->age() > 13)
       return view('guest.survey');
@@ -426,7 +448,7 @@ Route::group(['middleware' => 'auth'] , function(){
 
   Route::post('retrive_comment' , 'CommentController@retrive');
 
-  Route::post('retrive_reply' , 'replyController@retrive');
+  Route::post('retrive_reply' , 'ReplyController@retrive');
 
   Route::post('retrive_knock' , 'KnockController@retrive' );
 
@@ -454,7 +476,7 @@ Route::post('checkinit_reaction/reaction' , 'ReactionController@checkinit_reacti
 
 
 
-  Route::get('/user/logout' , function(){auth()->logout(); return view('guest.signup');});
+  Route::get('/user/logout' , function(){ auth()->user()->turnOffChat(); auth()->logout(); return view('guest.signup');});
 
 
   //APIS routes
@@ -479,6 +501,10 @@ Route::post('checkinit_reaction/reaction' , 'ReactionController@checkinit_reacti
 
   Route::post('view/circle' , 'CircleController@view');
 
+  Route::post('user/friendstochat' , 'UserController@friendsToChat');
+
+  Route::post('chat/init' , 'UserController@initChat');
+
   // Route::get('cir' , function(){
   //   $c = auth()->user()->circles()->get();
   //    $arr = array();
@@ -495,6 +521,7 @@ Route::post('checkinit_reaction/reaction' , 'ReactionController@checkinit_reacti
   // });
 
 
+});
 });
 // Route::get('test' , function(){
 //   return view('test');

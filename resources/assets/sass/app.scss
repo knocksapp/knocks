@@ -960,6 +960,13 @@ span.badge.new{
    margin-top: -40px !important;
 
 }
+.knocks_group_avatar_frame{
+   width : 80px !important;
+   height: 80px !important;
+   margin-left: 1% !important;
+   margin-top: -40px !important;
+
+}
 .knocks_profile_avatar{
   width: 100%;
   border-radius:10px;
@@ -2069,3 +2076,20 @@ font-size: 70%;
   max-height: 800px !important;
     overflow: scroll !important;
   }
+  .el-checkbox-button:last-child .el-checkbox-button__inner {
+    border-radius: 4px 4px 4px 4px;
+}
+.el-checkbox-button__inner {
+    line-height: 1;
+    white-space: nowrap;
+    border: none;
+    border-left: 0;
+    color: #1f2d3d;
+    margin: 0;
+    cursor: pointer;
+    -webkit-transition: all .3s cubic-bezier(.645,.045,.355,1);
+    transition: all .3s cubic-bezier(.645,.045,.355,1);
+    padding: 10px 15px;
+    font-size: 14px;
+    border-radius: 0;
+}

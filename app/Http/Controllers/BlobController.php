@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Blob;
 use App\obj;
 use App\User;
+use App\Group;
 
 class BlobController extends Controller
 {
@@ -89,6 +90,21 @@ class BlobController extends Controller
         if($upload) return 'done';
     }
 
+    public function uploadGroupPicture(Request $request){
+        $request->validate([
+            'object' => 'required' ,
+        ]);
+        $blob = new Blob();
+        $upload = $blob->avatarBlob(json_encode($request->object));
+
+
+        $group = Group::find($request->externals['group_id']); $group->picture = $blob->id;
+        $group->update();
+
+
+        if($upload) return 'done';
+    }
+
     //Cover
 
     public function uploadCover(Request $request){
@@ -144,10 +160,42 @@ class BlobController extends Controller
         $blob = Blob::find($pp);
         if($blob == null)return redirect('snaps/avatar.jpg'); else {
             if($blob->type != 'avatar') return redirect('snaps/avatar.jpg');
-            // $parent = obj::find($blob->parent_object);
-            // if($parent == null) return 'invalid';
-            // if(!$parent->isAvailable(auth()->user()->id)) return 'invalid';
+
             return response($blob->retriveImgBlob())
+            ->header( 'Content-Disposition', 'inline; filename="Knocks ')
+            ->header('Content-Type', $blob->extension);
+
+
+        }
+    }
+
+  public function retriveGroupPicture(Request $request , $id){
+        $user = Group::find($id);
+        if($user == null) return redirect('snaps/avatar.jpg');
+        $pp = $user->picture ;
+        if($pp == null) return redirect('snaps/avatar.jpg');
+        $blob = Blob::find($pp);
+        if($blob == null)return redirect('snaps/avatar.jpg'); else {
+            if($blob->type != 'avatar') return redirect('snaps/avatar.jpg');
+
+            return response($blob->retriveImgBlob())
+            ->header( 'Content-Disposition', 'inline; filename="Knocks ')
+            ->header('Content-Type', $blob->extension);
+
+
+        }
+    }
+
+      public function retriveGroupCompressed(Request $request , $id){
+        $user = Group::find($id);
+        if($user == null) return redirect('snaps/avatar.jpg');
+        $pp = $user->picture ;
+        if($pp == null) return redirect('snaps/avatar.jpg');
+        $blob = Blob::find($pp);
+        if($blob == null)return redirect('snaps/avatar.jpg'); else {
+            if($blob->type != 'avatar') return redirect('snaps/avatar.jpg');
+
+            return response($blob->retriveImgCompressed())
             ->header( 'Content-Disposition', 'inline; filename="Knocks ')
             ->header('Content-Type', $blob->extension);
 
