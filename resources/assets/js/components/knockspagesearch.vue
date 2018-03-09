@@ -89,7 +89,7 @@
   </h4>
 
 
-                
+
                   <div class = "row" v-for = "(knock , index) in pageSearchResult.knock" :key="index" v-if="inKnockRange(index)">
                     <div class = " col l8 s12 knocks_fair_bounds">
                       <knocksknock  :knock = "knock" :gid="'knock_side_search_result_'+index"
