@@ -27,7 +27,7 @@
       <div class = "row">
           <ul class= "uk-list uk-list-divider">
         <li v-for="(item,index) in groupsIds" class="knocks_text_dark knocks_fair_bounds">
-        	<knocksgroupshortcut as_dialog :group_id = "item" v-model = "groupsObjects[index]"></knocksgroupshortcut>
+        	<knocksgroupshortcut as_chip :group_id = "item" v-model = "groupsObjects[index]"></knocksgroupshortcut>
           </li>
       </ul>
       </div>

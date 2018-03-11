@@ -110,6 +110,9 @@ Route::post('get_group_name','GroupController@getGroups');
 
 Route::post('get_groupname','GroupController@getGroupName');
 
+Route::post('get_group_for_join','GroupController@retriveGroupForJoin');
+
+
 
 //Career
 

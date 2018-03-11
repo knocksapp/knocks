@@ -13,7 +13,6 @@
 
          <h6 class="knocks_sp_top_margin knocks_text_dark" style="opacity : 0.5"><i class="knocks-user"></i> Members : <span class="green-text">{{$group->groupMembers()->count()}} </span></h6>
     
-       <knocksgroupjoining class="right" as_public></knocksgroupjoining>
      </div>
 
 
