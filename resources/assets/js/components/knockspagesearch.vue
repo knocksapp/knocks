@@ -69,9 +69,13 @@
 
       </h4>
 
-                <transition  enter-active-class = "animated slideInUp" leave-active-class = "animated slideOutLeft">
-                 <knocksuser v-for = "user in pageSearchResult.users" :key = "user" as_result :user ="user" show_accept_shortcut ></knocksuser>
-                </transition>
+                <!-- <transition  enter-active-class = "animated slideInUp" leave-active-class = "animated slideOutLeft"> -->
+                  <div class = "row" v-for = "(user,index) in pageSearchResult.users"  v-if="inUserRange(index)">
+                      <div class = " col l8 s12 knocks_fair_bounds">
+                 <knocksuser :key = "user" as_result :user ="user" show_accept_shortcut ></knocksuser>
+               </div>
+               </div>
+                <!-- </transition> -->
                 <div v-if="pageSearchResult != null && pageSearchResult.users.length > 3" class="uk-divider-icon"></div>
                 <div class="center" v-if="pageSearchResult != null && pageSearchResult.users.length > 3">
                 <a v-if = "pageSearchResult != null && showUserKey < pageSearchResult.users.length"
@@ -153,7 +157,7 @@
                 <static_message msg = "No users matches your search." classes = "knocks_fair_bounds knocks_text_ms"></static_message>
                 </center>
 
-                <div class = "row" v-if="inIncUserRange(index)"  v-for = "(user , index) in pageSearchResult.users" :key ="user" >
+                <div class = "row"   v-for = "(user , index) in pageSearchResult.users" v-if="inIncUserRange(index)" :key ="user" >
                   <div class = "  col l8 s12 m12 knocks_fair_bounds">
                 <knocksuser as_result :user ="user" show_accept_shortcut ></knocksuser>
               </div>
@@ -394,22 +398,22 @@ export default {
         switchKnockTab(){
           this.pageSearchTaps="knock";
         },
-        showUserRange(){
+          showUserRange(){
             return  this.showUserKey ;
-          },
-          inUserRange(index){
-            return index < this.showUserRange() ? true : false;
           },
           showIncUserRange(){
               return  this.showIncUserKey ;
             },
+          inUserRange(index){
+            return index < this.showUserRange() ? true : false;
+          },
             inIncUserRange(index){
               return index < this.showIncUserRange() ? true : false;
             },
           switchUserTab(){
             this.pageSearchTaps="users";
           },
-          increaseUserRang(){
+          increaseUserRange(){
             if(this.pageSearchResult.users.length - this.showIncUserKey > 2 ) {
               this.showIncUserKey += 3;
             }else{
