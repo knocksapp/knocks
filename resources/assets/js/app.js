@@ -452,6 +452,8 @@ Vue.component('knocksgroupjoining', require('./components/knocksgroupjoining.vue
     loggedIn : true ,
     profileUserObject : null ,
 
+    uploadGroupPic : true,
+
     //Login
 
     username_login : 'username' ,

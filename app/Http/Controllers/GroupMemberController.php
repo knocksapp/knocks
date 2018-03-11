@@ -16,10 +16,10 @@ class GroupMemberController extends Controller
              $ingroup = Group_member::where('group_id','=',$request->group)
              ->where('user_id','=',$request->user)->get();
              if(count($ingroup) > 0){
-             	return 'true';
+             	return 'in';
              }
              else{
-             	 return 'false';
+             	 return 'out';
              }
 
     }

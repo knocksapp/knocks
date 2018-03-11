@@ -18,7 +18,7 @@ class Group extends Model
       $this->thumbnail = $thumbnail;
       $this->preset = $preset;
       $this->index = json_encode(array(
-            "members_count" => 0 , 
+            "members_count" => 1 , 
             "requests" => []
       ));
       $this->save();

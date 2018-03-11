@@ -2,7 +2,7 @@
       
 		
 
-      <div>
+      <div v-if="group_object != null && group_name != null">
       	
 			      <a v-if="as_chip" :href = "asset('group/'+group_id)">	<div class="chip" >
 						    <knocksimg :src = "asset('media/group/picture/compressed/'+group_id)"></knocksimg>
@@ -31,7 +31,7 @@
 							    	<li class="knocks_fair_bounds"> <i class="knocks-calendar2"></i> Created At : {{group_object.created_at}}</li>
 							    </ul>
 
-							    <h3 class="knocks_text_dark">Members : <span class="green-text">{{members_count.members_count}}</span></h3>
+							    <h3 v-if="members_count.members_count != null" class="knocks_text_dark">Members : <span class="green-text">{{members_count.members_count}}</span></h3>
 							 	</div>
 
 							 	<div class="col s4 right"> 
@@ -56,8 +56,30 @@
 							</el-dialog>
 
 			        </div>
-      </div>
 
+              <div v-if = "as_result">
+      <div class = "row">
+        <div class="col l1 s3">
+        <knocksimg classes="knocks_group_avatar_classes"  :src = "asset('media/group/picture/compressed/'+group_id)"></knocksimg>
+      </div>
+        <div class = "">
+          <div  class="">
+            <div class = "col s9">
+              <a class = "knocks_text_anchor  knocks_text_bold knocks_tinny_side_padding" :href = "asset('group/'+group_id)"> {{ group_object.name }}</a><slot name = "append_to_display_name"></slot><br/>
+              <span class = "knocks_text_xs knocks_text_bold knocks_tinny_side_padding"style = "display:flex">
+              <strong class="knocks_text_dark">Members : </strong> <i class="green-text"> {{' ' + members_count.members_count}}</i> </span>
+              <span v-if = "group_object.preset == 'public'" class="knocks_text_xs knocks_text_bold knocks_tinny_side_padding grey-text"> Public group <i class="knocks-global"> </i></span>
+
+              <span v-if = "group_object.preset == 'closed'" class="knocks_text_xs knocks_text_bold knocks_tinny_side_padding grey-text"> Closed group <i class="knocks-lock2"> </i></span>
+            </div>
+            <div class = "right">
+                 <knocksgroupjoining as_result :group_id = "group_id"></knocksgroupjoining>
+            </div>
+          </div>
+        </div>
+      </div>
+      </div>
+</div>
 
 </template>
 
@@ -79,6 +101,10 @@ export default {
         type : Boolean,
         default : false,
   	  },
+      as_result :{
+        type : Boolean,
+        default : false,
+      },
 
   },
   data () {
@@ -165,4 +191,7 @@ export default {
 </script>
 
 <style lang="css" scoped>
+.knocks_group_avatar_classes{
+  border-radius: 15px !important;
+}
 </style>

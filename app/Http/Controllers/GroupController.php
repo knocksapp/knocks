@@ -101,6 +101,9 @@ class GroupController extends Controller
       return $group->getGroupKnocksRegularMax($request->max);
     }
 
-   
+   public function retriveGroupForJoin(Request $request){
+              $group = Group::find($request->group);
+              return $group;
+   }
 
 }
