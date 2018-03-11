@@ -136,8 +136,7 @@
 
               </div>
               </el-tab-pane>
-            <el-tab-pane name = "users"class="white">
-
+            <el-tab-pane name = "users"class="white knocks_standard_border_radius knocks_fair_bounds">
             <span slot="label">
            <el-tooltip class="item" effect="dark" placement="top">
               <span slot = "content">
@@ -151,7 +150,6 @@
                 </span>
              </el-tooltip>
               </span>
-
                                <center v-if = "pageSearchResult == null ||  pageSearchResult.users.length == 0">
                 <span class = "knocks-alert-circle knocks_text_ms"></span>
                 <static_message msg = "No users matches your search." classes = "knocks_fair_bounds knocks_text_ms"></static_message>
@@ -171,9 +169,10 @@
                 <span class = "knocks-user-outline center"></span> See More
               </a>
               </div>
+
               </el-tab-pane>
 
-              <el-tab-pane name = "knock"class="white">
+              <el-tab-pane name = "knock"class=" white knocks_standard_border_radius knocks_fair_bounds">
               <span slot="label">
                 <el-tooltip class="item" effect="dark" placement="top">
                 <span slot = "content">
@@ -191,7 +190,7 @@
                 <static_message msg = "No Knocks matches your search." classes = "knocks_fair_bounds knocks_text_ms"></static_message>
                 </center>
 
-                  <div class = "row" v-if="inIncKnockRange(index)" v-for = "(knock , index) in pageSearchResult.knock" :key="index" >
+                  <div class = "row " v-if="inIncKnockRange(index)" v-for = "(knock , index) in pageSearchResult.knock" :key="index" >
                     <div class = "  col l8 s12 m12 knocks_fair_bounds">
                       <knocksknock  :knock = "knock" :gid="'knock_side_search_result_'+index+'_'+knock"
                       :current_user = "userId" replier_message = "Leave a comment" ></knocksknock>
@@ -205,8 +204,9 @@
                   <span class = "knocks-newspaper5 center"></span> See More
                 </a>
                 </div>
+
                 </el-tab-pane>
-                <el-tab-pane name = "comment"class="white">
+                <el-tab-pane name = "comment"class="white white knocks_standard_border_radius knocks_fair_bounds">
                 <span slot="label">
                   <el-tooltip class="item" effect="dark" placement="top">
                   <span slot = "content">
@@ -240,6 +240,22 @@
                   <span class = "knocks-comment-square center"></span> See More
                 </a>
                 </div>
+
+                </el-tab-pane>
+                <el-tab-pane name = "group"class="white white knocks_standard_border_radius knocks_fair_bounds">
+                <span slot="label">
+                  <el-tooltip class="item" effect="dark" placement="top">
+                  <span slot = "content">
+                    <i class="knocks_icon knocks-comment-square"></i> <static_message msg = "Groups"></static_message>
+                  </span>
+                  <span>
+                    <i class="knocks_icon knocks-comment-square"></i> <static_message msg = "Groups" class = "hide-on-small-only"></static_message>
+                    <!-- <span class="uk-badge knocks_xs_padding" v-if = "pageSearchResult != null">
+                      <span class = "knocks_text_xs">{{pagePlusNumber(pageSearchResult.comment.length)}}</span>
+                    </span> -->
+                  </span>
+                  </el-tooltip>
+                </span>
 
                 </el-tab-pane>
                 </el-tabs>
