@@ -58,7 +58,7 @@
                   <span>
                     <i class="knocks_icon knocks-knocks"></i><static_message msg = "All" class = "hide-on-small-only"></static_message>
                     <span class="uk-badge " v-if = "pageSearchResult != null">
-                      <span class = "knocks_text_xs">{{allPagePlusNumber(pageSearchResult.knock.length,pageSearchResult.comment.length,pageSearchResult.users.length)}}</span></span>
+                      <span class = "knocks_text_xs">{{allPagePlusNumber(pageSearchResult.knock.length,pageSearchResult.groups.length,pageSearchResult.users.length)}}</span></span>
                     </span>
                  </el-tooltip>
                   </span>
@@ -109,28 +109,28 @@
                 </a>
                 </div>
               </div>
-              <div class =" white knocks_standard_border_radius row  knocks_fair_bounds"   v-if = "pageSearchResult != null &&  pageSearchResult.comment.length > 0 ">
+              <div class =" white knocks_standard_border_radius row  knocks_fair_bounds"   v-if = "pageSearchResult != null &&  pageSearchResult.groups.length > 0 ">
                 <h4 class="ui horizontal divider header transparent">
-    <i class="knocks-chat10"></i>
-    <static_message msg = "Comments" classes = "knocks_text_ms"  ></static_message>
+    <i class="knocks-group2"></i>
+    <static_message msg = "Groups" classes = "knocks_text_ms"  ></static_message>
 
   </h4>
 
 
 
 
-                  <div class = "row" v-for = "(knock , index) in pageSearchResult.comment" :key = "index" v-if="inCommentRange(index)" >
+                  <div class = "row" v-for = "(groups , index) in pageSearchResult.groups" :key = "index" v-if="inGroupRange(index)" >
 
-                    <knockscomment  :knock = "knock" :gid="'knocks_comment_side_search_result_'+index"
-                    :current_user = "userId" replier_message = "Leave a reply" as_shortcut ></knockscomment>
+                    <knocksgroupshortcut as_result :group_id ="groups"></knocksgroupshortcut>
+
                   </div>
 
-                <div v-if="pageSearchResult != null && pageSearchResult.comment.length > 3" class="uk-divider-icon"></div>
-                <div class="center" v-if="pageSearchResult != null && pageSearchResult.comment.length > 3">
-                <a v-if = "pageSearchResult != null && showCommentKey < pageSearchResult.comment.length"
-                   @click="switchCommentTab()"
+                <div v-if="pageSearchResult != null && pageSearchResult.groups.length > 3" class="uk-divider-icon"></div>
+                <div class="center" v-if="pageSearchResult != null && pageSearchResult.groups.length > 3">
+                <a v-if = "pageSearchResult != null && showGroupKey < pageSearchResult.groups.length"
+                   @click="switchGroupTab()"
                    class = " knocks_side_padding knocks_text_anchor knocks_pointer" >
-                  <span class = "knocks-comment-square center"></span> See More
+                  <span class = "knocks-group2 center"></span> See More
                 </a>
                 </div>
 
@@ -206,57 +206,41 @@
                 </div>
 
                 </el-tab-pane>
-                <el-tab-pane name = "comment"class="white white knocks_standard_border_radius knocks_fair_bounds">
+
+                <el-tab-pane name = "groups"class="white white knocks_standard_border_radius knocks_fair_bounds">
                 <span slot="label">
                   <el-tooltip class="item" effect="dark" placement="top">
                   <span slot = "content">
-                    <i class="knocks_icon knocks-comment-square"></i> <static_message msg = "comments"></static_message>
+                    <i class="knocks_icon knocks-group2"></i> <static_message msg = "Groups"></static_message>
                   </span>
                   <span>
-                    <i class="knocks_icon knocks-comment-square"></i> <static_message msg = "comments" class = "hide-on-small-only"></static_message>
+                    <i class="knocks_icon knocks-group2"></i> <static_message msg = "Groups" class = "hide-on-small-only"></static_message>
                     <span class="uk-badge knocks_xs_padding" v-if = "pageSearchResult != null">
-                      <span class = "knocks_text_xs">{{pagePlusNumber(pageSearchResult.comment.length)}}</span>
+                      <span class = "knocks_text_xs">{{pagePlusNumber(pageSearchResult.groups.length)}}</span>
                     </span>
                   </span>
-                  </el-tooltip>
+                </el-tooltip>
                 </span>
-                <center v-if = "pageSearchResult == null ||  pageSearchResult.comment.length == 0">
+                <center v-if = "pageSearchResult == null ||  pageSearchResult.groups.length == 0">
                 <span class = "knocks-alert-circle knocks_text_ms"></span>
-                <static_message msg = "No Comments matches your search." classes = "knocks_fair_bounds knocks_text_ms"></static_message>
+                <static_message msg = "No Groups matches your search." classes = "knocks_fair_bounds knocks_text_ms"></static_message>
                 </center>
-
-                  <div class = "row" v-if="inIncCommentRange(index)"  v-for = "(knock , index) in pageSearchResult.comment" :key ="index">
+                 <div >
+                  <div class = "row" v-if="inIncGroupRange(index)"  v-for = "(groups , index) in pageSearchResult.groups" :key ="index">
                     <div class = "  col l8 s12 m12 knocks_fair_bounds">
-                    <knockscomment  :knock = "knock" :gid="'knocks_comment_side_search_result_'+index"
-                    :current_user = "userId" replier_message = "Leave a reply" as_shortcut ></knockscomment>
+                      <knocksgroupshortcut as_result :group_id ="groups"></knocksgroupshortcut>
                   </div>
                 </div>
+              </div>
 
-                <div v-if="pageSearchResult != null && pageSearchResult.comment.length > 3" class="uk-divider-icon"></div>
-                <div class="center" v-if="pageSearchResult != null && pageSearchResult.comment.length > 3">
-                <a v-if = "pageSearchResult != null && showIncCommentKey < pageSearchResult.comment.length"
-                   @click="increaseCommentRang()"
+                <div v-if="pageSearchResult != null && pageSearchResult.groups.length > 3" class="uk-divider-icon"></div>
+                <div class="center" v-if="pageSearchResult != null && pageSearchResult.groups.length > 3">
+                <a v-if = "pageSearchResult != null && showIncGroupKey < pageSearchResult.groups.length"
+                   @click="increaseGroupRange()"
                    class = " knocks_side_padding knocks_text_anchor knocks_pointer" >
-                  <span class = "knocks-comment-square center"></span> See More
+                  <span class = "knocks-group2 center"></span> See More
                 </a>
                 </div>
-
-                </el-tab-pane>
-                <el-tab-pane name = "group"class="white white knocks_standard_border_radius knocks_fair_bounds">
-                <span slot="label">
-                  <el-tooltip class="item" effect="dark" placement="top">
-                  <span slot = "content">
-                    <i class="knocks_icon knocks-comment-square"></i> <static_message msg = "Groups"></static_message>
-                  </span>
-                  <span>
-                    <i class="knocks_icon knocks-comment-square"></i> <static_message msg = "Groups" class = "hide-on-small-only"></static_message>
-                    <!-- <span class="uk-badge knocks_xs_padding" v-if = "pageSearchResult != null">
-                      <span class = "knocks_text_xs">{{pagePlusNumber(pageSearchResult.comment.length)}}</span>
-                    </span> -->
-                  </span>
-                  </el-tooltip>
-                </span>
-
                 </el-tab-pane>
                 </el-tabs>
               </div>
@@ -309,12 +293,9 @@ export default {
           vm.pageSearchResult = null;
            vm.pageSearchResult = res.data;
            vm.pageSearchTaps = 'all';
-
+console.log(vm.pageSearchResult);
            if(vm.pageSearchResult.knock !== undefined && vm.pageSearchResult.knock.length > 0)
            vm.pageSearchResult.knock = vm.pageSearchResult.knock.reverse();
-
-           if(vm.pageSearchResult.comment !== undefined && vm.pageSearchResult.comment.length > 0)
-           vm.pageSearchResult.comment = vm.pageSearchResult.comment.reverse();
 
         } , 200);
 
@@ -346,8 +327,7 @@ export default {
            if(vm.pageSearchResult.knock !== undefined && vm.pageSearchResult.knock.length > 0)
            vm.pageSearchResult.knock = vm.pageSearchResult.knock.reverse();
 
-           if(vm.pageSearchResult.comment !== undefined && vm.pageSearchResult.comment.length > 0)
-           vm.pageSearchResult.comment = vm.pageSearchResult.comment.reverse();
+
            setTimeout( ()=>{ vm.pageSearchTaps = vm.start_tap; } , 500);
 
         } , 200);
@@ -365,31 +345,31 @@ export default {
     pagePlusNumber(input){
       return input > 9 ? '+9' : input;
     },
-    allPagePlusNumber(knock,comment,users){
+    allPagePlusNumber(knock,groups,users){
       var input;
-      input = knock+ comment+ users ;
+      input = knock+ groups+ users ;
       return input > 9 ? '+9' : input;
     },
-    showCommentRange(){
-         return this.showCommentKey ;
+    showGroupRange(){
+         return this.showGroupKey ;
       },
-      showIncCommentRange(){
-           return this.showIncCommentKey ;
+      showIncGroupRange(){
+           return this.showIncGroupKey ;
         },
-      inCommentRange(index){
-        return index < this.showCommentRange() ? true : false;
+      inGroupRange(index){
+        return index < this.showGroupRange() ? true : false;
       },
-      inIncCommentRange(index){
-        return index < this.showIncCommentRange() ? true : false;
+      inIncGroupRange(index){
+        return index < this.showIncGroupRange() ? true : false;
       },
-      switchCommentTab(){
-        this.pageSearchTaps="comment";
+      switchGroupTab(){
+        this.pageSearchTaps="groups";
       },
-      increaseCommentRang(){
-        if(this.pageSearchResult.comment.length - this.showIncCommentKey > 2 ) {
-          this.showIncCommentKey += 3;
+      increaseGroupRange(){
+        if(this.pageSearchResult.groups.length - this.showIncGroupKey > 2 ) {
+          this.showIncGroupKey += 3;
         }else{
-           this.showIncCommentKey += this.pageSearchResult.comment.length - this.showIncCommentKey;
+           this.showIncGroupKey += this.pageSearchResult.groups.length - this.showIncGroupKey;
           }
       },
       showKnockRange(){
@@ -442,12 +422,12 @@ export default {
       return {
        pageSearchLanguage : currentUserLanguage ,
        pageSearch : '',
-       showCommentKey : 3,
        showKnockKey : 3,
        showUserKey : 3,
-       showIncCommentKey : 3,
+       showGroupKey : 3,
        showIncKnockKey : 3,
        showIncUserKey : 3,
+       showIncGroupKey : 3,
        pageSearchRecognition : {loading : false , speaking : false , result : ''},
        pageSeachLoading: false ,
        pageSearchTaps : 'all' ,

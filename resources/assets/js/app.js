@@ -1346,7 +1346,7 @@ window.NavInstance = new Vue({
   sidebarSeachLoading: false ,
   sidebarSearchResult : null ,
   rightSideBarMainTabs : 'chat' ,
-  showSidebarCommentKey : 3 ,
+  showSidebarGroupKey : 3 ,
   showSidebarKnockKey : 3 ,
   showSidebarUserKey : 3 ,
 
@@ -1448,12 +1448,12 @@ window.NavInstance = new Vue({
         setTimeout(()=>{
           vm.sidebarSearchResult = null;
            vm.sidebarSearchResult = res.data;
-           if(vm.sidebarSearchResult.users.length > vm.sidebarSearchResult.comment.length && vm.sidebarSearchResult.users.length > vm.sidebarSearchResult.knock.length )
+           if(vm.sidebarSearchResult.users.length > vm.sidebarSearchResult.groups.length && vm.sidebarSearchResult.users.length > vm.sidebarSearchResult.knock.length )
             vm.sidebarSearchTaps = 'users';
-             if(vm.sidebarSearchResult.knock.length > vm.sidebarSearchResult.comment.length && vm.sidebarSearchResult.knock.length > vm.sidebarSearchResult.users.length )
+             if(vm.sidebarSearchResult.knock.length > vm.sidebarSearchResult.groups.length && vm.sidebarSearchResult.knock.length > vm.sidebarSearchResult.users.length )
             vm.sidebarSearchTaps = 'knock';
-            if(vm.sidebarSearchResult.comment.length > vm.sidebarSearchResult.users.length && vm.sidebarSearchResult.comment.length > vm.sidebarSearchResult.knock.length )
-            vm.sidebarSearchTaps = 'comment';
+            if(vm.sidebarSearchResult.groups.length > vm.sidebarSearchResult.users.length && vm.sidebarSearchResult.groups.length > vm.sidebarSearchResult.knock.length )
+            vm.sidebarSearchTaps = 'groups';
         } , 200);
 
       }).catch(()=>{ vm.sidebarSeachLoading = false });
@@ -1463,11 +1463,11 @@ window.NavInstance = new Vue({
       this.sidebarRunSearch();
 
     },
-    showSidebarCommentRange(){
-         return this.showSidebarCommentKey ;
+    showSidebarGroupRange(){
+         return this.showSidebarGroupKey ;
       },
-      inSidebarCommentRange(index){
-        return index < this.showSidebarCommentRange() ? true : false;
+      inSidebarGroupRange(index){
+        return index < this.showSidebarGroupRange() ? true : false;
       },
       showSidebarKnockRange(){
            return this.showSidebarKnockKey ;
@@ -1476,7 +1476,7 @@ window.NavInstance = new Vue({
           return index < this.showSidebarKnockRange() ? true : false;
         },
         showSidebarUserRange(){
-             return this.showSidebarCommentKey ;
+             return this.showSidebarUserKey ;
           },
           inSidebarUserRange(index){
             return index < this.showSidebarUserRange() ? true : false;

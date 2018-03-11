@@ -1,42 +1,42 @@
 <template>
-      
-		
+
+
 
       <div v-if="group_object != null && group_name != null">
-      	
+
 			      <a v-if="as_chip" :href = "asset('group/'+group_id)">	<div class="chip" >
 						    <knocksimg :src = "asset('media/group/picture/compressed/'+group_id)"></knocksimg>
 						    {{group_name}}
 			        </div></a>
 
-			        <div v-if="as_dialog"> 
+			        <div v-if="as_dialog">
 			        	<a @click="dialogVisible = true"><div class="chip">
 						    <knocksimg :src = "asset('media/group/picture/compressed/'+group_id)"></knocksimg>
 						    {{group_name}}
 			        </div></a>
-                        
+
 							<el-dialog
 							  :visible.sync="dialogVisible"
 							  width="30%">
 							   <template slot="title">
-							   	<span  class="knocks_text_dark" style="font-size : 35px "><i class="knocks-group2"></i> {{group_name}}</span> 
+							   	<span  class="knocks_text_dark" style="font-size : 35px "><i class="knocks-group2"></i> {{group_name}}</span>
 							   </template>
 
 							 <div class="row">
-							 	<div class="col s6" style="padding-top : 50px" v-if="group_object != null"> 
+							 	<div class="col s6" style="padding-top : 50px" v-if="group_object != null">
 							 		 <ul class="knocks_text_dark">
 							    	<li class="knocks_fair_bounds"> <i class="knocks-group2"></i> Group Name : {{group_object.name}}</li>
 							    	<li class="knocks_fair_bounds"> <i class="knocks-th-large"></i> Group Category : {{group_object.category}}</li>
-							    	<li class="knocks_fair_bounds"> <i class="knocks-locked2"></i> Privacy : {{group_object.preset}}</li> 
+							    	<li class="knocks_fair_bounds"> <i class="knocks-locked2"></i> Privacy : {{group_object.preset}}</li>
 							    	<li class="knocks_fair_bounds"> <i class="knocks-calendar2"></i> Created At : {{group_object.created_at}}</li>
 							    </ul>
 
 							    <h3 v-if="members_count.members_count != null" class="knocks_text_dark">Members : <span class="green-text">{{members_count.members_count}}</span></h3>
 							 	</div>
 
-							 	<div class="col s4 right"> 
+							 	<div class="col s4 right">
                                       <knocksimg :src = "asset('media/group/picture/compressed/'+group_id)"></knocksimg>
-                                         
+
 							 	</div>
 							 </div>
 
@@ -59,7 +59,7 @@
 
               <div v-if = "as_result">
       <div class = "row">
-        <div class="col l1 s3">
+        <div class="col l1 s2">
         <knocksimg classes="knocks_group_avatar_classes"  :src = "asset('media/group/picture/compressed/'+group_id)"></knocksimg>
       </div>
         <div class = "">
@@ -186,6 +186,17 @@ export default {
   mounted(){
      this.getGroupsName();
      this.checkUserInGroups();
+     const vm = this;
+     App.$on('KnocksContentChanged' , ()=>{
+       if(vm.group_object == null){ vm.getGroupsName(); return }
+       if(vm.group_object.id != vm.group_id)
+       if(UserGroups[vm.group_id] !== undefined){
+         vm.group_object = null ;
+         setTimeout(()=>{
+          vm.group_object = UserGroups[vm.group_id];
+         },500);
+       }else vm.getGroupsName();
+     });
   },
 }
 </script>

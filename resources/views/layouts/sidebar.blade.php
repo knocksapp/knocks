@@ -171,38 +171,38 @@
                       </div></div>
                   </transition>
                   </el-tab-pane>
-                  <el-tab-pane name = "comment">
+                  <el-tab-pane name = "groups">
                   <span slot="label">
                     <el-tooltip class="item" effect="dark" placement="top">
                     <span slot = "content">
-                      <i class="knocks_icon knocks-comment-square"></i> <static_message msg = "Results from people's comments"></static_message>
+                      <i class="knocks_icon knocks-group2"></i> <static_message msg = "Results from people's groups"></static_message>
                     </span>
                     <span>
-                      <i class="knocks_icon knocks-comment-square"></i>
+                      <i class="knocks_icon knocks-group2"></i>
                       <span class="uk-badge knocks_xs_padding" v-if = "sidebarSearchResult != null">
-                        <span class = "knocks_text_xs">@{{plusNumber(sidebarSearchResult.comment.length)}}</span>
+                        <span class = "knocks_text_xs">@{{plusNumber(sidebarSearchResult.groups.length)}}</span>
                       </span>
                     </span>
                     </el-tooltip>
                   </span>
-                  <center v-if = "sidebarSearchResult == null ||  sidebarSearchResult.comment.length == 0">
+                  <center v-if = "sidebarSearchResult == null ||  sidebarSearchResult.groups.length == 0">
                   <span class = "knocks-alert-circle knocks_text_ms"></span>
-                  <static_message msg = "No Comments matches your search." classes = "knocks_fair_bounds knocks_text_ms"></static_message>
+                  <static_message msg = "No Groups matches your search." classes = "knocks_fair_bounds knocks_text_ms"></static_message>
                   </center>
                   <transition enter-active-class = "animated slideInUp" leave-active-class = "animated slideOutLeft">
                     <div>
-                        <div class = "row" v-for = "(knock , index) in sidebarSearchResult.comment" :key = "index" v-if="inSidebarCommentRange(index)" >
+                        <div class = "row" v-for = "(groups , index) in sidebarSearchResult.groups" :key = "index" v-if="inSidebarGroupRange(index)" >
 
-                          <knockscomment  :knock = "knock" :gid="'knocks_comment_side_search_result_'+index"
-                         :current_user = "{{auth()->user()->id}}" replier_message = "Leave a reply" as_shortcut ></knockscomment>
+                      <knocksgroupshortcut as_result :group_id ="groups"></knocksgroupshortcut>
+
                         </div>
 
-                      <div  v-if="sidebarSearchResult != null && sidebarSearchResult.comment.length > 3">
-                      <a v-if = "sidebarSearchResult != null && showSidebarCommentKey < sidebarSearchResult.comment.length"
+                      <div  v-if="sidebarSearchResult != null && sidebarSearchResult.groups.length > 3">
+                      <a v-if = "sidebarSearchResult != null && showSidebarGroupKey < sidebarSearchResult.groups.length"
                       @click = "submitSearch()"
 
                          class = " knocks_side_padding knocks_text_anchor knocks_pointer" >
-                        <span class = "knocks-comment-square center"></span> See More
+                        <span class = "knocks-group2 center"></span> See More
                       </a>
                       </div></div>
                   </transition>
