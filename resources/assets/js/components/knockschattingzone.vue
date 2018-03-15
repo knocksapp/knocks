@@ -9,22 +9,29 @@
   url = "user/friendstochat"></knocksretriver>
   <transition enter-active-class = "animated slideInDown" leave-active-class = "animated slideOutUp">
       <div v-if = "currentChats.length > 0" class = "row" >
-    <h4 class="ui horizontal divider header transparent">
+    <h4 class="ui horizontal divider header transparent" v-if = "!hasConversation">
     <i class="knocks-chat10"></i>
     <static_message msg = "Current Conversations"></static_message>
     </h4>
-    <knocksconversation :to = "chat" 
-     @callback_click = "currentChats.splice(index , 1 ); hasConversation = false"
+    <knocksconversation 
+    :to = "chat" 
+    @callback_click = "hasConversation = false"
+    @close_head = "closeChatHead(index)"
+    @restore_head = "restoreChat(chat)"
+    :active = "isActive(chat)"
+    :class = "[{'animated slideInDown' : (isActive(chat) && isCurrent(chat) || !hasConversation)}, {'animated slideOutUp knocks_hidden' : !(isActive(chat) && isCurrent(chat) || !hasConversation)}]"
     v-for = "(chat , index) in currentChats" :key = "index"></knocksconversation>
   </div>
   </transition>
-  <div v-if = "friendsToChat != null" :class = "{'animated slideOutDown' : hasConversation}">
+  <div v-if = "friendsToChat != null && friendsToChat.response != null && currentChats.length != friendsToChat.response.length" :class = "{'animated slideOutDown' : hasConversation}">
        <h4 class="ui horizontal divider header transparent">
     <i class="knocks-group-outline"></i>
     <static_message msg = "Friends To Chat"></static_message>
     </h4>
     <knocksuser 
-    @callback_click = "addConversation(friend.id)" :user = "friend.id" v-for = "friend in friendsToChat.response" as_callback :key = "friend.id"></knocksuser>
+    @callback_click = "addConversation(friend.id)"
+    v-if="!isCurrent(friend.id)"
+    :user = "friend.id" v-for = "friend in friendsToChat.response" as_callback :key = "friend.id"></knocksuser>
   </div>
   
 </div>
@@ -40,6 +47,7 @@ export default {
       friendsToChat : null ,
       currentChats : [] , 
       hasConversation : false , 
+      activeChat : null , 
     }
   },
   mounted(){
@@ -60,10 +68,25 @@ export default {
         })
       }
     },
+    isActive(chat){
+      if(!this.hasConversation) return false ;
+      return this.activeChat == chat ? true : false ;
+    },
+    isCurrent(chat){
+     return (this.currentChats.indexOf(chat) == -1) ? false : true ;
+    },
     addConversation(user){
 
       if(this.currentChats.indexOf(user) == -1) this.currentChats.push(user)
+        this.activeChat = user ;
         App.$emit('knocksConversationToggle' , { to : user , toggle : true } );
+    },
+    restoreChat(chat){
+      this.hasConversation = true ; 
+      this.activeChat = chat;
+    },
+    closeChatHead(index){
+      this.currentChats.splice(index , 1); this.hasConversation = false; this.activeChat = null ;
     }
   }
 }
