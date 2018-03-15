@@ -9,6 +9,7 @@ use App\Circle_member;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use App\Knock;
+use App\Group;
 use App\Comment;
 use App\Reply;
 use App\obj;
@@ -43,7 +44,7 @@ class UserController extends Controller
              auth()->login($user->first());
             return 'done';
         } else return 'failed';
-        
+
       } else return 'failed';
     }
 
@@ -56,7 +57,7 @@ class UserController extends Controller
     // else return view('guest.candy_survey');
       }else return view('guest.signup');
     }
-    
+
     //Authorised user's language
     public function authUsersLanguage (){
       if(auth()->check()) return auth()->user()->userLanguage(); return 'en';
@@ -98,19 +99,21 @@ class UserController extends Controller
 
     public function retriveUserGroups(Request $request){
           $groups = Group_member::where('user_id','=',auth()->user()->id)
-          ->where('position','=','Owner')->get()->pluck('group_id');
+           ->join('groups', 'groups.id', '=', 'group_members.group_id')
+           ->where('groups.name', 'like' , '%'.$request->q.'%')
+          ->get()->pluck('group_id');
           return $groups;
     }
 
 
-    //Check if the user exists 
+    //Check if the user exists
     public function check(Request $request){
       if($request->q == null || empty($request->q) || !isset($request->q))
         return 'not_exist';
 
         $user = User::where('username' , '=' , $request->q)->get();
-        if($user->count() == 0) 
-          return 'not_exist'; 
+        if($user->count() == 0)
+          return 'not_exist';
         return 'exist';
     }
 
@@ -119,8 +122,8 @@ class UserController extends Controller
         return 'not_exist';
 
         $user = User::where('email' , '=' , $request->q)->get();
-        if($user->count() == 0) 
-          return 'not_exist'; 
+        if($user->count() == 0)
+          return 'not_exist';
         return 'exist';
     }
     public function register(Request $request){
@@ -168,10 +171,10 @@ class UserController extends Controller
       $result = array();
       foreach($users as $user){
         array_push($result, array(
-          "name" => $user->first_name , 
-          "email" => $user->email , 
+          "name" => $user->first_name ,
+          "email" => $user->email ,
           "phone" => $user->phone ,
-          "favorite" => true 
+          "favorite" => true
         ));
       }
       return json_encode($result);
@@ -218,10 +221,10 @@ class UserController extends Controller
           if($flag){
             array_push($result, $suggestions[$i]);
           }
-          
+
         }
         return $result;
-      
+
 
     }
     public function mainSearch(Request $request){
@@ -230,23 +233,26 @@ class UserController extends Controller
       $result['reply'] = array();
       $result['comment'] = array();
       $result['knock'] = array();
+      $result['groups'] = Group::where('name','like','%'.$request->q.'%')->get()->pluck('id');
+
       // $obs = obj::
       // where('keywords' , 'like' , "%$request->q%  ")
       // ->get();
 
 
-       //  $obs = collect(DB::select( DB::raw("SELECT id FROM objs 
+       //  $obs = collect(DB::select( DB::raw("SELECT id FROM objs
        //    WHERE keywords sounds like '$request->q'
        //    or keywords like '%$request->q%'
        //    "
-       //  ) 
+       //  )
        // ));
       $objs = obj::where('type' , '=' , 'knock')
       ->orwhere('type' , '=','comment')
-      ->orwhere('type' , '=','reply')->get();
+      ->orwhere('type' , '=','reply')
+      ->get();
       foreach($objs as $ob){
 
-  
+
         if( $ob->isAvailable(auth()->user()->id)){
           similar_text($ob->keywords, $request->q,$percent);
 
@@ -265,6 +271,8 @@ class UserController extends Controller
               array_push($result[$ob->type], $res->first()->id);
           }
         }
+
+
       }
 
       return $result;
@@ -280,5 +288,5 @@ class UserController extends Controller
       return view('user.profile', ['user' => $c]);
     }
 
-   
+
    }

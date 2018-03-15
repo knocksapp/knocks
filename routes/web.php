@@ -34,7 +34,9 @@ Route::get('/dev' , function(){
   return view('test.home');
 });
 
-
+Route::get('/search' , function(){
+  return view('test.searchpage' , compact('q'));
+});
 
 
 Route::post('dev/all_langs' , 'LanguageController@collect');
@@ -52,7 +54,7 @@ Route::post('dev/test' , function(){ return 'done'; });
 
 //DEVELOPERS ROUTES ENDS /////////////////////////////////////////////////////////////
 
-//Check if the user exists 
+//Check if the user exists
 Route::post('user/check' , 'UserController@check');
 
 Route::post('email/check' , 'UserController@mailCheck');
@@ -98,6 +100,10 @@ Route::post('/create_group' , 'GroupController@createGroup');
 
 Route::post('/get_group_members' , 'GroupMemberController@getGroupMembers');
 
+Route::post('/check_member_position' , 'GroupMemberController@checkOwner');
+
+Route::post('/remove_member' , 'GroupMemberController@removeMember');
+
 Route::post('get_circle_members','CircleMemberController@groupPushMembers');
 
 Route::post('get_all_circles','UserController@getUserAllCircles');
@@ -105,6 +111,12 @@ Route::post('get_all_circles','UserController@getUserAllCircles');
 Route::post('get_user_groups','UserController@retriveUserGroups');
 
 Route::post('get_group_name','GroupController@getGroups');
+
+Route::post('get_groupname','GroupController@getGroupName');
+
+Route::post('get_group_for_join','GroupController@retriveGroupForJoin');
+
+
 
 //Career
 
@@ -159,6 +171,9 @@ Route::post('sport/update' , 'SportController@updateSport');
 
 Route::post('sport/delete' , 'SportController@deleteSport');
 
+Route::post('check_user_ingroup','GroupMemberController@checkUserInGroup');
+
+Route::post('join_public_group','GroupController@joinPublicGroup');
 
 
 Route::post('post/create' , 'KnockController@create');
@@ -451,7 +466,7 @@ Route::group(['middleware' => 'lastseen'] , function(){
   Route::get('group/{group_id}' , 'GroupController@routeToGroup');
 
   Route::get('/knock/{knock}' , 'KnockController@viewKnock');
-  
+
   Route::get('/cmnt/{comment}' , 'KnockController@viewComment');
 
   Route::get('/knock/{knock}/{comment}' , 'KnockController@viewKnockWithComment');
@@ -520,14 +535,14 @@ Route::post('checkinit_reaction/reaction' , 'ReactionController@checkinit_reacti
 // });
 
 
-// Route::get('currentcsrf/{user}/{tooken}' , function($user ,$tooken ){ 
+// Route::get('currentcsrf/{user}/{tooken}' , function($user ,$tooken ){
 //   $userObject =  App\User::where( 'id' , '=' , $user)->get();
 //   if($userObject->count() == 0) return 'not_found'.$user;
 //   else $userObject = $userObject[0];
 //   if($userObject->upload_tooken == $tooken) return 'valid'; else return 'invalid';
 // })->middleware('cors');
 
-// Route::get('validobj/{user}/{object}' , function($user ,$object ){ 
+// Route::get('validobj/{user}/{object}' , function($user ,$object ){
 
 //  return App\Object::find($object)->isAvailable($user) ? 'valid' : 'invalid';
 // })->middleware('cors');
@@ -561,7 +576,3 @@ Route::post('qis' , function(){
   $x = 'invalid';
   return $x;
 });
-
-  
-
-

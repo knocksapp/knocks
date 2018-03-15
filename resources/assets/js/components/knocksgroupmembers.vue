@@ -15,6 +15,10 @@
 				    	<li class="knocks_fair_bounds"> <i class="knocks-th-large"></i> Group Category : {{group_object.category}}</li>
 				    	<li class="knocks_fair_bounds"> <i class="knocks-locked2"></i> Privacy : {{group_object.preset}}</li> 
 				    	<li class="knocks_fair_bounds"> <i class="knocks-calendar2"></i> Created At : {{group_object.created_at}}</li>
+               <knocksgroupshortcut as_result :group_id = "40"></knocksgroupshortcut>
+               <knocksgroupshortcut as_result :group_id = "39"></knocksgroupshortcut>
+               <knocksgroupshortcut as_result :group_id = "38"></knocksgroupshortcut>
+               <knocksgroupshortcut as_result :group_id = "37"></knocksgroupshortcut>
 				    </ul>
 					  </el-tab-pane>
 
@@ -23,9 +27,12 @@
 				    <el-input placeholder="Find people" class="knocks_fair_bounds"></el-input>
 				    <div class="row" v-if="group_members != null">
 				    	<ul class="uk-list uk-list-divider">
-				    	<li  v-for="(mem,index) in group_members.response">
-				    	<knocksuser class="animated bounceIn" :user="mem.user_id" v-model="members_names[index]" :as_result="true" as_name>
+				    	<li  v-for="(mem,index) in group_members.response" class="knocks_fair_bounds">
+				    	<knocksuser  :show_accept_shortcut="false" class="col s10 animated bounceIn" :user="mem.user_id" v-model="members_names[index]" :as_result="true">
+                    <span slot="append_to_display_name" class=""><el-badge v-if="mem.position == 'Owner'" value="Owner" class="item"></el-badge><el-tag size="mini" v-if="mem.position == 'Member'" type="info">Member</el-tag></span>
+
                          </knocksuser>
+                         <span class="right"><knocksgroupmemberdelete @member_deleted="group_members.response.splice(index,1)" :group_id="group_object.id" :gid="index" :member_delete = "mem.user_id"></knocksgroupmemberdelete></span>
 				      </li>
 				  </ul>
 				    </div>
@@ -38,6 +45,10 @@
 				    	<knocksuser  main_container="col s12 knocks_house_keeper" v-for="(u ,index) in user" class="animated bounceIn" :user="user[index]" v-if="!inGroup(u)" :key = "u">
 				    		<a slot="append_to_display_name" class="right"><el-button type="primary" ><i class="knocks-plus2"></i></el-button></a>
                          </knocksuser>
+
+                         
+                        
+           
 				      </li>
 				  </ul>
 					 </el-tab-pane>

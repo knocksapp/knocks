@@ -24,7 +24,7 @@ class GroupController extends Controller
             $postion
             );
             $allmembers = array_merge($request->circle_members,$request->normal_members);
-            for($i=0; $i < count($allmembers); $i++)
+            for($i=0; $i < count($allmembers); $i++){
             {
             $memberShip = new Group_member();
             $memberShip->initialize(
@@ -32,9 +32,32 @@ class GroupController extends Controller
             $newGroup->id,
             $member
             );
+
+            $newGroup->increaseMembers();
+
+
+
         }
+        }
+
         return 'done';
     }
+
+    public function joinPublicGroup(Request $request){
+    	$newUser = new Group_member;
+    	$newUser->initialize(
+    		$user_id = auth()->user()->id,
+    		$group_id = $request->group,
+    		$position = 'Member'
+    	);
+    	
+    	$group = Group::find($request->group);
+    	$group->increaseMembers();
+        $newUser->save();
+    	return 'done';
+    }
+
+
 
     public function getGroups(Request $request){
             $allgroups = $request->groups;
@@ -49,6 +72,11 @@ class GroupController extends Controller
             }
 
             return $result;
+    }
+
+     public function getGroupName(Request $request){
+                 $result = Group::where('id','=',$request->group)->get()->first();
+                  return $result;
     }
 
       public function routeToGroup(Request $request){
@@ -72,5 +100,10 @@ class GroupController extends Controller
       if($group)
       return $group->getGroupKnocksRegularMax($request->max);
     }
+
+   public function retriveGroupForJoin(Request $request){
+              $group = Group::find($request->group);
+              return $group;
+   }
 
 }

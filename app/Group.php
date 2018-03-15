@@ -17,7 +17,23 @@ class Group extends Model
       $this->category = $category;
       $this->thumbnail = $thumbnail;
       $this->preset = $preset;
+      $this->index = json_encode(array(
+            "members_count" => 1 , 
+            "requests" => []
+      ));
       $this->save();
+    }
+
+    public function index(){
+    	return json_decode($this->index);
+    }
+
+    public function increaseMembers(){
+    	$index = $this->index();
+
+    	$index->members_count++;
+    	$this->index = json_encode($index);
+    	$this->update();
     }
 
      public function getGroupKnocks($limits){
@@ -25,7 +41,7 @@ class Group extends Model
       $limits = json_decode($limits);
       if($limits->max == null && $limits->min == null){
            $knocks = array();
-          $current =  Knock::where('type','=','group')->where('at','=',$this->id)->where('at' , '=' , $this->id)->get()->pluck('id');
+          $current =  Knock::where('type','=','group')->where('at','=',$this->id)->get()->pluck('id');
         foreach($current as $c ) array_push($knocks, $c);
 
           if(count($knocks) == 0) return array ('knocks' => [] , 'last_index' => null);
@@ -37,7 +53,7 @@ class Group extends Model
           $current =  Knock::where('type','=','group')->where('id' , '>' , $limits->max)->where('at','=',$this->id)->get()->pluck('id');
         foreach($current as $c ) array_push($knocks, $c);
           if(count($knocks) < 3 && $limits->min){
-            $current =  $this->knocks()->where(['type','=','group'],['id' , '<' , $limits->min])->get()->pluck('id');
+            $current =  $this->knocks()->where('type','=','group')->where('id' , '<' , $limits->min)->get()->pluck('id');
            foreach($current as $c ) array_push($knocks, $c);
 
           }
@@ -59,7 +75,7 @@ class Group extends Model
 
     public function getGroupKnocksRegular(){
           $knocks = array();
-          $current =  Knock::where('type','=','group')->get()->pluck('id');
+          $current =  Knock::where('type','=','group')->where('at','=',$this->id)->get()->pluck('id');
         foreach($current as $c ) array_push($knocks, $c);
           if(count($knocks) == 0) return array ('knocks' => [] , 'last_index' => null);
           rsort($knocks);
