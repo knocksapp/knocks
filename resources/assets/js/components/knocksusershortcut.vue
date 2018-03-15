@@ -168,7 +168,7 @@
     </div>
     <!--Name Presentation Begins =======================================================================-->
     <!--CallBack Presentation Begins ===================================================================-->
-    <div v-if = "as_callback && userObject != null">
+    <div v-if = "as_callback && userObject != null" class = "row knocks_house_keeper" :class = "[callback_container]">
       <a @click = "emitClick()" :class = "[main_container]">
         <knocksimg :src = "asset('media/avatar/compressed/'+user)" :classes = "[knocks_avatar_classes,{'knocks_user_profile_scope' : thatsMe}]"></knocksimg>
         <span :class ="[name_class]" >{{ displayName }}</span>
@@ -193,6 +193,10 @@ export default {
     lazy_user : {
       type : Boolean , 
       default : false ,
+    },
+    callback_container : {
+      type : String , 
+      default : 'knocks_gray_on_hover knocks_standard_border_radius'
     },
     image_container_class : {
       type : String ,
@@ -323,12 +327,16 @@ export default {
     });
     App.$on('knocksUserKeyUpdate' , (payloads)=>{
       if(payloads.user == vm.user){
+        if(vm.userObject !== null){
         let i ; 
         for(i = 0 ; i < payloads.patch.length; i++){
           vm.userObject[payloads.patch[i].key] = payloads.patch[i].value
         }
         vm.initialize(vm.userObject);
+      }else{
+        vm.holdOnChanges(payloads);
       }
+    }
     });
   },
   computed : {
@@ -351,6 +359,18 @@ export default {
   methods : {
     isKnown(){
       return window.UsersObject[this.user] === undefined ? false : true ;
+    },
+    holdOnChanges(payloads){
+      setTimeout(()=>{
+        if(this.userObject !== null){
+
+        let i ; 
+        for(i = 0 ; i < payloads.patch.length; i++){
+          this.userObject[payloads.patch[i].key] = payloads.patch[i].value
+        }
+        this.initialize(this.userObject);
+        }else this.holdOnChanges();
+      },500)
     },
     isGlobalyAuth(){
       return window.UserId === undefined || window.UserId === null || window.UserId.length === 0 ? false : true;
