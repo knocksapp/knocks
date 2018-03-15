@@ -131,7 +131,7 @@ export default {
     } ,
     record_icon_on_stop : {
       type : String , 
-      default : 'knocks-microphone'
+      default : 'knocks-microphone-3'
     } ,
     cancel_button : {
       type : String , 
@@ -186,11 +186,11 @@ export default {
     },
     player_icon_play_class : {
       type :String ,
-      default : 'knocks-play5 animated jello'
+      default : 'knocks-arrows2 animated jello'
     },
     player_icon_pause_class : {
       type :String ,
-      default : 'knocks-pause4 animated rubberBand'
+      default : 'knocks-pause-1 animated rubberBand'
     },
     player_volume_off_class : {
       type : String ,
