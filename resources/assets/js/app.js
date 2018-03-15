@@ -315,9 +315,15 @@ Vue.component('knocksgroupmembers', require('./components/knocksgroupmembers.vue
 Vue.component('knocksimg', require('./components/knocksimg.vue'));
 Vue.component('knockschattingzone', require('./components/knockschattingzone.vue'));
 Vue.component('knocksconversation', require('./components/knocksconversation.vue'));
+
+Vue.component('knocksmessagesender', require('./components/knocksmessagesender.vue'));
+
+
+
 Vue.component('knocksgroupshortcut', require('./components/knocksgroupshortcut.vue'));
 Vue.component('knocksgroupjoining', require('./components/knocksgroupjoining.vue'));
 Vue.component('knocksgroupmemberdelete', require('./components/knocksgroupmemberdelete.vue'));
+
 
 
 
