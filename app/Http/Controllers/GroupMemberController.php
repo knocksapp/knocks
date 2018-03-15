@@ -24,5 +24,21 @@ class GroupMemberController extends Controller
 
     }
 
+     public function checkOwner(Request $request){
+        $mem = Group_member::where('group_id','=',$request->group_id)
+        ->where('user_id','=', $request->mem_id)
+        ->where('position','=','Owner')->get();
+
+        if(count($mem) > 0)
+            return 'true';
+        else
+            return 'false';
+    }
+
+    public function removeMember(Request $request){
+        if(Group_member::where('group_id' , '=' , $request->group_id)->where('user_id' , '=' , auth()->user()->id)->get()->first()->isAdmin()){
+        $mem = Group_member::where('group_id','=',$request->group_id)->where('user_id','=',$request->mem_id)->delete();
+        return 'done';}else {return 'invalid';}
+    }
     
 }
