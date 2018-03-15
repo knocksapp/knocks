@@ -1,5 +1,5 @@
-<template>
-  <span :class = "[openTag , classes ,{'animated fadeInUp': !isLoading}]" :id="gid" :style = "styles" v-if = "msg == null">
+<template v-if = "!hidden">
+  <span :class = "[openTag , classes ,{'animated fadeInUp': !isLoading}]" :id="gid" :style = "styles" v-if = "msg == null && !hidden" >
       <knocksloaderbar v-if = "isLoading"></knocksloaderbar :class = "{'animated fadeOutUp': !isLoading}">
       {{restructed}}
   </span>
@@ -51,6 +51,10 @@ export default  {
     input_language : {
       type : String , 
       default : 'en'
+    },
+    hidden : {
+      type : Boolean , 
+      default : false ,
     }
 
   } ,
@@ -78,13 +82,19 @@ export default  {
     this.openTag = this.openingTag();
     if(this.user_language == this.input_language && this.msg != null){
       this.translation = this.msg;
-      if(!this.replaceable) this.restructed = this.msg;
+      if(!this.replaceable) {
+        this.restructed = this.msg;
+        this.$emit('input' , this.restructed);
+      }
       else{ setTimeout(()=>{ this.$emit('checkForReplacments'); },500);  }
     }else this.getMessage();
     
     const vm = this;
     this.$on('checkForReplacments' , ()=>{
-      if(vm.checkedOnce) return;
+      if(vm.checkedOnce) {
+        vm.$emit('input' , vm.restructed);
+        return;
+      }
       vm.checkedOnce = true;
       if(vm.replaceable == true){
         let looper , body;
@@ -94,6 +104,7 @@ export default  {
         }
         vm.restructed = body;
       }else vm.restructed = vm.translation; 
+      vm.$emit('input' , vm.restructed);
     });
   },
 
