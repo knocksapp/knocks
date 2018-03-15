@@ -64,8 +64,11 @@ export default {
        	    App.$emit('knocksRetriver' , { scope : ['remove_member'+vm.gid]});
        },
        emit(e){
-       	   if(e.response != 'invalid')
-       	  this.$emit('member_deleted');
+       	   if(e.response == 'done'){
+             this.$emit('member_deleted');
+             setTimeout( ()=>{App.$emit('KnocksContentChanged');} , 300)
+           }
+       	 
        	else alert('error')
        }
   },

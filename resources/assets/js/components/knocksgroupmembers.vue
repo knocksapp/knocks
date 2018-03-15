@@ -32,7 +32,7 @@
                     <span slot="append_to_display_name" class=""><el-badge v-if="mem.position == 'Owner'" value="Owner" class="item"></el-badge><el-tag size="mini" v-if="mem.position == 'Member'" type="info">Member</el-tag></span>
 
                          </knocksuser>
-                         <span class="right"><knocksgroupmemberdelete @member_deleted="group_members.response.splice(index,1)" :group_id="26" :gid="index" :member_delete = "mem.user_id"></knocksgroupmemberdelete></span>
+                         <span class="right"><knocksgroupmemberdelete @member_deleted="group_members.response.splice(index,1)" :group_id="group_object.id" :gid="index" :member_delete = "mem.user_id"></knocksgroupmemberdelete></span>
 				      </li>
 				  </ul>
 				    </div>
