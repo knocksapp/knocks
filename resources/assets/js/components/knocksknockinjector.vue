@@ -40,9 +40,19 @@
    </div>
 
 
-      <transition    name="custom-classes-transition" enter-active-class="animated zoomIn" leave-active-class="animated zoomOut">
-    <center><knocksloader gid= "knocks_loading_span" v-if = "loadingKnocks"></knocksloader></center>
+      <transition enter-active-class="animated fadeOut" leave-active-class="animated fadeIn">
+    <center v-if = "loadingKnocks">
+      <knocksloader gid= "knocks_loading_span" ></knocksloader>
+    </center>
    </transition>
+    <transition enter-active-class = "animated fadeIn" leave-active-class = "animated fadeOut">
+      <center v-if = "noOlderFlags && !loadingKnocks">
+        <span class = "knocks-alert-circle"></span>
+                      <span class = "knocks_text_ms" >
+        <static_message msg = "No older knocks available"></static_message>
+      </span>
+      </center>
+      </transition>
 </div>
 </template>
 
@@ -96,6 +106,7 @@ export default {
     mentionedDates : [] , 
     mentionedDatesIndex : [] , 
     mentionedKnocks : [] , 
+    noOlderFlags : false , 
 
 
 
@@ -227,7 +238,10 @@ export default {
       });
     },
       retriveOlderPosts(){
+
       if(this.sessionType == 'guest' || parseInt(this.UserId)==-1) return;
+      if(this.noOlderFlags) return;
+      this.loadingKnocks = true;
       // this.currentKnocks = [];
       // let key;
       // for(key in window.UserKnocks){
@@ -247,6 +261,11 @@ export default {
         },
       }).then((response)=>{
         let assign = response.data.knocks;
+        if(assign != 'invalid')
+        vm.noOlderFlags = assign.length == 0 ? true : false
+        if(vm.noOlderFlags){
+          setTimeout( ()=>{$('body , html').animate({scrollTop : $(document).height() - $(window).height() } , 'slow');}, 200);
+        }
         // if(assign.length > 10){
         //   assign.splice(10,assign.length-11);
         // }
