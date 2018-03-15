@@ -1,6 +1,6 @@
 <template>
 	 <button @mousedown="startRecognition()" @mouseup = "stopRecognition()" :class = "[{'pulse animated infinite ':holding}]" class = "knocks_recoginition_button">
-	 	<span class = "knocks-microphone" :class = "[{'red-text ':holding}]"></span>
+	 	<span class = "knocks-microphone-3" :class = "[{'red-text ':holding}]"></span>
 	 </button>
 </template>
 
