@@ -24,4 +24,7 @@ class Group_member extends Model
       $this->position = $position;
       $this->save();
     }
+    public function isAdmin(){
+      return $this->position == 'Owner' || $this->position == 'Admin' ? true : false ;
+    }
 }

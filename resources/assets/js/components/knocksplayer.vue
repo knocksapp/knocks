@@ -66,11 +66,11 @@ export default {
     },
     icon_play_class : {
       type :String ,
-      default : 'knocks-play5 animated jello'
+      default : 'knocks-arrows2 animated jello'
     },
     icon_pause_class : {
       type :String ,
-      default : 'knocks-pause4 animated rubberBand'
+      default : 'knocks-pause-1 animated rubberBand'
     },
     volume_off_class : {
       type : String ,

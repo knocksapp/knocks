@@ -101,6 +101,10 @@ Route::post('/create_group' , 'GroupController@createGroup');
 
 Route::post('/get_group_members' , 'GroupMemberController@getGroupMembers');
 
+Route::post('/check_member_position' , 'GroupMemberController@checkOwner');
+
+Route::post('/remove_member' , 'GroupMemberController@removeMember');
+
 Route::post('get_circle_members','CircleMemberController@groupPushMembers');
 
 Route::post('get_all_circles','UserController@getUserAllCircles');

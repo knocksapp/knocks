@@ -16,6 +16,9 @@
 				    	<li class="knocks_fair_bounds"> <i class="knocks-locked2"></i> Privacy : {{group_object.preset}}</li> 
 				    	<li class="knocks_fair_bounds"> <i class="knocks-calendar2"></i> Created At : {{group_object.created_at}}</li>
                <knocksgroupshortcut as_result :group_id = "40"></knocksgroupshortcut>
+               <knocksgroupshortcut as_result :group_id = "39"></knocksgroupshortcut>
+               <knocksgroupshortcut as_result :group_id = "38"></knocksgroupshortcut>
+               <knocksgroupshortcut as_result :group_id = "37"></knocksgroupshortcut>
 				    </ul>
 					  </el-tab-pane>
 
@@ -25,9 +28,11 @@
 				    <div class="row" v-if="group_members != null">
 				    	<ul class="uk-list uk-list-divider">
 				    	<li  v-for="(mem,index) in group_members.response" class="knocks_fair_bounds">
-				    	<knocksuser class="animated bounceIn" :user="mem.user_id" v-model="members_names[index]" :as_result="true">
+				    	<knocksuser  :show_accept_shortcut="false" class="col s10 animated bounceIn" :user="mem.user_id" v-model="members_names[index]" :as_result="true">
                     <span slot="append_to_display_name" class=""><el-badge v-if="mem.position == 'Owner'" value="Owner" class="item"></el-badge><el-tag size="mini" v-if="mem.position == 'Member'" type="info">Member</el-tag></span>
+
                          </knocksuser>
+                         <span class="right"><knocksgroupmemberdelete @member_deleted="group_members.response.splice(index,1)" :group_id="group_object.id" :gid="index" :member_delete = "mem.user_id"></knocksgroupmemberdelete></span>
 				      </li>
 				  </ul>
 				    </div>

@@ -260,6 +260,9 @@ body{
 .knocks_gray_top_border{
   border-top : 1px solid #e7e7e7;
 }
+.knocks_gray_bottom_border{
+  border-bottom : 1px solid #e7e7e7;
+}
 .knocks_down_border_radius{
   border-bottom-right-radius : 15px;
   border-bottom-left-radius : 15px;
@@ -287,10 +290,16 @@ body{
   border : 1px solid;
 }
 .knocks_rounded_border {
-  border-radius : 50%;
+  border-radius : 50% !important;
 }
 .knocks_standard_border_radius{
   border-radius : 15px !important;
+}
+.knocks_tinny_border_radius{
+  border-radius : 5px !important;
+}
+.knocks_underline_border{
+  border-bottom : 2px solid;
 }
 .knocks_borderless{
   border: 0px solid transparent !important;
@@ -350,6 +359,9 @@ body{
 }
 .knocks_background_dark{
   background-color : $knocksPrimaryColor;
+}
+.knocks_gray_background{
+  background-color : #e7e7e7;
 }
 .knocks_background_light{
   background-color : $knocksLightColor;
@@ -564,7 +576,7 @@ border-radius: 20px !important;
 
 // KNOCKS BUTTON  PRESETS ENDS __________________________________________________________________
 
-// KNOCKS ANCHOR  PRESETS BEGINS ________________________________________________________________
+// KNOCKS ANCHOR PRESETS BEGINS ________________________________________________________________
 
 
 .knocks_dark_anchor{
@@ -608,6 +620,9 @@ border-radius: 20px !important;
 }
 .knocks_pointer{
   cursor: pointer !important;
+}
+.knocks_gray_hover:hover{
+  background-color : #e7e7e7
 }
 
 // KNOCKS ANCHOR  PRESETS ENDS ________________________________________________________________
@@ -918,9 +933,9 @@ span.badge.new{
   border-right : 1px solid #f8bbd0;
 }
 #knocks_rightbar{
-  height: calc(100% + 60px);
+  height: calc(100% - 50px);
   z-index : 1000000;
-  overflow-y: auto;
+  overflow-y: hidden;
   overflow-x: hidden;
 
   //border-right:0px solid #e7e7e7;
@@ -929,7 +944,7 @@ span.badge.new{
   box-shadow: 0 0 0 0 !important;
   right : 0 !important;
   left: unset !important;
-  width: 240px !important;
+  width: 300px !important;
   border-left : 1px solid #29b6f6;
 }
 #knocks_main_navbar{
