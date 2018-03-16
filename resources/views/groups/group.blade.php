@@ -8,6 +8,7 @@
     background-color: white; border-radius: 25px;">
           <img class = "knocks_group_avatar_scope" src = "{{ asset('media/group/picture/'.$group->id) }}" style="width : 100%; border-radius : 25px; padding : 3px; " />
       </div>
+      
       <div class="col s6 l7 push-l1 push-s1 knocks_house_keeper knocks_fair_bounds" style="padding-top : 120px !important">
          <h3 class="knocks_house_keeper knocks_text_dark" >{{$group->name}}</h3>
 

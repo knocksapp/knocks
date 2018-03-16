@@ -308,9 +308,7 @@ Vue.component('knocksusercareeredit', require('./components/knocksusercareeredit
 Vue.component('knocksuseraboutdelete', require('./components/knocksuseraboutdelete.vue'));
 Vue.component('knocksgroupcreation', require('./components/knocksgroupcreation.vue'));
 Vue.component('knocksgroupslist', require('./components/knocksgroupslist.vue'));
-
 Vue.component('knockspagesearch', require('./components/knockspagesearch.vue'));
-
 Vue.component('knocksgroupmembers', require('./components/knocksgroupmembers.vue'));
 Vue.component('knocksimg', require('./components/knocksimg.vue'));
 Vue.component('knockschattingzone', require('./components/knockschattingzone.vue'));
@@ -318,8 +316,9 @@ Vue.component('knocksconversation', require('./components/knocksconversation.vue
 Vue.component('knocksgroupshortcut', require('./components/knocksgroupshortcut.vue'));
 Vue.component('knocksgroupjoining', require('./components/knocksgroupjoining.vue'));
 Vue.component('knocksgroupmemberdelete', require('./components/knocksgroupmemberdelete.vue'));
-
-
+Vue.component('knocksgrouppictures', require('./components/knocksgrouppictures.vue'));
+Vue.component('knocksgroupfiles', require('./components/knocksgroupfiles.vue'));
+Vue.component('knocksgroupvoices', require('./components/knocksgroupvoices.vue'));
 
 
 
@@ -392,7 +391,6 @@ Vue.component('knocksgroupmemberdelete', require('./components/knocksgroupmember
    staticMessagesIdTranslate  : 0 ,
    TranslateMessagesLoading : false ,
    TranslateMessagesRes : null ,
-
    devStage : 'Dictionary' ,
 
 

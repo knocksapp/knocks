@@ -104,6 +104,14 @@ Route::post('/check_member_position' , 'GroupMemberController@checkOwner');
 
 Route::post('/remove_member' , 'GroupMemberController@removeMember');
 
+Route::post('/get_group_pictures' , 'GroupController@getPictures');
+
+Route::post('/get_group_files' , 'GroupController@getFiles');
+
+Route::post('/get_group_voices' , 'GroupController@getVoices');
+
+Route::post('/get_group_videos' , 'GroupController@getVideos');
+
 Route::post('get_circle_members','CircleMemberController@groupPushMembers');
 
 Route::post('get_all_circles','UserController@getUserAllCircles');
@@ -464,6 +472,14 @@ Route::group(['middleware' => 'lastseen'] , function(){
   Route::get('/{user}' , 'UserController@routeToProfile');
 
   Route::get('group/{group_id}' , 'GroupController@routeToGroup');
+
+  Route::get('group/{group_id}/pictures' , 'GroupController@routeToGroupPictures');
+
+  Route::get('group/{group_id}/files' , 'GroupController@routeToGroupFiles');
+
+  Route::get('group/{group_id}/voices' , 'GroupController@routeToGroupVoices');
+
+  Route::get('group/{group_id}/videos' , 'GroupController@routeToGroupVideos');
 
   Route::get('/knock/{knock}' , 'KnockController@viewKnock');
 

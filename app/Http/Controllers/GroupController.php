@@ -83,6 +83,22 @@ class GroupController extends Controller
       $c = Group::find($request->group_id);
       return view('groups.group', ['group' => $c]);
     }
+    public function routeToGroupPictures(Request $request){
+      $c = Group::find($request->group_id);
+      return view('groups.group_pictures', ['group' => $c]);
+    }
+    public function routeToGroupFiles(Request $request){
+      $c = Group::find($request->group_id);
+      return view('groups.group_files', ['group' => $c]);
+    }
+    public function routeToGroupVoices(Request $request){
+      $c = Group::find($request->group_id);
+      return view('groups.group_voices', ['group' => $c]);
+    }
+    public function routeToGroupVideos(Request $request){
+      $c = Group::find($request->group_id);
+      return view('groups.group_videos', ['group' => $c]);
+    }
     public function retriveGroupKnocks(Request $request){
       $group = Group::find($request->user);
       if($group)
@@ -104,6 +120,23 @@ class GroupController extends Controller
    public function retriveGroupForJoin(Request $request){
               $group = Group::find($request->group);
               return $group;
+   }
+
+   public function getPictures(Request $request){
+           $res = Group::find($request->group_id)->photos();
+          return $res;
+   }
+    public function getFiles(Request $request){
+           $res = Group::find($request->group_id)->files();
+          return $res;
+   }
+    public function getVoices(Request $request){
+           $res = Group::find($request->group_id)->voices();
+          return $res;
+   }
+    public function getVideos(Request $request){
+           $res = Group::find($request->group_id)->videos();
+          return $res;
    }
 
 }

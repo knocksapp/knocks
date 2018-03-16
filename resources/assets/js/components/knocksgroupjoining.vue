@@ -1,34 +1,30 @@
 <template>
     <div>
-
       <div v-if="group_object != null && !as_result" class="knocks_fair_bounds knocks_sp_top_margin">
       <el-button 
-      v-if="group_object.preset == 'public'" 
+      v-if="group_object.preset == 'public'"
       @click="isChecked()"
-      type="primary" 
+      type="primary"
       v-loading="isLoading"
       :disabled = "isLoading"
       >
       {{status}}
       <i v-if="!check" class="knocks-login"></i>
-      <i v-if="check" class="knocks-log-out"></i>  
+      <i v-if="check" class="knocks-log-out"></i>
       </el-button>
     </div>
-
     <div v-if="as_result && group_object != null" class="knocks_fair_bounds knocks_sp_top_margin">
       <el-button
       type="primary"
-       v-if="group_object.preset == 'public' " 
-       @click="isChecked('public')" 
+       v-if="group_object.preset == 'public'"
+       @click="isChecked('public')"
        v-loading="isLoading"
        :disabled = "isLoading"
        >
       <span v-if="open"> Open <i class="knocks-login"></i></span>
-      <span v-if="join"> Join <i class="knocks-log-out"></i></span>   
+      <span v-if="join"> Join <i class="knocks-log-out"></i></span> 
       </el-button>
-
     </div>
-
     </div>
 </template>
 
@@ -78,7 +74,6 @@ export default {
                   message: 'You Have Joined Group '+vm.group_object.name+' Successfully',
                   type: 'success'
                 });
-
                     setTimeout(()=>{
                          window.location.href = LaravelOrgin + 'group/'+vm.group_id
                     },1200);
@@ -92,18 +87,9 @@ export default {
              }
              else if(vm.open){
              window.location.href = LaravelOrgin + 'group/'+vm.group_id
-             }
-            
-        }
-        // if(vm.open != false && vm.close != false){
-        //    vm.join = true;
-        // }
-        // if(vm.open != false && vm.join != false){
-        //    vm.close = true;
-        // }
-      
+             } 
+          }
       },
-
       getGroup(){
         const vm = this 
         axios({
@@ -122,33 +108,23 @@ export default {
            method : 'post',
            data : {group : vm.group_id , user : parseInt(UserId)}
       }).then((response)=>{
-        console.log('ssd'+response.data)
             if(response.data == 'in'){
                vm.open = true;
                vm.join = false;
                vm.checkUser = true;
-               console.log('here')
             }
-            else{
-              console.log('not here')
+            else
+            {
               vm.join = true;
               vm.open = false;
               vm.checkUser = false;
             }
-
-      });
-    
+        });
      },
-
   },
   mounted(){
-
-this.getGroup()
-this.checkUserInGroups()
-
-
-
-        
+        this.getGroup()
+        this.checkUserInGroups()      
   },
 }
 </script>

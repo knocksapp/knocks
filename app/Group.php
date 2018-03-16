@@ -36,6 +36,61 @@ class Group extends Model
     	$this->update();
     }
 
+
+    public function photos(){
+      $knocks = Knock::where('type' , '=' , 'group')->where('at' , '=' , $this->id)->get();
+      $res = [];
+      foreach($knocks as $knock){
+        if($knock->hasPictures()){
+          $pics = $knock->pictures();
+          for($i = 0 ; $i < count($pics); $i++)
+            array_push($res, $pics[$i]);
+        }
+      }
+      return $res;
+    }
+    public function voices(){
+      $knocks = Knock::where('type' , '=' , 'group')->where('at' , '=' , $this->id)->get();
+      $res = [];
+      foreach($knocks as $knock){
+        if($knock->hasVoices()){
+          array_push($res, $knock->voices());
+        }
+      }
+      return $res;
+    }
+       public function files(){
+      $knocks = Knock::where('type' , '=' , 'group')->where('at' , '=' , $this->id)->get();
+      $res = [];
+      foreach($knocks as $knock){
+        if($knock->hasFiles()){
+          $files = $knock->files();
+          for($i = 0 ; $i < count($files); $i++)
+            array_push($res, $files[$i]);
+        }
+      }
+      return $res;
+    }
+      public function videos(){
+      $knocks = Knock::where('type' , '=' , 'group')->where('at' , '=' , $this->id)->get();
+      $res = [];
+      foreach($knocks as $knock){
+        if($knock->hasVideos()){
+          $videos = $knock->videos();
+          for($i = 0 ; $i < count($videos); $i++)
+            array_push($res, $videos[$i]);
+        }
+      }
+      return $res;
+    }
+     public function decreaseMembers(){
+      $index = $this->index();
+
+      $index->members_count--;
+      $this->index = json_encode($index);
+      $this->update();
+    }
+
      public function getGroupKnocks($limits){
 
       $limits = json_decode($limits);
