@@ -1,5 +1,24 @@
 <template>
 <div>
+  <transition enter-active-class = "animated slideInUp" leave-active-class = "animated slideOutDown">
+      <knocksmessagesender 
+      id = "knocks_rightbar_message_sender"
+      v-if = "hasConversation"
+      style = "position: fixed; bottom: 2px;width: 100%;z-index : 1" 
+      replier_message = "Reply here"
+      :scope= "[ '_reply_scope']"
+      :error_at="[]"
+      submit_at = "reply/create"
+      :recorder_upload_data = "{ user : current_user , index : {}}"
+      :player_show_options = "false"
+      :post_at = "current_user"
+      parent_type = "comment"
+      success_at = "done"
+      success_msg = "yess"
+      toggle_parent_type = "comment"
+      :gid = "'knocks_conversation_'+activeChat"></knocksmessagesender>
+  </transition>
+    <br class = "hide-on-med-and-up">
   <knocksretriver
   :xdata = "{}"
   v-model=  "friendsToChat"
@@ -48,6 +67,7 @@ export default {
       currentChats : [] , 
       hasConversation : false , 
       activeChat : null , 
+      current_user : parseInt(UserId) , 
     }
   },
   mounted(){

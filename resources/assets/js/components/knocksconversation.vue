@@ -1,5 +1,5 @@
 <template>
-<div>
+<div class = "">
   <knocksuser
   :user = "to"
   as_callback
@@ -11,16 +11,16 @@
   <a @click = "emitCloseHead()"  class = "right  col"   :class = "{'knocks_hidden' : active}">
     <span class = "knocks-close"></span>
   </a>
-  <hr/> 
+  <hr :class = "{'knocks_hidden' : active}"/> 
   <knocksretriver
   :xdata = "{ q : to , oldest : oldestMsg }"
   url = "chat/init"
   :scope = "['conversation_'+to]"
   @success = "messages = $event.response"
   ></knocksretriver>
-  <div :class = "[{'knocks_hidden' :  !active} , 'animated fadeIn']">
-    <div class = "knocks_gray_border grey knocks_standard_border_radius row lighten-2 " v-if = "chattingUser != null">
-      <a @click = "emitClick()" class = " knocks_side_padding col knocks_tinny_top_margin">
+  <div :class = "[{'knocks_hidden' :  !active} , 'animated fadeIn']" class = "inherited_height row">
+    <div class = "knocks_gray_border grey  row knocks_house_keeper lighten-4 " v-if = "chattingUser != null" style=" height : 10%">
+      <div class = "col s12 knocks_house_keeper "><a @click = "emitClick()" class = " knocks_side_padding col knocks_tinny_top_margin">
         <span class = "knocks-chevron-left knocks_text_md "></span>
       </a>
       <div class = "col">
@@ -30,30 +30,19 @@
           <br/>
           <small class = "grey-text">{{chattingUser.chatStatus}}</small>
         </div>
-      </div>
+      </div></div>
     </div>
     <div class = "row knocks_house_keeper">
-      <div class = "row" :id = "'knocks_chatting_container_'+to" >
-        cont <br/>cont <br/>cont <br/>cont <br/>cont <br/>cont <br/>cont <br/>cont <br/>cont <br/>cont <br/>cont <br/>cont <br/>cont <br/>cont <br/>cont <br/>cont <br/>
-        cont <br/>cont <br/>cont <br/>cont <br/>cont <br/>cont <br/>cont <br/>cont <br/>cont <br/>cont <br/>cont <br/>
-        cont <br/>cont <br/>cont <br/>cont <br/>cont <br/>cont <br/>cont <br/>cont <br/>cont <br/>cont <br/>cont <br/>
-        cont <br/>cont <br/>cont <br/>cont <br/>cont <br/>cont <br/>cont <br/>cont <br/>cont <br/>cont <br/>cont <br/>
+      <div class = "col s12" :id = "'knocks_chatting_container_'+to"  style="min-height : 50vh; overflow-y : auto">
+       hhhhh<br/>hhhhh<br/>hhhhh<br/>hhhhh<br/>hhhhh<br/>hhhhh<br/>hhhhh<br/>hhhhh<br/>hhhhh<br/>hhhhh<br/>hhhhh<br/>hhhhh<br/>hhhhh<br/>
+       hhhhh<br/>hhhhh<br/>hhhhh<br/>hhhhh<br/>hhhhh<br/>hhhhh<br/>hhhhh<br/>hhhhh<br/>hhhhh<br/>hhhhh<br/>hhhhh<br/>hhhhh<br/>hhhhh<br/>
+       hhhhh<br/>hhhhh<br/>hhhhh<br/>hhhhh<br/>hhhhh<br/>hhhhh<br/>hhhhh<br/>hhhhh<br/>hhhhh<br/>hhhhh<br/>hhhhh<br/>hhhhh<br/>hhhhh<br/>
+       hhhhh<br/>hhhhh<br/>hhhhh<br/>hhhhh<br/>hhhhh<br/>hhhhh<br/>hhhhh<br/>hhhhh<br/>hhhhh<br/>hhhhh<br/>hhhhh<br/>hhhhh<br/>hhhhh<br/>
+       hhhhh<br/>hhhhh<br/>hhhhh<br/>hhhhh<br/>hhhhh<br/>hhhhh<br/>hhhhh<br/>hhhhh<br/>hhhhh<br/>hhhhh<br/>hhhhh<br/>hhhhh<br/>hhhhh<br/>
       </div>
-      <knocksmessagesender
-      style = "margin-bottom: 2px !important;position: fixed;bottom: 10px;width:  100%;"
-      :class = "[{'animated slideOutDown' : !active} , {'animated slideInUp' : active}]"
-      replier_message = "Reply here"
-      :scope= "[ '_reply_scope']"
-      :error_at="[]"
-      submit_at = "reply/create"
-      :recorder_upload_data = "{ user : current_user , index : {}}"
-      :player_show_options = "false"
-      :post_at = "current_user"
-      parent_type = "comment"
-      success_at = "done"
-      success_msg = "yess"
-      toggle_parent_type = "comment"
-      :gid = "'knocks_conversation_'+to"></knocksmessagesender>
+      <div class = "row">
+      
+    </div>
     </div>
   </div>
 </div>
@@ -97,11 +86,11 @@ export default {
       let windowHeight = $('#knocks_rightbar').height();
       setTimeout(()=>{ 
       let chattingContainer = $('#knocks_chatting_container_'+vm.to);
-      let containerTop = $('#knocks_chatting_container_'+vm.to).offset().top 
-      let senderHeight = $('#knocks_conversation_'+vm.to).height()
-      let containerHeight = ( windowHeight  - ( containerTop  +  senderHeight + 10 ) );
-      console.log(senderHeight)
-      chattingContainer.css({'height' : containerHeight + 'px' })
+      let containerTop = $('#knocks_rightbar_taps_container').height()
+      let senderHeight = $('#knocks_rightbar_message_sender').height()
+      let containerHeight = (  containerTop  -  (senderHeight + 47) );
+
+      chattingContainer.css({'max-height' : containerHeight + 'px' })
 
       }  , 1000)
 
@@ -116,4 +105,5 @@ export default {
 </script>
 
 <style lang="css" scoped>
+
 </style>

@@ -1,6 +1,6 @@
 <template>
 <transition   name="custom-classes-transition" enter-active-class="animated zoomInDown" leave-active-class="animated zoomOutUp">
-  <div :class = "main_container" :id = "gid" class = " "  style="margin-bottom : 2px !important;">
+  <div :class = "main_container" :id = "gid" class = "white knocks_gray_border "  style="margin-bottom : 2px !important;">
     <div class = "    col s12 knocks_house_keeper ">
      
     <!--LEVEL TWO -->
@@ -9,7 +9,7 @@
         <div class ="white col s10 knocks_house_keeper knocks_standard_border_radius" style="margin-top : 1px !important;"
           :class = "[{'knocks_theme_active_border':focused},{'knocks_pink_border' : !focused}]">
           <div :class = "[input_container , {'col s12':focused}, {'col m7 s6':!focused}]" v-if="!draggingMode"
-            contenteditable = "true"
+            contenteditable = "true" style="max-height : 200px; overflow-y : auto" 
             class = "knocks_language_follower white" data-text="" :id = "gid+'_input_sender'" v-model = "bodyContent" @input = "constructInput()" @focus = "focused = true" @blur = "focused = false">
           </div>
           
@@ -123,7 +123,7 @@
           @knocks_submit_accepted = "resetKnock()"
           leave_class = "animated rubberBand"
           :materialize_feedback = "false"
-          button_classes = " left el-button knocks_color_kit knocks_tinny_el_round_btn knocks_btn_color_kit knocks_right knocks_noshadow_ps knocks_borderless">
+          button_classes = " left  knocks_color_kit  btn btn-floating  wave-effect knocks_btn_color_kit knocks_right knocks_noshadow_ps knocks_borderless">
           </knocksbutton>
           </template>
           <span slot = "content"  class = "knocks_tooltip animated flipInX " style="margin-top: 20px !important; left : -30px !important;" >
@@ -210,7 +210,7 @@ export default {
   	},
   	btn_icon : {
   		type : String ,
-  		default : 'knocks-sendfill knocks_text_ms knocks_text_light knocks_custom_margin_left'
+  		default : 'knocks-send3  knocks_text_light '
   	},
   	btn_disable_placeholder : {
   		type : Boolean , 

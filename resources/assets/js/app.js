@@ -323,6 +323,7 @@ Vue.component('knocksmessagesender', require('./components/knocksmessagesender.v
 Vue.component('knocksgroupshortcut', require('./components/knocksgroupshortcut.vue'));
 Vue.component('knocksgroupjoining', require('./components/knocksgroupjoining.vue'));
 Vue.component('knocksgroupmemberdelete', require('./components/knocksgroupmemberdelete.vue'));
+Vue.component('knocksrightbar', require('./components/knocksrightbar.vue'));
 
 
 

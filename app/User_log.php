@@ -15,31 +15,31 @@ class User_log extends Model
   }
   public function addUserLog($user , $url , $ip , $method ){
     $agent = new Agent();
-  	$this->user_id = $user;
-  		$this->index = json_encode(array(
-  		'platform'=> $agent->platform() , 
+    $this->user_id = $user;
+      $this->index = json_encode(array(
+      'platform'=> $agent->platform() , 
       'platform_version' => $agent->version($agent->platform()) , 
-  		'browser'=> $agent->browser() , 
+      'browser'=> $agent->browser() , 
       'browser_version' => $agent->version($agent->browser()) ,
-  		'device'=> $agent->device() , 
-  		'url' => $url ,
+      'device'=> $agent->device() , 
+      'url' => $url ,
       'ip' => $ip,
       'method' => $method , 
-  	));
-  	$this->save();
+    ));
+    $this->save();
   }
   public function addAnanymousLog($url , $ip , $method ){
-  	$agent = new Agent();
-  	$this->index = json_encode(array(
-  		'platform'=> $agent->platform() , 
+    $agent = new Agent();
+    $this->index = json_encode(array(
+      'platform'=> $agent->platform() , 
       'platform_version' => $agent->version($agent->platform()) , 
-  		'browser'=> $agent->browser() , 
+      'browser'=> $agent->browser() , 
       'browser_version' => $agent->version($agent->browser()) ,
-  		'device'=> $agent->device() , 
-  		'url' => $url ,
+      'device'=> $agent->device() , 
+      'url' => $url ,
       'ip' => $ip,
       'method' => $method , 
-  	));
-  	$this->save();
+    ));
+    $this->save();
   }   
 }
