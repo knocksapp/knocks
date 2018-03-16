@@ -1,4 +1,5 @@
 <?php
+//user Controller
 
 namespace App\Http\Controllers;
 

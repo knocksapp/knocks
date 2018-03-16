@@ -3,6 +3,8 @@
  * includes Vue and other libraries. It is a great starting point when
  * building robust, powerful web applications using Vue and Laravel.
  */
+ //app.js
+ 
 require('axios'); //AJAX XHR Performer.
 require('vue');   //Front End Framework.
 require('materialize-css'); //Front/JS/CSS Framework based on JS/CSS.
