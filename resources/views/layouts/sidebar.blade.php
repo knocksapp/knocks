@@ -1,5 +1,4 @@
 <ul id = "knocks_sidebar" class = "side-nav fixed knocks_house_keeper grey lighten-5" >
-
   <div class="force-overflow"></div>
   <li id = "sidebar_head"><div class="user-view ">
     <div class="background">
@@ -175,10 +174,10 @@
                   <span slot="label">
                     <el-tooltip class="item" effect="dark" placement="top">
                     <span slot = "content">
-                      <i class="knocks_icon knocks-group2"></i> <static_message msg = "Results from people's groups"></static_message>
+                      <i class="knocks_icon knocks-team"></i> <static_message msg = "Results from people's groups"></static_message>
                     </span>
                     <span>
-                      <i class="knocks_icon knocks-group2"></i>
+                      <i class="knocks_icon knocks-team"></i>
                       <span class="uk-badge knocks_xs_padding" v-if = "sidebarSearchResult != null">
                         <span class = "knocks_text_xs">@{{plusNumber(sidebarSearchResult.groups.length)}}</span>
                       </span>
@@ -221,8 +220,8 @@
          <el-menu default-active="2" class="el-menu-vertical-demo" >
       <el-submenu index="1">
         <template slot="title">
-          <i class="el-icon-location"></i>
-<i class="knocks-group2 knocks_text_dark"></i>
+          
+<i class="knocks-team "></i>
           <span> My Groups</span>
 
         </template>
@@ -253,3 +252,6 @@
     </div>
   </div>
   </ul>
+
+<!-- sidebar -->
+

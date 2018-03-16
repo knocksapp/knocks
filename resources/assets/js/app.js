@@ -3,6 +3,8 @@
  * includes Vue and other libraries. It is a great starting point when
  * building robust, powerful web applications using Vue and Laravel.
  */
+ //app.js
+ 
 require('axios'); //AJAX XHR Performer.
 require('vue');   //Front End Framework.
 require('materialize-css'); //Front/JS/CSS Framework based on JS/CSS.
@@ -313,12 +315,24 @@ Vue.component('knocksgroupmembers', require('./components/knocksgroupmembers.vue
 Vue.component('knocksimg', require('./components/knocksimg.vue'));
 Vue.component('knockschattingzone', require('./components/knockschattingzone.vue'));
 Vue.component('knocksconversation', require('./components/knocksconversation.vue'));
+
+Vue.component('knocksmessagesender', require('./components/knocksmessagesender.vue'));
+
+
+
 Vue.component('knocksgroupshortcut', require('./components/knocksgroupshortcut.vue'));
 Vue.component('knocksgroupjoining', require('./components/knocksgroupjoining.vue'));
 Vue.component('knocksgroupmemberdelete', require('./components/knocksgroupmemberdelete.vue'));
+
 Vue.component('knocksgrouppictures', require('./components/knocksgrouppictures.vue'));
 Vue.component('knocksgroupfiles', require('./components/knocksgroupfiles.vue'));
 Vue.component('knocksgroupvoices', require('./components/knocksgroupvoices.vue'));
+
+Vue.component('knocksrightbar', require('./components/knocksrightbar.vue'));
+
+
+
+
 
 
 

@@ -1,7 +1,5 @@
 <template>
 
-
-
       <div v-if="group_object != null && group_name != null">
 
 			      <a v-if="as_chip" :href = "asset('group/'+group_id)">	<div class="chip" >

@@ -111,7 +111,7 @@
               </div>
               <div class =" white knocks_standard_border_radius row  knocks_fair_bounds"   v-if = "pageSearchResult != null &&  pageSearchResult.groups.length > 0 ">
                 <h4 class="ui horizontal divider header transparent">
-    <i class="knocks-group2"></i>
+    <i class="knocks-team"></i>
     <static_message msg = "Groups" classes = "knocks_text_ms"  ></static_message>
 
   </h4>
@@ -130,7 +130,7 @@
                 <a v-if = "pageSearchResult != null && showGroupKey < pageSearchResult.groups.length"
                    @click="switchGroupTab()"
                    class = " knocks_side_padding knocks_text_anchor knocks_pointer" >
-                  <span class = "knocks-group2 center"></span> See More
+                  <span class = "knocks-team center"></span> See More
                 </a>
                 </div>
 
@@ -214,7 +214,7 @@
                     <i class="knocks_icon knocks-group2"></i> <static_message msg = "Groups"></static_message>
                   </span>
                   <span>
-                    <i class="knocks_icon knocks-group2"></i> <static_message msg = "Groups" class = "hide-on-small-only"></static_message>
+                    <i class="knocks_icon knocks-team"></i> <static_message msg = "Groups" class = "hide-on-small-only"></static_message>
                     <span class="uk-badge knocks_xs_padding" v-if = "pageSearchResult != null">
                       <span class = "knocks_text_xs">{{pagePlusNumber(pageSearchResult.groups.length)}}</span>
                     </span>
@@ -440,3 +440,4 @@ console.log(vm.pageSearchResult);
     }
 
 </script>
+<!-- knockspagesearch  -->

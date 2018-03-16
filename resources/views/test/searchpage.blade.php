@@ -23,3 +23,4 @@ start_as = "{{$_GET['q']}}"></knockspagesearch>
 
 
 @endsection
+<!-- search page -->
