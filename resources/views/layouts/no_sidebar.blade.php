@@ -40,12 +40,19 @@
         font-family : {{  auth()->user()->userLanguageFont() }} ;
         text-align : {{  auth()->user()->userLanguageAlignment() }} ;
       }
+       @media only screen and (min-width : 993px){
+      main{
+        padding-right: 302px !important;
+        padding-left:  0px !important;
+      }
+    }
       .knocks_language_font{
         font-family : {{  auth()->user()->userLanguageFont() }} ;
       }
       .knocks_language_default_float{
         float : {{  auth()->user()->userLanguageAlignment() }} ;
       }
+
 
 }
 
