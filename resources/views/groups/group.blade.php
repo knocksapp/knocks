@@ -16,6 +16,7 @@
     
      </div>
 
+</div>
 
       <div class="col l12 s12 knocks_fair_bounds ">
   <knocksgroupmembers :group_object="{{$group}}"></knocksgroupmembers>

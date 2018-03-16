@@ -69,9 +69,13 @@
       					 	<knockselinput v-model = "test" placeholder="search" autocomplete :autocomplete_start="2" autocomplete_from = "user/search" @autocomplete="user = $event" ></knockselinput>
       					 	<ul class="uk-list uk-list-divider">
       				    	<li >
-      				    	<knocksuser  main_container="col s12 knocks_house_keeper" v-for="(u ,index) in user" class="animated bounceIn" :user="user[index]" v-if="!inGroup(u)" :key = "u">
-      				    		<a slot="append_to_display_name" class="right"><el-button type="primary" ><i class="knocks-plus2"></i></el-button></a>
+                      <div v-for="(u ,index) in user" v-if="!inGroup(u)">
+      				    	<knocksuser  main_container="col s10 knocks_house_keeper"  class="animated bounceIn" :user="user[index]"  :key = "u">
                      </knocksuser>
+                     <knocksgroupjoining 
+                     @member_added = "addMember($event)"
+                     class="col s2 right" :group_id="group_object.id" :add_member_mode="true" :user_id="u"></knocksgroupjoining>
+                   </div>
 				      </li>
 				  </ul>
 					 </el-tab-pane>
@@ -90,7 +94,8 @@
                        <a class="uk-position-center-left uk-position-small uk-hidden-hover" href="#" uk-slidenav-previous uk-slider-item="previous"></a>
                        <a class="uk-position-center-right uk-position-small uk-hidden-hover" href="#" uk-slidenav-next uk-slider-item="next"></a>
                     </div>
-                    <a v-if="group_object != null && group_pictures != null && group_pictures.response != null" class="right" :href = "asset('group/'+group_object.id+'/pictures')">See more</a>
+                    <a v-if="group_object != null && group_pictures.response.length != 0" class="right" :href = "asset('group/'+group_object.id+'/pictures')">See more</a>
+                    <h3 v-if="group_pictures.response.length == 0 " class="grey-text center"><i class="knocks-picture"></i> There is No Pictures.</h3>
                 </div>
            </el-tab-pane>
 
@@ -100,14 +105,15 @@
                   <ul class="uk-list uk-list-divider">
                       <li v-for = "(file,index) in group_files.response"><knocksfileviewer :file="file" v-if="index < 10"></knocksfileviewer></li>
                   </ul>
-                  <a :href = "asset('group/'+group_object.id+'/files')">See more</a>
+                  <a v-if="group_object != null && group_files.response.length != 0"  :href = "asset('group/'+group_object.id+'/files')">See more</a>
+                  <h3 v-if="group_files.response.length == 0 " class="grey-text center"><i class="knocks-files2"></i> There is No Files.</h3>
                 </div>
            </el-tab-pane>
 
            <el-tab-pane>
               <span slot="label"><a class="grey-text" @click="emitVoice()"><i class="knocks-sound2"></i> Voices</a></span>
                 <div class="row" v-if = "group_voices != null && group_voices.response != null" v-loading="group_voices.loading">
-                  <ul class="uk-list uk-list-divider">
+                  <ul class="uk-list uk-list-divider" >
                       <li v-for = "(voice,index) in group_voices.response">
                         <knocksuser :user = "voice.user" as_chip></knocksuser>
                         <knocksplayer
@@ -123,7 +129,8 @@
                         :load_on_mount="false"></knocksplayer>
                       </li>
                   </ul>
-                  <a :href = "asset('group/'+group_object.id+'/voices')"> See more</a>
+                  <a v-if="group_object != null && group_voices.response.length != 0"  :href = "asset('group/'+group_object.id+'/voices')"> See more</a>
+                  <h3 v-if="group_voices.response.length == 0" class="grey-text center"><i class="knocks-sound2"></i> There is no Voices.</h3>
                 </div>
            </el-tab-pane>
 
@@ -189,6 +196,12 @@ export default {
               }
               return false ;
         },
+      addMember(e , index){
+        this.group_members.response.push({
+          user_id : e , 
+          position : 'Member'
+        });
+       },
        emitChanged(){
        	App.$emit('KnocksContentChanged');
        },

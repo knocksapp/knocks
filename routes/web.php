@@ -184,6 +184,7 @@ Route::post('check_user_ingroup','GroupMemberController@checkUserInGroup');
 
 Route::post('join_public_group','GroupController@joinPublicGroup');
 
+Route::post('add_member_public_group','GroupController@addMemberPublicGroup');
 
 Route::post('post/create' , 'KnockController@create');
 
