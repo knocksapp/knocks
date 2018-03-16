@@ -1,5 +1,4 @@
 <ul id = "knocks_sidebar" class = "side-nav fixed knocks_house_keeper grey lighten-5" >
-  
   <div class="force-overflow"></div>
   <li id = "sidebar_head"><div class="user-view ">
     <div class="background">
@@ -214,4 +213,8 @@
       </ul>
     </div>
   </div>
+
   </ul>
+
+<!-- sidebar -->
+
