@@ -778,7 +778,7 @@ span.badge.new{
 
 // ~~~~   EL-SELECT BEGINS ~~~~ \\
 .el-select-dropdown{
-  z-index: 10000001 !important;
+  z-index: 5510000001 !important;
 }
 // ~~~~   EL-SLIDER BEGINS ~~~~ \\
 .el-slider__bar{
@@ -2089,8 +2089,24 @@ font-size: 70%;
 
 .el-dialog{
   max-height: 800px !important;
-    overflow: scroll !important;
+    overflow: auto !important;
   }
+  .el-dialog__wrapper{
+    z-index : 5000000000 !important;
+  }
+ @media only screen and (max-width : 750px){
+    .el-dialog--small{
+    width : 90% ;
+  }
+}
+  @media only screen and (min-width : 750px){
+    .el-dialog--small{
+    width : 70% ;
+  }
+}
+.el-select-dropdown__list{
+  z-index:5000000001 !important;
+}
   .el-checkbox-button:last-child .el-checkbox-button__inner {
     border-radius: 4px 4px 4px 4px;
 }

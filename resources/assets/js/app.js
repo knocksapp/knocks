@@ -1470,6 +1470,13 @@ window.NavInstance = new Vue({
 
       }).catch(()=>{ vm.sidebarSeachLoading = false });
     },
+    closeSideBar(){
+      $('.drag-target').click()
+    },
+    toggleGroupCreator(flag){
+      this.closeSideBar();      
+      App.$emit('knocksGroupCreationToggle' , {toggle : flag})
+    },
     runVoiceSearch(e){
       this.sidebarSearch = e;
       this.sidebarRunSearch();

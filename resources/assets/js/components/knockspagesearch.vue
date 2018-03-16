@@ -228,7 +228,7 @@
                  <div >
                   <div class = "row" v-if="inIncGroupRange(index)"  v-for = "(groups , index) in pageSearchResult.groups" :key ="index">
                     <div class = "  col l8 s12 m12 knocks_fair_bounds">
-                      <knocksgroupshortcut as_result :group_id ="groups"></knocksgroupshortcut>
+                      <knocksgroupshortcut as_dialog :group_id ="groups"></knocksgroupshortcut>
                   </div>
                 </div>
               </div>

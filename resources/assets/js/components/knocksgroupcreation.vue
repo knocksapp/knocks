@@ -6,7 +6,7 @@
   >
   </knocksretriver>
   
-  <el-button type="primary" @click="outerVisible = true" class="btncreate knocks_fair_bounds knocks_color_kit" style="border-color : #691a40 !important"><i class="knocks-group2"></i> Create Group</el-button>
+  <el-button v-if = "show_toggler" type="primary" @click="outerVisible = true" class="btncreate knocks_fair_bounds knocks_color_kit" style="border-color : #691a40 !important"><i class="knocks-group2"></i> Create Group</el-button>
   <el-dialog
   :visible.sync="outerVisible"
   width="30%"
@@ -143,6 +143,12 @@
 export default {
 
   name: 'knocksgroupcreation',
+  props : {
+    show_toggler : {
+      type : Boolean ,
+      default : false ,
+    }
+  },
 
   data () {
     return {
@@ -170,8 +176,10 @@ export default {
     }
   },
   mounted(){
-    
-
+    const vm = this;
+    App.$on('knocksGroupCreationToggle' , (payloads)=>{
+      vm.outerVisible = payloads.toggle ;
+    })
  
     
   },
