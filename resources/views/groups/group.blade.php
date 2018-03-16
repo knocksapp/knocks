@@ -1,7 +1,7 @@
 @extends('layouts.user')
 @section('content')
 <div class = "row knocks_tinny_top_padding" style = "">
-
+     <title>{{$group->name}}</title>
 
 	   <div class="row knocks_parent_container lighten-4 z-depth-1 knocks_fair_bounds" style="border-radius : 15px; padding : 10px; width : 98%; border: 3px solid rgba(0,0,0,.1); background-color : rgba(255,255,255,0.5) ">
       <div class = "col s4 l3 knocks_house_keeper z-depth-1" style=" border: 2px solid white;
