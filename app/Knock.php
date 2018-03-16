@@ -26,6 +26,37 @@ class Knock extends Model
       return $this->hasMany('App\Reaction' , 'parent_id');
     }
 
+    public function hasPictures(){
+      return $this->knockIndex()->has_pictures;
+    }
+    public function hasFiles(){
+      return $this->knockIndex()->has_files;
+    }
+    public function hasVoices(){
+      return $this->knockIndex()->has_voices;
+    }
+    public function hasVideos(){
+      return $this->knockIndex()->has_videos;
+    }
+
+    public function pictures(){
+      return $this->knockIndex()->images_specifications;
+    }
+
+    public function files(){
+      return $this->knockIndex()->files_specifications;
+    }
+    public function voices(){
+      return array('blob' => $this->knockIndex()->voices_specifications , 'user' => $this->user_id);
+    }
+    public function videos(){
+      return $this->knockIndex()->videos_specifications;
+    }
+
+    
+    
+    
+
     //Knocks methods
 
     // public function initialize($body , $at , $type){

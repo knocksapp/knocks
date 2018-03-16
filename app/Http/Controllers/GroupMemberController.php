@@ -36,9 +36,16 @@ class GroupMemberController extends Controller
     }
 
     public function removeMember(Request $request){
+        $group = Group::find($request->group_id);
         if(Group_member::where('group_id' , '=' , $request->group_id)->where('user_id' , '=' , auth()->user()->id)->get()->first()->isAdmin()){
         $mem = Group_member::where('group_id','=',$request->group_id)->where('user_id','=',$request->mem_id)->delete();
-        return 'done';}else {return 'invalid';}
+        $group->decreaseMembers();
+        return 'done';
+        }
+        else 
+        {
+            return 'invalid';
+        }
     }
     
 }
