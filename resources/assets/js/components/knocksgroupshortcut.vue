@@ -29,7 +29,7 @@
 							    	<li class="knocks_fair_bounds"> <i class="knocks-calendar2"></i> Created At : {{group_object.created_at}}</li>
 							    </ul>
 
-							    <h3 v-if="members_count.members_count != null" class="knocks_text_dark">Members : <span class="green-text">{{members_count.members_count}}</span></h3>
+							    <h3 v-if="members_count != null && members_count.members_count != null" class="knocks_text_dark">Members : <span class="green-text">{{members_count.members_count}}</span></h3>
 							 	</div>
 
 							 	<div class="col s4 right">
@@ -64,7 +64,7 @@
           <div  class="">
             <div class = "col s9">
               <a class = "knocks_text_anchor  knocks_text_bold knocks_tinny_side_padding" :href = "asset('group/'+group_id)"> {{ group_object.name }}</a><slot name = "append_to_display_name"></slot><br/>
-              <span class = "knocks_text_xs knocks_text_bold knocks_tinny_side_padding"style = "display:flex">
+              <span class = "knocks_text_xs knocks_text_bold knocks_tinny_side_padding"style = "display:flex" v-if = "members_count != null">
               <strong class="knocks_text_dark">Members : </strong> <i class="green-text"> {{' ' + members_count.members_count}}</i> </span>
               <span v-if = "group_object.preset == 'public'" class="knocks_text_xs knocks_text_bold knocks_tinny_side_padding grey-text"> Public group <i class="knocks-global"> </i></span>
 

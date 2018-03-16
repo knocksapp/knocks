@@ -18,7 +18,7 @@
 
    </div>
    <div v-if = "as_atimeline &&  currentKnocks != null">
-    <div class = "col l9 m12">
+    <div class = "col l9 m12 s12">
         <div class = "row" v-for="(knock , index) in currentKnocks" v-if = "currentKnocks != null && as_atimeline">  
   <!--   <span v-if = "k[index] != undefined && !isMentioned(k[index].disDate , index)" >
       {{k[index].disDate}}    </span> -->
@@ -31,8 +31,8 @@
 
    </div>
     </div>
-    <div class = "col l3 show-on-large hide-on-med-and-down knocks_second_sidebar" id = "knocks_profile_fixed" >
-       <ul class="section table-of-contents right"  >
+    <div class = "col l3 m0 s0 hide-on-med-and-down knocks_second_sidebar" id = "knocks_profile_fixed" >
+       <ul class="section table-of-contents center"  >
         <li v-for = "(d , index) in knocksDates"><a :href="'#knocks_date'+knocksNumericDates[index]">{{d}}</a></li>
       </ul>
     </div>
@@ -41,9 +41,11 @@
 
 
       <transition enter-active-class="animated fadeOut" leave-active-class="animated fadeIn">
-    <center v-if = "loadingKnocks">
+        <div class = "row ">
+              <center v-if = "loadingKnocks">
       <knocksloader gid= "knocks_loading_span" ></knocksloader>
     </center>
+        </div>
    </transition>
     <transition enter-active-class = "animated fadeIn" leave-active-class = "animated fadeOut">
       <center v-if = "noOlderFlags && !loadingKnocks">

@@ -61,9 +61,8 @@
       <i class="knocks-newspaper5"></i>
       <static_message msg = "** 's Knocks" replaceable :replacements = "[{target : '**' , body : '{{$group->name}}' }]"></static_message>
       </h4>
-      <knocksknockinjector class = "col s12"
+      <knocksknockinjector class = "col l9 s12"
       :current_user = "{{auth()->user()->id}}"
-      as_atimeline
       newer_retrive = "group/posts/newer"
       older_retrive = "group/posts/older"
       basic_retrive = "group/posts"
