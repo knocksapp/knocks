@@ -72,22 +72,25 @@
     <!-- Popover Ends =======================================================================================-->
     <!-- Default Presentation Begins ========================================================================-->
     <div v-if = "onDefaultView && userObject != null" :class = "[main_container]">
-      <a :href = "userUrl" v-popover:userpopover v-if = "!hide_popover">
+      <div v-if = "!hide_popover">
+        <knocksimg  v-popover:userpopover 
+        :src = "asset('media/avatar/compressed/'+user)" :classes = "[knocks_avatar_classes, {'knocks_user_profile_scope' : thatsMe}]" v-if = "!hide_image">
+        </knocksimg>
+        <div :class = "name_container_class" class="" v-if ="!hide_text_info">
+          <a :class = "name_class" :href = "userUrl" v-popover:userpopover v-if="userObject && !hide_name"> {{ displayName }}</a>
+          <slot name = "append_to_display_name"></slot>
+          <br/>
+          <a :class = "username_class" v-popover:userpopover :href = "userUrl" v-if="userObject != null && show_username" style = "display:block"> {{'@'+userObject.username}} </a>
+        </div>
+      </div>
+      <div v-else>
         <knocksimg :src = "asset('media/avatar/compressed/'+user)" :classes = "[knocks_avatar_classes, {'knocks_user_profile_scope' : thatsMe}]" v-if = "!hide_image">
         </knocksimg>
         <div :class = "name_container_class" class="" v-if ="!hide_text_info">
           <a :class = "name_class" :href = "userUrl"  v-if="userObject && !hide_name"> {{ displayName }}</a><slot name = "append_to_display_name"></slot><br/>
           <a :class = "username_class" :href = "userUrl" v-if="userObject != null && show_username" style = "display:block"> {{'@'+userObject.username}} </a>
         </div>
-      </a>
-      <a :href = "userUrl"  v-else>
-        <knocksimg :src = "asset('media/avatar/compressed/'+user)" :classes = "[knocks_avatar_classes, {'knocks_user_profile_scope' : thatsMe}]" v-if = "!hide_image">
-        </knocksimg>
-        <div :class = "name_container_class" class="" v-if ="!hide_text_info">
-          <a :class = "name_class" :href = "userUrl"  v-if="userObject && !hide_name"> {{ displayName }}</a><slot name = "append_to_display_name"></slot><br/>
-          <a :class = "username_class" :href = "userUrl" v-if="userObject != null && show_username" style = "display:block"> {{'@'+userObject.username}} </a>
-        </div>
-      </a>
+      </div>
     </div>
     <!--Default Presentation Ends ========================================================================-->
     <!--Chips Presentation Begins ========================================================================-->
@@ -97,6 +100,13 @@
       <slot name = "append"></slot>
     </div>
     <!--Chips Presentation Ends ========================================================================-->
+    <!--Label Presentation Begins ========================================================================-->
+    <div class="ui image label"  contenteditable="false" v-if="as_label" :class = "label_classes">
+      <knocksimg :src = "asset('media/avatar/compressed/'+user)" :classes = "{'knocks_user_profile_scope' : thatsMe}" ></knocksimg>
+       {{displayName}}
+      <slot name = "append"></slot>
+    </div>
+    <!--Label Presentation Ends ========================================================================-->
     <!--Report Presentation Begins =====================================================================-->
     <div  :class="main_container" contenteditable="false" v-if="as_report && userObject != null">
       <div class = "row knocks_house_keeper knocks_text_dark">
@@ -144,6 +154,22 @@
       </div>
     </div>
     <!--Name Presentation Ends =======================================================================-->
+    <!--URL Presentation Begins =======================================================================-->
+    <div v-if = "userObject != null && as_url">
+      <a v-if = "!hide_popover" :href = "userUrl">
+        <span  v-popover:userpopover :class = "main_container">
+          <span :class = "name_class" :href = "userUrl"  v-if="userObject && !hide_name"> {{ displayName }}</span>
+          <slot name = "append_to_display_name"></slot>
+        </span>
+      </a>
+      <a v-else :href = "userUrl">
+        <span  :class = "main_container">
+          <span :class = "name_class" :href = "userUrl"  v-if="userObject && !hide_name"> {{ displayName }}</span>
+          <slot name = "append_to_display_name"></slot>
+        </span>
+      </a>
+    </div>
+    <!--URL Presentation ENDS =========================================================================-->
     <!--Result Presentation Begins ===================================================================-->
     <div v-if = "as_result && userObject != null">
       <div :class = "main_container">
@@ -217,7 +243,11 @@ export default {
     username_class : {
       type : String ,
       default : 'knocks_text_xs knocks_text_bold knocks_tinny_side_padding'
-    }, 
+    },
+    label_classes : {
+      type : [Array , Object , String ],
+      default : 'blue knocks_inline'
+    },
     knocks_avatar_classes : {
       type : String , 
       default : 'knocks_avatar knocks_house_keeper col '
@@ -275,6 +305,14 @@ export default {
       default : false ,
     },
     as_callback : {
+      type : Boolean , 
+      default : false ,
+    },
+    as_url : {
+      type : Boolean ,
+      default : false 
+    },
+    as_label : {
       type : Boolean , 
       default : false ,
     },
@@ -349,7 +387,9 @@ export default {
          this.as_report , 
          this.as_result , 
          this.as_callback , 
-         this.as_name
+         this.as_name ,
+         this.as_url ,
+         this.as_label , 
        ] , i ;
        for (i = 0; i < arr.length; i++)
         if(arr[i])  return false;

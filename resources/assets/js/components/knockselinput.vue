@@ -199,6 +199,10 @@
            type : Boolean ,
            default : false
          } ,
+         autocomplete_on_mount : {
+          type : Boolean , 
+          default : false ,
+         },
          autocomplete_from : {
            type : String ,
            default : null
@@ -465,6 +469,9 @@
             this.elinput = this.start_as;
             this.$emit('input' , this.elinput);
             this.$emit('change' , this.elinput);
+          }
+          if(this.autocomplete_on_mount && this.autocomplete){
+            this.autoComplete()
           }
           this.bindErrorBus();
           if(!this.unsubmitable)

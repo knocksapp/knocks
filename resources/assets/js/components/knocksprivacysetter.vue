@@ -60,7 +60,7 @@
 					     { msg : 'Invalid' , icon : 'knocks-eye-off animated jello' , classes : 'orange-text' , value : 'invalid'  } ,
 					     { msg : 'Invalid For All' , icon : 'knocks-eye-slash animated tada' , classes : ' red-text darken-4' , value : 'invalid_for_all'  }
 					     ]"
-					     startup_value = "valid"
+
 					  static_messages >
 				  </knocksmultipleswitch>
       		</td>

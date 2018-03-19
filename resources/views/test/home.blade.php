@@ -13,8 +13,8 @@
   </el-radio-group>
   </center>
   <div class= "row">
-    
-    
+
+
     <!--Dictionary Siction-->
     <transition enter-active-class = "animated zoomIn" enter-leave-class = "animated zoomOut">
       <div id = "dev_dictionary" v-if = "devStage == 'Dictionary'">
@@ -97,7 +97,7 @@
         <!--Translation End-->
         <!--All Words-->
         <div style="margin-top: 5px;">
-          
+
           <a @click = "showStaticMessagesTable = true" class = "knocks_pointer" v-if="!showStaticMessagesTable">
             <p class = "grey-text knocks_text_ms">Show Messages Dictionary<span class = "knocks-chevron-down2"></span></p>
           </a>
@@ -234,7 +234,7 @@
           <el-button type="primary" @click="reboundInitialData()">Confirm</el-button>
         </span>
         </el-dialog>
-        
+
       </div>
     </transition>
     <transition enter-active-class = "animated zoomIn" leave-active-class = "animated zoomOut">
@@ -339,7 +339,7 @@
               </el-switch>
             </div>
           </div>
-          
+
         </div>
         <div class = "row">
           <h3 class = "knocks_text_dark">Knocks Static Messages with Replacements</h3>
@@ -471,9 +471,14 @@
         <div class = "row">
           <h3>Knocks User</h3>
           <knocksuser :user = "2" as_result></knocksuser>
-          
+
         </div>
-        
+        <hr>
+        <div class="row">
+          <h3>Privacy Setter 2</h3>
+          <knocksprivacyadjustments></knocksprivacyadjustments>
+        </div>
+
       </transition>
     </div>
   </div>

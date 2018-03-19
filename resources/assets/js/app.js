@@ -32,6 +32,7 @@ window.NodeOrgin = 'http://127.0.0.1:3000/'; //NodeJS Requests Orgin %/  in Axsi
 window.LaravelOrgin = window.location.protocol + '//'+ window.location.hostname +':'+window.location.port +'/' ; //Same as NodeOrgin but scopes Laravel this time.
 window.PNotify = require('pnotify'); //Notifier JS Based Library.
 window.UsersObject = {}; //Empty Object to be contacting knocksuser component, applying dynamic programming, and machine learning approach.
+window.UserAxios = {};
 window.ImgBlobs = {}; //Empty Object to be contacting knockspreview, knocksframelesspreview components, applying dynamic programming, and machine learning approach.
 window.UserCircles = {}; //Empty Object to be contacting circles data, applying dynamic programming, and machine learning approach.
 window.UserId = document.querySelector('meta[name="user"]').getAttribute('content');
@@ -315,20 +316,17 @@ Vue.component('knocksgroupmembers', require('./components/knocksgroupmembers.vue
 Vue.component('knocksimg', require('./components/knocksimg.vue'));
 Vue.component('knockschattingzone', require('./components/knockschattingzone.vue'));
 Vue.component('knocksconversation', require('./components/knocksconversation.vue'));
-
 Vue.component('knocksmessagesender', require('./components/knocksmessagesender.vue'));
-
-
-
 Vue.component('knocksgroupshortcut', require('./components/knocksgroupshortcut.vue'));
 Vue.component('knocksgroupjoining', require('./components/knocksgroupjoining.vue'));
 Vue.component('knocksgroupmemberdelete', require('./components/knocksgroupmemberdelete.vue'));
-
 Vue.component('knocksgrouppictures', require('./components/knocksgrouppictures.vue'));
 Vue.component('knocksgroupfiles', require('./components/knocksgroupfiles.vue'));
 Vue.component('knocksgroupvoices', require('./components/knocksgroupvoices.vue'));
-
 Vue.component('knocksrightbar', require('./components/knocksrightbar.vue'));
+Vue.component('knocksprivacyadjustments', require('./components/knocksprivacyadjustments.vue'));
+
+
 
 
 

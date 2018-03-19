@@ -147,9 +147,30 @@
           </div>
         </div>
       </transition>
+      <div class = "row">
+            @if($user->id != auth()->user()->id)
+          <knock
+           :scope= "['knock_at_profile']"
+           :error_at="[]"
+           submit_at = "post/create"
+           :recorder_upload_data = "{ user : {{auth()->user()->id}} , index : {}}"
+           :player_show_options = "false"
+           :post_at = "{{ $user->id }}"
+            @if($user->id == auth()->user()->id)
+           parent_type = "self"
+           @endif
+           @if($user->id != auth()->user()->id)
+           parent_type = "user"
+           @endif
+           success_at = "done"
+           success_msg = "Done."
+           gid = "knockknock"></knock>
+           @endif
+      </div>
       <knocksknockinjector
       :current_user = "{{auth()->user()->id}}"
       as_atimeline
+      show_appendex
       newer_retrive = "user/profile/posts/newer"
       older_retrive = "user/profile/posts/older"
       basic_retrive = "user/profile/posts"

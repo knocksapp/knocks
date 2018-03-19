@@ -91,7 +91,7 @@ export default {
       default : null 
     },
     startup_value : {
-      type : String , 
+      type : [String , Array , Number ,Object] , 
       default : null ,
     }
   },

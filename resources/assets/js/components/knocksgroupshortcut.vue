@@ -2,6 +2,12 @@
 
       <div v-if="group_object != null && group_name != null">
 
+            <a class="ui image blue label" v-if = "as_label" :href = "asset('group/'+group_id)">
+             <knocksimg :src = "asset('media/group/picture/compressed/'+group_id)"></knocksimg>
+             {{group_name}}
+            </a>
+            <a v-if="as_url" :href = "asset('group/'+group_id)">{{group_name}}</a>
+
 			      <a v-if="as_chip" :href = "asset('group/'+group_id)">	<div class="chip" >
 						    <knocksimg :src = "asset('media/group/picture/compressed/'+group_id)"></knocksimg>
 						    {{group_name}}
@@ -103,6 +109,14 @@ export default {
         type : Boolean,
         default : false,
       },
+      as_url : {
+        type : Boolean ,
+        default : false 
+      },
+      as_label : {
+        type : Boolean ,
+        default : false 
+      }
 
   },
   data () {

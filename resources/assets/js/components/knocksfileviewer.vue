@@ -1,7 +1,7 @@
 <template>
 	<div>
 		  <knocksloaderbar v-if = "isLoading" :class = "{'animated fadeOutUp': !isLoading}"></knocksloaderbar >
-		  <a :href = "asset(file)" target="_blank"style = "padding:0.2rem" class = "knocks_text_anchor knocks_text_dark knocks_anchor_light_div knocks_standard_border_radius ">
+		  <a :href = "asset(file)" target="_blank"style = "padding:0.2rem" class = " knocks_anchor_light_div knocks_standard_border_radius ">
 		  	<knockspopover v-if = "fileMeta != null">
             <template slot = "container" v-if = "fileMeta.name != undefined && fileMeta.extension != undefined" >
             <span v-if = "fileMeta.name != undefined && fileMeta.extension != undefined && extensions[fileMeta.extension] != undefined"
@@ -15,6 +15,7 @@
                 && fileMeta.extension != undefined
                 && fileMeta.name != undefined
                 && fileMeta.name.length > 15"
+            class = "knocks_text_anchor knocks_text_dark"
             :class = "[file_name_class , icons_class]">{{minimizedText(fileMeta.name)}}</span>
             </template>
             <span slot = "content"  class = "knocks_tooltip animated flipInX" >
@@ -37,7 +38,7 @@ export default {
   	},
   		icons_class : {
 			type : String , 
-			default : 'knocks_text_dark knocks_text_anchor knocks_text_md'
+			default : ' knocks_text_md'
 		},
 		file_name_class : {
 			type : String , 
@@ -54,23 +55,22 @@ export default {
     	    fileMeta : null ,
     		extensions :  {
     		"text/x" : 'knocks-document-file-app2' ,
-    		"application/pdf" : 'knocks-document-file-pdf2' ,
+    		"application/pdf" : 'knocks-file-pdf red-text' ,
     		"audio/mpeg" : 'knocks-document-file-mp32' ,
     		"video/mp4" : 'knocks-document-file-mp42' ,
     		"application/x-iwork-pages-sffpages" : 'knocks-document-file-pages' ,
-    		"text/x" : 'knocks-document-file-mov2' ,
-    		"text/x" : 'knocks-document-file-key2' ,
-    		"text/x" : 'knocks-document-file-html2' ,
-    		"text/x" : 'knocks-document-file-css2' ,
-    		"text/x" : 'knocks-document-file-java2' ,
-    		"text/x" : 'knocks-document-file-psd2' ,
-    		"text/x" : 'knocks-document-file-ai2' ,
-    		"text/x" : 'knocks-document-file-bmp2' ,
+    		"video/x-sgi-movie" : 'knocks-document-file-mov2' ,
+    		"text/html" : 'knocks-brand110' ,
+    		"text/css" : 'knocks-brand44' ,
+    		"text/x-java-source,java" : 'knocks-document-file-java2' ,
+    		"image/vnd.adobe.photoshop" : 'knocks-document-file-psd2 blue-text' ,
+    		"application/postscript" : 'knocks-document-file-ai2 orange-text' ,
+    		"text/x" : 'knocks-document-file-bmp2 purple-text' ,
     		"text/x" : 'knocks-document-file-dwg2' ,
     		"text/x" : 'knocks-document-file-eps2' ,
     		"text/x" : 'knocks-document-file-tiff2' ,
     		"text/x" : 'knocks-document-file-ots2' ,
-    		"text/php" : 'knocks-document-file-php2' ,
+    		"text/php" : 'knocks-document-file-php2 purple-text' ,
     		"text/x" : 'knocks-document-file-py2' ,
     		"text/x" : 'knocks-document-file-c2' ,
     		"text/x" : 'knocks-document-file-sql2' ,
@@ -79,7 +79,7 @@ export default {
     		"text/x" : 'knocks-document-file-tga2' ,
     		"text/x" : 'knocks-document-file-doc2' ,
     		"text/x" : 'knocks-document-file-xls2' ,
-    		"text/x" : 'knocks-document-file-docx2' ,
+    		"text/x" : 'knocks-document-file-file-word' ,
     		"text/x" : 'knocks-document-file-ppt2' ,
     		"text/x" : 'knocks-document-file-asp2' ,
     		"text/x" : 'knocks-document-file-ics2' ,
