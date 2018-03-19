@@ -12,7 +12,7 @@
 <!--     <a v-if = "k[index] != undefined && !isMentioned(k[index].disDate , index)" >
       {{k[index].disDate}}    </a> -->
     <transition    name="custom-classes-transition" enter-active-class="animated zoomIn" leave-active-class="animated zoomOut">
-    <knocksknock  :knock = "knock" :gid="'knock_'+index" v-model = "k[index]"
+    <knocksknock  :knock = "knock" :gid="'knock_'+index" v-model = "k[index]" :show_appendex = "show_appendex"
    :current_user = "current_user" replier_message = "Leave a comment" ></knocksknock> 
     </transition>
 
@@ -24,7 +24,7 @@
       {{k[index].disDate}}    </span> -->
     <transition    name="custom-classes-transition" enter-active-class="animated zoomIn" leave-active-class="animated zoomOut">
     
-      <knocksknock  :knock = "knock" :gid="'knock_'+index" v-model = "k[index]"
+      <knocksknock  :knock = "knock" :gid="'knock_'+index" v-model = "k[index]" :show_appendex = "show_appendex"
    :current_user = "current_user" replier_message = "Leave a comment" ></knocksknock> 
     
     </transition>
@@ -90,7 +90,11 @@ export default {
     as_atimeline : {
       type : Boolean , 
       default : false 
-    }
+    },
+    show_appendex : {
+      type : Boolean , 
+      default : false 
+     }
 
   },
   data () {

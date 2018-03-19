@@ -1818,14 +1818,14 @@ table.highlight > tbody > tr:hover {
 }
 .switch label input[type=checkbox]:checked + .lever:after{
   background-color: $knocksActiveColor;
-  content: "\e901" !important;
+  //content: "\e901" !important;
   font-family: Knocks !important;
   padding : 3px !important;
   color: $knocksLightColor ;
   text-align: center !important;
 }
 .switch label .lever:after{
-  content: "\e901" !important;
+  //content: "\e901" !important;
   font-family: Knocks !important;
   padding : 3px !important;
   color: $knocksActiveColor ;

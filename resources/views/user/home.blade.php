@@ -11,17 +11,17 @@
   <div class = "row " style = "padding : 3px;">
 
     <div class = "col l8 s12  grey lighten-5" style="" id = "knocks_main_injectort">
-    
-      
+
+
 
 
   <div class = "">
 
-  <knock 
-   :scope= "['knock']" 
-   :error_at="[]" 
+  <knock
+   :scope= "['knock']"
+   :error_at="[]"
    submit_at = "post/create"
-   :recorder_upload_data = "{ user : '7esam' , index : {}}"
+   :recorder_upload_data = "{ user : {{auth()->user()->id}} , index : {}}"
    :player_show_options = "false"
    :post_at = "{{ auth()->user()->id }}"
    parent_type = "self"
@@ -32,10 +32,10 @@
 
 <knocksgroupcreation></knocksgroupcreation>
 
- 
 
 
- 
+
+
 {{--   <knockscircleseditor></knockscircleseditor> --}}
    <div id = "knocks_homepage_lower_area">
 
@@ -47,7 +47,7 @@
     </h5>
 
     <a @click ="clearLowerTrigger()">
-          <span class = "knocks-close red-text right knocks_text_md "></span>    
+          <span class = "knocks-close red-text right knocks_text_md "></span>
     </a>
         <knockscroppie
     gid = "knocks_cover_picture_uploader"
@@ -74,14 +74,14 @@
     </h5>
 
     <a @click ="clearLowerTrigger()">
-          <span class = "knocks-close red-text right knocks_text_md "></span>    
+          <span class = "knocks-close red-text right knocks_text_md "></span>
     </a>
     <knocksaddcircle gid = "circle_adder"></knocksaddcircle>
    </div>
   </transition>
 
 
-    
+
    <transition name="custom-classes-transition" enter-active-class="animated zoomIn" leave-active-class="zoomOut">
    <div v-if = "lowerTrigger == 'profile_uploader'">
     <h5 class = "knocks_text_dark">
@@ -90,7 +90,7 @@
     </h5>
 
     <a @click ="clearLowerTrigger()">
-          <span class = "knocks-close red-text right knocks_text_md "></span>    
+          <span class = "knocks-close red-text right knocks_text_md "></span>
     </a>
     <knockscroppie
     gid = "knocks_profile_picture_uploader"
@@ -108,21 +108,21 @@
    </div>
   </transition>
 </div>
-  
-<knocksknockinjector :current_user = "{{auth()->user()->id}}"></knocksknockinjector>
+
+<knocksknockinjector :current_user = "{{auth()->user()->id}}" show_appendex></knocksknockinjector>
 
 
    </div>
 
    <div class = "col l4 show-on-large hide-on-med-and-down"
-    style="padding: 1rem; margin-top: -3%; 
-    margin-bottom: -3%; 
+    style="padding: 1rem; margin-top: -3%;
+    margin-bottom: -3%;
     min-height:-webkit-fill-available;" >
      <div class = "row ">Right Area</div>
    </div>
 
   </div>
-    
+
   </div>
   </transition>
   @endsection

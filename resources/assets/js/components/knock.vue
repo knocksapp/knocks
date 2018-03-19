@@ -82,7 +82,13 @@
           </knocksprivacysetter>
        </div>
     </div>
-
+     <transition enter-active-class="animated fadeIn" leave-active-class="animated fadeOut">
+        <div class = "row knocks_house_keeper" v-if = "locationResult != null">
+      <p class="knocks_text_sm blue-text"> <i class=" knocks-location3 blue-text"></i>
+                    {{locationResult.address_components[0].long_name}}
+      </p>
+    </div>
+  </transition>
 
     <!--LEVEL TWO -->
 
