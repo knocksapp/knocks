@@ -576,7 +576,7 @@
           },
           regexValid(){
             var match = this.value.match(this.regex);
-            return match == null || ( match.input !== undefined  && match.input == match[0]) ?  false : true;
+            return match == null  ?  false : true;
           },
           sameAs(){
             return this.value == this.same_as ? true : false ;

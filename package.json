@@ -24,6 +24,7 @@
         "@xkeshi/image-compressor": "^0.5.3",
         "b64-to-blob": "^1.2.19",
         "babel-preset-es2015": "^6.24.1",
+        "countries-list": "^2.3.1",
         "cropperjs": "^1.2.2",
         "croppie": "^2.5.1",
         "element-ui": "^1.4.13",

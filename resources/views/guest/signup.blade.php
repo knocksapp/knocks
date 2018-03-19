@@ -42,7 +42,7 @@ background-color: #ee6e73 !important;
                 <transition name="custom-classes-transition" enter-active-class="animated flipInX" leave-active-class="flipOutX">
                     <div class = "row knocks_slideshow_element" v-if = "slideShow == 1">
                         <center>
-                        
+
                         <static_message classes = "animated rubberBand knocks_text_light knocks_text_lg pink-text text-lighten-3" msg="Who's there!"></static_message>
                         </center>
                     </div>
@@ -100,8 +100,8 @@ background-color: #ee6e73 !important;
                         </a>
                         </h4>
                         <div class = "row animated slideInUp">
-                            
-                            
+
+
                             <knocksinput
                             placeholder = "Username, Email Or Phone number"
                             gid = "username_login"
@@ -154,10 +154,10 @@ background-color: #ee6e73 !important;
                             connection_error = "There's a problem in your connection, please try again."
                             :submit_data = "{ q : username_login ,pw : password_login ,}"></knocksbutton>
                         </div>
-                        
+
                     </div>
                 </transition>
-                
+
                 <transition  name="custom-classes-transition"
                     enter-active-class="animated slideInUp "
                     leave-active-class="animated zoomOut">
@@ -240,7 +240,7 @@ background-color: #ee6e73 !important;
                                 <knocksbutton
                                 placeholder = "Next"
                                 @knocks_stack_passed  = "stageSwitch(2)"
-                                
+
                                 :submit_flag = "false"
                                 success_at = "done"
                                 gid = "stage_one_next"
@@ -252,14 +252,14 @@ background-color: #ee6e73 !important;
                             </div>
                             <!--Stage Two-->
                             <div class = "row animated zoomIn" :class = "{'knocks_hidden' :stageNumber != 2}">
-                                
+
                                 <div class="row">
                                     <div class = "col">
                                         <span class = "knocks-birthday-cake knocks_text_light"></span>
                                         <span class = "knocks_text_light ">Birthdate</span>
                                     </div>
-                                    <div class = "col ">                         
-                                        <el-date-picker                     
+                                    <div class = "col ">
+                                        <el-date-picker
                                         v-model="birthdate"
                                         type="date"
                                         @input = "birthdateIsFired = true"
@@ -278,19 +278,19 @@ background-color: #ee6e73 !important;
                                     <span class = "knocks-female2 knocks_text_light knocks_text_ms"></span>
                                     <static_message msg = "Gender" classes = "knocks_text_ms"></static_message>
                                 </div>
-                                <div class = "col s12 l8 ">  
-                                <knockstaps :multiple = "false" 
+                                <div class = "col s12 l8 ">
+                                <knockstaps :multiple = "false"
                                  v-model="gender"
                                 :options = "knocksTapsDevOptions" >
-                                  </knockstaps>  
+                                  </knockstaps>
                                 </div>
                                 <br/><br/>
                                 <center>
-                                
+
                                 <knocksbutton
                                 placeholder = "previous"
                                 @knocks_button_clicked  = "stageSwitch(1)"
-                                :validate = "false"                           
+                                :validate = "false"
                                 :submit_flag = "false"
                                 success_at = "done"
                                 gid = "stage_one_next"
@@ -312,7 +312,7 @@ background-color: #ee6e73 !important;
                                 validation_error = "There're some fields we need you to complete.">
                                 </knocksbutton>
                                 </center>
-                                
+
                             </div>
                             <!--Stage Three-->
                             <div class = "row animated zoomIn" :class = "{ 'knocks_hidden':stageNumber != 3 }">
@@ -330,7 +330,7 @@ background-color: #ee6e73 !important;
                                 check_at = "user/check"
                                 check_invalid_at = "exist"
                                 check_valid_at = "not_exist"
-                                regex = "^[A-Za-z0-9]+(?:[ _-][A-Za-z0-9]+)*$"
+                                regex = "^[A-Za-z0-9]+(?:[_-][A-Za-z0-9]+)*$"
                                 check_live_prefix_msg = ", This Username is already taken."
                                 regex_example = "Your username can't contain a special charachters."
                                 knocksclass = "knocks_input_ps_light"
@@ -368,7 +368,7 @@ background-color: #ee6e73 !important;
                                 placeholder = "previous"
                                 @knocks_button_clicked  = "stageSwitch(2)"
                                 :validate = "false"
-                                
+
                                 :submit_flag = "false"
                                 success_at = "done"
                                 gid = "stage_one_next"
@@ -380,7 +380,7 @@ background-color: #ee6e73 !important;
                                 <knocksbutton
                                 placeholder = "Next"
                                 @knocks_stack_passed  = "stageSwitch(4)"
-                                
+
                                 :submit_flag = "false"
                                 success_at = "done"
                                 gid = "stage_one_next"
@@ -438,7 +438,7 @@ background-color: #ee6e73 !important;
                                 placeholder = "previous"
                                 @knocks_button_clicked  = "stageSwitch(3)"
                                 :validate = "false"
-                                
+
                                 :submit_flag = "false"
                                 success_at = "done"
                                 label_classes = "knocks_text_sm"
@@ -448,7 +448,7 @@ background-color: #ee6e73 !important;
                                 </knocksbutton>
                                 <knocksbutton
                                 placeholder = "Register"
-                                
+
                                 submit_at = "registeration"
                                 success_at = "done"
                                 label_classes = "knocks_text_sm"
@@ -481,7 +481,7 @@ background-color: #ee6e73 !important;
                             <el-step title="Username And Phone" :icon="stageIcon(3,'knocks-email3')"></el-step>
                             <el-step title="Protect Your Account" :icon="stageIcon(4,'knocks-locked4')"></el-step>
                             </el-steps>
-                            
+
                         </div>
                     </transition>
                 </div>

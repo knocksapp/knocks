@@ -470,7 +470,7 @@
         <hr/>
         <div class = "row">
           <h3>Knocks User</h3>
-          <knocksuser :user = "2" as_result></knocksuser>
+          <knocksuser :user = "1" as_result></knocksuser>
 
         </div>
         <hr>
