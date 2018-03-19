@@ -66,6 +66,7 @@
 					:class = "[{'animated slideOutLeft knocks_hidden' : index >= userShowKey} , {'animated slideInLeft' : index < userShowKey}]">
 					<td>
 						<knocksuser 
+						v-if = "index < userShowKey"
 						:user = "user" 
 						as_label  ></knocksuser>
 					</td>
@@ -81,10 +82,10 @@
 					</td>
 				</tr>
 			</table>
-			<a v-if = "searchUsers.length > userShowKey" @click = "userShowKey += 3">
+			<a  :class ="[{ 'knocs_hidden' :searchUsers.length > userShowKey && index > searchUsers.length}]" @click = "userShowKey += 3">
 				<static_message msg = "See More"></static_message>
 			</a>
-			<a v-if = "userShowKey > 3 && searchUsers.length > 3" class = "right" @click = "userShowKey -= 3">
+			<a :class ="[{'knocs_hidden' :userShowKey > 3 && searchUsers.length > 3}]" class = "right" @click = "userShowKey -= 3">
 				<static_message msg = "See Less"></static_message>
 			</a>
 		</div>
@@ -117,6 +118,7 @@ export default {
     	circleSwitch : {} ,
     	usersResult : {} , 
     	usersClickedOnce : false , 
+    	circlesClickedOnce : false , 
     	userShowKey : 3 , 
     	usersSwitches : {} , 
 
@@ -125,7 +127,7 @@ export default {
   methods : {
   	triggerModal(){
   		this.centerDialogVisible = true;
-  		App.$emit('knocksRetriver' , {scope : ['kps_circles']});
+  	
 
   	},
   	hashCircles(e){
@@ -171,7 +173,12 @@ export default {
   	},
   	checkUserClicks(){
   		if(this.usersClickedOnce) return;
-  		else if(this.taps == 'users') this.usersClickedOnce = true; else return;
+  		else if(this.taps == 'users') this.usersClickedOnce = true; 
+  		else if(this.taps == 'circles'){
+  			this.circlesClickedOnce = true; 
+  			App.$emit('knocksRetriver' , {scope : ['kps_circles']});
+  		}else return;
+  		
   	},
   	refreshUsersContent(){
   		App.$emit('KnocksContentChanged')

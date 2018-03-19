@@ -14,6 +14,9 @@ require('google-maps'); //Google Maps API
 require('pnotify');  //Notifier JS Based Library.
 
 require('vue-popperjs');
+require('countries-list');
+import countries from 'countries-list'
+window.Countries = countries;
 
 import Croppie from 'croppie'
 import 'croppie/croppie.css'
