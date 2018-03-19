@@ -35,7 +35,15 @@ class Group extends Model
     	$this->index = json_encode($index);
     	$this->update();
     }
-
+    
+    public function checkUser(){
+           $mem = Group_member::where('user_id','=', auth()->user()->id )->where('group_id','=',$this->id)->get();
+           if(count($mem) > 0){
+              return true;
+           }else{
+            return false;
+           }
+    }
 
     public function photos(){
       $knocks = Knock::where('type' , '=' , 'group')->where('at' , '=' , $this->id)->get();

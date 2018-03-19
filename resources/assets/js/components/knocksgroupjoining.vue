@@ -36,6 +36,18 @@
       <span> Invite <i class="knocks-plus2"></i></span>
     </el-button>
     </div>
+     <div v-if="as_result && group_object != null && !add_member_mode" class="knocks_fair_bounds knocks_sp_top_margin">
+      <el-button
+      type="primary"
+       v-if="group_object.preset == 'closed'"
+       @click="isChecked('closed')"
+       v-loading="isLoading"
+       :disabled = "isLoading"
+       >
+      <span v-if="open"> Open <i class="knocks-login"></i></span>
+      <span v-if="join"> Join <i class="knocks-log-out"></i></span> 
+      </el-button>
+    </div>
     </div>
 </template>
 
@@ -77,6 +89,39 @@ export default {
       isChecked(state){
         const vm = this;
         if(state == 'public'){
+           if(vm.join)
+           {
+             axios({
+              url : LaravelOrgin + 'join_public_group',
+              method : 'post',
+              data : {user : parseInt(UserId) , group : vm.group_id},
+              onDownloadProgress : (progressEvent)=>{
+                  vm.isLoading = true;
+                },  
+             }).then((response)=>{
+                   if(response.data == 'done'){
+                    App.$emit('knocksPushNewGroup' , { id : vm.group_id });
+                    this.$notify({
+                  title: 'Success',
+                  message: 'You Have Joined Group '+vm.group_object.name+' Successfully',
+                  type: 'success'
+                });
+                    setTimeout(()=>{
+                         window.location.href = LaravelOrgin + 'group/'+vm.group_id
+                    },1200);
+                   }else{
+                    this.$notify.error({
+                    title: 'Error',
+                    message: 'This is an error message'
+                  });
+                   }
+             });
+             }
+             else if(vm.open){
+             window.location.href = LaravelOrgin + 'group/'+vm.group_id
+             } 
+          }
+             if(state == 'closed'){
            if(vm.join)
            {
              axios({
