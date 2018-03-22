@@ -1,51 +1,61 @@
 <template>
 <div>
-  <div class="fixed-action-btn knocks_reactor_container vertical knocks_house_keeper" >
+  <div class="fixed-action-btn knocks_reactor_target knocks_house_keeper " 
+     :class = "[
+     {'horizontal knocks_reactor_index' : inverse } ,
+     {'vertical knocks_reactor_container' : !inverse} , 
+     ]">
     <a :class="[initial_class , {'pulse' : selected != null } , intialButton]" @dblclick="resetORLike()" @mousedown="beginTimer()" @mouseup="checkTimer()"
     @touchstart="beginTimer()" @touchend="checkTimer()"
     >
       <i class="material-icons" :class = "intialReactor"></i>
     </a>
-    <ul :class = "knocks_reactor_ul">
+    <ul :class = "[
+     {'knocks_reactor_candy' : inverse && candy} , 
+     {'knocks_reactor_adult' : inverse && !candy} , 
+     {knocks_reactor_ul : !inverse} , 
+     { 'knocks_horizontal_reactor col' : inverse } ,
+     'knocks_reactor_target_ul'
+     ]" >
       <li>
         <a  style = "margin-top: 10px"
         @click="assign('like')"  class="knocks_reaction_btn btn-floating pink darken-1" :class="[{'pulse':selected == 'like'}]" :id = "gid+'_like'">
-          <i class="material-icons" :class = "[like_icon , {'knocks_text_lmd infinite rubberBand':selected == 'like'}]"></i>
+          <i class="material-icons" :class = "[like_icon , {'knocks_active_reaction infinite rubberBand':selected == 'like'}]"></i>
         </a>
       </li>
       <li>
         <a  @click="assign('dislike')" class="knocks_reaction_btn btn-floating  purple lighten-1" :class="[{'pulse':selected == 'dislike'}]" :id = "gid+'_dislike'">
-          <i class="material-icons" :class = "[dislike_icon, {'knocks_text_lmd infinite rubberBand':selected == 'dislike'}]"></i>
+          <i class="material-icons" :class = "[dislike_icon, {'knocks_active_reaction infinite rubberBand':selected == 'dislike'}]"></i>
         </a>
       </li>
       <li>
         <a  @click="assign('love')"  class="knocks_reaction_btn btn-floating  pink lighten-5" :class="[{'pulse':selected == 'love'}]" :id = "gid+'_love'">
-          <i class="material-icons" :class = "[love_icon, {'knocks_text_lmd infinite rubberBand':selected == 'love'}]"></i>
+          <i class="material-icons" :class = "[love_icon, {'knocks_active_reaction infinite rubberBand':selected == 'love'}]"></i>
         </a>
       </li>
       <li>
         <a  @click="assign('laugh')"  class="knocks_reaction_btn btn-floating red" :class="[{'pulse':selected == 'laugh'}]"   :id = "gid+'_laugh'">
-          <i class="material-icons" :class = "[laughing_icon, {'knocks_text_lmd infinite rubberBand':selected == 'laugh'}]"></i>
+          <i class="material-icons" :class = "[laughing_icon, {'knocks_active_reaction infinite rubberBand':selected == 'laugh'}]"></i>
         </a>
       </li>
-      <li>
+      <li v-if = "!candy">
         <a  @click="assign('poker')"  class="knocks_reaction_btn btn-floating deep-purple darken-1" :class="[{'pulse':selected == 'poker'}]"   :id = "gid+'_poker'">
-          <i class="material-icons" :class = "[poker_icon, {'knocks_text_lmd infinite rubberBand':selected == 'poker'}]"></i>
+          <i class="material-icons" :class = "[poker_icon, {'knocks_active_reaction infinite rubberBand':selected == 'poker'}]"></i>
         </a>
       </li>
-      <li>
+      <li v-if = "!candy">
         <a  @click="assign('angry')"  class="knocks_reaction_btn btn-floating blue-grey darken-3" :class="[{'pulse':selected == 'angry'}]"  :id = "gid+'_angry'">
-          <i class="material-icons" :class = "[angry_icon, {'knocks_text_lmd infinite rubberBand':selected == 'angry'}]"></i>
+          <i class="material-icons" :class = "[angry_icon, {'knocks_active_reaction infinite rubberBand':selected == 'angry'}]"></i>
         </a>
       </li>
-      <li>
+      <li v-if = "!candy">
         <a  @click="assign('sad')"  class="knocks_reaction_btn btn-floating  light-blue darken-4" :class="[{'pulse':selected == 'sad'}]"  :id = "gid+'_sad'">
-          <i class="material-icons" :class = "[sad_icon, {'knocks_text_lmd infinite rubberBand':selected == 'sad'}]"></i>
+          <i class="material-icons" :class = "[sad_icon, {'knocks_active_reaction infinite rubberBand':selected == 'sad'}]"></i>
         </a>
       </li>
-      <li>
+      <li v-if = "!candy">
         <a  @click="assign('finger')"  class="knocks_reaction_btn btn-floating red darken-4" :class="[{'pulse':selected == 'finger'}]"  :id = "gid+'_finger'">
-          <i class="material-icons" :class = "[middlefinger_icon, {'knocks_text_lmd infinite rubberBand':selected == 'finger'}]"></i>
+          <i class="material-icons" :class = "[middlefinger_icon, {'knocks_active_reaction infinite rubberBand':selected == 'finger'}]"></i>
         </a>
       </li>
     </ul>
@@ -117,6 +127,14 @@ export default {
     knocks_reactor_ul : {
       type : String ,
       default : 'knocks_reactor_ul'
+    },
+    inverse : {
+      type : Boolean ,
+      default : true
+    },
+    candy : {
+      type : Boolean , 
+      type : false ,
     }
   },
   mounted(){
@@ -153,10 +171,10 @@ export default {
           let height = $(this).height();
         //$('html , body').animate({ scrollTop : (   (top  - $(window).height()) + height + 10 )} , 1000);
         $($(this).find('a > i') ).addClass('animated rotateIn');
-        $($(this).find('.knocks_reactor_ul')).addClass('animated bounceInUp');
+        $($(this).find('.knocks_reactor_target_ul')).addClass('animated bounceInUp');
         setTimeout(()=>{  $($(this).find('a > i')).removeClass('animated rotateIn'); } , 800);
       }else{
-        $($(this).find('.knocks_reactor_ul')).removeClass('animated bounceInUp jello');
+        $($(this).find('.knocks_reactor_target_ul')).removeClass('animated bounceInUp jello');
       }
     });
     $('.knocks_reactor_container').hover(function(){
@@ -169,10 +187,10 @@ export default {
         //$('html , body').animate({ scrollTop : (   (top  - $(window).height()) + height + 10 )} , 1000);
         //setTimeout( ()=>{$(btn).openFAB();} , 100);
         $($(this).find('a > i') ).addClass('animated rotateIn');
-        $($(this).find('.knocks_reactor_ul')).addClass('animated ');
+        $($(this).find('.knocks_reactor_target_ul')).addClass('animated ');
         setTimeout(()=>{  $($(this).find('a > i')).removeClass('animated rotateIn'); } , 800);
       }else{
-        $($(this).find('.knocks_reactor_ul')).removeClass('animated  ');
+        $($(this).find('.knocks_reactor_target_ul')).removeClass('animated  ');
       }
     });
     $('.knocks_reactor_container ').hover( function(){

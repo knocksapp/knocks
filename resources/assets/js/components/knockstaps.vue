@@ -1,9 +1,10 @@
 <template>
 	<div :class = "main_container">
-		<a :class = "[indexEquiv(index) , valueEquiv(option.value) , anchor_class]" 
+		<a :class = "[indexEquiv(index) , valueEquiv(option.value) , anchor_class]" :disabled = "isDisabled(option)"
 		v-for = "(option, index) in options" @click = "assign(option.value)" >
 			<span :class = "label_class" v-if="option.label != undefined && (option.static == undefined || option.static == false )">{{ option.label }}</span>
-			<static_message :class = "{'hide-on-med-and-down' : hide_labels_on_small}" :classes = "label_class" v-if="option.label != undefined && (option.static != undefined && option.static)" :msg="option.label"></static_message>
+			<static_message :class = "{'hide-on-med-and-down' : hide_labels_on_small}" :classes = "label_class" 
+      v-if="option.label != undefined && (option.static != undefined && option.static)" :msg="option.label"></static_message>
 			<span :class = "[icon_class , option.icon]" v-if="option.icon != undefined"></span>
 		</a>
 	</div>
@@ -182,6 +183,10 @@ export default {
   			return this.assigned == value ? true : false ;
   		return this.assigned.indexOf(value) == -1 ? false : true
   	},
+    isDisabled(option){
+      if(option.disabled === undefined) return false ;
+      else return option.disabled;
+    },
   	indexEquiv(index){
   		if(index == 0) return this.left_most_class;
   		if(index == this.options.length-1) return this.right_most_class;

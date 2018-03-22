@@ -55,6 +55,13 @@ Route::post('dev/test', function () {return 'done';});
 
 //DEVELOPERS ROUTES ENDS /////////////////////////////////////////////////////////////
 
+//Presets
+Route::post('user/preset/check', 'SavedPresetsController@check');
+
+Route::post('user/preset/save', 'SavedPresetsController@save');
+
+Route::post('user/preset/get', 'SavedPresetsController@get');
+
 //Check if the user exists
 Route::post('user/check', 'UserController@check');
 
