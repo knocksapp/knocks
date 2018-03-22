@@ -53,7 +53,8 @@ class GroupController extends Controller
     	);
 
       if($request->state == 'request'){
-        $upd = User_request::where('sender_id','=',$request->user)->where('reciver_id','=',$request->group)->get()->first();
+        $upd = User_request::where('sender_id','=',$request->user)->where('reciver_id','=',$request->group)->
+        where('response','=','waiting')->get()->first();
         $upd->response = 'accepted';
         $upd->update();
       }
@@ -186,5 +187,21 @@ class GroupController extends Controller
            $res = Group::find($request->group_id)->videos();
           return $res;
    }
-
+   public function updateGroupInfo(Request $request){
+      $group = Group::find($request->group_id);
+      if(count($group) > 0){
+        $group->name = $request->group_name;
+        $group->category = $request->group_category;
+        $group->update();
+        return 'done';
+      }else return 'not found';
+    }
+    public function updateGroupPrivacy(Request $request){
+      $group = Group::find($request->group_id);
+      if(count($group) > 0){
+        $group->preset = $request->preset;
+        $group->update();
+        return 'done';
+      }else return 'not found';
+    }
 }

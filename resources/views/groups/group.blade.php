@@ -8,17 +8,21 @@
   ?>
     @if($exists)
      <title>{{$group->name}}</title>
-     <el-popover
-  ref="popover2"
-  placement="bottom"
-  title="Settings"
-  width="200"
-  trigger="hover"
-  content="You can manage all your group Settings from here.">
-</el-popover>
+           <el-popover
+              ref="popover2"
+              placement="bottom"
+              title="Settings"
+              width="200"
+              trigger="hover"
+              content="You can manage all your group Settings from here.">
+           </el-popover>
 	   <div class="row knocks_parent_container lighten-4 z-depth-1 knocks_fair_bounds" style="border-radius : 15px; padding : 10px; width : 98%; border: 3px solid rgba(0,0,0,.1); background-color : rgba(255,255,255,0.5) ">
+      
+              @if($group->memberPostion() == 'Owner')
+              <el-badge :value="{{$group->groupRequests()}}" class="item right">
             <a href="{{asset('group/'.$group->id.'/settings')}}" class="right" v-popover:popover2> 
-              <i class="knocks-settings5 knocks_text_md grey-text text-darken-2"></i></a>
+              <i class="knocks-settings5 knocks_text_md grey-text text-darken-2"></i></a></el-badge>
+              @endif
       <div class = "col s4 l3 knocks_house_keeper z-depth-1" style=" border: 2px solid white;
     background-color: white; border-radius: 25px;">
           <img class = "knocks_group_avatar_scope" src = "{{ asset('media/group/picture/'.$group->id) }}" style="width : 100%; border-radius : 25px; padding : 3px; " />
@@ -76,7 +80,7 @@
 
 <h4 class="ui horizontal divider header transparent col l9 s12">
       <i class="knocks-newspaper5"></i>
-      <static_message msg = "** 's Knocks" replaceable :replacements = "[{target : '**' , body : '{{$group->name}}' }]"></static_message>
+      <static_message msg = "** 's Knocks" replaceable :replacements = "[{target : '**' , body : '{{$group->name}}'}]"></static_message>
       </h4>
       <knocksknockinjector class = "col l9 s12"
       :current_user = "{{auth()->user()->id}}"
@@ -102,7 +106,9 @@
     background-color: white; border-radius: 25px;">
           <img class = "knocks_group_avatar_scope" src = "{{ asset('media/group/picture/'.$group->id) }}" style="width : 100%; border-radius : 25px; padding : 3px; " />
       </div>
+      @if(!$exists)
       <knocksgroupjoining class="right" :group_id="{{$group->id}}" as_result></knocksgroupjoining>
+      @endif
       <div style="padding-top : 10px !important">
 
       <ul class="col s6 l7  knocks_fair_bounds uk-list uk-list-divider" style="">
