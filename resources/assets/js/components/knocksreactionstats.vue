@@ -1,5 +1,5 @@
 <template>
-<div class=" knocks-border-reactionstats knocks_house_keeper knocks_icon_reaction_states col s12 "   :class = "bar_classes" :id = "gid">
+<div class=" knocks-border-reactionstats  knocks_house_keeper knocks_icon_reaction_states col s12 "   :class = "bar_classes" :id = "gid">
   
   <!-- <div class="row">
     <div class="col s12">
@@ -65,6 +65,8 @@
        </div>
         <div class = "col l3 s4 right knocks_house_keeper">
          <knocksreactor 
+         :candy = "candy"
+         :inverse = "inverse_reactor"
          @input = "showInterest()"
          :knocks_reactor_ul = "knocks_reactor_ul"
          :collapser_icon = "reactor_collapser_icon"
@@ -217,6 +219,14 @@ export default {
     toggle_object_id : {
       type : Number , 
       default : null ,
+    },
+    inverse_reactor : {
+      type : Boolean ,
+      default : true ,
+    },
+    candy : {
+      type : Boolean , 
+      default : false , 
     }
 
   },

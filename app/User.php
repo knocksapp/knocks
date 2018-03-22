@@ -406,6 +406,7 @@ class User extends Authenticatable {
 			$resultObject['requested'] = $this->hasFriendRequest($requester);
 			$resultObject['requester'] = $this->hasSentRequest($requester);
 		}
+		$resultObject['kid'] = $this->isKid();
 		//Return the result
 		return $resultObject;
 	}
@@ -802,6 +803,9 @@ class User extends Authenticatable {
 		$current = (int) date('Y');
 		return $current - $year;
 
+	}
+	public function isKid() {
+		return $this->age() < 12 ? true : false;
 	}
 
 	public function getUserKnocksRegular() {

@@ -507,7 +507,8 @@ export default {
     player_volume_sniper_container : {
       type : String , 
       default : 'col s8'
-    }
+    },
+
 
   },
   data () {

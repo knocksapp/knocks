@@ -337,6 +337,7 @@ Vue.component('knocksgroupsettings', require('./components/knocksgroupsettings.v
 
 
 
+
  window.App = new Vue();
  new Vue({
   el: '#app',
