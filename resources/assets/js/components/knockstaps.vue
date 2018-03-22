@@ -9,10 +9,8 @@
 		</a>
 	</div>
 </template>
-
 <script>
 export default {
-
   name: 'knockstaps',
   props : {
   	main_container : {
@@ -132,8 +130,7 @@ export default {
             vm.isFired = true;
             App.$emit('knocks_input_status' , vm.isValid);
            }
-          });
-          
+          });       
   },
   computed : {
     isValid(){
@@ -196,11 +193,11 @@ export default {
   		return this.isActive(value) ? this.anchor_active_class : this.anchor_regular_class;
   	},
   	emit(){
+      //emits
   		this.$emit('input' , this.assigned);
   	}
   }
 }
 </script>
-
 <style lang="css" scoped>
 </style>
