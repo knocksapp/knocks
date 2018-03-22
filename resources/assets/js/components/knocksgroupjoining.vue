@@ -7,6 +7,12 @@
         @success="requestMember()"
         >
         </knocksretriver>
+        <knocksretriver
+          v-model=  "group_requests"
+          url = "check_group_user_request"
+          :xdata="{group_id : group_id}"
+          >
+    </knocksretriver>
       <div v-if="group_object != null && !as_result && !add_member_mode" class="knocks_fair_bounds knocks_sp_top_margin">
       <el-button 
       v-if="group_object.preset == 'public'"
@@ -43,20 +49,20 @@
       <span> Invite <i class="knocks-plus2"></i></span>
     </el-button>
     </div>
-     <div v-if="as_result && group_object != null && !add_member_mode" class="knocks_fair_bounds knocks_sp_top_margin">
+     <div v-if="as_result && group_object != null && !add_member_mode && group_requests != null" class="knocks_fair_bounds knocks_sp_top_margin">
       <el-button
       type="primary"
        v-if="group_object.preset == 'closed'"
        @click="isChecked('closed')"
-       :disabled = "isLoading"
+       :disabled = "isLoading || group_requests.response"
        >
-      <span v-if="close"> Ask for Join <i class="knocks-log-in"></i></span>
-      <span v-if="open"> Open <i class="knocks-login"></i></span>
-      <span v-if="join"> Join <i class="knocks-log-out"></i></span> 
-      <span v-if="wait"> Waiting <i class="knocks-log-out"></i></span> 
+      <span v-if="close && !group_requests.response"> Ask for Join <i class="knocks-log-in"></i></span>
+      <span v-if="open && !group_requests.response"> Open <i class="knocks-login"></i></span>
+      <span v-if="join && !group_requests.response"> Join <i class="knocks-log-out"></i></span> 
+      <span v-if="wait || group_requests.response"> Waiting <i class="knocks-log-out"></i></span> 
       </el-button>
     </div>
-    <div v-if = "as_owner && group_object != null">
+    <div class="row" v-if = "as_owner && group_object != null">
       <el-button 
       v-if="group_object.preset == 'closed'"
       @click="isChecked('accpet')"
@@ -65,6 +71,14 @@
       :disabled = "isLoading"
       >
       <span> Accept <i class="knocks-plus2"></i></span>
+    </el-button>
+    <el-button 
+      @click="isChecked('decline')"
+      type="danger"
+      v-loading="isLoading"
+      :disabled = "isLoading"
+      >
+      <span> Decline <i class="knocks-close"></i></span>
     </el-button>
     </div>
     </div>
@@ -109,6 +123,7 @@ export default {
        isLoading : false,
        checkMem : false,
        join_request : null,
+       group_requests : null,
     }
   },
   methods : {
@@ -205,6 +220,15 @@ export default {
                    }
              });
              
+          }
+          if(state == 'decline'){
+                 axios({
+                   url : LaravelOrgin + '/decline_request_group',
+                   method : 'post',
+                   data : {user : vm.user_id, group : vm.group_id}
+                 }).then((response)=>{
+                  
+                 });
           }
       },
       getGroup(){
@@ -303,7 +327,6 @@ export default {
   mounted(){
         this.getGroup()
         this.checkMemberInGroups() 
-
   },
 }
 </script>

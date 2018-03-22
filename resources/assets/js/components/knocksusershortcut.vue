@@ -174,11 +174,13 @@
     <div v-if = "as_result && userObject != null">
       <div :class = "main_container">
         <knocksimg :src = "asset('media/avatar/compressed/'+user)" :classes = "[knocks_avatar_classes,{'knocks_user_profile_scope' : thatsMe}]"></knocksimg>
+
         <div class = "">
           <div  class="">
             <div class = "col" v-if = "!hide_text_info">
               <a :class = "name_class" :href = "userUrl"  v-if="userObject && !hide_name"> {{ displayName }}</a><slot name = "append_to_display_name"></slot><br/>
               <a :class = "username_class" :href = "userUrl" v-if="userObject != null && show_username" style = "display:flex"> {{'@'+userObject.username}} </a>
+              <slot name = "append_to_name"></slot>
             </div>
             <div :class = "user_actions_container">
               <knocksuseractions v-if = "show_accept_shortcut"

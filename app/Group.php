@@ -5,11 +5,22 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 use App\Knock;
 use App\obj;
-
+use App\Group_member;
+use App\User_request;
 class Group extends Model
 {
   public function groupMembers(){
     return $this->hasMany('App\Group_member' , 'group_id');
+  }
+
+  public function memberPostion(){
+      $pos = Group_member::where('user_id','=',auth()->user()->id)
+      ->where('group_id','=',$this->id)->get()->pluck('position');
+      return $pos[0];
+  }
+  public function groupRequests(){
+      $req = User_request::where('reciver_id','=',$this->id)->where('response','=','waiting')->get()->first();
+      return count($req);
   }
 
     public function initialize($name ,$category, $thumbnail,$preset){

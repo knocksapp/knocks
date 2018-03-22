@@ -181,11 +181,19 @@ Route::post('sport/update', 'SportController@updateSport');
 
 Route::post('sport/delete', 'SportController@deleteSport');
 
+Route::post('group_edit_info', 'GroupController@updateGroupInfo');
+
+Route::post('group_edit_preset', 'GroupController@updateGroupPrivacy');
+
 Route::post('check_user_ingroup', 'GroupMemberController@checkUserInGroup');
 
 Route::post('get_group_request', 'UserRequestController@getGroupWaitResponse'); 
 
 Route::post('get_group_user_request', 'UserRequestController@getGroupResponse');
+
+Route::post('check_group_user_request', 'UserRequestController@checkGroupResponse');
+
+Route::post('/decline_request_group', 'UserRequestController@declineRequestForGroup');
 
 Route::post('join_public_group', 'GroupController@joinPublicGroup');
 
