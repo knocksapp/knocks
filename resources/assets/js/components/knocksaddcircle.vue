@@ -10,10 +10,12 @@
 		el_follower
 		v-model = "circleName"
 		is_required
-		:scope = "['add_circle']">			
+		:scope = "['add_circle']">
 		</knocksinput>
 	</div>
-	<div class = "col s3 knocks_house_keeper">
+
+	<div class = "row knocks_house_keeper">
+		<br/>
 	  <knocksiconpicker v-model ="circleIcon" class = "right"
        btn_class = " knocks_text_dark knocks_noshadow_ps knocks_collapse_toggler knocks_basic_button knocks_tinny_padding knocks_collapse_toggler"
        btn_icon = "knocks-smile-o"
@@ -22,11 +24,12 @@
        collapse_align="right"
        parent_style= ""
       ></knocksiconpicker>
-	</div>
+		</div>
+
 </div>
 <div id="row">
 	<div class = "col s9">
-		<span class = "knocks_text_dark knocks_text_md">{{circleName}}</span> <span v-for = "icon in circleIcon" class = "knocks_text_md knocks_text_dark" :class = "'knocks-'+icon.class"></span>
+		<span class = "knocks_text_dark knocks_text_md">{{circleName}}</span> <span v-for = "icon in circleIcon" class = "knocks_text_md " :class = "'knocks-'+icon.class"></span>
 	</div>
 	<div class = "col s3">
 		 <transition
@@ -59,7 +62,7 @@
 	              <static_message msg = "Add Circle"></static_message>
             </span>
 		</knockspopover>
-		
+
 	</transition>
 	</div>
 </div>
@@ -72,18 +75,18 @@ export default {
   name: 'knocksaddcircle',
   props : {
   	gid : {
-  		type : String , 
+  		type : String ,
   		required : true
   	},
   	main_container : {
-  		type : String , 
+  		type : String ,
   		default : 'row knocks_color_light_opacity_kit knocks_regular_border z-depth-1 knocks_regular_border knocks_standard_border_radius knocks_tinny_padding'
   	}
   },
 
   data () {
     return {
-    	circleName : '' , 
+    	circleName : '' ,
     	circleIcon : null ,
 
     }

@@ -14,6 +14,9 @@
         <static_message :msgid="place_holder" :class="labelClasses" v-if = "placeholder == null && !disable_placeholder"></static_message>
         <static_message :msg="placeholder" :class="labelClasses" v-else-if = "placeholder != null && !disable_placeholder" ></static_message>
       </template>
+      <template v-if = "has_slot" :slot = "notLabelPosition">
+        <slot name = "aside"></slot>
+      </template>
       </el-input>
 
   
@@ -272,6 +275,10 @@
           type : String , 
           default : '' ,
         },
+        has_slot : {
+          type : Boolean ,
+          default : false ,
+        },
 
         ////Errors Messages
         is_required_msg : {
@@ -384,6 +391,9 @@
           labelPosition(){
             if(this.lang_alignment == 'right') return 'append';
             if(this.lang_alignment == 'left') return 'prepend';
+          },
+          notLabelPosition(){
+            return this.labelPosition == 'append' ? 'prepend' : 'append'
           },
           isValid(){
             if(!this.isFired) return false;
@@ -618,7 +628,7 @@
             axios
             ({
                 method:'post',
-                url:window.location.protocol + '//' + window.location.hostname + ':'+window.location.port+'/'+vm.check_at,
+                url:LaravelOrgin+vm.check_at,
                 responseType:"text",
                 timeout : 10000,
                 data : {q : this.elinput},
@@ -678,7 +688,7 @@
               { message_id : this.max_length_msg  , icon : 'knocks-alert-circle' , prefix : null , postfix : this.max_len},
               { message_id : this.min_length_msg  , icon : 'knocks-alert-circle' , prefix : null , postfix : this.min_len},
               { message_id : this.regex_bus_msg   , icon : 'knocks-alert-circle' , prefix : null , postfix : ' '+this.regex_example},
-              { message_id : this.check_live_msg   , icon : 'knocks-alert-circle' , prefix : null , postfix : this.check_live_msg},
+              { message_id : this.check_live_msg   , icon : 'knocks-alert-circle' , prefix : null , postfix : this.check_live_prefix_msg},
               { message_id : this.is_required_msg    , icon : 'knocks-alert-circle' , prefix : null , postfix : null},
               { message_id : this.samilarity_msg  , icon : 'knocks-alert-circle' , prefix : null , postfix : ' '+this.same_as_name},
             ];

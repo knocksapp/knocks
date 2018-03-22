@@ -328,6 +328,7 @@ Vue.component('knocksgroupfiles', require('./components/knocksgroupfiles.vue'));
 Vue.component('knocksgroupvoices', require('./components/knocksgroupvoices.vue'));
 Vue.component('knocksrightbar', require('./components/knocksrightbar.vue'));
 Vue.component('knocksprivacyadjustments', require('./components/knocksprivacyadjustments.vue'));
+Vue.component('knocksgroupsettings', require('./components/knocksgroupsettings.vue'));
 
 
 

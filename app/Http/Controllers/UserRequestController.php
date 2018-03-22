@@ -103,5 +103,40 @@ class UserRequestController extends Controller
      return 'done';
     }
 
+    public function sendGroupRequest(Request $request){
+
+              $newRequest = new User_request();
+              $newRequest->initializeForGroups(
+              auth()->user()->id,
+              $request->reciver_id
+              );
+              return 'done';
+    }
+
+    public function getGroupWaitResponse(Request $request){
+                 $res = User_request::where('sender_id','=',auth()->user()->id)->where('reciver_id','=',$request->group_id)->get();
+                 return $res;
+    }
+    public function getGroupResponse(Request $request){
+                 $res = User_request::where('parent_type','=','Group')->where('reciver_id','=',$request->group_id)->get();
+                 return $res;
+    }
+    public function declineRequestForGroup(Request $request){
+               $upd = User_request::where('sender_id','=',$request->user)->where('reciver_id','=',$request->group)->where('response','=','waiting')->get()->first();
+                $upd->response = 'declined';
+                $upd->update();
+    }
+    public function checkGroupResponse(Request $request){
+         $check = User_request::where('sender_id','=',auth()->user()->id)
+         ->where('reciver_id','=',$request->group_id)
+         ->where('response','=','waiting')->get();
+         if(count($check) > 0){
+          return 'true';
+         }else
+         {
+          return 'false';
+        }
+
+    }
 }
  

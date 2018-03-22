@@ -117,6 +117,9 @@ body{
 .knocks_text_bold { 
     font-weight: 600;
 }
+.knocks_active_reaction{
+  font-size : 30px !important;
+}
 @media only screen and (max-width(750)){
   .knocks_text_resp_md{
     font-size: 110%;
@@ -1660,6 +1663,16 @@ input[type=range]:focus::-moz-range-track {
 
 
 }
+.knocks_reactor_index{
+    z-index : 999998 !important;
+     position: relative !important;
+       right : inherit !important;
+  bottom: inherit !important;
+  left: inherit !important;
+}
+.knocks_horizontal_list > li {
+  float : left !important;
+}
 .knocks_regular_division{
   background-color: #fff !important;
   padding : 0.5% !important;
@@ -1683,6 +1696,25 @@ input[type=range]:focus::-moz-range-track {
   bottom : 40px !important;
 
 }
+.knocks_horizontal_reactor{
+  background-color: rgba(255,255,255,0.95);
+  border-radius: 30px;
+  border : 1px solid #fce4ec;
+  max-height : 50px !important;
+  padding-top : 5px !important;
+  right : 30px !important;
+  padding : 1px !important;
+
+}
+.knocks_reactor_adult{
+  width : 250px !important;
+}
+.knocks_reactor_candy{
+  width : 125px !important;
+}
+.fixed-action-btn{
+  right : unset !important;
+}
 .knocks_tinny_reactor_ul{
   // position: absolute;
   //top : 45px !important;
@@ -1699,19 +1731,22 @@ input[type=range]:focus::-moz-range-track {
 .knocks_reaction_trigger{
    z-index : 999998 !important;
 }
-.knocks_reactor_ul > li{
-  margin: 12px !important;
+.knocks_reactor_target_ul > li{
+  margin: 0px !important;
 }
+
 .knocks_reaction_btn{
   z-index : 999999 !important;
-  width : 35px !important;
-  height: 35px !important;
+  width : 30px !important;
+  height: 30px !important;
   margin: -3px !important;
 }
 
 .knocks_reaction_btn > i {
-  text-align: center !important;
-  margin : -3px !important;
+    text-align: center !important;
+    //margin: -3px !important;
+    font-size: 25px;
+    line-height: 25px;
 }
 .knocks_multiple_switch{
   position: relative !important;

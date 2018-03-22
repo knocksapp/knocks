@@ -181,6 +181,8 @@
             <!--     <span class="right knocks_text_dark since"> {{knockObject.time}} </span>
             <span class="left knocks_text_dark since"> {{knockObject.timedate}} </span> -->
             <knocksreactionstats
+            v-if = "ownerObject != null"
+            :candy = "ownerObject.kid"
             knocks_reactor_ul = "knocks_tinny_reactor_ul"
             reactor_collapser_icon = "knocks_text_ms knocks-like knocks_dark_anchor"
             reply_initial_class = "btn btn-floating knocks_super_tiny_floating_btn right knocks_side_padding knocks_noshadow_ps  knocks_text_dark transparent"
@@ -190,6 +192,7 @@
             :reply_scope="[ gid + '_reply_scope']"
             parent_type = "knock"
             :gid = "gid+'_reaction_stats'"
+            :inverse_reactor = "inverse_reactor"
             :object_id = "knockObject.object_id">
             </knocksreactionstats>
             <knocksreply
@@ -341,7 +344,11 @@ export default {
      show_appendex : {
       type : Boolean , 
       default : false 
-     }
+     },
+    inverse_reactor : {
+      type : Boolean ,
+      default : true ,
+    }
 
     
   },

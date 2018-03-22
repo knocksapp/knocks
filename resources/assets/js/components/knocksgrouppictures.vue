@@ -8,7 +8,7 @@
     </knocksretriver>
     <div class="row" v-if="group_pictures != null">
     	<ul class="uk-thumbnav" uk-margin>
-       <li class="col s4" v-for="pic in group_pictures.response"><knocksimg :src = "asset('media/image/retrive/'+pic)" ></knocksimg></li>
+       <li class="col s4" v-for="pic in group_pictures.response"><knocksimg class="right" :src = "asset('media/image/retrive/'+pic)" ></knocksimg></li>
        </ul>   
     </div>
 	</div>
