@@ -23,4 +23,13 @@ public function initialize($sender_id , $receiver_id)
     $this->save();
 }
 
+public function initializeForGroups($sender_id , $receiver_id)
+{
+    $this->reciver_id = $receiver_id;
+    $this->sender_id = $sender_id;
+    $this->response = 'waiting';
+    $this->parent_type = 'Group';
+    $this->save();
+}
+
 }
