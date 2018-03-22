@@ -7,22 +7,7 @@
         <div class = "col s12 knocks_house_keeper" style = "margin-top : 1px !important; padding : 0px !important;"
           :class =  "[{'knocks_hidden' :!hasAContent} , { hasAContent :'animated slideInUp'}]">
           <div class = "col s1 l2 left">
-            <knocksprivacysetter
-            @change = "showInterest()"
-            trigger_class = "modal-trigger amber-text  transparent darken-2 btn-floating knocks_btn_floating_sm   knocks_noshadow_ps knocks_borderless "
-            :gid = "gid+'_privacy_setter'" v-model = "privacy_setting" class  = "">
-            <template slot = "trigger">
-            <span class = "knocks-locked4"></span>
-            </template>
-            <template slot="modal_header">
-            <span class = "knocks_text_dark knocks_text_md knocks_text_bold"><span class = "knocks-lockedheart knocks_text_dark"></span>
-            How do you want the world to see this ?
-          </span>
-          </template>
-          <span slot = "content"  class = "knocks_tooltip animated flipInX" >
-            Privacy
-          </span>
-          </knocksprivacysetter>
+                       <knocksprivacyadjustments trigger_class = " amber-text  transparent darken-2 btn-floating knocks_btn_floating_sm   knocks_noshadow_ps knocks_borderless " class = "right" v-model = "privacy_setting" ></knocksprivacyadjustments>
         </div>
         <div class = " col l10 s10">
           <span class = "knocks-knocks grey-text knocks_tinny_side_padding text-lighten-2  animated fadeIn" v-if = "userSuggestions.length == 0 && tagged.length == 0"></span>
@@ -864,8 +849,7 @@ export default {
         post_id : this.parent_id ,
         check_in : this.locationResult ,
         tags : this.tagged ,
-        user_privacy : this.privacy_setting.user_privacy , 
-        circle_privacy : this.privacy_setting.circle_privacy
+        privacy_setting : this.privacy_setting , 
       }
       this.submitObject = res;
       setTimeout(()=>{ App.$emit('knocksFinalSubmit', {scope : this.scope}); },300);
