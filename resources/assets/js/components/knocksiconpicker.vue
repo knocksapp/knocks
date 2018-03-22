@@ -7,41 +7,52 @@
          <span class = "animated jello knocks-chevron-up3 knocks_text_dark" :class = "chevron_classes"  v-else></span>
        </button>
       <div class = " knocks_collapse knocks_hidden"  :id="gid+'_dropdown'">
+        <div style="max-width : 280px">
         <div v-if = "pickedIcon.length > 0 && show_selections" class = "knocks_fixed_top">
-          <div class="chip valign-wrapper animated slideInUp"  v-for="(picon,index) in pickedIcon">
+          <div class="chip valign-wrapper animated slideInUp"  v-for="(picon,index) in pickedIcon" >
              <span  :class = " 'knocks_text_ms knocks_text_dark_active knocks-' + picon.class" ></span>
              <span  @click = "closeIcon(picon.class,index)"class="knocks-close "></span>
            </div>
          </div>
         <!-- <input placeholder="Search .." id="px-icon_search" type="text" class="knocks_input_ps"  @input="updateValue()"  > -->
-         <el-input placeholder="Please input" v-model="searchValue"  class="input-with-select">
-          <el-select v-model="categorySelect" slot="prepend" placeholder="Select" style = "width : 100px !important">
+         <!-- <el-input placeholder="Please input" v-model="searchValue"  class="input-with-select"> -->
+
+
+          <el-select v-model="categorySelect" slot="prepend" placeholder="Select" style = "width : 100% !important">
             <el-option  label="All" value="" ></el-option>
             <el-option v-for = "cat in categories" :key = "cat" :label="cat" :value="cat" ></el-option>
           </el-select>
+
           <!-- <el-button slot="append" icon="el-icon-search"></el-button> -->
-        </el-input>
+        <!-- </el-input> -->
 
+        <div class="center" v-for = "catig in categories" style="max-width : 280px; overflow : hidden; ">
 
-
-
-        <div v-for = "catig in categories">
-          <div v-if="( searchValue.length  == 0 || isMatched(catig , searchValue))" >
-            <span v-if = "categorySelect == catig || categorySelect == ''"
+          <div class="center" v-if="( searchValue.length  == 0 || isMatched(catig , searchValue)) && (categorySelect == catig || categorySelect == '' )" >
+              <h5 class="ui horizontal divider header transparent" style="margin: 5px 0; " >
+                <i   :class = " `icon_picker_icon knocks_icon-px animated  rubberBand knocks-`+emoji_icon(catig) " ></i>
+            <span v-if = "categorySelect == catig || categorySelect == '' "
              class = "knocks_text_dark_active">{{catig}}
             </span>
-            <hr  v-if = "categorySelect == catig || categorySelect == ''" />
+          </h5>
+
           </div>
-          <a v-if="(isMatched(icn.label,searchValue) || searchValue.length  == 0 || isMatched(icn.category , searchValue)) && icn.category == catig && (categorySelect == '' || categorySelect == catig)"  
-               v-for="icn in iconsObject"
-              :class = " ` tooltipped  icon_picker_icon knocks_icon-px animated knocks_text_md rubberBand knocks-`+icn.class "
-              data-position="bottom" data-delay="10" :data-tooltip="icn.label"
+         <div class="center col s12">
+          <a  v-for="icn in iconsObject" class = "col knocks_house_keeper"
+          v-if="(isMatched(icn.label,searchValue) || searchValue.length  == 0 || isMatched(icn.category , searchValue)) && (icn.category == catig && (categorySelect == '' || categorySelect == catig))"
+
               @click="emitValue(icn)">
+              <i   :class = " ` icon_picker_icon knocks_icon-px animated knocks_text_md rubberBand knocks-`+icn.class " >
+              </i>
             </a>
+
+        </div>
         </div>
 
       </div>
+      </div>
      </div>
+
 </template>
 <script>
 export default {
@@ -85,9 +96,9 @@ export default {
       show_selection_header : {
         type : Boolean ,
         default : true ,
-      }, 
+      },
       chevron_classes :{
-        type : String , 
+        type : String ,
         default : 'knocks_text_dark'
       }
 
@@ -147,7 +158,7 @@ export default {
        'Signs','Science','weather','tools'],
       pickedIcon : [] ,
       categorySelect : '' ,
-      searchValue : '', 
+      searchValue : '',
 
       iconsObject : [
         //tools
@@ -202,129 +213,65 @@ export default {
         { class : "stack" , label : 'stack' , category : 'tools'},
         { class : "shower" , label : 'shower' , category : 'tools'},
         //emojis
-        { class : "flashed-face" , label : 'flashed' , category : 'Emoji'},
-        { class : "flashed-face2" , label : 'flashed' , category : 'Emoji'},
-        { class : "flashed-face3" , label : 'flashed' , category : 'Emoji'},
-        { class : "flashed-face4" , label : 'flashed' , category : 'Emoji'},
-        { class : "flashed-face-glasses" , label : 'flashed' , category : 'Emoji'},
-        { class : "flashed-face-glasses2" , label : 'flashed' , category : 'Emoji'},
-        { class : "face-missing-moth" , label : 'missing' , category : 'Emoji'},
-        { class : "face-missing-moth2" , label : 'missing' , category : 'Emoji'},
-        { class : "neutral-face" , label : 'neutral' , category : 'Emoji'},
-        { class : "neutral-face2" , label : 'neutral' , category : 'Emoji'},
-        { class : "sad-face" , label : 'sad' , category : 'Emoji'},
-        { class : "sad-face2" , label : 'sad' , category : 'Emoji'},
-        { class : "face-open-mouth" , label : 'open mouth' , category : 'Emoji'},
-        { class : "face-open-mouth2" , label : 'open mouth' , category : 'Emoji'},
-        { class : "face-open-mouth3" , label : 'open mouth' , category : 'Emoji'},
-        { class : "face-open-mouth4" , label : 'open mouth' , category : 'Emoji'},
-        { class : "winking-face" , label : 'winking' , category : 'Emoji'},
-        { class : "winking-face2" , label : 'winking' , category : 'Emoji'},
-        { class : "laughing-face" , label : 'laughing' , category : 'Emoji'},
-        { class : "laughing-face2" , label : 'laughing' , category : 'Emoji'},
-        { class : "laughing-face3" , label : 'laughing' , category : 'Emoji'},
-        { class : "laughing-face4" , label : 'laughing' , category : 'Emoji'},
-        { class : "smirking-face" , label : 'smirking' , category : 'Emoji'},
-        { class : "smirking-face2" , label : 'smirking' , category : 'Emoji'},
-        { class : "stubborn-face" , label : 'stubborn' , category : 'Emoji'},
-        { class : "stubborn-face2" , label : 'stubborn' , category : 'Emoji'},
-        { class : "neutral-face3" , label : 'neutral' , category : 'Emoji'},
-        { class : "neutral-face4" , label : 'neutral' , category : 'Emoji'},
-        { class : "sad-face3" , label : 'sad' , category : 'Emoji'},
-        { class : "sad-face4" , label : 'sad' , category : 'Emoji'},
-        { class : "smiling-face3" , label : 'smiling' , category : 'Emoji'},
-        { class : "smiling-face4" , label : 'smiling' , category : 'Emoji'},
-        { class : "smiling-face-eyebrows" , label : 'smiling' , category : 'Emoji'},
-        { class : "smiling-face-eyebrows2" , label : 'smiling' , category : 'Emoji'},
-        { class : "grinning-face-eyebrows" , label : 'grinning' , category : 'Emoji'},
-        { class : "grinning-face-eyebrows2" , label : 'grinning' , category : 'Emoji'},
-        { class : "sad-face-eyebrows" , label : 'sad' , category : 'Emoji'},
-        { class : "sad-face-eyebrows2" , label : 'sad' , category : 'Emoji'},
-        { class : "angry-face" , label : 'angry' , category : 'Emoji'},
-        { class : "angry-face2" , label : 'angry' , category : 'Emoji'},
-        { class : "worried-face" , label : 'worried' , category : 'Emoji'},
-        { class : "worried-face2" , label : 'worried' , category : 'Emoji'},
-        { class : "winking-face3" , label : 'winking' , category : 'Emoji'},
-        { class : "winking-face4" , label : 'winking' , category : 'Emoji'},
-        { class : "angry-face-eyebrows" , label : 'angry' , category : 'Emoji'},
-        { class : "angry-face-eyebrows2" , label : 'angry' , category : 'Emoji'},
-        { class : "grinning-face" , label : 'grinning' , category : 'Emoji'},
-        { class : "grinning-face2" , label : 'grinning' , category : 'Emoji'},
-        { class : "sad-face5" , label : 'sad' , category : 'Emoji'},
-        { class : "sad-face6" , label : 'sad' , category : 'Emoji'},
-        { class : "grinning-face-eyebrows3" , label : 'grinning' , category : 'Emoji'},
-        { class : "grinning-face-eyebrows4" , label : 'grinning' , category : 'Emoji'},
-        { class : "fake-grinning-face-eyebrows" , label : 'fake' , category : 'Emoji'},
-        { class : "fake-grinning-face-eyebrows2" , label : 'fake' , category : 'Emoji'},
-        { class : "worried-face-eyebrows" , label : 'worried' , category : 'Emoji'},
-        { class : "face-stuck-out-tongue" , label : 'stuck tongue' , category : 'Emoji'},
-        { class : "face-stuck-out-tongue3" , label : 'stuck tongue' , category : 'Emoji'},
-        { class : "face-stuck-out-tongue2" , label : 'stuck tongue' , category : 'Emoji'},
-        { class : "face-stuck-out-tongue4" , label : 'stuck tongue' , category : 'Emoji'},
-        { class : "kissing-face" , label : 'kissing' , category : 'Emoji'},
-        { class : "kissing-face2" , label : 'kissing' , category : 'Emoji'},
-        { class : "grinning-face-teeth" , label : 'grinning' , category : 'Emoji'},
-        { class : "grinning-face-teeth2" , label : 'grinning' , category : 'Emoji'},
-        { class : "angry-face-teeth" , label : 'angry' , category : 'Emoji'},
-        { class : "worried-face-teeth2" , label : 'worried' , category : 'Emoji'},
-        { class : "angry-face-teeth2" , label : 'angry' , category : 'Emoji'},
-        { class : "grinning-face-teeth3" , label : 'grinning' , category : 'Emoji'},
-        { class : "grinning-face-teeth4" , label : 'grinning' , category : 'Emoji'},
-        { class : "face-open-mouth-eyebrows2" , label : 'open mouth' , category : 'Emoji'},
-        { class : "face-open-mouth-eyebrows3" , label : 'open mouth' , category : 'Emoji'},
-        { class : "face-open-mouth-eyebrows4" , label : 'open mouth' , category : 'Emoji'},
-        { class : "angry-face-open-mouth-eyebrows" , label : 'angry' , category : 'Emoji'},
-        { class : "angry-face-open-mouth-eyebrows" , label : 'angry' , category : 'Emoji'},
-        { class : "unamused-face-tightly-closed-eyes" , label : 'unamused' , category : 'Emoji'},
-        { class : "unamused-face-tightly-closed-eyes2" , label : 'unamused' , category : 'Emoji'},
-        { class : "sad-face--tightly-closed-eyes" , label : 'sad' , category : 'Emoji'},
-        { class : "sad-face--tightly-closed-eyes2" , label : 'sad' , category : 'Emoji'},
-        { class : "kissing-face3" , label : 'kissing' , category : 'Emoji'},
-        { class : "kissing-face4" , label : 'kissing' , category : 'Emoji'},
-        { class : "face-closed-meyes" , label : 'closed eyes' , category : 'Emoji'},
-        { class : "face-closed-meyes2" , label : 'closed eyes' , category : 'Emoji'},
-        { class : "amused-face" , label : 'amused' , category : 'Emoji'},
-        { class : "amused-face2" , label : 'amused' , category : 'Emoji'},
-        { class : "amused-face-closed-eyes" , label : 'amused' , category : 'Emoji'},
-        { class : "amused-face-closed-eyes2" , label : 'amused' , category : 'Emoji'},
-        { class : "amused-face-closed-eyes3" , label : 'amused' , category : 'Emoji'},
-        { class : "amused-face-closed-eyes4" , label : 'amused' , category : 'Emoji'},
-        { class : "face-closed-eyes-open-mouth" , label : 'closed eyes' , category : 'Emoji'},
-        { class : "face-closed-eyes-open-mouth2" , label : 'closed eyes' , category : 'Emoji'},
-        { class : "face-closed-eyes-open-mouth3" , label : 'closed eyes' , category : 'Emoji'},
-        { class : "face-closed-eyes-open-mouth4" , label : 'closed eyes' , category : 'Emoji'},
-        { class : "face-closed-eyes-open-mouth5" , label : 'closed eyes' , category : 'Emoji'},
-        { class : "face-closed-eyes-open-mouth6" , label : 'closed eyes' , category : 'Emoji'},
-        { class : "laughing-face5" , label : 'laughing' , category : 'Emoji'},
-        { class : "laughing-face6" , label : 'laughing' , category : 'Emoji'},
-        { class : "smiling-face5" , label : 'smiling' , category : 'Emoji'},
-        { class : "smiling-face6" , label : 'smiling' , category : 'Emoji'},
-        { class : "grinning-face3" , label : 'grinning' , category : 'Emoji'},
-        { class : "grinning-face4" , label : 'grinning' , category : 'Emoji'},
-        { class : "sad-face7" , label : 'sad' , category : 'Emoji'},
-        { class : "sad-face8" , label : 'sad' , category : 'Emoji'},
-        { class : "sad-face9" , label : 'sad' , category : 'Emoji'},
-        { class : "sad-face10" , label : 'sad' , category : 'Emoji'},
-        { class : "sad-face11" , label : 'sad' , category : 'Emoji'},
-        { class : "sad-face12" , label : 'sad' , category : 'Emoji'},
-        { class : "sad-face-closed-eyes" , label : 'sad' , category : 'Emoji'},
-        { class : "sad-face-closed-eyes2" , label : 'sad' , category : 'Emoji'},
-        { class : "smiling-face7" , label : 'smiling' , category : 'Emoji'},
-        { class : "smiling-face8" , label : 'smiling' , category : 'Emoji'},
-        { class : "astonished-face" , label : 'astonished' , category : 'Emoji'},
-        { class : "astonished-face2" , label : 'astonished' , category : 'Emoji'},
-        { class : "astonished-face3" , label : 'astonished' , category : 'Emoji'},
-        { class : "astonished-face4" , label : 'astonished' , category : 'Emoji'},
+        { class : "flashed-face2 amber-text darken-1" , label : 'flashed' , category : 'Emoji' },
+        { class : "flashed-face4 amber-text darken-1" , label : 'flashed' , category : 'Emoji'},
+        { class : "flashed-face-glasses2 amber-text darken-1" , label : 'flashed' , category : 'Emoji'},
+        { class : "face-missing-moth2 amber-text darken-1" , label : 'missing' , category : 'Emoji'},
+        { class : "neutral-face2 amber-text darken-1" , label : 'neutral' , category : 'Emoji'},
+        { class : "sad-face2 amber-text darken-1" , label : 'sad' , category : 'Emoji'},
+        { class : "face-open-mouth2 amber-text darken-1" , label : 'open mouth' , category : 'Emoji'},
+        { class : "face-open-mouth4 amber-text darken-1" , label : 'open mouth' , category : 'Emoji'},
+        { class : "winking-face2 amber-text darken-1" , label : 'winking' , category : 'Emoji'},
+        { class : "laughing-face2 amber-text darken-1" , label : 'laughing' , category : 'Emoji'},
+        { class : "laughing-face4 amber-text darken-1" , label : 'laughing' , category : 'Emoji'},
+        { class : "smirking-face2 amber-text darken-1" , label : 'smirking' , category : 'Emoji'},
+        { class : "stubborn-face2 amber-text darken-1" , label : 'stubborn' , category : 'Emoji'},
+        { class : "neutral-face4 amber-text darken-1" , label : 'neutral' , category : 'Emoji'},
+        { class : "sad-face4 amber-text darken-1" , label : 'sad' , category : 'Emoji'},
+        { class : "smiling-face4 amber-text darken-1" , label : 'smiling' , category : 'Emoji'},
+        { class : "smiling-face-eyebrows2 amber-text darken-1" , label : 'smiling' , category : 'Emoji'},
+        { class : "grinning-face-eyebrows2 amber-text darken-1" , label : 'grinning' , category : 'Emoji'},
+        { class : "sad-face-eyebrows2 amber-text darken-1" , label : 'sad' , category : 'Emoji'},
+        { class : "angry-face2 red-text accent-4" , label : 'angry' , category : 'Emoji'},
+        { class : "worried-face2 amber-text darken-1" , label : 'worried' , category : 'Emoji'},
+        { class : "winking-face4 amber-text darken-1" , label : 'winking' , category : 'Emoji'},
+        { class : "angry-face-eyebrows2 amber-text darken-1" , label : 'angry' , category : 'Emoji'},
+        { class : "grinning-face2 amber-text darken-1" , label : 'grinning' , category : 'Emoji'},
+        { class : "sad-face6 amber-text darken-1" , label : 'sad' , category : 'Emoji'},
+        { class : "grinning-face-eyebrows4 amber-text darken-1" , label : 'grinning' , category : 'Emoji'},
+        { class : "face-stuck-out-tongue2 amber-text darken-1" , label : 'stuck tongue' , category : 'Emoji'},
+        { class : "kissing-face2 amber-text darken-1" , label : 'kissing' , category : 'Emoji'},
+        { class : "grinning-face-teeth2 amber-text darken-1" , label : 'grinning' , category : 'Emoji'},
+        { class : "worried-face-teeth2 amber-text darken-1" , label : 'worried' , category : 'Emoji'},
+        { class : "angry-face-teeth2 amber-text darken-1" , label : 'angry' , category : 'Emoji'},
+        { class : "grinning-face-teeth4 amber-text darken-1" , label : 'grinning' , category : 'Emoji'},
+        { class : "face-open-mouth-eyebrows2 amber-text darken-1" , label : 'open mouth' , category : 'Emoji'},
+        { class : "face-open-mouth-eyebrows4 amber-text darken-1" , label : 'open mouth' , category : 'Emoji'},
+        { class : "unamused-face-tightly-closed-eyes2 amber-text darken-1" , label : 'unamused' , category : 'Emoji'},
+        { class : "sad-face--tightly-closed-eyes2 amber-text darken-1" , label : 'sad' , category : 'Emoji'},
+        { class : "kissing-face4 amber-text darken-1" , label : 'kissing' , category : 'Emoji'},
+        { class : "face-closed-meyes2 amber-text darken-1" , label : 'closed eyes' , category : 'Emoji'},
+        { class : "amused-face2 amber-text darken-1" , label : 'amused' , category : 'Emoji'},
+        { class : "amused-face-closed-eyes2 red-text accent-4" , label : 'amused' , category : 'Emoji'},
+        { class : "amused-face-closed-eyes4 amber-text darken-1" , label : 'amused' , category : 'Emoji'},
+        { class : "face-closed-eyes-open-mouth2 amber-text darken-1" , label : 'closed eyes' , category : 'Emoji'},
+        { class : "face-closed-eyes-open-mouth4 amber-text darken-1" , label : 'closed eyes' , category : 'Emoji'},
+        { class : "face-closed-eyes-open-mouth6 amber-text darken-1" , label : 'closed eyes' , category : 'Emoji'},
+        { class : "laughing-face6 amber-text darken-1" , label : 'laughing' , category : 'Emoji'},
+        { class : "smiling-face6 amber-text darken-1" , label : 'smiling' , category : 'Emoji'},
+        { class : "grinning-face4 amber-text darken-1" , label : 'grinning' , category : 'Emoji'},
+        { class : "sad-face8 amber-text darken-1" , label : 'sad' , category : 'Emoji'},
+        { class : "sad-face10 amber-text darken-1" , label : 'sad' , category : 'Emoji'},
+        { class : "sad-face12 amber-text darken-1" , label : 'sad' , category : 'Emoji'},
+        { class : "sad-face-closed-eyes2 amber-text darken-1" , label : 'sad' , category : 'Emoji'},
+        { class : "smiling-face8 amber-text darken-1" , label : 'smiling' , category : 'Emoji'},
+        { class : "astonished-face2 amber-text darken-1" , label : 'astonished' , category : 'Emoji'},
+        { class : "astonished-face4 amber-text darken-1" , label : 'astonished' , category : 'Emoji'},
         { class : "face-moustache" , label : 'moustache' , category : 'Emoji'},
-        { class : "face-moustache2" , label : 'moustache' , category : 'Emoji'},
         { class : "face-moustache3" , label : 'moustache' , category : 'Emoji'},
-        { class : "face-moustache4" , label : 'moustache' , category : 'Emoji'},
         { class : "face-glasses" , label : 'glasses' , category : 'Emoji'},
-        { class : "face-glasses2" , label : 'glasses' , category : 'Emoji'},
         { class : "face-sunglasses" , label : 'sun glasses' , category : 'Emoji'},
-        { class : "face-sunglasses2" , label : 'sunglasses' , category : 'Emoji'},
         { class : "smirking-face-sunglasses" , label : 'smirking' , category : 'Emoji'},
-        { class : "smirking-face-sunglasses2" , label : 'smirking' , category : 'Emoji'},
         { class : "marvin" , label : 'marvin' , category : 'Emoji'},
         { class : "pacman2" , label : 'pacman' , category : 'Emoji'},
         { class : "transformers" , label : 'transformers' , category : 'Emoji'},
@@ -342,6 +289,8 @@ export default {
         { class : "key11" , label : 'key' , category : 'Emoji'},
         { class : "search12" , label : 'search' , category : 'Emoji'},
         { class : "like" , label : 'like' , category : 'Emoji'},
+        { class : "heart13" , label : 'heart' , category : 'Emoji'},
+        { class : "heart13" , label : 'heart1' , category : 'Emoji', style : '#b30000' },
         //Hands
         { class : "thumbsup2" , label : 'thumb up' , category : 'Hands'},
         { class : "thumbsdown2" , label : 'thumb down' , category : 'Hands'},
@@ -349,37 +298,19 @@ export default {
         { class : "pointer3" , label : 'pointer' , category : 'Hands'},
         { class : "pointer4" , label : 'pointer' , category : 'Hands'},
         { class : "pointer5" , label : 'pointer' , category : 'Hands'},
-        { class : "thumb-up" , label : 'thumb up' , category : 'Hands'},
         { class : "thumb-up2" , label : 'thumb up' , category : 'Hands'},
-        { class : "thumb-down" , label : 'thumb down' , category : 'Hands'},
         { class : "thumb-down2" , label : 'thumb down' , category : 'Hands'},
-        { class : "thumb-down3" , label : 'thumb down' , category : 'Hands'},
         { class : "thumb-down4" , label : 'thumb down' , category : 'Hands'},
-        { class : "two-fingers-swipe-left" , label : 'swipe left' , category : 'Hands'},
         { class : "two-fingers-swipe-left2" , label : 'swipe left' , category : 'Hands'},
-        { class : "two-fingers-swipe-right" , label : 'swipe right' , category : 'Hands'},
         { class : "two-fingers-swipe-right2" , label : 'swipe right' , category : 'Hands'},
-        { class : "two-fingers-swipe-up" , label : 'swipe up' , category : 'Hands'},
         { class : "two-fingers-swipe-up2" , label : 'swipe up' , category : 'Hands'},
-        { class : "two-fingers-swipe-down" , label : 'swipe down' , category : 'Hands'},
-        { class : "two-fingers-swipe-down2" , label : 'swipe down' , category : 'Hands'},
-        { class : "two-fingers" , label : 'finger' , category : 'Hands'},
-        { class : "two-finger2" , label : 'finger' , category : 'Hands'},
-        { class : "three-fingers-double-tap" , label : 'tap' , category : 'Hands'},
         { class : "three-fingers-double-tap2" , label : 'tap' , category : 'Hands'},
-        { class : "two-fingers-resize-out" , label : 'resize out' , category : 'Hands'},
         { class : "two-fingers-resize-out2" , label : 'resize out' , category : 'Hands'},
-        { class : "two-fingers-resize-in" , label : 'resize in' , category : 'Hands'},
         { class : "two-fingers-resize-in2" , label : 'resize in' , category : 'Hands'},
-        { class : "two-fingers-rotate" , label : 'rotate' , category : 'Hands'},
         { class : "two-fingers-rotate2" , label : 'rotate' , category : 'Hands'},
-        { class : "one-finger-swipe-left" , label : 'swipe left' , category : 'Hands'},
         { class : "one-finger-swipe-left2" , label : 'swipe left' , category : 'Hands'},
-        { class : "one-finger-swipe-right" , label : 'swipe right' , category : 'Hands'},
         { class : "one-finger-swipe-right2" , label : 'swipe right' , category : 'Hands'},
-        { class : "middle-finger" , label : 'middle finger' , category : 'Hands'},
         { class : "middle-finger2" , label : 'middle finger' , category : 'Hands'},
-        { class : "rock-n-roll" , label : 'rock n roll ' , category : 'Hands'},
         { class : "rock-n-roll2" , label : 'rock n roll' , category : 'Hands'},
         //Signs
 
@@ -540,7 +471,7 @@ export default {
 
 
        //Science
-       { class : "lab5" , label : 'lab' , category : 'Science'},
+    //   { class : "lab5" , label : 'lab' , category : 'Science'},
        { class : "thermometer5" , label : 'thermometer' , category : 'Science'},
        { class : "thermometer6" , label : 'thermometer' , category : 'Science'},
        { class : "thermometer-low" , label : 'thermometer' , category : 'Science'},
@@ -555,20 +486,11 @@ export default {
        { class : "atom3" , label : 'atom' , category : 'Science'},
        { class : "globe5" , label : 'globe' , category : 'Science'},
        { class : "globe6" , label : 'globe' , category : 'Science'},
-       { class : "campus16" , label : 'campus' , category : 'Science'},
+  //     { class : "campus16" , label : 'campus' , category : 'Science'},
 
 
        //Numbers
-       { class : "number" , label : '1' , category : 'Numbers'},
-       { class : "number2" , label : '2' , category : 'Numbers'},
-       { class : "number3" , label : '3' , category : 'Numbers'},
-       { class : "number4" , label : '4' , category : 'Numbers'},
-       { class : "number5" , label : '5' , category : 'Numbers'},
-       { class : "number6" , label : '6' , category : 'Numbers'},
-       { class : "number7" , label : '7' , category : 'Numbers'},
-       { class : "number8" , label : '8' , category : 'Numbers'},
-       { class : "number9" , label : '9' , category : 'Numbers'},
-       { class : "number10" , label : '0' , category : 'Numbers'},
+
        { class : "number11" , label : '1' , category : 'Numbers'},
        { class : "number12" , label : '2' , category : 'Numbers'},
        { class : "number13" , label : '3' , category : 'Numbers'},
@@ -627,43 +549,13 @@ export default {
 
       this.pickedIcon.push(val);
         this.$emit('input' , this.pickedIcon);
-        this.notifi({ icon : val.class , name : val.label});
+        this.notifi({ icon : val.class , name : val.label });
         //Materialize.toast(' You have added  <span class = "knocks-'+val.class+'"></span>  '+val.label, 3000, 'rounded');
 
 
     },
     isMatched(userInput, matchWith) {
-             var result = [];
-             for (var i = 0; i <= userInput.length; i++) {
-               result.push([]);
-               for (var j = 0; j <= matchWith.length; j++) {
-                 var currValue = 0;
-                 if (i == 0 || j == 0) {
-                   currValue = 0;
-                 } else if (userInput.charAt(i - 1) == matchWith.charAt(j - 1)) {
-                   currValue = result[i - 1][j - 1] + 1;
-                 } else {
-                   currValue = Math.max(result[i][j - 1], result[i - 1][j]);
-                 }
-                 result[i].push(currValue);
-               }
-             }
-
-             var i = userInput.length;
-             var j = matchWith.length;
-
-             var s3 = '';
-             while (result[i][j] > 0) {
-               if (userInput.charAt(i - 1) == matchWith.charAt(j - 1) && (result[i - 1][j - 1] + 1 == result[i][j])) {
-                 s3 = userInput.charAt(i - 1) + s3;
-                 i = i - 1;
-                 j = j - 1;
-               } else if (result[i - 1][j] > result[i][j - 1])
-                 i = i - 1;
-               else
-                 j = j - 1;
-             }
-             return currValue >= 2*(userInput.length)/3 ? true : false;
+            return matchWith.includes(userInput)
            },
            togglePicker(){
              if(this.isFired){
@@ -675,7 +567,7 @@ export default {
              }
            },
            notifi(object) {
-            
+
          const h = this.$createElement;
         this.$message({
           showClose: true,
@@ -684,10 +576,38 @@ export default {
             h('i', {  class : ' knocks-'+object.icon+' knocks_icon knocks_text_md knocks_text_dark' })
           ])
         });
-      
+
+      },
+
+      emoji_icon(cat){
+      if (cat == "Emoji" )
+      return "smiling-face";
+      else if (cat == "Hands")
+      return "high-five";
+      else if (cat == "Brands")
+      return "knocks";
+      else if (cat == "Numbers")
+      return "calculator3";
+      else if (cat == "Sports")
+      return "checkered-flag2";
+      else if (cat == "Transport")
+      return "subway";
+      else if (cat == "Devices")
+      return "desktop";
+      else if (cat == "Food")
+      return "spoon-knife";
+      else if (cat == "Signs")
+      return "map-signs";
+      else if (cat == "Science")
+      return "lab3";
+      else if (cat == "weather")
+      return "cloud24";
+      else if (cat == "tools")
+      return "tools";
+
       }
-    
-    
+
+
 
 
   }
