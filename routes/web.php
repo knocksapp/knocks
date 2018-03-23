@@ -1,7 +1,7 @@
 <?php
 //use App\Object;
 //Web
-
+//
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -14,7 +14,7 @@
  */
 //Actual Views
 //Home Page
-
+//asdasdsa/
 Route::post('contacts', 'UserController@retriveContact');
 
 // Route::get('userinfo' , function(){
