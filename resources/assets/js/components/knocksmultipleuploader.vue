@@ -8,7 +8,7 @@
             </span>
             <input type="file"  multiple :id="gid"  @change = "construct()" :content = "content">
         </div>
-       
+
         <div class="file-path-wrapper ">
             <input class="file-path validate knocks_hidden "  v-model = "names" type="text" placeholder="Upload one or more files">
         </div>
@@ -16,7 +16,7 @@
 
     <div class = "row knocks_house_keeper" v-if = "files.length > 0" :class = "[{'knocks_hidden':isLoading}]">
         <div class = "col s3 knocks_house_keeper offset-s1 knocks_image_mup_port" v-for = "(img , index) in images" style="line-hight : 200px">
-            
+
             <knockspopover>
             <template slot = "container">
                 <a @click = "spliceFile(index)" class="red circle">
@@ -27,7 +27,7 @@
             ></knocksimageeditor>
             </template>
             <span slot = "content"  class = "knocks_tooltip animated flipInX" >
-                <span class ="knocks-pictures5"></span> 
+                <span class ="knocks-pictures5"></span>
                 {{files[img].name}}
             </span>
             </knockspopover>
@@ -57,7 +57,7 @@
                 {{files[img].name}}
             </span>
             </knockspopover>
-            
+
         </div>
     </div>
     <br v-if="images.length > 0" />
@@ -90,11 +90,11 @@
                 <span>{{file.name}}</span>
             </span>
             </knockspopover>
-            
+
         </div>
     </div>
     <div v-if = "isLoading" class = "animated fadeIn    ">
- 
+
           <h4 class="ui horizontal divider header transparent">
 
       <i class="knocks-cloud-upload4 blue-text   knocks_text_ms"></i>
@@ -109,39 +109,39 @@
 export default {
 	props : {
 		gid : {
-			type : String , 
+			type : String ,
 			required : true
 		},
 		icons_class : {
-			type : String , 
+			type : String ,
 			default : 'knocks_text_dark knocks_text_lg'
 		},
 		file_name_class : {
-			type : String , 
+			type : String ,
 			default : 'knocks_text_dark knocks_text_sm knocks_word_break'
 		},
 		icons_container : {
-			type : String , 
+			type : String ,
 			default : 'col s4'
 		},
 		icons_parent_holder : {
-			type : String , 
+			type : String ,
 			default : 'row'
 		},
         images_url : {
-            type : String , 
+            type : String ,
             default : 'media/image/upload'
         },
         regular_files_url : {
-            type : String , 
+            type : String ,
             default : 'media/file/upload'
         },
         scope : {
-            type : Array , 
+            type : Array ,
             default : null
         },
         max_size : {
-            type : Number , 
+            type : Number ,
             default : 52428800
         }
 
@@ -150,7 +150,7 @@ export default {
 	},
   data () {
     return {
-    	content : null , 
+    	content : null ,
     	files : [],
         blobs : [] ,
         images : [] ,
@@ -159,14 +159,14 @@ export default {
         imagesExtensions : ['image/png' , 'image/jpeg' , 'image/jpg'],
         imagesTokens : [],
         filesTokens : [],
-        draggingMode : false , 
+        draggingMode : false ,
         imagesQuotes : [],
         emitCounter : 0 ,
         blobsIndex : 0 ,
-        isLoading : false , 
+        isLoading : false ,
         nwerrors : null ,
-        isUploading : false , 
-        loadingPercentage : 0 , 
+        isUploading : false ,
+        loadingPercentage : 0 ,
 
 
 
@@ -178,50 +178,66 @@ export default {
     		"audio/mpeg" : 'knocks-document-file-mp32' ,
     		"video/mp4" : 'knocks-document-file-mp42' ,
     		"application/x-iwork-pages-sffpages" : 'knocks-document-file-pages' ,
-    		"text/x" : 'knocks-document-file-mov2' ,
-    		"text/x" : 'knocks-document-file-key2' ,
-    		"text/x" : 'knocks-document-file-html2' ,
-    		"text/x" : 'knocks-document-file-css2' ,
-    		"text/x" : 'knocks-document-file-java2' ,
-    		"text/x" : 'knocks-document-file-psd2' ,
-    		"text/x" : 'knocks-document-file-ai2' ,
-    		"text/x" : 'knocks-document-file-bmp2' ,
-    		"text/x" : 'knocks-document-file-dwg2' ,
-    		"text/x" : 'knocks-document-file-eps2' ,
-    		"text/x" : 'knocks-document-file-tiff2' ,
-    		"text/x" : 'knocks-document-file-ots2' ,
+    		// "text/x" : 'knocks-document-file-mov2' ,
+    		// "text/x" : 'knocks-document-file-key2' ,
+    		// "text/x" : 'knocks-document-file-html2' ,
+    		// "text/x" : 'knocks-document-file-css2' ,
+        "application/javascript" : 'knocks-file',
+    		"text/x-java-source,java" : 'knocks-document-file-java2' ,
+    		"image/vnd.adobe.photoshop" : 'knocks-document-file-psd2' ,
+    		"application/vnd.adobe.air-application-installer-package+zip" : 'knocks-document-file-ai2' ,
+    		"image/bmp" : 'knocks-document-file-bmp2' ,
+    		"image/vnd.dwg" : 'knocks-document-file-dwg2' ,
+    		// "text/x" : 'knocks-document-file-eps2' ,
+    		"image/tiff" : 'knocks-document-file-tiff2' ,
+    		"application/vnd.oasis.opendocument.spreadsheet-template" : 'knocks-document-file-ots2' ,
     		"text/php" : 'knocks-document-file-php2' ,
-    		"text/x" : 'knocks-document-file-py2' ,
-    		"text/x" : 'knocks-document-file-c2' ,
-    		"text/x" : 'knocks-document-file-sql2' ,
-    		"text/x" : 'knocks-document-file-rb2' ,
-    		"text/x" : 'knocks-document-file-cpp2' ,
-    		"text/x" : 'knocks-document-file-tga2' ,
-    		"text/x" : 'knocks-document-file-doc2' ,
-    		"text/x" : 'knocks-document-file-xls2' ,
-    		"text/x" : 'knocks-document-file-docx2' ,
-    		"text/x" : 'knocks-document-file-ppt2' ,
-    		"text/x" : 'knocks-document-file-asp2' ,
-    		"text/x" : 'knocks-document-file-ics2' ,
-    		"text/x" : 'knocks-document-file-dat2' ,
-    		"text/x" : 'knocks-document-file-xml2' ,
-    		"text/x" : 'knocks-document-file-h2' ,
-    		"text/x" : 'knocks-document-file-exe2' ,
-    		"text/x" : 'knocks-document-file-avi2' ,
-    		"text/x" : 'knocks-document-file-dotx2' ,
+    		// "text/x" : 'knocks-document-file-py2' ,
+    		// "text/x" : 'knocks-document-file-c2' ,
+    		// "text/x" : 'knocks-document-file-sql2' ,
+    		// "text/x" : 'knocks-document-file-rb2' ,
+    		"text/x-c" : 'knocks-document-file-c2' ,
+    		// "text/x" : 'knocks-document-file-tga2' ,
+    		// "text/x" : 'knocks-document-file-doc2' ,
+    		// "text/x" : 'knocks-document-file-xls2' ,
+    		// "text/x" : 'knocks-document-file-docx2' ,
+    		// "text/x" : 'knocks-document-file-ppt2' ,
+    		// "text/x" : 'knocks-document-file-asp2' ,
+    		"text/calendar" : 'knocks-document-file-ics2' ,
+    		// "text/calendar" : 'knocks-document-file-dat2' ,
+    		// "text/x" : 'knocks-document-file-xml2' ,
+    		// "text/x" : 'knocks-document-file-h2' ,
+    		"application/x-msdownload" : 'knocks-document-file-exe2' ,
+    		"video/x-msvideo" : 'knocks-document-file-avi2' ,
+    		// "text/x" : 'knocks-document-file-dotx2' ,
     		"text/plain" : 'knocks-document-file-txt2' ,
-    		"text/x" : 'knocks-document-file-rtf2' ,
-    		"text/x" : 'knocks-document-file-m4v2' ,
-    		"text/x" : 'knocks-document-file-flv2' ,
-    		"text/x" : 'knocks-document-file-mpg2' ,
-    		"text/x" : 'knocks-document-file-3gp2' ,
-    		"text/x" : 'knocks-document-file-ott2' ,
-    		"text/x" : 'knocks-document-file-tgz2' ,
-    		"text/x" : 'knocks-document-file-zip2' ,
-    		"text/x" : 'knocks-document-file-dmg2' ,
-    		"text/x" : 'knocks-document-file-iso2' ,
-    		"text/x" : 'knocks-document-file-rar2' ,
-    		"text/x" : 'knocks-document-file-gif2' ,
+    		"application/rtf" : 'knocks-document-file-rtf2' ,
+    		"video/x-m4v" : 'knocks-document-file-m4v2' ,
+    		"video/x-flv" : 'knocks-document-file-flv2' ,
+    		"audio/mpeg" : 'knocks-document-file-mpg2' ,
+    		"video/3gpp" : 'knocks-document-file-3gp2' ,
+    		"application/vnd.oasis.opendocument.text-template" : 'knocks-document-file-ott2' ,
+    		// "text/x" : 'knocks-document-file-tgz2' ,
+    		// "text/x" : 'knocks-document-file-zip2' ,
+    		"application/x-apple-diskimage" : 'knocks-document-file-dmg2' ,
+    		// "text/x" : 'knocks-document-file-iso2' ,
+    		// "text/x" : 'knocks-document-file-rar2' ,
+    		// "text/x" : 'knocks-document-file-gif2' ,
+        "application/zip" : 'knocks-document-zip',
+        "application/x-rar-compressed" : 'knocks-document-file-rar2' ,
+        "application/zip" : 'knocks-document-zip',
+        "application/mp4" : 'knocks-document-file-mp42',
+        "application/x-msaccess" : 'knocks-brand155',
+        "application/vnd.ms-excel" : 'knocks-brand156',
+        "application/vnd.ms-powerpoint" : 'knocks-brand159',
+        "application/onenote" : 'knocks-brand157',
+        "application/msword" : 'knocks-brand160',
+        "application/vnd.openxmlformats-officedocument.presentationml.presentation" : 'knocks-brand159',
+        "application/vnd.openxmlformats-officedocument.wordprocessingml.document" : 'knocks-brand160',
+        "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" : 'knocks-brand156',
+        "application/rss+xml" : 'knocks-document-file-xml2' ,
+        "image/gif" : 'knocks-document-file-gif2' ,
+
     	}
     }
   },
@@ -313,7 +329,7 @@ export default {
                 res.push(this.files[file]);
                 res[res.length-1]['blob']= this.blobs[file];
             }
-        } 
+        }
         return res;
     },
     finalResult(){
@@ -340,7 +356,7 @@ export default {
   		this.content = document.getElementById(this.gid).files;
   		console.log(this.content);
   		this.analysis();
-    }, 
+    },
     reset(){
         this.content = null ;
         this.files = [];
@@ -351,7 +367,7 @@ export default {
         this.imagesTokens = [];
         this.imagesQuotes =[];
         this.filesTokens = [];
-        this.draggingMode = false ; 
+        this.draggingMode = false ;
         this.emitCounter = 0 ;
         this.blobsIndex = 0;
 
@@ -363,7 +379,7 @@ export default {
     	if(this.content.length == 0){
     		return;
     	}else{
-    		let file , fileHasher, fileReader; 
+    		let file , fileHasher, fileReader;
             for (file = 0;  file < this.content.length; file++){
                 fileReader = new FileReader();
                 fileReader.onload = (function(currentFile , len , indexCounter){
@@ -372,8 +388,8 @@ export default {
                     if(currentFile.size < vm.max_size){
                         vm.files.push(
                             {
-                                name : currentFile.name , 
-                                type : currentFile.type , 
+                                name : currentFile.name ,
+                                type : currentFile.type ,
                                 size : currentFile.size
                             }
                         )
@@ -387,7 +403,7 @@ export default {
                         vm.notify(currentFile.name);
                     }
                    };
-               })(document.getElementById(this.gid).files[file] );   
+               })(document.getElementById(this.gid).files[file] );
                fileReader.readAsDataURL(document.getElementById(this.gid).files[file]);
             }
     	}
@@ -396,19 +412,19 @@ export default {
             this.images = [];
             return;
         }else{
-           let file ; 
+           let file ;
            this.images = [];
            for(file in this.files){
             if(this.imagesExtensions.indexOf(this.files[file].type) != -1)
             this.images.push(file);
            }
         }
-    } , 
+    } ,
     notAnImage(index){
         return this.imagesExtensions.indexOf(this.files[index].type) == -1 ? true : false ;
     },
     getTheEquiv(index){
-        let i , counter; 
+        let i , counter;
         for(i = 0; i <= index ; i++){
             if(!this.notAnImage(i))
                 counter++;
@@ -456,7 +472,7 @@ export default {
         this.$notify.error({
           title : 'Too large file!' ,
           message: 'Oops, Your file `'+name+'` size is too large, it must be less than 50MB',
-          
+
         });
     },
     upload(){
@@ -471,25 +487,25 @@ export default {
         counter = 0;
         for(img in this.finalResult.images){
             axios({
-                method : 'post' , 
+                method : 'post' ,
                 url : LaravelOrgin + vm.images_url ,
-                data : { 
-                    object : { blob : vm.finalResult.images[img].blob.replace('data:'+vm.finalResult.imagesTypes[img]+';base64,' ,'') , 
-                    name : vm.finalResult.imagesNames[img] , 
-                    extension : vm.finalResult.imagesTypes[img] , 
-                    quote : vm.finalResult.images[img].quote , 
+                data : {
+                    object : { blob : vm.finalResult.images[img].blob.replace('data:'+vm.finalResult.imagesTypes[img]+';base64,' ,'') ,
+                    name : vm.finalResult.imagesNames[img] ,
+                    extension : vm.finalResult.imagesTypes[img] ,
+                    quote : vm.finalResult.images[img].quote ,
                     album : 'Timeline'  },
                 },
-                onDownloadProgress : ()=>{ vm.isLoading = true ;} , 
-                onUploadProgress : (progressEvent)=>{ 
-                    vm.isLoading = true ; 
+                onDownloadProgress : ()=>{ vm.isLoading = true ;} ,
+                onUploadProgress : (progressEvent)=>{
+                    vm.isLoading = true ;
                     vm.isUploading = true;
                     vm.loadingPercentage = Math.floor((progressEvent.loaded * 100) / progressEvent.total);
-                } , 
+                } ,
             }).then((response)=>{
                 vm.isUploading = false ;
                 if(response.data != 'invalid')
-                  
+
                   console.log('final res');
                   console.log(vm.finalResult);
                   vm.imagesTokens.push(response.data);
@@ -497,30 +513,30 @@ export default {
                   counter++;
 
             }).catch((err)=>{
-                vm.nwerrors = err ; 
+                vm.nwerrors = err ;
             });
         }
 
-        //Separating the regular files 
+        //Separating the regular files
 
         let file;
         for(file in this.finalResult.regularFiles){
             axios({
-                method : 'post' , 
+                method : 'post' ,
                 url : LaravelOrgin + vm.regular_files_url ,
                 // data : vm.regularFiles[file]
-                  data : { 
-                    object : { 
+                  data : {
+                    object : {
                     blob : vm.regularFiles[file].blob.replace('data:'+vm.regularFiles[file].type+';base64,',''),
-                    name : vm.regularFiles[file].name , 
-                    extension : vm.regularFiles[file].type ,       
+                    name : vm.regularFiles[file].name ,
+                    extension : vm.regularFiles[file].type ,
                     album : 'Timeline'  },
                 },
-                onDownloadProgress : ()=>{ vm.isLoading = true ;} , 
-                onUploadProgress : (progressEvent)=>{ 
+                onDownloadProgress : ()=>{ vm.isLoading = true ;} ,
+                onUploadProgress : (progressEvent)=>{
                     vm.isLoading = true ; vm.isUploading = true;
                     vm.loadingPercentage = Math.floor((progressEvent.loaded * 100) / progressEvent.total);
-                } 
+                }
 
             }).then((response)=>{
                 vm.isUploading = false ;
@@ -528,12 +544,12 @@ export default {
                   vm.filesTokens.push(response.data);
                   vm.$emit('mediaQueryCounter');
             }).catch((err)=>{
-                vm.nwerrors = err ; 
-                vm.isUploading = false ; 
+                vm.nwerrors = err ;
+                vm.isUploading = false ;
                 vm.isLoading = false ;
             });
         }
-      
+
 
     }
   }
