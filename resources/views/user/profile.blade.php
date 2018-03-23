@@ -148,7 +148,7 @@
         </div>
       </transition>
       <div class = "row">
-            @if($user->id != auth()->user()->id)
+
           <knock
            :scope= "['knock_at_profile']"
            :error_at="[]"
@@ -165,7 +165,7 @@
            success_at = "done"
            success_msg = "Done."
            gid = "knockknock"></knock>
-           @endif
+
       </div>
       <knocksknockinjector
       :current_user = "{{auth()->user()->id}}"
