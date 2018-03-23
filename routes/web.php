@@ -277,6 +277,8 @@ Route::post('search/main', 'UserController@mainSearch');
 //   ));
 //   return 'done';
 // });
+//
+//
 
 Route::post('tttt', function () {
 	$arr = [];
