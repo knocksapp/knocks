@@ -60,7 +60,13 @@ Route::post('user/preset/check', 'SavedPresetsController@check');
 
 Route::post('user/preset/save', 'SavedPresetsController@save');
 
+Route::post('user/preset/delete', 'SavedPresetsController@delete');
+
+Route::post('user/preset/fav', 'SavedPresetsController@setAsDefault');
+
 Route::post('user/preset/get', 'SavedPresetsController@get');
+
+Route::post('user/preset/default', 'UserController@getDefaultPreset');
 
 //Check if the user exists
 Route::post('user/check', 'UserController@check');
@@ -181,25 +187,9 @@ Route::post('sport/update', 'SportController@updateSport');
 
 Route::post('sport/delete', 'SportController@deleteSport');
 
-Route::post('group_edit_info', 'GroupController@updateGroupInfo');
-
-Route::post('group_edit_preset', 'GroupController@updateGroupPrivacy');
-
 Route::post('check_user_ingroup', 'GroupMemberController@checkUserInGroup');
 
-Route::post('get_group_request', 'UserRequestController@getGroupWaitResponse'); 
-
-Route::post('get_group_user_request', 'UserRequestController@getGroupResponse');
-
-Route::post('check_group_user_request', 'UserRequestController@checkGroupResponse');
-
-Route::post('/decline_request_group', 'UserRequestController@declineRequestForGroup');
-
 Route::post('join_public_group', 'GroupController@joinPublicGroup');
-
-Route::post('join_closed_group', 'GroupController@joinClosedGroup');
-
-Route::post('send_group_request', 'UserRequestController@sendGroupRequest');
 
 Route::post('add_member_public_group', 'GroupController@addMemberPublicGroup');
 
@@ -469,8 +459,6 @@ Route::group(['middleware' => 'auth'], function () {
 
 		Route::get('group/{group_id}/videos', 'GroupController@routeToGroupVideos');
 
-        Route::get('group/{group_id}/settings', 'GroupController@routeToGroupSettings');
-		
 		Route::get('/knock/{knock}', 'KnockController@viewKnock');
 
 		Route::get('/cmnt/{comment}', 'KnockController@viewComment');
