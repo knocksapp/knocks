@@ -52,11 +52,11 @@
       <div class = "row" v-if = "!savingMode">
         <button class="ui primary basic button" @click = "saveAsDefault = false ; savingMode = true">
         <span class = "knocks-save"></span>
-        <static_message msg = "Save Preset"></static_message>
+        <static_message msg = "Save Preset" class = "hide-on-small-only"></static_message>
         </button>
-        <button class="ui positive basic button right" @click = "saveAsDefault = true ; savingMode = true">
+        <button class="ui orange basic button right" @click = "saveAsDefault = true ; savingMode = true">
         <span class = "knocks-star12"></span>
-        <static_message msg = "Set As Default"></static_message>
+        <static_message msg = "Set As Default" class = "hide-on-small-only"></static_message>
         </button>
       </div>
       <div v-if = "savingMode" class="row animated slideInUp">
