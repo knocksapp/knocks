@@ -1,44 +1,31 @@
 <template>
-	<div>
-		<knocksretriver
-		v-model=  "groups_id"
-		url = "get_user_groups"
-		@success="getGroupsName()"
-		:xdata = "{ q : search }"
-		:scope = "['group_filter']"
-	     >
-		</knocksretriver>
-		
-   
-		<div class="row">
-      <div class="row">
-       <knocksinput
-      
-      placeholder = "Search for groups .."
-      gid = "searchingrouplist"
-      class="col s12"
-      @input = "searchForGroups"
-      el_follower
-      :mat_follower=  "false"
-      icon = "knocks-search"   
-      v-model = "search"
-
-            icon_class = "teal-text lighten-3"
-            knocksclass="knocks_teal_input"
-      >
-        
-      </knocksinput>
+<div>
+  <knocksretriver
+  v-model=  "groups_id"
+  url = "get_user_groups"
+  @success="getGroupsName()"
+  :xdata = "{ q : search }"
+  :scope = "['group_filter']"
+  >
+  </knocksretriver>
+  <static_message msg = "search for groups .." v-model = "searchPlaceHolder" class = "knocks_hidden"></static_message>
+  
+  <div class="row">
+    <div class="row knocks_fair_bounds">
+      <div class="ui icon input fluid">
+        <input type="text" :placeholder="searchPlaceHolder" @input = "searchForGroups()" v-model = "search">
+        <i class="search icon"></i>
       </div>
-      <div class = "row">
-          <ul class= "uk-list uk-list-divider">
+    </div>
+    <div class = "row">
+      <ul class= "uk-list uk-list-divider">
         <li v-for="(item,index) in groupsIds" class="knocks_text_dark knocks_fair_bounds">
-        	<knocksgroupshortcut as_chip :group_id = "item" v-model = "groupsObjects[index]"></knocksgroupshortcut>
-          </li>
+          <knocksgroupshortcut as_chip :group_id = "item" v-model = "groupsObjects[index]"></knocksgroupshortcut>
+        </li>
       </ul>
-      </div>
-
-		</div>
-	</div>
+    </div>
+  </div>
+</div>
 </template>
 
 <script>
@@ -55,6 +42,7 @@ export default {
     groupsObjects : [] ,
     groupsIds : [] , 
     lastResultQuery : null ,
+    searchPlaceHolder :  '' , 
     }
   },
   mounted(){
