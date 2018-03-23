@@ -229,6 +229,7 @@ class User extends Authenticatable {
 			'language' => $object->language,
 			'display_name' => $displayName,
 			'objects_public_preset' => 'valid',
+			'default_preset' => null,
 			'sessions_count' => 0,
 			'devices' => array(),
 			'privacy_user_set' => array(
@@ -283,6 +284,24 @@ class User extends Authenticatable {
 
 	public function blobObject() {
 		return Blob::find($this->profile_picture)->object_id;
+	}
+	public function defaultPreset() {
+		$cog = $this->cog();
+		if (isset($cog->default_preset)) {
+			return $cog->default_preset;
+		} else {
+			$cog->default_preset = null;
+			$this->configuration = json_encode($cog);
+			$this->update();
+			return null;
+		}
+	}
+	public function setDefaultPreset($preset) {
+		$cog = $this->cog();
+		$cog->default_preset = $preset;
+		$this->configuration = json_encode($cog);
+		$this->update();
+		return true;
 	}
 	public function retriveForUserLazy($requester) {
 		return array(
