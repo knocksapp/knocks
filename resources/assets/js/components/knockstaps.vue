@@ -130,6 +130,24 @@ export default {
             vm.isFired = true;
             App.$emit('knocks_input_status' , vm.isValid);
            }
+          }); 
+
+          App.$on('knocks_change_taps_value' , (payloads)=>{
+            let scope = payloads.scope ;
+            if(scope != null){
+              let i;
+              if(vm.scope == null) return;
+              for(i = 0; i < scope.length; i++){
+                if(vm.scope.indexOf(scope[i]) != -1){
+                 vm.assign(vm.options[payloads.index].value)
+                 return;
+                }
+              }
+              return;
+           }else if(scope == null && vm.scope == null){
+            vm.isFired = true;
+            App.$emit('knocks_input_status' , vm.isValid);
+           }
           });       
   },
   computed : {

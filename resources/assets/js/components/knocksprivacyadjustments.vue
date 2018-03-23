@@ -114,10 +114,10 @@
     </div>
     <div :class = "[ { 'animated slideInUp' : taps == 'public'} ,  { 'knocks_hidden' : taps != 'public'} ]" >
       <ul class="collection">
-        <li class="collection-item" @click = "changePublicValue('public')">
+        <li class="collection-item" @click = "tipFired = true; changePublicValue('public')">
           <span class = "knocks-globe knocks_text_md blue-text text-darken-3"></span>
           <static_message msg = "Public" classes = "knocks_text_md"></static_message>
-          <a @click = "changePublicValue('public')" class = "right knocks_text_md">
+          <a @click = "tipFired = true; changePublicValue('public')" class = "right knocks_text_md">
             <span class = "knocks-checkmark animated rotateIn green-text" v-if = "publicValue == 'public'"></span>
             <span class = "knocks-minus  animated rotateIn red-text" v-if = "publicValue != 'public'"></span>
           </a>
@@ -125,10 +125,10 @@
             <static_message msg = "This will make your content visible for everyone expect people that you are blocking."></static_message>
           </p>
         </li>
-        <li class="collection-item" @click = "changePublicValue('onlyforfriends')">
+        <li class="collection-item" @click = "tipFired = true; changePublicValue('onlyforfriends')">
           <span class = "knocks-group-1 knocks_text_md green-text "></span>
           <static_message msg = "Only For Friends" classes = "knocks_text_md"></static_message>
-          <a @click = "changePublicValue('onlyforfriends')" class = "right knocks_text_md">
+          <a @click = "tipFired = true; changePublicValue('onlyforfriends')" class = "right knocks_text_md">
             <span class = "knocks-checkmark animated rotateIn green-text" v-if = "publicValue == 'onlyforfriends'"></span>
             <span class = "knocks-minus  animated rotateIn red-text" v-if = "publicValue != 'onlyforfriends'"></span>
           </a>
@@ -136,24 +136,23 @@
             <static_message msg = "This will make your content only visible for your friends."></static_message>
           </p>
         </li>
-        <li class="collection-item" @click = "changePublicValue('choosedefault')" v-if = 'userDefaultPreset.outcome != null'>
+        <li class="collection-item" @click = "tipFired = true; changePublicValue('choosedefault')" v-if = 'userDefaultPreset.outcome != null'>
           <span class = "knocks-star3 knocks_text_md yellow-text text-darken-3 "></span>
           <static_message msg = "Use My Default Preset" classes = "knocks_text_md"></static_message> 
           <span class = " knocks_text_ms yellow-text text-darken-3 ">({{userDefaultPreset.name}})</span>
-          <a @click = "changePublicValue('choosedefault')" class = "right knocks_text_md">
+          <a @click = "tipFired = true; changePublicValue('choosedefault')" class = "right knocks_text_md">
             <span class = "knocks-checkmark animated rotateIn green-text" v-if = "publicValue == 'choosedefault'"></span>
             <span class = "knocks-minus  animated rotateIn red-text" v-if = "publicValue != 'choosedefault'"></span>
           </a>
           <p v-if = "publicValue == 'choosedefault'">
-            <static_message msg = "This will automatically set your content visibility to your default Privacy Preset ( *;*$ )."
-            replaceable :replacements = "[{ body : userDefaultPreset.name , target : '*;*$'}]"
-            ></static_message>
+            <static_message msg = "This will automatically set your content visibility to your default Privacy Preset.">
+            ></static_message> ({{userDefaultPreset.name}}).
           </p>
         </li>
-        <li class="collection-item" @click = "changePublicValue('userpresets')" v-loading = "userPresetsRetriver.loading" >
+        <li class="collection-item" @click = "tipFired = true; changePublicValue('userpresets')" v-loading = "userPresetsRetriver.loading" >
           <span class = "knocks-heart red-text knocks_text_md"></span>
           <static_message msg = "Choose From My Presets" classes = "knocks_text_md"></static_message>
-          <a @click = "changePublicValue('userpresets')" class = "right knocks_text_md">
+          <a @click = "tipFired = true; changePublicValue('userpresets')" class = "right knocks_text_md">
             <span class = "knocks-checkmark animated rotateIn green-text" v-if = "publicValue == 'userpresets'"></span>
             <span class = "knocks-minus  animated rotateIn red-text" v-if = "publicValue != 'userpresets'"></span>
           </a>           
@@ -220,10 +219,10 @@
             <static_message msg = " and create your own Privacy Presets."></static_message>
           </p>
         </li>
-        <li class="collection-item" @click = "changePublicValue('custom')">
+        <li class="collection-item" @click = "tipFired = true; changePublicValue('custom')">
           <span class = "knocks-cog9 knocks_text_md pink-text text-darken-1"></span>
           <static_message msg = "Custom" classes = "knocks_text_md"></static_message>
-          <a @click = "changePublicValue('custom')" class = "right knocks_text_md">
+          <a @click = "tipFired = true; changePublicValue('custom')" class = "right knocks_text_md">
             <span class = "knocks-checkmark animated rotateIn green-text" v-if = "publicValue == 'custom'"></span>
             <span class = "knocks-minus  animated rotateIn red-text" v-if = "publicValue != 'custom'"></span>
           </a>
@@ -317,9 +316,10 @@ export default {
     	userPresets : [] , 
     	userPresetsRadio : null ,
     	userPresetsRadioSetting : null ,
-      userDefaultPreset : { outcome : null , name : null } ,
-      presetsRetriverFired : false ,
-      userPresetsRetriver : { loading : false }
+	    userDefaultPreset : { outcome : null , name : null } ,
+	    presetsRetriverFired : false ,
+	    userPresetsRetriver : { loading : false } ,
+	    tipFired : false ,
 
     }
   },
@@ -359,7 +359,17 @@ export default {
   methods : {
   	triggerModal(){
   		this.centerDialogVisible = true;	
-  		App.$emit('knocksRetriver' , {scope : ['kpsd_presets']});
+  		if(
+  		     (	this.resultObject.user_privacy === undefined 
+	  			|| this.resultObject.circle_privacy === undefined 
+	  			|| this.resultObject.user_privacy === null 
+	  			|| this.resultObject.circle_privacy === null  )
+  			    && !this.tipFired
+  			
+  		  ){
+  		  	App.$emit('knocksRetriver' , {scope : ['kpsd_presets']});
+  		    App.$emit('knocks_change_taps_value' , {scope : ['kps_taps'] , index : 0})
+  		}
       this.$emit('input' , this.resultObject);
 
   	},
