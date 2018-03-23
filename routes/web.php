@@ -222,6 +222,12 @@ Route::post('media/file/upload', 'BlobController@uploadFile');
 
 Route::post('media/avatar/upload', 'BlobController@uploadAvatar');
 
+Route::post('get_group_user_request', 'UserRequestController@getGroupResponse');
+
+Route::post('group_edit_info', 'GroupController@updateGroupInfo');
+
+Route::post('group_edit_preset', 'GroupController@updateGroupPrivacy');
+
 Route::post('media/group/upload', 'BlobController@uploadGroupPicture');
 
 Route::post('media/cover/upload', 'BlobController@uploadCover');
@@ -458,6 +464,8 @@ Route::group(['middleware' => 'auth'], function () {
 		Route::get('group/{group_id}/voices', 'GroupController@routeToGroupVoices');
 
 		Route::get('group/{group_id}/videos', 'GroupController@routeToGroupVideos');
+
+		Route::get('group/{group_id}/settings', 'GroupController@routeToGroupSettings');
 
 		Route::get('/knock/{knock}', 'KnockController@viewKnock');
 

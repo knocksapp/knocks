@@ -32,7 +32,7 @@ window.currentUserLanguage = document.querySelector('meta[name="user_lang"]').ge
 window.currentUserLanguageFont = document.querySelector('meta[name="lang_font"]').getAttribute('content'); //Meta Collector (User Language Font Family).
 window.currentUserLanguageAlignment = document.querySelector('meta[name="lang_alignment"]').getAttribute('content'); //Meta Collector (User Language Font Alignment).
 window.NodeOrgin = 'http://127.0.0.1:3000/'; //NodeJS Requests Orgin %/  in Axsios XHR url no need to specify the root, eg: (url : NodeOrgin + 'parent_x/child_y') /%
-window.LaravelOrgin = window.location.protocol + '//'+ window.location.hostname +':'+window.location.port +'/' ; //Same as NodeOrgin but scopes Laravel this time.
+window.LaravelOrgin = window.location.protocol + '//'+ window.location.hostname  +'/' ; //Same as NodeOrgin but scopes Laravel this time.
 window.PNotify = require('pnotify'); //Notifier JS Based Library.
 window.UsersObject = {}; //Empty Object to be contacting knocksuser component, applying dynamic programming, and machine learning approach.
 window.UserAxios = {};
