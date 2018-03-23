@@ -6,6 +6,7 @@ use App\Blob;
 use App\ignore_object;
 use App\obj;
 use App\User;
+use App\User_keywords;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 
@@ -105,12 +106,14 @@ class Knock extends Model {
 		$parent_object->initialize('knock');
 		$object = json_decode($object);
 		$parent_object->keywords = $object->text;
+		$parent_object->quick_preset = $object->privacy_setting->tip;
 		$parent_object->update();
 		$this->body = $object->body;
 		$this->at = $object->at;
 		$this->type = $object->type;
 		$this->object_id = $parent_object->id;
 		$this->text_content = $object->text;
+		$this->quick_preset = $object->privacy_setting->tip;
 		//$object->$user_privacy ;
 		//Images specifications reactions
 		//images_quotes
@@ -169,25 +172,36 @@ class Knock extends Model {
 		));
 		// $this->UserShowPost($object->user_privacy,$this->object_id);
 		// $this->CircleShowPost($object->user_privacy,$this->object_id);
+		if ($object->privacy_setting->tip == 'custom' || $object->privacy_setting->tip == 'userpresets') {
+			$user_ps_object = $object->privacy_setting->user_privacy;
+			foreach ($user_ps_object as $ob) {
+				$user_privacy = new Privacy_set_user();
+				$user_privacy->user_id = $ob->user_id;
+				$user_privacy->preset_id = $ob->preset_id;
+				$user_privacy->object_id = $parent_object->id;
+				$user_privacy->save();
+			}
 
-		$user_ps_object = $object->user_privacy;
-		foreach ($user_ps_object as $ob) {
-			$user_privacy = new Privacy_set_user();
-			$user_privacy->user_id = $ob->user_id;
-			$user_privacy->preset_id = $ob->preset_id;
-			$user_privacy->object_id = $parent_object->id;
-			$user_privacy->save();
+			$circle_ps_object = $object->privacy_setting->circle_privacy;
+			foreach ($circle_ps_object as $ob) {
+				$circle_privacy = new Privacy_set_circle();
+				$circle_privacy->circle_id = $ob->circle_id;
+				$circle_privacy->preset_id = $ob->preset_id;
+				$circle_privacy->object_id = $parent_object->id;
+				$circle_privacy->save();
+			}
 		}
-
-		$circle_ps_object = $object->circle_privacy;
-		foreach ($circle_ps_object as $ob) {
-			$circle_privacy = new Privacy_set_circle();
-			$circle_privacy->circle_id = $ob->circle_id;
-			$circle_privacy->preset_id = $ob->preset_id;
-			$circle_privacy->object_id = $parent_object->id;
-			$circle_privacy->save();
+		$keywords = User_keywords::where('user_id', '=', auth()->user()->id);
+		if ($keywords->count() == 0) {
+			$kw = new User_keywords();
+			$kw->keywords = $object->text;
+			$kw->user_id = auth()->user()->id;
+			$kw->save();
+		} else {
+			$kw = $keywords->get()->first();
+			$kw->keywords .= ' ' . $object->text;
+			$kw->update();
 		}
-
 		$this->user_id = auth()->user()->id;
 		$this->save();
 	}
