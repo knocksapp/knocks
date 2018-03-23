@@ -12,17 +12,22 @@
    
 		<div class="row">
       <div class="row">
-       <el-input
+       <knocksinput
       
       placeholder = "Search for groups .."
-      gid = "search"
+      gid = "searchingrouplist"
       class="col s12"
       @input = "searchForGroups"
-          
+      el_follower
+      :mat_follower=  "false"
+      icon = "knocks-search"   
       v-model = "search"
+
+            icon_class = "teal-text lighten-3"
+            knocksclass="knocks_teal_input"
       >
-          <template slot="prepend"> <span class="knocks-search2"></span> </template>
-      </el-input>
+        
+      </knocksinput>
       </div>
       <div class = "row">
           <ul class= "uk-list uk-list-divider">

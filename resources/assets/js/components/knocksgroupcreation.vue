@@ -27,22 +27,22 @@
       </el-carousel-item>
       </el-carousel>
       <br/>
-      <knockselinput
+      <knocksinput el_follower :mat_follower =  "false"
       placeholder = "Group Name"
       gid = "groupname"
       icon = "knocks-group2"
       :is_required = "true"
       :scope = "['CreateGroup']"
       v-model = "group_name"
-      ></knockselinput>
-      <knockselinput
+      ></knocksinput>
+      <knocksinput el_follower :mat_follower =  "false"
       placeholder = "Group Category"
       gid = "groupname"
       icon = "knocks-grid8"
       :is_required = "true"
       :scope = "['CreateGroup']"
       v-model = "group_category"
-      ></knockselinput>
+      ></knocksinput>
       <transition enter-active-class="animated fadeIn" leave-active-class="animated fadeOut" >
       <div class="row" v-if = "flag == true">
         <h3  class="animated bounceIn knocks_text_dark">Members of {{circle_name}} :</h3>
@@ -85,14 +85,14 @@
       </div>
     </transition>
 
-              <knockselinput
+              <knocksinput el_follower :mat_follower =  "false"
             placeholder = "Search Name"
             gid = "search"
             @change = "searchFriends()"
             icon = "knocks-lens"
             :scope = "['CreateGroup']"
             v-model = "search"
-            ></knockselinput>
+            ></knocksinput>
 
       <div class="col s12">
         <h4 style="margin-top: 25px" class="col s4 knocks_text_dark"><i class="knocks-lock7"></i> Group Privacy</h4>

@@ -115,6 +115,14 @@ Route::post('/get_group_members', 'GroupMemberController@getGroupMembers');
 
 Route::post('/check_member_position', 'GroupMemberController@checkOwner');
 
+Route::post('get_group_request', 'UserRequestController@getGroupWaitResponse');
+
+Route::post('check_group_user_request', 'UserRequestController@checkGroupResponse');
+
+Route::post('send_group_request', 'UserRequestController@sendGroupRequest');
+
+Route::post('/decline_request_group', 'UserRequestController@declineRequestForGroup');
+
 Route::post('/remove_member', 'GroupMemberController@removeMember');
 
 Route::post('/get_group_pictures', 'GroupController@getPictures');
