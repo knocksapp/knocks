@@ -10,14 +10,14 @@
   <el-dialog
   :visible.sync="outerVisible"
   width="30%"
-  center
+  
   >
   
   <template slot="title" > <span class="knocks_text_dark" style="font-size : 30px;"><i class="knocks-group-outline"></i> Groups</span></template>
-  <span>
+  <div >
     
     <div>
-      <h6 class="knocks_text_dark"> Groups are great for getting things done and staying in touch with just the people you want. Share photos and videos, have conversations, make plans and more.</h6>
+      
       <el-carousel  type="card" :autoplay="false" indicator-position  ="none" height="100px">
       <el-carousel-item v-for="(circle,index) in allcircles.response" :key="index" style="background-color : rgb(245,245,245) !important; border-radius : 35px !important; border: 1px solid #e7e7e7">
       <h3 class="animated fadeIn center knocks_text_dark" ><a @click="pushMembers(allcircles.response[index].id,allcircles.response[index].circle_name)" class="knocks_text_dark">
@@ -27,22 +27,22 @@
       </el-carousel-item>
       </el-carousel>
       <br/>
-      <knockselinput
+      <knocksinput el_follower :mat_follower =  "false"
       placeholder = "Group Name"
       gid = "groupname"
       icon = "knocks-group2"
       :is_required = "true"
       :scope = "['CreateGroup']"
       v-model = "group_name"
-      ></knockselinput>
-      <knockselinput
+      ></knocksinput>
+      <knocksinput el_follower :mat_follower =  "false"
       placeholder = "Group Category"
       gid = "groupname"
       icon = "knocks-grid8"
       :is_required = "true"
       :scope = "['CreateGroup']"
       v-model = "group_category"
-      ></knockselinput>
+      ></knocksinput>
       <transition enter-active-class="animated fadeIn" leave-active-class="animated fadeOut" >
       <div class="row" v-if = "flag == true">
         <h3  class="animated bounceIn knocks_text_dark">Members of {{circle_name}} :</h3>
@@ -85,41 +85,43 @@
       </div>
     </transition>
 
-              <knockselinput
+              <knocksinput el_follower :mat_follower =  "false"
             placeholder = "Search Name"
             gid = "search"
             @change = "searchFriends()"
-            icon = "knocks-lens"
+            icon = "knocks-search"
             :scope = "['CreateGroup']"
             v-model = "search"
-            ></knockselinput>
+            ></knocksinput>
 
-      <div class="col s12">
-        <h4 style="margin-top: 25px" class="col s4 knocks_text_dark"><i class="knocks-lock7"></i> Group Privacy</h4>
-        <div style="margin-top: 20px" class="col s8">
-          <el-select v-model="radio4" placeholder="Select" clearable>
-          <el-option
-          label="Public"
-          value="public">
-          </el-option>
-          <el-option
-          label="Closed"
-          value="closed">
-          </el-option>
-          <el-option
-          label="Secret"
-          value="secret">
-          </el-option>
-          </el-select>
-        </div>
+      <div class="col s12 knocks_house_keeper">
+        <h4 style="margin-top: 25px" class="row knocks_text_dark"><i class="knocks-lock7"></i> Group Privacy</h4>
+            <knockstaps :multiple = "false"
+    anchor_active_class = "knocks_anchor_color_kit_dark knocks_theme_border"
+    anchor_regular_class = "knocks_anchor_color_kit_light "
+    anchor_class = "btn knocks_theme_border knocks_noshadow_ps"
+    :scope = "['group_create_taps ']"
+    v-model="radio4" hide_labels_on_small
+
+    :options = "[
+    { icon : 'knocks-globe2' , label : 'Public' , static : true , value : 'public' } ,
+    { icon : 'knocks-lock7' , label : 'Closed' , static : true , value : 'closed' } ,
+    { icon : 'knocks-eye-off' , label : 'Secret' , static : true , value : 'secret' } ,
+    
+    ]" ></knockstaps>
+    <p v-for = "tv in tapsvalues" :class = "[{'knocks_hidden' : radio4 != tv.value}]">
+      <span :class = "tv.icon"></span>
+      <static_message :msg = "tv.label"></static_message>
+    </p>
       </div>
     </div>
-  </span>
+  </div>
   
   <span slot="footer" class="dialog-footer">
     <knockselbutton
     placeholder="Create"
-    class="knocks_color_kit knocks_fair_bounds"
+    class=" "
+    style = "margin-bottom : 1rem"
     :error_at = []
     :precondition = "radio4.length > 0"
     :scope = "['CreateGroup']"
@@ -129,11 +131,12 @@
     success_msg = "You Created the group Succecfully."
     gid = "stage_one_net"
     @knocks_submit_accepted = "outerVisible = false"
-    button_classes = "right"
+    button_classes = "  fluid ui button knocks_color_kit knocks_anchor_color_kit_dark "
     success_at="done"
     :submit_data = " {name : group_name , category : group_category, preset : radio4 , normal_members : retrivedFriends, circle_members : circle_members} "
     >
     </knockselbutton>
+
   </span>
   </el-dialog>
 </div>
@@ -172,6 +175,11 @@ export default {
           flag : false,
           flag1 : false,
           flag2 : false,
+          tapsvalues : {
+            public : { icon : 'knocks-globe2' , label : 'Public' , value : 'public' } ,
+            closed : { icon : 'knocks-lock7' , label : 'Closed' , value : 'closed'} ,
+            secret : { icon : 'knocks-eye-off' , label : 'Secret' , value : 'secret'} ,
+          }
 
     }
   },

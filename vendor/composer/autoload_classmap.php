@@ -73,6 +73,7 @@ return array(
     'App\\Http\\Controllers\\UserBlocksController' => $baseDir . '/app/Http/Controllers/UserBlocksController.php',
     'App\\Http\\Controllers\\UserCheckinsController' => $baseDir . '/app/Http/Controllers/UserCheckinsController.php',
     'App\\Http\\Controllers\\UserController' => $baseDir . '/app/Http/Controllers/UserController.php',
+    'App\\Http\\Controllers\\UserHashtagsController' => $baseDir . '/app/Http/Controllers/UserHashtagsController.php',
     'App\\Http\\Controllers\\UserKeywordsController' => $baseDir . '/app/Http/Controllers/UserKeywordsController.php',
     'App\\Http\\Controllers\\UserLogController' => $baseDir . '/app/Http/Controllers/UserLogController.php',
     'App\\Http\\Controllers\\UserReportsController' => $baseDir . '/app/Http/Controllers/UserReportsController.php',

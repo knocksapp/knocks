@@ -62,24 +62,7 @@
             </span>
           </knockspopover>
           
-           <knocksprivacysetter 
-            trigger_class = "modal-trigger amber lighten-4 white-text knocks_side_margins darken-2 btn-floating knocks_super_tiny_floating_btn knocks_noshadow_ps knocks_borderless "
-           :gid = "gid+'_privacy_setter'" 
-           v-model = "privacy_setting" class  = "right">
-             <template slot = "trigger">
-               <span class = "knocks-locked4"></span>
-             </template>
-             <template slot="modal_header">
-               <span class = "knocks_text_dark knocks_text_md knocks_text_bold"><span class = "knocks-lockedheart knocks_text_dark"></span>    
-                How do you want the world to see this ?  
-                <hr/>
-               </span>
-             </template>
-             <span slot = "content"  class = "knocks_tooltip animated flipInX" >
-                Privacy
-            </span>
-
-          </knocksprivacysetter>
+           <knocksprivacyadjustments  trigger_class = " amber lighten-4 white-text knocks_side_margins darken-2 btn-floating knocks_super_tiny_floating_btn knocks_noshadow_ps knocks_borderless " class = "right" v-model = "privacy_setting"></knocksprivacyadjustments>
        </div>
     </div>
      <transition enter-active-class="animated fadeIn" leave-active-class="animated fadeOut">
@@ -529,7 +512,7 @@ export default {
       searchLang : null,
       locationResult : null ,
       uploader : null ,
-      privacy_setting : null,
+      privacy_setting : null ,
       bodyContent : '' , 
       tagsPositions : [],
       recordUploaded : false , 
@@ -951,8 +934,8 @@ export default {
         feelings : [] , 
         check_in : this.locationResult ,
         tags : this.tagged ,
-        user_privacy : this.privacy_setting.user_privacy , 
-        circle_privacy : this.privacy_setting.circle_privacy
+        privacy_setting : this.privacy_setting , 
+
       }
       this.submitObject = res;
       setTimeout(()=>{ App.$emit('knocksFinalSubmit', {scope : this.scope}); },300);

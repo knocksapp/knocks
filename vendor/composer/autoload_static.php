@@ -420,6 +420,7 @@ class ComposerStaticInite6c63ca61b830e919cd743d9fd7963b0
         'App\\Http\\Controllers\\UserBlocksController' => __DIR__ . '/../..' . '/app/Http/Controllers/UserBlocksController.php',
         'App\\Http\\Controllers\\UserCheckinsController' => __DIR__ . '/../..' . '/app/Http/Controllers/UserCheckinsController.php',
         'App\\Http\\Controllers\\UserController' => __DIR__ . '/../..' . '/app/Http/Controllers/UserController.php',
+        'App\\Http\\Controllers\\UserHashtagsController' => __DIR__ . '/../..' . '/app/Http/Controllers/UserHashtagsController.php',
         'App\\Http\\Controllers\\UserKeywordsController' => __DIR__ . '/../..' . '/app/Http/Controllers/UserKeywordsController.php',
         'App\\Http\\Controllers\\UserLogController' => __DIR__ . '/../..' . '/app/Http/Controllers/UserLogController.php',
         'App\\Http\\Controllers\\UserReportsController' => __DIR__ . '/../..' . '/app/Http/Controllers/UserReportsController.php',

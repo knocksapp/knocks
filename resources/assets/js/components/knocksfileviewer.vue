@@ -26,10 +26,8 @@
 		  </a>
 	</div>
 </template>
-
 <script>
 export default {
-
   name: 'knocksfileviewer',
   props : {
   	file : {
@@ -120,8 +118,6 @@ export default {
 					"image/gif" : 'knocks-document-file-gif2' ,
 
     	}
-
-
     }
   },
   mounted(){
@@ -156,6 +152,5 @@ export default {
   }
 }
 </script>
-
 <style lang="css" scoped>
 </style>

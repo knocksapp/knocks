@@ -43,7 +43,7 @@
 			 <el-tabs type="border-card">
 				  <el-tab-pane>
 				    <span slot="label" class="grey-text"><i class="knocks-info2"></i> Group Info</span>
-				    <ul class="knocks_text_dark">
+				    <ul class="knocks_text_dark animated fadeIn">
 				    	<li class="knocks_fair_bounds"> <i class="knocks-group2"></i> Group Name : {{group_object.name}}</li>
 				    	<li class="knocks_fair_bounds"> <i class="knocks-th-large"></i> Group Category : {{group_object.category}}</li>
 				    	<li class="knocks_fair_bounds"> <i class="knocks-locked2"></i> Privacy : {{group_object.preset}}</li>
@@ -56,10 +56,10 @@
 				    <div class="row" v-if="group_members != null && group_members.response != null">
 				    	<ul class="uk-list uk-list-divider">
 				    	<li  v-for="(mem,index) in group_members.response" class="knocks_fair_bounds">
-				    	<knocksuser  :show_accept_shortcut="false" class="col s10 animated bounceIn" :user="mem.user_id" v-model="members_names[index]" :as_result="true">
-                    <span slot="append_to_display_name" class=""><el-badge v-if="mem.position == 'Owner'" value="Owner" class="item"></el-badge><el-tag size="mini" v-if="mem.position == 'Member'" type="info">Member</el-tag></span>
+				    	<knocksuser  :show_accept_shortcut="false" class="col s10 animated fadeIn" :user="mem.user_id" v-model="members_names[index]" :as_result="true">
+                    <span slot="append_to_name" class=""><span v-if="mem.position == 'Owner'" style="font-size : 10px !important" class="uk-badge red">Owner</span><span v-if="mem.position == 'Member'" style="font-size : 10px !important" class="uk-badge blue">Member</span></span>
                          </knocksuser>
-                         <span class="right"><knocksgroupmemberdelete @member_deleted="group_members.response.splice(index,1)" :group_id="group_object.id" :gid="index" :member_delete = "mem.user_id"></knocksgroupmemberdelete></span>
+                         <span class="right" v-if="flag"><knocksgroupmemberdelete @member_deleted="group_members.response.splice(index,1)" :group_id="group_object.id" :gid="index" :member_delete = "mem.user_id"></knocksgroupmemberdelete></span>
       				      </li>
       				    </ul>
       				    </div>
@@ -82,7 +82,7 @@
 
            <el-tab-pane>
                 <span slot="label"><a @click="emitPicture()" class="grey-text"><i class="knocks-picture"></i> Photos</a></span>
-                <div class="row" v-if = "group_pictures != null && group_pictures.response != null" v-loading="group_pictures.loading">
+                <div class="row animated fadeIn" v-if = "group_pictures != null && group_pictures.response != null" v-loading="group_pictures.loading">
 
                   <div class="uk-position-relative uk-visible-toggle uk-light" uk-slider="sets: true">
                       <ul class="uk-slider-items uk-child-width-1-4 " >
@@ -94,25 +94,25 @@
                        <a class="uk-position-center-left uk-position-small uk-hidden-hover" href="#" uk-slidenav-previous uk-slider-item="previous"></a>
                        <a class="uk-position-center-right uk-position-small uk-hidden-hover" href="#" uk-slidenav-next uk-slider-item="next"></a>
                     </div>
-                    <a v-if="group_object != null && group_pictures.response.length != 0" class="right" :href = "asset('group/'+group_object.id+'/pictures')">See more</a>
+                    <a v-if="group_object != null && group_pictures.response.length != 0" class="knocks_fair_bounds right" :href = "asset('group/'+group_object.id+'/pictures')">Browse more <i class="knocks-search-5"></i></a>
                     <h3 v-if="group_pictures.response.length == 0 " class="grey-text center"><i class="knocks-picture"></i> There is No Pictures.</h3>
                 </div>
            </el-tab-pane>
 
            <el-tab-pane>
                 <span slot="label"><a class="grey-text" @click="emitFile()"><i class="knocks-files2"></i> Files</a></span>
-                <div class="row" v-if = "group_files != null && group_files.response != null" v-loading="group_files.loading">
+                <div class="row animated fadeIn" v-if = "group_files != null && group_files.response != null" v-loading="group_files.loading">
                   <ul class="uk-list uk-list-divider">
                       <li v-for = "(file,index) in group_files.response"><knocksfileviewer :file="file" v-if="index < 10"></knocksfileviewer></li>
                   </ul>
-                  <a v-if="group_object != null && group_files.response.length != 0"  :href = "asset('group/'+group_object.id+'/files')">See more</a>
+                  <a class="knocks_fair_bounds right" v-if="group_object != null && group_files.response.length != 0"  :href = "asset('group/'+group_object.id+'/files')">Browse more <i class="knocks-search-5"></i></a>
                   <h3 v-if="group_files.response.length == 0 " class="grey-text center"><i class="knocks-files2"></i> There is No Files.</h3>
                 </div>
            </el-tab-pane>
 
            <el-tab-pane>
               <span slot="label"><a class="grey-text" @click="emitVoice()"><i class="knocks-sound2"></i> Voices</a></span>
-                <div class="row" v-if = "group_voices != null && group_voices.response != null" v-loading="group_voices.loading">
+                <div class="row animated fadeIn" v-if = "group_voices != null && group_voices.response != null" v-loading="group_voices.loading">
                   <ul class="uk-list uk-list-divider" >
                       <li v-for = "(voice,index) in group_voices.response">
                         <knocksuser :user = "voice.user" as_chip></knocksuser>
@@ -129,14 +129,14 @@
                         :load_on_mount="false"></knocksplayer>
                       </li>
                   </ul>
-                  <a v-if="group_object != null && group_voices.response.length != 0"  :href = "asset('group/'+group_object.id+'/voices')"> See more</a>
+                  <a class="knocks_fair_bounds right"  v-if="group_object != null && group_voices.response.length != 0"  :href = "asset('group/'+group_object.id+'/voices')"> Browse more <i class="knocks-search-5"></i></a>
                   <h3 v-if="group_voices.response.length == 0" class="grey-text center"><i class="knocks-sound2"></i> There is no Voices.</h3>
                 </div>
            </el-tab-pane>
 
            <el-tab-pane>
               <span slot="label"><a class="grey-text" @click="emitVideo()"><i class="knocks-video4"></i> Videos</a></span>
-                <div class="row" v-if = "group_videos != null && group_videos.response != null" v-loading="group_videos.loading">
+                <div class="row animated fadeIn" v-if = "group_videos != null && group_videos.response != null" v-loading="group_videos.loading">
                   <ul class="uk-list uk-list-divider">
                       <li v-for = "vid in group_videos.response"></li>
                   </ul>

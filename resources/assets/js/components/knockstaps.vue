@@ -9,10 +9,8 @@
 		</a>
 	</div>
 </template>
-
 <script>
 export default {
-
   name: 'knockstaps',
   props : {
   	main_container : {
@@ -132,8 +130,25 @@ export default {
             vm.isFired = true;
             App.$emit('knocks_input_status' , vm.isValid);
            }
-          });
-          
+          }); 
+
+          App.$on('knocks_change_taps_value' , (payloads)=>{
+            let scope = payloads.scope ;
+            if(scope != null){
+              let i;
+              if(vm.scope == null) return;
+              for(i = 0; i < scope.length; i++){
+                if(vm.scope.indexOf(scope[i]) != -1){
+                 vm.assign(vm.options[payloads.index].value)
+                 return;
+                }
+              }
+              return;
+           }else if(scope == null && vm.scope == null){
+            vm.isFired = true;
+            App.$emit('knocks_input_status' , vm.isValid);
+           }
+          });       
   },
   computed : {
     isValid(){
@@ -196,11 +211,11 @@ export default {
   		return this.isActive(value) ? this.anchor_active_class : this.anchor_regular_class;
   	},
   	emit(){
+      //emits
   		this.$emit('input' , this.assigned);
   	}
   }
 }
 </script>
-
 <style lang="css" scoped>
 </style>
