@@ -823,7 +823,7 @@ export default {
     },
     isAnArrow(code){
       let arrows = [
-       37 , 38 , 39 , 40
+       37 , 38 , 39 , 40 , 8
       ]
       return arrows.indexOf(code) != -1 ? true : false 
     },
