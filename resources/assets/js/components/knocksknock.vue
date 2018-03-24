@@ -164,7 +164,7 @@
             </div>
             <!-- <a class="knocks_text_dark lens right" @click="flowtext()" href="#!"  ><i :id="gid+'_lns'" class="knocks-zoomin3 knocks_text_md lensm" @mouseover="lensHover()" @mouseleave="lensLeave()"></i></a> -->
           </div>
-          <div class = "row knocks_house_keeper" v-if = "knockObject.index.has_pictures" >
+          <div class = "row knocks_house_keeper" v-if = "knockObject.index.has_pictures"  >
             <knocksimageviewer :gid = "gid+'_image_viewer'"
             :sources = 'knockObject.index.images_specifications'
             :object_id = "knockObject.object_id"
@@ -172,9 +172,18 @@
             :owner_object = "ownerObject"
             :owner_id = "knockObject.user_id"></knocksimageviewer>
           </div>
-          <div class = "row knocks_house_keeper">
-            <knocksfileviewer :file="file" v-if = "knockObject.index.has_files == true" :key="file" v-for = "file  in knockObject.index.files_specifications"  >
+          <div class = "row knocks_house_keeper" v-if = "knockObject.index.has_files && knockObject.index.files_specifications.length > 0" style="padding : 4px !important">
+            <knocksfileviewer :file="file" v-if = "knockObject.index.has_files == true && index < filesShowKey" :key="file" v-for = "(file,index)  in knockObject.index.files_specifications"  >
             </knocksfileviewer>
+
+                  <a :class ="[{'knocks_hidden':!(knockObject.index.files_specifications.length > filesShowKey)}]" @click = "filesShowKey += 3">
+        <static_message msg = "See More"></static_message> +{{knockObject.index.files_specifications.length - filesShowKey}}
+      </a>
+      <a :class ="[{'knocks_hidden':!(filesShowKey > 3 && knockObject.index.files_specifications.length > 3)}]" class = "right" @click = "filesShowKey -= 3">
+        <static_message msg = "See Less"></static_message>
+      </a>
+
+
           </div>
           
           <div class="row knocks_house_keeper"  style="padding-right : 5px !important; padding-left : 5px !important;">
@@ -375,6 +384,7 @@ export default {
         hiddenNow : false , 
         onlyLocation : false ,
         onlyFiles : false ,
+        filesShowKey : 3 ,
     }; 
 },
   computed : {
