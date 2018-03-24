@@ -860,7 +860,7 @@ export default {
       let temp = this.bodyContent;
       for(i = 0 ; i < this.hashTags.length; i++){
        currentDom = $(containerElement).html().split(this.hashTags[i]).join(
-        '<a contenteditable="false" href = "'+LaravelOrgin+'trend/'+this.hashTags[i]+'"  class= "knocks_hashtag">'+this.hashTags[i]+'</a> ');
+        '<a contenteditable="true" href = "'+LaravelOrgin+'trend/'+this.hashTags[i]+'"  class= "knocks_hashtag">'+this.hashTags[i]+'</a> ');
       $(containerElement).empty();
       $(containerElement).html(currentDom);
       if(masterContent != currentDom)
@@ -1039,6 +1039,10 @@ export default {
       else if(this.filesTokens.files.length == 0) hasFiles = false ; else hasFiles = true;
 
       if(hasFiles == true) filesTokens = this.filesTokens.files; else filesTokens = null;
+
+      let ce ,  hashtagsElements = document.getElementsByClassName('knocks_hashtag');
+      for(ce = 0 ; ce < hashtagsElements.length; ce++)
+        hashtagsElements[ce].setAttribute('contenteditable' , false );
 
       //console.log(this.filesTokens);
 
