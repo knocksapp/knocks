@@ -329,6 +329,8 @@ Vue.component('knocksgroupvoices', require('./components/knocksgroupvoices.vue')
 Vue.component('knocksrightbar', require('./components/knocksrightbar.vue'));
 Vue.component('knocksprivacyadjustments', require('./components/knocksprivacyadjustments.vue'));
 Vue.component('knocksgroupsettings', require('./components/knocksgroupsettings.vue'));
+Vue.component('knockshashtag', require('./components/knockshashtag.vue'));
+Vue.component('knocksusercircles', require('./components/knocksusercircles.vue'));
 
 
 
@@ -823,6 +825,7 @@ Vue.component('knocksgroupsettings', require('./components/knocksgroupsettings.v
       }
     },
     logout(){
+      this.closeSideBar();
       this.elementNotify({title : 'Logged out' , msg : 'See you again, Bye! '});
         setTimeout(()=>{ window.location.href = LaravelOrgin+'user/logout' },1500);
     },
@@ -1529,6 +1532,7 @@ window.NavInstance = new Vue({
 
     },
     logout(){
+      this.closeSideBar();
       App.$emit('logged_out' );
       setTimeout(()=>{ window.location.href = LaravelOrgin+'user/logout' },1500);
 
