@@ -183,7 +183,7 @@ export default {
     		"video/mp4" : 'knocks-document-file-mp42' ,
     		"application/x-iwork-pages-sffpages" : 'knocks-document-file-pages' ,
             "text/html" : 'knocks-brand110' ,
-    		// "text/x" : 'knocks-document-file-mov2' ,
+    		
     		// "text/x" : 'knocks-document-file-key2' ,
     		// "text/x" : 'knocks-document-file-html2' ,
     		"text/css" : 'knocks-brand44' ,
