@@ -6,16 +6,19 @@
             <template slot = "container" v-if = "fileMeta.name != undefined && fileMeta.extension != undefined" >
             <span v-if = "fileMeta.name != undefined && fileMeta.extension != undefined && extensions[fileMeta.extension] != undefined"
             :class = "[extensions[fileMeta.extension] , icons_class]"></span>
+            <span v-else :class = "[icons_class , 'knocks-file']"></span>
             <span v-if = "fileMeta.name != undefined
                 && fileMeta.extension != undefined
                 && fileMeta.name != undefined
                 && fileMeta.name.length < 15 "
+
             :class = "[file_name_class]">{{fileMeta.name}}</span>
             <span v-if = "fileMeta.name != undefined
                 && fileMeta.extension != undefined
                 && fileMeta.name != undefined
-                && fileMeta.name.length > 15"
+                && fileMeta.name.length >= 15"
             class = "knocks_text_anchor knocks_text_dark"
+            
             :class = "[file_name_class , icons_class]">{{minimizedText(fileMeta.name)}}</span>
             </template>
             <span slot = "content"  class = "knocks_tooltip animated flipInX" >
@@ -55,13 +58,17 @@ export default {
 					"text/x" : 'knocks-document-file-app2' ,
 					"application/pdf" : 'knocks-document-file-pdf2' ,
 					"audio/mpeg" : 'knocks-document-file-mp32' ,
+					"vedio/mpeg" : 'knocks-document-file-mp32' ,
 					"video/mp4" : 'knocks-document-file-mp42' ,
 					"application/x-iwork-pages-sffpages" : 'knocks-document-file-pages' ,
-					// "text/x" : 'knocks-document-file-mov2' ,
+					"text/html" : 'knocks-brand110' ,
+					"text/css" : 'knocks-brand44' ,
+					"text/javascript" : 'knocks-brand119',
+					"text/xml" : 'knocks-document-document-file-xml2' ,
 					// "text/x" : 'knocks-document-file-key2' ,
 					// "text/x" : 'knocks-document-file-html2' ,
 					// "text/x" : 'knocks-document-file-css2' ,
-					"application/javascript" : 'knocks-file',
+					
 					"text/x-java-source,java" : 'knocks-document-file-java2' ,
 					"image/vnd.adobe.photoshop" : 'knocks-document-file-psd2' ,
 					"application/vnd.adobe.air-application-installer-package+zip" : 'knocks-document-file-ai2' ,

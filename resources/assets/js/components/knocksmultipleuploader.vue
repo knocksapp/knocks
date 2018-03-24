@@ -72,17 +72,20 @@
             <template slot = "container" v-if = "file.name != undefined && file.type != undefined" >
             <span v-if = "file.name != undefined && file.type != undefined && extensions[file.type] != undefined"
             :class = "[extensions[file.type] , icons_class ]"></span>
+            <span v-if  = "file.name != undefined && file.type != undefined && extensions[file.type] == undefined" :class = "[icons_class , 'knocks-file']"></span>
             <span v-if = "file.name != undefined
                 && file.type != undefined
                 && file.name != undefined
                 && file.name.length < 15
                 && notAnImage(index)"
+                style = "display : block"
             :class = "[file_name_class]">{{file.name}}</span>
             <span v-if = "file.name != undefined
                 && file.type != undefined
                 && file.name != undefined
-                && file.name.length > 15
+                && file.name.length >= 15
                 && notAnImage(index)"
+                style = "display : block"
             :class = "[file_name_class]">{{minimizedText(file.name)}}</span>
             </template>
             <span slot = "content"  class = "knocks_tooltip animated flipInX" >
@@ -176,13 +179,16 @@ export default {
     		"text/x" : 'knocks-document-file-app2' ,
     		"application/pdf" : 'knocks-document-file-pdf2' ,
     		"audio/mpeg" : 'knocks-document-file-mp32' ,
+            "vedio/mpeg" : 'knocks-document-file-mp32' ,
     		"video/mp4" : 'knocks-document-file-mp42' ,
     		"application/x-iwork-pages-sffpages" : 'knocks-document-file-pages' ,
+            "text/html" : 'knocks-brand110' ,
     		// "text/x" : 'knocks-document-file-mov2' ,
     		// "text/x" : 'knocks-document-file-key2' ,
     		// "text/x" : 'knocks-document-file-html2' ,
-    		// "text/x" : 'knocks-document-file-css2' ,
-        "application/javascript" : 'knocks-file',
+    		"text/css" : 'knocks-brand44' ,
+        "text/javascript" : 'knocks-brand119',
+        "text/xml" : 'knocks-document-file-xml2' ,
     		"text/x-java-source,java" : 'knocks-document-file-java2' ,
     		"image/vnd.adobe.photoshop" : 'knocks-document-file-psd2' ,
     		"application/vnd.adobe.air-application-installer-package+zip" : 'knocks-document-file-ai2' ,
@@ -191,7 +197,7 @@ export default {
     		// "text/x" : 'knocks-document-file-eps2' ,
     		"image/tiff" : 'knocks-document-file-tiff2' ,
     		"application/vnd.oasis.opendocument.spreadsheet-template" : 'knocks-document-file-ots2' ,
-    		"text/php" : 'knocks-document-file-php2' ,
+    		"text/php" : 'knocks-document-file-php2 blue-text' ,
     		// "text/x" : 'knocks-document-file-py2' ,
     		// "text/x" : 'knocks-document-file-c2' ,
     		// "text/x" : 'knocks-document-file-sql2' ,

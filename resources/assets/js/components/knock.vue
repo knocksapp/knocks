@@ -67,8 +67,10 @@
     </div>
      <transition enter-active-class="animated fadeIn" leave-active-class="animated fadeOut">
         <div class = "row knocks_house_keeper" v-if = "locationResult != null">
-      <p class="knocks_text_sm blue-text"> <i class=" knocks-location3 blue-text"></i>
-                    {{locationResult.address_components[0].long_name}}
+      <p class="knocks_text_ms blue-text"> 
+        <i class = "knocks-close red-text" @click = "locationResult = null"></i>
+        <i class=" knocks-location3 blue-text"></i>
+        {{locationResult.address_components[0].long_name}}
       </p>
     </div>
   </transition>
@@ -549,8 +551,8 @@ export default {
   } , 
   computed : {
     hasContent(){
-      return !(!
-        this.hasFiles && !this.hasImages 
+      return !(
+        (this.uploader == null || (this.uploader.images.length == 0 && this.uploader.regularFiles.length == 0 ) )
         && !this.hasText 
         && this.locationResult == null &&  (this.recorder == null ||  this.recorder.hasRecord === undefined || this.recorder.hasRecord == false))
     },
@@ -803,8 +805,8 @@ export default {
         return false;
     },
     checkContent(){
-      return !(!
-        this.hasFiles && !this.hasImages 
+      return !(
+        (this.uploader == null || (this.uploader.images.length == 0 && this.uploader.regularFiles.length == 0 ) )
         && !this.hasText
         && this.locationResult == null &&  (this.recorder == null ||  this.recorder.hasRecord === undefined || this.recorder.hasRecord == false))
     },
