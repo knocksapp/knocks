@@ -56,7 +56,7 @@ export default {
     	    fileMeta : null ,
     		extensions :  {
 					"text/x" : 'knocks-document-file-app2' ,
-					"application/pdf" : 'knocks-document-file-pdf2' ,
+					"application/pdf" : 'knocks-file-pdf red-text' ,
 					"audio/mpeg" : 'knocks-document-file-mp32' ,
 					"vedio/mpeg" : 'knocks-document-file-mp32' ,
 					"video/mp4" : 'knocks-document-file-mp42' ,
@@ -64,7 +64,7 @@ export default {
 					"text/html" : 'knocks-brand110' ,
 					"text/css" : 'knocks-brand44' ,
 					"text/javascript" : 'knocks-brand119',
-					"text/xml" : 'knocks-document-document-file-xml2' ,
+					"text/xml" : 'knocks-document-file-xml2' ,
 					// "text/x" : 'knocks-document-file-key2' ,
 					// "text/x" : 'knocks-document-file-html2' ,
 					// "text/x" : 'knocks-document-file-css2' ,

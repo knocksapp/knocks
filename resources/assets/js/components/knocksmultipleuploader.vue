@@ -177,7 +177,7 @@ export default {
 
     	extensions :  {
     		"text/x" : 'knocks-document-file-app2' ,
-    		"application/pdf" : 'knocks-document-file-pdf2' ,
+    		"application/pdf" : 'knocks-pdf red-text' ,
     		"audio/mpeg" : 'knocks-document-file-mp32' ,
             "vedio/mpeg" : 'knocks-document-file-mp32' ,
     		"video/mp4" : 'knocks-document-file-mp42' ,
