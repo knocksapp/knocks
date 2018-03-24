@@ -17,17 +17,6 @@
 //asdasdsa/
 Route::post('contacts', 'UserController@retriveContact');
 
-// Route::get('userinfo' , function(){
-//   return App\User::find(21)->retriveForUser(20);
-// });
-
-// Route::get('registeration' , function(){
-//   return view('guest.signup');
-// });
-// Route::get('rec' , function(){
-//   return view('rec');
-// });
-
 //DEVELOPERS ROUTES STARTS /////////////////////////////////////////////////////////////
 //Language APIS
 Route::get('/dev', function () {
@@ -108,6 +97,8 @@ Route::post('userlogin', 'UserController@userlogin');
 Route::post('retrive_circle', 'CircleController@retrive');
 
 Route::post('get_circles', 'UserController@getUserCircles');
+
+Route::post('circle/search', 'CircleController@search');
 
 Route::post('/create_group', 'GroupController@createGroup');
 

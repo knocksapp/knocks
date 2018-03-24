@@ -220,9 +220,9 @@
          <el-menu default-active="2" class="el-menu-vertical-demo" >
       <el-submenu index="1">
         <template slot="title">
-          
+
 <i class="knocks-team "></i>
-          <span> My Groups</span>
+          <static_message msg = "My Groups"></static_message>
 
         </template>
         <el-menu-item-group>
@@ -232,7 +232,7 @@
         </el-menu-item-group>
         <el-menu-item-group >
           <span slot = "title">
-            
+
           </span>
 
           <el-menu-item index="1-3" @click = "toggleGroupCreator(true)">
@@ -240,11 +240,20 @@
             <static_message msg = "Create a group"></static_message>
           </el-menu-item>
         </el-menu-item-group>
-        <el-submenu index="1-4">
-          <template slot="title">item four</template>
-          <el-menu-item index="1-4-1">item one</el-menu-item>
-        </el-submenu>
       </el-submenu>
+       <el-submenu index="2">
+        <template slot="title">
+
+<i class="knocks-atom2 "></i>
+          <static_message msg = "My Circles"></static_message>
+
+        </template>
+        <el-menu-item-group>
+
+            <knocksusercircles></knocksusercircles>
+
+        </el-menu-item-group>
+
       <el-menu-item index="2">
         <i class="el-icon-menu"></i>
         <span>Navigator Two</span>
