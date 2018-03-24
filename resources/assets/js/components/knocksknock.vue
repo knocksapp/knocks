@@ -430,7 +430,7 @@ export default {
     loadKnockData(){
 
       if(window.UserKnocks[this.knock] != undefined){
-        console.log(this.knock+'  restored');
+        //console.log(this.knock+'  restored');
         this.knockObject = window.UserKnocks[this.knock];
           $('#'+this.gid).empty();
           this.onlyLocation = this.knockObject.index.has_voices ||  this.knockObject.index.has_pictures || this.knockObject.index.has_files || (this.knockObject.body != null && this.knockObject.body.length > 0) ? false : true;
@@ -458,7 +458,7 @@ export default {
             $('#'+this.gid).html(this.knockObject.body);
             this.bodyLen =  $('#'+this.gid).text().length;
             this .bodyText =  $('#'+this.gid).text();
-            console.log(this.bodyLen);
+            //console.log(this.bodyLen);
             }          
           }, 400);          
           setTimeout(()=> this.datecalc()
@@ -483,7 +483,7 @@ export default {
           onDownloadProgress : ()=>{vm.isLoading = true;}
         }).then( (response)=>{
           vm.isLoading = false ;
-          console.log(vm.knock+'  loaded');
+          //console.log(vm.knock+'  loaded');
           vm.knockObject = response.data;
           if(response.data == 'invalid'){
             vm.knockObject = null ;
@@ -527,7 +527,7 @@ export default {
             $('#'+vm.gid).html(vm.knockObject.body);
             vm.bodyLen =  $('#'+vm.gid).text().length;
             vm.bodyText =  $('#'+vm.gid).text();
-            console.log(vm.bodyLen);
+            //console.log(vm.bodyLen);
             }
              
       }, 400);
@@ -544,7 +544,7 @@ export default {
           
             vm.retriveComments();
            
-        }).catch((err)=>{ console.log(err); });
+        }).catch((err)=>{ });
     },
     showRange(){
       return this.comments.length - this.showKey -1;
@@ -628,7 +628,7 @@ export default {
          $('#'+vm.gid).addClass('animated pulse');
          $('.rdmore').addClass('flow-text');
              vm.counter = 1;
-             console.log(vm.counter);
+             
               $('#'+vm.gid).css({
                 'line-height': '1.6em'
                                  });
@@ -648,7 +648,7 @@ export default {
          $('#'+vm.gid).addClass('animated jello');
          $('#'+vm.gid).addClass('animated rubberBand');
             vm.counter = 0;
-            console.log(vm.counter);
+            //console.log(vm.counter);
             $('#'+vm.gid).css({
                 'line-height': '1.3em'});
             if(vm.bodyLen > 250){
