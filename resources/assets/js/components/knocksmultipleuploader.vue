@@ -338,7 +338,7 @@ export default {
   	construct(){
   		//this.$emit('input' , event.target.files);
   		this.content = document.getElementById(this.gid).files;
-  		console.log(this.content);
+  		//console.log(this.content);
   		this.analysis();
     }, 
     reset(){
@@ -490,8 +490,8 @@ export default {
                 vm.isUploading = false ;
                 if(response.data != 'invalid')
                   
-                  console.log('final res');
-                  console.log(vm.finalResult);
+                  //console.log('final res');
+                  //console.log(vm.finalResult);
                   vm.imagesTokens.push(response.data);
                   vm.$emit('mediaQueryCounter');
                   counter++;
