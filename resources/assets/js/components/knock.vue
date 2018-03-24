@@ -139,6 +139,7 @@
             <template slot = "container">
               <knocksbutton
               :scope = "scope"
+              :disabled = "!hasContent"
               :gid = "gid+'_btn'"
               :submit_on = "[scope+'_final_submit']"
               :disable_placeholder = "btn_disable_placeholder"
@@ -155,7 +156,7 @@
               :label_classes = "btn_label_classes"
               @knocks_submit_accepted = "resetKnock()"
               :materialize_feedback = "false"
-              button_classes = " el-button knocks_color_kit knocks_el_round_btn knocks_btn_color_kit  knocks_right knocks_noshadow_ps knocks_borderless">
+              button_classes = " el-button knocks_color_kit btn-floating knocks_tiny_floating_btn  knocks_btn_color_kit  knocks_right knocks_noshadow_ps knocks_borderless">
               </knocksbutton>
             </template>
             <span slot = "content"  class = "knocks_tooltip animated flipInX" style="margin-top: 20px !important;" >
@@ -299,7 +300,7 @@ export default {
   	},
   	btn_icon : {
   		type : String ,
-  		default : 'knocks-paper-plane knocks_text_light'
+  		default : 'knocks-send3 knocks_text_light'
   	},
   	btn_disable_placeholder : {
   		type : Boolean , 
@@ -529,6 +530,13 @@ export default {
       hasImages : false ,
       textContent : {text : '' , voice : ''} ,
       finalTextBody : '' ,
+      hashTags : [] , 
+      urls : [] ,
+      hasText : false ,
+      lastKey : null ,
+      isSelectingAll : false ,
+      hashTagRegex :  /\B(\#[a-zA-Z_]+\b)(?!;)/g , 
+      urlRegex : /^((https?|ftp|smtp):\/\/)?(www.)?[a-z0-9]+\.[a-z]+(\/[a-zA-Z0-9#]+\/?)*/g,
       submitButton :  { 
           isLoading : false , 
           isHovered : false , 
@@ -540,8 +548,12 @@ export default {
     }
   } , 
   computed : {
-
-
+    hasContent(){
+      return !(!
+        this.hasFiles && !this.hasImages 
+        && !this.hasText 
+        && this.locationResult == null &&  (this.recorder == null ||  this.recorder.hasRecord === undefined || this.recorder.hasRecord == false))
+    },
     usernameLens(){
       let user , counter ; 
       counter = 0;
@@ -566,9 +578,15 @@ export default {
     //Content Editable Behavior with BR 
     $('div[contenteditable]').keydown(function(e) {
     // trap the return key being pressed
+    vm.lastKey  = e.keyCode ;
+    if(vm.isCtrOrCmd(e.keyCode)){
+      $('div[contenteditable]').keydown(function(ev) {
+        if(ev.keyCode == 65) vm.isSelectingAll = true ; 
+      });
+    }else vm.isSelectingAll = false ;
     if (e.keyCode === 13) {
       // insert 2 br tags (if only one br tag is inserted the cursor won't go to the next line)
-      document.execCommand('insertHTML', false, '<br><br>');
+      document.execCommand('insertHTML', false, '<br/>');
       // prevent the default behaviour of return key pressed
       return false;
     }
@@ -578,11 +596,11 @@ export default {
       let childs = document.getElementById(vm.gid+'_input').children;
       let i;
       for(i = 0 ; i < childs.length; i++){
-        if(!$(childs[i]).hasClass('chip') && childs[i].tagName != 'BR'){
-          console.log(childs[i].tagName)
-          console.log($(childs[i]).html()); console.log($(childs[i]).text())
+        if(!vm.hasAspecialClass(childs[i]) && childs[i].tagName != 'BR'){
+          //console.log(childs[i].tagName)
+          //console.log($(childs[i]).html()); //console.log($(childs[i]).text())
           $(childs[i]).replaceWith($(childs[i]).text());
-          console.log('watch');
+          //console.log('watch');
         }
       }
       vm.watchMyDom();
@@ -593,10 +611,10 @@ export default {
       let childs = document.getElementById(vm.gid+'_input').children;
       let i;
       for(i = 0 ; i < childs.length; i++){
-        if(!$(childs[i]).hasClass('chip') && childs[i].tagName != 'BR'){
-          console.log(childs[i].tagName)
+        if(!vm.hasAspecialClass(childs[i]) && childs[i].tagName != 'BR'){
+          //console.log(childs[i].tagName)
          $(childs[i]).replaceWith($(childs[i]).text());
-          console.log('watch');
+          //console.log('watch');
         }
       }
       vm.watchMyDom();
@@ -608,10 +626,10 @@ export default {
       let childs = document.getElementById(vm.gid+'_input').children;
       let i;
       for(i = 0 ; i < childs.length; i++){
-        if(!$(childs[i]).hasClass('chip') && childs[i].tagName != 'BR'){
-          console.log(childs[i].tagName)
+        if(!vm.hasAspecialClass(childs[i]) && childs[i].tagName != 'BR'){
+          //console.log(childs[i].tagName)
          $(childs[i]).replaceWith($(childs[i]).text());
-          console.log('watch');
+          //console.log('watch');
         }
       }
       vm.watchMyDom();
@@ -624,10 +642,10 @@ export default {
       let childs = document.getElementById(vm.gid+'_input').children;
       let i;
       for(i = 0 ; i < childs.length; i++){
-        if(!$(childs[i]).hasClass('chip') && childs[i].tagName != 'BR'){
-          console.log(childs[i].tagName)
+        if(!vm.hasAspecialClass(childs[i]) && childs[i].tagName != 'BR'){
+          //console.log(childs[i].tagName)
           $(childs[i]).replaceWith($(childs[i]).text());
-          console.log('watch');
+          //console.log('watch');
         }
       }
       vm.watchMyDom();
@@ -638,10 +656,10 @@ export default {
        let childs = document.getElementById(vm.gid+'_input').children;
        let i;
         for(i = 0 ; i < childs.length; i++){
-          if(!$(childs[i]).hasClass('chip') && childs[i].tagName != 'BR'){
-            console.log(childs[i].tagName)
+          if(!vm.hasAspecialClass(childs[i]) && childs[i].tagName != 'BR'){
+            //console.log(childs[i].tagName)
             $(childs[i]).replaceWith($(childs[i]).text());
-            console.log('watch');
+            //console.log('watch');
           }
         }
         vm.watchMyDom();
@@ -667,8 +685,8 @@ export default {
     // });
 
     // App.$on('knocksMediaQueryLogged' , (payload)=>{
-    //   console.log('mediaQueryRecieved');
-    //   console.log(payload);
+    //   //console.log('mediaQueryRecieved');
+    //   //console.log(payload);
     //   let tar ;
     //   for(tar in payload.scope){
     //     if(vm.scope.indexOf(payload.scope[tar]) != -1){
@@ -695,8 +713,8 @@ export default {
     //   }
     // });
     App.$on('knocksMediaQueryLogged' , (payload)=>{
-      console.log('mediaQueryRecieved');
-      console.log(payload);
+      // //console.log('mediaQueryRecieved');
+      // //console.log(payload);
       let tar ;
       for(tar in payload.scope){
         if(vm.scope.indexOf(payload.scope[tar]) != -1){
@@ -737,13 +755,58 @@ export default {
       this.checkForTags();
       this.getThebodyContent();
   	},
+    collectHashTags(){
+      let m , res = [];
+      do {
+          m = this.hashTagRegex.exec(this.textContent.text);
+          if(m) {
+              res.push(m[1]);
+          }
+      } while (m);
+        
+        this.hashTags =  res;
+        this.pushToHashTags()
+    },
+    collectUrls(){
+      let m , res = [];
+      do {
+          m = this.urlRegex.exec(this.textContent.text);
+          if(m){
+              res.push(m[1]);
+          }
+      } while(m);    
+        this.urls =  res;
+        this.pushToUrls()
+    },
     prepareSubmit(){
       if(!(this.recorderResponded && this.mfuResponded)) return;
-      if(!this.hasFiles && !this.hasImages && (this.bodyContent == null || this.bodyContent.length == 0) && this.locationResult == null && !this.hasRecord){
+      if(!this.hasContent || !this.checkContent() ){
         this.notifiError();
+        setTimeout( ()=>{
+          App.$emit('knocksButtonVirtualStop' , { scope : this.scope });
+        }, 500)
+        
         return;
       }
       this.submitFormat();
+    },
+    hasAspecialClass(el){
+      let classes = [
+      'chip' , 
+      'knocks_hashtag' , 
+      'knocks_url'
+      ]
+      let i ;
+      for(i = 0 ; i < classes.length ; i++)
+        if($(el).hasClass(classes[i]))
+          return true;
+        return false;
+    },
+    checkContent(){
+      return !(!
+        this.hasFiles && !this.hasImages 
+        && !this.hasText
+        && this.locationResult == null &&  (this.recorder == null ||  this.recorder.hasRecord === undefined || this.recorder.hasRecord == false))
     },
   	getTokens(){
 
@@ -757,6 +820,18 @@ export default {
     getThebodyContent(){
       this.bodyContent =  $('#'+this.gid+'_input').html().split(/&nbsp;/).join('');
       
+    },
+    isAnArrow(code){
+      let arrows = [
+       37 , 38 , 39 , 40
+      ]
+      return arrows.indexOf(code) != -1 ? true : false 
+    },
+    isCtrOrCmd(code){
+      let codes = [
+       224 , 17 , 91 , 93
+      ]
+      return codes.indexOf(code) != -1 ? true : false 
     },
   	searchForUsers(){
       if(this.tokens[this.tokens.length-1].length <= 2) { this.userSuggestions = []; return ;}
@@ -773,6 +848,57 @@ export default {
 
   		});
   	},
+    pushToHashTags(){
+      let masterContent = $(containerElement).html();
+      let i , j , currentDom , containerElement = document.getElementById(this.gid+'_input');
+      let hashtagElements = containerElement.getElementsByClassName('knocks_hashtag');
+      for(j = 0 ; j < hashtagElements.length; j++){
+        $(hashtagElements[j]).replaceWith($(hashtagElements[j]).text())
+      }
+      let temp = this.bodyContent;
+      for(i = 0 ; i < this.hashTags.length; i++){
+       currentDom = $(containerElement).html().split(this.hashTags[i]).join(
+        '<a contenteditable="false" href = "'+LaravelOrgin+'trend/'+this.hashTags[i]+'"  class= "knocks_hashtag">'+this.hashTags[i]+'</a> ');
+      $(containerElement).empty();
+      $(containerElement).html(currentDom);
+      if(masterContent != currentDom)
+      this.placeCaretAtEnd(containerElement);
+    }
+
+    },
+    pushToUrls(){
+      let masterContent = $(containerElement).html();
+      let i , j , currentDom , containerElement = document.getElementById(this.gid+'_input');
+      let hashtagElements = containerElement.getElementsByClassName('knocks_url');
+      for(j = 0 ; j < hashtagElements.length; j++){
+        $(hashtagElements[j]).replaceWith($(hashtagElements[j]).text())
+      }
+      let temp = this.bodyContent;
+      for(i = 0 ; i < this.urls.length; i++){
+       currentDom = $(containerElement).html().split(this.urls[i]).join('<a contenteditable="true" class= "knocks_url" href = "'+this.urls[i]+'">'+this.urls[i]+'</a>');
+      $(containerElement).empty();
+      $(containerElement).html(currentDom);
+      if(masterContent != currentDom)
+      this.placeCaretAtEnd(containerElement);
+    }
+  },
+    placeCaretAtEnd(el) {
+    el.focus();
+    if (typeof window.getSelection != "undefined"
+            && typeof document.createRange != "undefined") {
+        var range = document.createRange();
+        range.selectNodeContents(el);
+        range.collapse(false);
+        var sel = window.getSelection();
+        sel.removeAllRanges();
+        sel.addRange(range);
+    } else if (typeof document.body.createTextRange != "undefined") {
+        var textRange = document.body.createTextRange();
+        textRange.moveToElementText(el);
+        textRange.collapse(false);
+        textRange.select();
+    }
+},
     pushToTagged(user , index){
       if(this.tagged.indexOf(user) != -1) return;
       this.taggedPeople.push(this.suggestions[index]);
@@ -803,7 +929,7 @@ export default {
       for(userTt in this.taggedPeople){
         counter = this.taggedPeople[userTt].username.length + counter ;
       }
-      console.log(counter);
+      //console.log(counter);
       let currentLen = $('#'+this.gid+'_input').html().split(/&nbsp;/).join('');
       currentLen = currentLen.split('').length;
       
@@ -835,7 +961,7 @@ export default {
       for(i = 0 ; i < this.tagged.length; i++){
         flag = false;
         for(j = 0; j < currentTags.length; j++){
-          console.log($(currentTags[j].getElementsByClassName('tagged_user_container')[0]).text());
+          //console.log($(currentTags[j].getElementsByClassName('tagged_user_container')[0]).text());
           if(this.taggedPeople[i].username == $($(currentTags[j]).find('.tagged_user_container')).text())
             flag = true ;        
         }
@@ -843,7 +969,7 @@ export default {
           toBeSliced.push(i);
         }
       }
-      console.log(toBeSliced);
+      //console.log(toBeSliced);
       for(k = 0; k < toBeSliced.length; k++){
         this.spliceFromTagged(toBeSliced[k]);
       }
@@ -912,7 +1038,7 @@ export default {
 
       if(hasFiles == true) filesTokens = this.filesTokens.files; else filesTokens = null;
 
-      console.log(this.filesTokens);
+      //console.log(this.filesTokens);
 
 
 
@@ -970,10 +1096,11 @@ export default {
       this.textContent = {text : '' , voice : ''};
       this.finalTextBody = "";
       App.$emit('knocks_multiple_uploader_reset' , this.scope);
-      $('#'+this.gid+'_input').empty()
+      $('#'+this.gid+'_input').html('')
       $('#'+this.gid+'_input').blur()
       this.notifi();
       App.$emit('knocks_refresh_posts');
+      this.hasText = false;
     },
     notifi() {
             
@@ -1000,15 +1127,20 @@ export default {
       watchMyDom(){
        const vm = this;
         this.updateTextContent();
+        if(!this.isAnArrow(this.lastKey) && !this.isSelectingAll){
+                  this.collectHashTags();
+        this.collectUrls(); 
+        }
        let childs = document.getElementById(vm.gid+'_input').children;
        let i;
         for(i = 0 ; i < childs.length; i++){
-          if(!$(childs[i]).hasClass('chip') && childs[i].tagName != 'BR'){
-            console.log(childs[i].tagName)
+          if(!vm.hasAspecialClass(childs[i])&& childs[i].tagName != 'BR'){
+            //console.log(childs[i].tagName)
             $(childs[i]).replaceWith($(childs[i]).text());
-            console.log('watch');
+            //console.log('watch');
           }
         }
+        this.hasText = $('#'+vm.gid+'_input').text().length > 0 ;
       },
       updateTextContent(){
       this.textContent.text= $('#'+this.gid+'_input').text();
@@ -1166,7 +1298,7 @@ export default {
           var bounds = new google.maps.LatLngBounds();
           places.forEach(function(place) {
             if (!place.geometry) {
-              console.log("Returned place contains no geometry");
+              //console.log("Returned place contains no geometry");
               return;
             }
             var icon = {
