@@ -45,6 +45,10 @@ export default {
     popover : {
       type : Boolean , 
       default : true 
+    },
+    no_rebound : {
+      type : Boolean , 
+      default : false  
     }
   },
   data () {
@@ -74,10 +78,10 @@ export default {
   }, 
   methods: {
     loadCircleData(){
-      if(window.UserCircles[this.circle] != undefined){
+      if(window.UserCircles[this.circle] != undefined && !this.no_rebound){
         this.circleObject = window.UserCircles[this.circle];
 
-      }else if (window.UserCircles[this.circle] == undefined){
+      }else if (window.UserCircles[this.circle] == undefined || this.no_rebound){
         
         const vm = this;
         axios({

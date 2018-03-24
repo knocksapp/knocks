@@ -857,10 +857,12 @@ export default {
       for(j = 0 ; j < hashtagElements.length; j++){
         $(hashtagElements[j]).replaceWith($(hashtagElements[j]).text())
       }
-      let temp = this.bodyContent;
+      let temp = this.bodyContent , hash , noHash ;
       for(i = 0 ; i < this.hashTags.length; i++){
+        hash = this.hashTags[i];
+        noHash= this.hashTags[i].replace('#' , '');
        currentDom = $(containerElement).html().split(this.hashTags[i]).join(
-        '<a contenteditable="true" href = "'+LaravelOrgin+'trend/'+this.hashTags[i]+'"  class= "knocks_hashtag">'+this.hashTags[i]+'</a> ');
+        '<a contenteditable="false" href = "'+LaravelOrgin+'trend/'+noHash+'"  class= "knocks_hashtag">'+hash+'</a> ');
       $(containerElement).empty();
       $(containerElement).html(currentDom);
       if(masterContent != currentDom)
@@ -1040,9 +1042,6 @@ export default {
 
       if(hasFiles == true) filesTokens = this.filesTokens.files; else filesTokens = null;
 
-      let ce ,  hashtagsElements = document.getElementsByClassName('knocks_hashtag');
-      for(ce = 0 ; ce < hashtagsElements.length; ce++)
-        hashtagsElements[ce].setAttribute('contenteditable' , false );
 
       //console.log(this.filesTokens);
 
