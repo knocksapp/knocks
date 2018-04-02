@@ -149,6 +149,7 @@
                         class=""
                         ><span v-if="mem.position == 'Owner'" class="uk-badge red" style="font-size : 10px !important">Owner</span>
                         <span v-if="mem.position == 'Member'" class="uk-badge blue knocks_text_sm" style="font-size : 10px !important">Member</span>
+                        <span v-if="mem.position == 'Admin'" class="uk-badge green knocks_text_sm" style="font-size : 10px !important">Admin</span>
                       </span>
                         </knocksuser>
                         <span class="right">
@@ -173,14 +174,69 @@
             <div v-if="user.response == 'waiting'">
                      <knocksgroupjoining 
                      v-if="user.response != 'accepted'" 
-                     class=" right" :group_id="group_object.id" as_owner :user_id="user.sender_id" @member_deleted="group_requests.response.splice(index,1)">
+                     class=" right" :group_id="group_object.id" 
+                     as_owner :user_id="user.sender_id" 
+                     @member_added = "addMember($event)"
+                     >
                      </knocksgroupjoining>
-         <knocksuser v-if="user.response != 'accepted'" :user="user.sender_id" as_result></knocksuser>
-        
+                     <knocksuser 
+                     v-if="user.response != 'accepted'" 
+                     :user="user.sender_id" 
+                     as_result 
+                     :show_accept_shortcut="false"
+                     ></knocksuser>      
             </div>
           </div>
       </span>
   </div>
+    </li>
+     <li>
+      <div class="collapsible-header"><i class="knocks-badge3 grey-text"></i>Manage Member Positions</div>
+      <div class="collapsible-body">
+        <span>
+           <div class="row" v-if="group_members != null && group_members.response != null">
+           <ul class="uk-list uk-list-divider">
+              <li  v-for="(mem,index) in group_members.response" class="knocks_fair_bounds">
+                
+              <knocksuser
+                :show_accept_shortcut="false" 
+                class=" animated fadeIn" 
+                :user="mem.user_id"  :as_result="true"
+                :show_username = "false"
+                > 
+                <span 
+                slot = "append_to_name"
+                style="margin-left : 5px;" 
+                >
+                <span>
+                  <span 
+                  v-if="mem.position == 'Owner'" 
+                  class="uk-badge red" 
+                  style="font-size : 10px !important">
+                  Owner
+                  </span>
+                  <span 
+                  v-if="mem.position == 'Member'" 
+                  class="uk-badge blue knocks_text_sm" 
+                  style="font-size : 10px !important">
+                   Member
+                  </span>
+                   <span 
+                  v-if="mem.position == 'Admin'" 
+                  class="uk-badge green knocks_text_sm" 
+                  style="font-size : 10px !important">
+                   Admin
+                  </span>
+                      </span>
+                </span>
+                
+                        </knocksuser>
+                        <knocksgroupmemberposition :user_id = "mem.user_id" :group_id="group_object.id"></knocksgroupmemberposition>
+                   </li>
+               </ul>
+          </div>
+         </span>
+       </div>
     </li>
   </ul>
 	</div>
@@ -231,12 +287,7 @@ export default {
   	   	    }
   	   	    
   	   },
-  	   emit(e){
-       	   if(e.response == 'done'){
-             this.$emit('member_deleted');
-             setTimeout( ()=>{App.$emit('KnocksContentChanged');} , 300)
-           }
-       }
+
   },
   mounted(){
   	this.radio4 = this.group_object.preset;
@@ -245,4 +296,25 @@ export default {
 </script>
 
 <style lang="css" scoped>
+.uk-badge {
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    min-width: 22px;
+    height: 17px !important;
+    padding: 0 5px;
+    border-radius: 500px;
+    vertical-align: middle;
+    background: #1e87f0;
+    color: #fff;
+    font-size: 0.875rem;
+    display: -webkit-inline-box;
+    display: -ms-inline-flexbox;
+    display: inline-flex;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+}
 </style>

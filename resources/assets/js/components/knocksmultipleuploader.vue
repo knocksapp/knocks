@@ -72,17 +72,20 @@
             <template slot = "container" v-if = "file.name != undefined && file.type != undefined" >
             <span v-if = "file.name != undefined && file.type != undefined && extensions[file.type] != undefined"
             :class = "[extensions[file.type] , icons_class ]"></span>
+            <span v-if  = "file.name != undefined && file.type != undefined && extensions[file.type] == undefined" :class = "[icons_class , 'knocks-file']"></span>
             <span v-if = "file.name != undefined
                 && file.type != undefined
                 && file.name != undefined
                 && file.name.length < 15
                 && notAnImage(index)"
+                style = "display : block"
             :class = "[file_name_class]">{{file.name}}</span>
             <span v-if = "file.name != undefined
                 && file.type != undefined
                 && file.name != undefined
-                && file.name.length > 15
+                && file.name.length >= 15
                 && notAnImage(index)"
+                style = "display : block"
             :class = "[file_name_class]">{{minimizedText(file.name)}}</span>
             </template>
             <span slot = "content"  class = "knocks_tooltip animated flipInX" >
@@ -174,42 +177,27 @@ export default {
 
     	extensions :  {
     		"text/x" : 'knocks-document-file-app2' ,
-    		"application/pdf" : 'knocks-document-file-pdf2' ,
+    		"application/pdf" : 'knocks-document-file-pdf2 red-text' ,
     		"audio/mpeg" : 'knocks-document-file-mp32' ,
+            "vedio/mpeg" : 'knocks-document-file-mp32' ,
     		"video/mp4" : 'knocks-document-file-mp42' ,
     		"application/x-iwork-pages-sffpages" : 'knocks-document-file-pages' ,
-    		// "text/x" : 'knocks-document-file-mov2' ,
-    		// "text/x" : 'knocks-document-file-key2' ,
-    		// "text/x" : 'knocks-document-file-html2' ,
-    		// "text/x" : 'knocks-document-file-css2' ,
-        "application/javascript" : 'knocks-file',
+            "text/html" : 'knocks-brand110' ,
+    		"text/css" : 'knocks-brand44' ,
+        "text/javascript" : 'knocks-brand119',
+        "text/xml" : 'knocks-document-file-xml2' ,
     		"text/x-java-source,java" : 'knocks-document-file-java2' ,
     		"image/vnd.adobe.photoshop" : 'knocks-document-file-psd2' ,
     		"application/vnd.adobe.air-application-installer-package+zip" : 'knocks-document-file-ai2' ,
     		"image/bmp" : 'knocks-document-file-bmp2' ,
     		"image/vnd.dwg" : 'knocks-document-file-dwg2' ,
-    		// "text/x" : 'knocks-document-file-eps2' ,
     		"image/tiff" : 'knocks-document-file-tiff2' ,
     		"application/vnd.oasis.opendocument.spreadsheet-template" : 'knocks-document-file-ots2' ,
-    		"text/php" : 'knocks-document-file-php2' ,
-    		// "text/x" : 'knocks-document-file-py2' ,
-    		// "text/x" : 'knocks-document-file-c2' ,
-    		// "text/x" : 'knocks-document-file-sql2' ,
-    		// "text/x" : 'knocks-document-file-rb2' ,
+    		"text/php" : 'knocks-document-file-php2  purple-text' ,
     		"text/x-c" : 'knocks-document-file-c2' ,
-    		// "text/x" : 'knocks-document-file-tga2' ,
-    		// "text/x" : 'knocks-document-file-doc2' ,
-    		// "text/x" : 'knocks-document-file-xls2' ,
-    		// "text/x" : 'knocks-document-file-docx2' ,
-    		// "text/x" : 'knocks-document-file-ppt2' ,
-    		// "text/x" : 'knocks-document-file-asp2' ,
     		"text/calendar" : 'knocks-document-file-ics2' ,
-    		// "text/calendar" : 'knocks-document-file-dat2' ,
-    		// "text/x" : 'knocks-document-file-xml2' ,
-    		// "text/x" : 'knocks-document-file-h2' ,
     		"application/x-msdownload" : 'knocks-document-file-exe2' ,
     		"video/x-msvideo" : 'knocks-document-file-avi2' ,
-    		// "text/x" : 'knocks-document-file-dotx2' ,
     		"text/plain" : 'knocks-document-file-txt2' ,
     		"application/rtf" : 'knocks-document-file-rtf2' ,
     		"video/x-m4v" : 'knocks-document-file-m4v2' ,
@@ -217,12 +205,7 @@ export default {
     		"audio/mpeg" : 'knocks-document-file-mpg2' ,
     		"video/3gpp" : 'knocks-document-file-3gp2' ,
     		"application/vnd.oasis.opendocument.text-template" : 'knocks-document-file-ott2' ,
-    		// "text/x" : 'knocks-document-file-tgz2' ,
-    		// "text/x" : 'knocks-document-file-zip2' ,
     		"application/x-apple-diskimage" : 'knocks-document-file-dmg2' ,
-    		// "text/x" : 'knocks-document-file-iso2' ,
-    		// "text/x" : 'knocks-document-file-rar2' ,
-    		// "text/x" : 'knocks-document-file-gif2' ,
         "application/zip" : 'knocks-document-zip',
         "application/x-rar-compressed" : 'knocks-document-file-rar2' ,
         "application/zip" : 'knocks-document-zip',
@@ -354,7 +337,7 @@ export default {
   	construct(){
   		//this.$emit('input' , event.target.files);
   		this.content = document.getElementById(this.gid).files;
-  		console.log(this.content);
+  		//console.log(this.content);
   		this.analysis();
     },
     reset(){
@@ -506,8 +489,10 @@ export default {
                 vm.isUploading = false ;
                 if(response.data != 'invalid')
 
-                  console.log('final res');
-                  console.log(vm.finalResult);
+                  
+                  //console.log('final res');
+                  //console.log(vm.finalResult);
+
                   vm.imagesTokens.push(response.data);
                   vm.$emit('mediaQueryCounter');
                   counter++;

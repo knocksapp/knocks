@@ -20,7 +20,10 @@
     </div>
     <div v-if = "knockObject != null || isLoading">
   <transition    name="custom-classes-transition" enter-active-class="animated fadeIn" leave-active-class="animated fadeOut">
-    <div class=" ":class = "{'knocks_color_kit_light knocks_gray_border knocks_standard_border_radius panel' : !as_shortcut}">
+    <div class=" ":class = "[
+    {'knocks_color_kit_light knocks_gray_border knocks_standard_border_radius panel' : !as_shortcut && ownerObject != null && !ownerObject.kid} ,
+    {'knocks_baby_blue knocks_pink_border knocks_standard_border_radius panel' : !as_shortcut && ownerObject != null && ownerObject.kid}
+     ]">
       <transition    name="custom-classes-transition"  enter-active-class="animated fadeIn" leave-active-class="animated fadeOut">
         
         <center><knocksloader :gid= "gid+'_knock_loading_span'" v-if = "isLoading" ></knocksloader></center>
@@ -164,7 +167,7 @@
             </div>
             <!-- <a class="knocks_text_dark lens right" @click="flowtext()" href="#!"  ><i :id="gid+'_lns'" class="knocks-zoomin3 knocks_text_md lensm" @mouseover="lensHover()" @mouseleave="lensLeave()"></i></a> -->
           </div>
-          <div class = "row knocks_house_keeper" v-if = "knockObject.index.has_pictures" >
+          <div class = "row knocks_house_keeper" v-if = "knockObject.index.has_pictures"  >
             <knocksimageviewer :gid = "gid+'_image_viewer'"
             :sources = 'knockObject.index.images_specifications'
             :object_id = "knockObject.object_id"
@@ -172,9 +175,18 @@
             :owner_object = "ownerObject"
             :owner_id = "knockObject.user_id"></knocksimageviewer>
           </div>
-          <div class = "row knocks_house_keeper">
-            <knocksfileviewer :file="file" v-if = "knockObject.index.has_files == true" :key="file" v-for = "file  in knockObject.index.files_specifications"  >
+          <div class = "row knocks_house_keeper" v-if = "knockObject.index.has_files && knockObject.index.files_specifications.length > 0" style="padding : 4px !important">
+            <knocksfileviewer :file="file" v-if = "knockObject.index.has_files == true && index < filesShowKey" :key="file" v-for = "(file,index)  in knockObject.index.files_specifications"  >
             </knocksfileviewer>
+
+                  <a :class ="[{'knocks_hidden':!(knockObject.index.files_specifications.length > filesShowKey)}]" @click = "filesShowKey += 3">
+        <static_message msg = "See More"></static_message> +{{knockObject.index.files_specifications.length - filesShowKey}}
+      </a>
+      <a :class ="[{'knocks_hidden':!(filesShowKey > 3 && knockObject.index.files_specifications.length > 3)}]" class = "right" @click = "filesShowKey -= 3">
+        <static_message msg = "See Less"></static_message>
+      </a>
+
+
           </div>
           
           <div class="row knocks_house_keeper"  style="padding-right : 5px !important; padding-left : 5px !important;">
@@ -187,7 +199,7 @@
             reactor_collapser_icon = "knocks_text_ms knocks-like knocks_dark_anchor"
             reply_initial_class = "btn btn-floating knocks_super_tiny_floating_btn right knocks_side_padding knocks_noshadow_ps  knocks_text_dark transparent"
             reactor_initial_class = "btn btn-floating knocks_reaction_trigger knocks_super_tiny_floating_btn knocks_noshadow_ps knocks_text_dark transparent"
-            bar_classes ="knocks_color_kit_light"
+            bar_classes ="transparent"
             :parent_date = "knockObject.created_at"
             :reply_scope="[ gid + '_reply_scope']"
             parent_type = "knock"
@@ -375,6 +387,7 @@ export default {
         hiddenNow : false , 
         onlyLocation : false ,
         onlyFiles : false ,
+        filesShowKey : 3 ,
     }; 
 },
   computed : {
@@ -430,7 +443,7 @@ export default {
     loadKnockData(){
 
       if(window.UserKnocks[this.knock] != undefined){
-        console.log(this.knock+'  restored');
+        //console.log(this.knock+'  restored');
         this.knockObject = window.UserKnocks[this.knock];
           $('#'+this.gid).empty();
           this.onlyLocation = this.knockObject.index.has_voices ||  this.knockObject.index.has_pictures || this.knockObject.index.has_files || (this.knockObject.body != null && this.knockObject.body.length > 0) ? false : true;
@@ -458,7 +471,7 @@ export default {
             $('#'+this.gid).html(this.knockObject.body);
             this.bodyLen =  $('#'+this.gid).text().length;
             this .bodyText =  $('#'+this.gid).text();
-            console.log(this.bodyLen);
+            //console.log(this.bodyLen);
             }          
           }, 400);          
           setTimeout(()=> this.datecalc()
@@ -470,10 +483,8 @@ export default {
            if(this.knockObject.index.check_in != null  )this.address_url = this.knockObject.index.check_in.url;
            this.retriveComments();
            return;
-          }
-
-
-      
+          }else{
+                 
         
         const vm = this;
         axios({
@@ -483,7 +494,7 @@ export default {
           onDownloadProgress : ()=>{vm.isLoading = true;}
         }).then( (response)=>{
           vm.isLoading = false ;
-          console.log(vm.knock+'  loaded');
+          //console.log(vm.knock+'  loaded');
           vm.knockObject = response.data;
           if(response.data == 'invalid'){
             vm.knockObject = null ;
@@ -527,7 +538,7 @@ export default {
             $('#'+vm.gid).html(vm.knockObject.body);
             vm.bodyLen =  $('#'+vm.gid).text().length;
             vm.bodyText =  $('#'+vm.gid).text();
-            console.log(vm.bodyLen);
+            //console.log(vm.bodyLen);
             }
              
       }, 400);
@@ -544,7 +555,8 @@ export default {
           
             vm.retriveComments();
            
-        }).catch((err)=>{ console.log(err); });
+        }).catch((err)=>{ });
+          }
     },
     showRange(){
       return this.comments.length - this.showKey -1;
@@ -628,7 +640,7 @@ export default {
          $('#'+vm.gid).addClass('animated pulse');
          $('.rdmore').addClass('flow-text');
              vm.counter = 1;
-             console.log(vm.counter);
+             
               $('#'+vm.gid).css({
                 'line-height': '1.6em'
                                  });
@@ -648,7 +660,7 @@ export default {
          $('#'+vm.gid).addClass('animated jello');
          $('#'+vm.gid).addClass('animated rubberBand');
             vm.counter = 0;
-            console.log(vm.counter);
+            //console.log(vm.counter);
             $('#'+vm.gid).css({
                 'line-height': '1.3em'});
             if(vm.bodyLen > 250){

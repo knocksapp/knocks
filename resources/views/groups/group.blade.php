@@ -18,7 +18,7 @@
            </el-popover>
 	   <div class="row knocks_parent_container lighten-4 z-depth-1 knocks_fair_bounds" style="border-radius : 15px; padding : 10px; width : 98%; border: 3px solid rgba(0,0,0,.1); background-color : rgba(255,255,255,0.5) ">
       
-              @if($group->memberPostion() == 'Owner')
+              @if($group->memberPostion() == 'Owner' || $group->memberPostion() == 'Admin')
               <el-badge :value="{{$group->groupRequests()}}" class="item right">
             <a href="{{asset('group/'.$group->id.'/settings')}}" class="right" v-popover:popover2> 
               <i class="knocks-settings5 knocks_text_md grey-text text-darken-2"></i></a></el-badge>
@@ -55,8 +55,7 @@
    gid = "knockknock"></knock>
   </div>
   
-
-  @if($group->picture == null)
+  @if($group->picture == null && ($group->memberPostion() == 'Owner' || $group->memberPostion() == 'Admin'))
 		<div class="row knocks_fair_bounds" v-if="uploadGroupPic">
 			<div class="col l6 s12 push-l3">
 		     <knockscroppie

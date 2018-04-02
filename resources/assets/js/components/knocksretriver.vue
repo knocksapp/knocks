@@ -138,9 +138,11 @@ export default {
   		}).catch((err)=>{
   			vm.isLoading = false ;
   			vm.hasErrors = true ;
-  			vm.errors = err;
+  			vm.errors = err.response;
   			vm.resultCollector();
   			vm.$emit('catch' , vm.result);
+        if(err.response.status == 401)
+          App.$emit('logoutGlobal');
   		});
   	},
   	resultCollector(){

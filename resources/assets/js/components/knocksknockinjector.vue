@@ -230,13 +230,13 @@ export default {
         vm.loadingKnocks = false;
         App.$emit('knocks_refresh_posts_done');
         vm.currentKnocks = vm.currentKnocks.sort().reverse();
-        console.log(vm.currentKnocks);
-        console.log (vm.currentKnocks[vm.currentKnocks.length-1]);
+        //console.log(vm.currentKnocks);
+        //console.log (vm.currentKnocks[vm.currentKnocks.length-1]);
          $('.scrollspy').scrollSpy();
         // setTimeout( ()=>{
         //   vm.retriveNewerPosts();
         // } , 5000);
-        //console.log(assign);
+        ////console.log(assign);
         //setTimeout( ()=>{ this.retrivePosts()}, 5000);  
 
       }).catch(()=>{
@@ -287,9 +287,9 @@ export default {
         vm.loadingKnocks = false;
         App.$emit('knocks_refresh_posts_done');
         //vm.currentKnocks = vm.currentKnocks.sort().reverse();
-        console.log(vm.currentKnocks);
-        console.log (vm.currentKnocks[vm.currentKnocks.length-1]);
-        //console.log(assign);
+        //console.log(vm.currentKnocks);
+        //console.log (vm.currentKnocks[vm.currentKnocks.length-1]);
+        ////console.log(assign);
         //setTimeout( ()=>{ this.retrivePosts()}, 5000);  
          $('.scrollspy').scrollSpy();
 
@@ -335,10 +335,10 @@ export default {
         vm.loadingKnocks = false;
         App.$emit('knocks_refresh_posts_done');
         //vm.currentKnocks = vm.currentKnocks.sort().reverse();
-        console.log(vm.currentKnocks);
-        console.log (vm.currentKnocks[vm.currentKnocks.length-1]);
+        //console.log(vm.currentKnocks);
+        //console.log (vm.currentKnocks[vm.currentKnocks.length-1]);
          $('.scrollspy').scrollSpy();
-        //console.log(assign);
+        ////console.log(assign);
         //setTimeout( ()=>{ this.retriveNewerPosts()}, 5000);  
 
       }).catch(()=>{
@@ -382,9 +382,9 @@ export default {
         vm.loadingKnocks = false;
         App.$emit('knocks_refresh_posts_done');
         vm.currentKnocks = vm.currentKnocks.sort().reverse();
-        console.log(vm.currentKnocks);
-        console.log (vm.currentKnocks[vm.currentKnocks.length-1]);
-        //console.log(assign);
+        //console.log(vm.currentKnocks);
+        //console.log (vm.currentKnocks[vm.currentKnocks.length-1]);
+        ////console.log(assign);
         //setTimeout( ()=>{ this.retrivePosts()}, 5000);  
 
       }).catch(()=>{

@@ -17,17 +17,6 @@
 //asdasdsa/
 Route::post('contacts', 'UserController@retriveContact');
 
-// Route::get('userinfo' , function(){
-//   return App\User::find(21)->retriveForUser(20);
-// });
-
-// Route::get('registeration' , function(){
-//   return view('guest.signup');
-// });
-// Route::get('rec' , function(){
-//   return view('rec');
-// });
-
 //DEVELOPERS ROUTES STARTS /////////////////////////////////////////////////////////////
 //Language APIS
 Route::get('/dev', function () {
@@ -113,6 +102,10 @@ Route::post('userlogin', 'UserController@userlogin');
 Route::post('retrive_circle', 'CircleController@retrive');
 
 Route::post('get_circles', 'UserController@getUserCircles');
+
+Route::post('circle/search', 'CircleController@search');
+
+Route::post('circle/check', 'CircleController@check');
 
 Route::post('/create_group', 'GroupController@createGroup');
 
@@ -206,6 +199,10 @@ Route::post('join_public_group', 'GroupController@joinPublicGroup');
 
 Route::post('add_member_public_group', 'GroupController@addMemberPublicGroup');
 
+Route::post('get_group_members_positions', 'GroupMemberController@getMembersPosition');
+
+Route::post('set_member_admin', 'GroupMemberController@setMembersToAdmin');
+
 Route::post('post/create', 'KnockController@create');
 
 Route::post('post/seen', 'KnockController@tickSeen');
@@ -267,6 +264,7 @@ Route::get('media/avatar/ref/compressed/{id}', 'BlobController@retriveAvatarComp
 
 Route::post('search/main', 'UserController@mainSearch');
 
+<
 //userupdate
 
 Route::post('user/updatefirstname', 'UserController@updateUserfirstName');
@@ -290,6 +288,9 @@ Route::post('user/updatebio', 'UserController@updateUserbio');
 Route::post('user/updatephone', 'UserController@updateUserphone');
 
 Route::post('user/updategender', 'UserController@updateUsergender');
+
+Route::post('hashtag/lazy', 'HashtagsController@lazy');
+
 
 // Route::get('add_notification' , function(){
 //   $not = new App\Ballon();

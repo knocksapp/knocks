@@ -47,7 +47,7 @@
 				    	<li class="knocks_fair_bounds"> <i class="knocks-group2"></i> Group Name : {{group_object.name}}</li>
 				    	<li class="knocks_fair_bounds"> <i class="knocks-th-large"></i> Group Category : {{group_object.category}}</li>
 				    	<li class="knocks_fair_bounds"> <i class="knocks-locked2"></i> Privacy : {{group_object.preset}}</li>
-				    	<li class="knocks_fair_bounds"> <i class="knocks-calendar2"></i> Created At : {{group_object.created_at}}</li>
+				    	<li class="knocks_fair_bounds"> <i class="knocks-calendar2"></i> Created At : {{dateFormate}}</li>
 				    </ul>
 					  </el-tab-pane>
 					  <el-tab-pane>
@@ -57,7 +57,12 @@
 				    	<ul class="uk-list uk-list-divider">
 				    	<li  v-for="(mem,index) in group_members.response" class="knocks_fair_bounds">
 				    	<knocksuser  :show_accept_shortcut="false" class="col s10 animated fadeIn" :user="mem.user_id" v-model="members_names[index]" :as_result="true">
-                    <span slot="append_to_name" class=""><span v-if="mem.position == 'Owner'" style="font-size : 10px !important" class="uk-badge red">Owner</span><span v-if="mem.position == 'Member'" style="font-size : 10px !important" class="uk-badge blue">Member</span></span>
+                    <span slot="append_to_name" class=""><span v-if="mem.position == 'Owner'" style="font-size : 10px !important" class="uk-badge red">Owner</span><span v-if="mem.position == 'Member'" style="font-size : 10px !important" class="uk-badge blue">Member</span> <span 
+                  v-if="mem.position == 'Admin'" 
+                  class="uk-badge green knocks_text_sm" 
+                  style="font-size : 10px !important">
+                   Admin
+                  </span></span>
                          </knocksuser>
                          <span class="right" v-if="flag"><knocksgroupmemberdelete @member_deleted="group_members.response.splice(index,1)" :group_id="group_object.id" :gid="index" :member_delete = "mem.user_id"></knocksgroupmemberdelete></span>
       				      </li>
@@ -65,7 +70,7 @@
       				    </div>
       					  </el-tab-pane>
       					 <el-tab-pane v-if="flag">
-      					 	<span slot="label" class="grey-text"><i class="knocks-plus2"></i> Add Members</span>
+      					 	<span slot="label" class="grey-text"><i class="knocks-user-plus"></i> Add Members</span>
       					 	<knockselinput v-model = "test" placeholder="search" autocomplete :autocomplete_start="2" autocomplete_from = "user/search" @autocomplete="user = $event" ></knockselinput>
       					 	<ul class="uk-list uk-list-divider">
       				    	<li >
@@ -179,7 +184,7 @@ export default {
        	let i;
        	 for (i = 0; i < vm.group_members.response.length; i++){
        	 	 if( parseInt(UserId) == vm.group_members.response[i].user_id &&
-       	 	 	vm.group_members.response[i].position == 'Owner'){
+       	 	 	vm.group_members.response[i].position == 'Owner' ){
                  return vm.flag = true;
            }else{
            	return vm.flag = false
@@ -196,12 +201,12 @@ export default {
               }
               return false ;
         },
-      addMember(e , index){
-        this.group_members.response.push({
-          user_id : e , 
-          position : 'Member'
-        });
-       },
+        addMember(e , index){
+          this.group_members.response.push({
+            user_id : e , 
+            position : 'Member'
+          });
+         },
        emitChanged(){
        	App.$emit('KnocksContentChanged');
        },
@@ -219,14 +224,40 @@ export default {
        },
        emitVideo(){
         App.$emit('knocksRetriver',{scope : ['group_videos']});
-       }
+       },
+      
 
   },
   mounted(){
   },
   computed : {
+     dateFormate(){
+              const vm = this;
+              return moment(vm.group_object.created_at).format('DD-MM-YYYY');
+       }
   },
 }
 </script>
 <style lang="css" scoped>
+.uk-badge {
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    min-width: 22px;
+    height: 17px !important;
+    padding: 0 5px;
+    border-radius: 500px;
+    vertical-align: middle;
+    background: #1e87f0;
+    color: #fff;
+    font-size: 0.875rem;
+    display: -webkit-inline-box;
+    display: -ms-inline-flexbox;
+    display: inline-flex;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+}
 </style>
