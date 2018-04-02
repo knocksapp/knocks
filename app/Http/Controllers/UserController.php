@@ -322,7 +322,11 @@ class UserController extends Controller {
 	}
 
 	public function routeToProfile(Request $request, $user) {
-		$c = User::where('username', '=', $user)->get()->first();
+		$user = User::where('username', '=', $user);
+		if (!$user->exists()) {
+			return view('guest.lost');
+		}
+		$c = $user->get()->first();
 		return view('user.profile', ['user' => $c]);
 	}
 

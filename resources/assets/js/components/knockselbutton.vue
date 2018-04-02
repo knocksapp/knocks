@@ -267,7 +267,7 @@ export default {
               if(vm.materialize_feedback)
                 vm.elementCategoryNotify({ type : 'error' , msg : vm.error_at[i].msg , title : 'Warining' });
               return false;
-            }else vm.elementCategoryNotify({ type : 'error' , msg : vm.error_at[i].msg , title : 'Warining' });
+            }//else vm.elementCategoryNotify({ type : 'error' , msg : vm.error_at[i].msg , title : 'Warining' });
           }
         }
       }).catch((err)=>{

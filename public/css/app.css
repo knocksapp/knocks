@@ -25934,7 +25934,7 @@ body {
 }
 
 .knocks_xs_padding {
-  padding: 2px;
+  padding: 2px !important;
 }
 
 .knocks_content_padding {
@@ -26188,7 +26188,7 @@ body {
 }
 
 .knocks_baby_blue {
-  background-color: #eef7fa !important;
+  background-color: #f0f9fd !important;
 }
 
 .knocks_input_ps {

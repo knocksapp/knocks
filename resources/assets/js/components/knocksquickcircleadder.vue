@@ -73,6 +73,7 @@ export default {
   	refreshCircles(e){
   		this.circlesResult.push(e.response)
   		App.$emit('KnocksContentChanged');
+      this.$emit('knocks_circle_added' , e.response);
   	}
   }
 }

@@ -50,11 +50,28 @@ class CircleController extends Controller {
 	}
 
 	public function search(Request $request) {
-		return Circle::where('user_id', '=', auth()->user()->id)->where('circle_name', 'like', '%' . $request->q . '%')->get()->pluck('id');
+		return Circle::where('user_id', '=', auth()->user()->id)->where('circle_name', 'like', "%$request->q%")->orderBy('circle_name')->get()->pluck('id');
 	}
 
 	public function check(Request $request) {
 		return Circle::where('user_id', '=', auth()->user()->id)->where('circle_name', '=', $request->q)->exists() ? 'invalid' : 'valid';
+	}
+
+	public function deleteCircle(Request $request) {
+		$request->validate(['circle' => 'required']);
+		$circle = Circle::find($request->circle);
+		if ($circle == null) {
+			return 'invalid';
+		}
+		if ($circle->user_id != auth()->user()->id) {
+			return 'invalid';
+		}
+		if ($circle->id == auth()->user()->mainCircle()->id) {
+			return 'main';
+		}
+		$circle->delete();
+		return 'done';
+
 	}
 
 }
