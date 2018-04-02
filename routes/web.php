@@ -194,6 +194,10 @@ Route::post('join_public_group', 'GroupController@joinPublicGroup');
 
 Route::post('add_member_public_group', 'GroupController@addMemberPublicGroup');
 
+Route::post('get_group_members_positions', 'GroupMemberController@getMembersPosition');
+
+Route::post('set_member_admin', 'GroupMemberController@setMembersToAdmin');
+
 Route::post('post/create', 'KnockController@create');
 
 Route::post('post/seen', 'KnockController@tickSeen');
