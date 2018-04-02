@@ -102,6 +102,8 @@ Route::post('circle/search', 'CircleController@search');
 
 Route::post('circle/check', 'CircleController@check');
 
+Route::post('circle/delete', 'CircleController@deleteCircle');
+
 Route::post('/create_group', 'GroupController@createGroup');
 
 Route::post('/get_group_members', 'GroupMemberController@getGroupMembers');

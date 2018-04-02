@@ -385,12 +385,13 @@
             el_follower
             :mat_follower=  "false"
             placeholder = "Nickname"
+            inner_placeholder
             gid = "nicknameele"
             icon = "knocks-face-sunglasses"
             :is_required = "true"
             :max_len = "15"
             v-model = "nickname"
-            start_as = "hola"
+
             :scope = "[ 'test']"
             ></knockselinput>
             <knocksbutton
