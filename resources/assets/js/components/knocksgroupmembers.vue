@@ -64,12 +64,14 @@
                    Admin
                   </span></span>
                          </knocksuser>
-                         <span class="right" v-if="flag"><knocksgroupmemberdelete @member_deleted="group_members.response.splice(index,1)" :group_id="group_object.id" :gid="index" :member_delete = "mem.user_id"></knocksgroupmemberdelete></span>
+                         <span class="right" v-if="mem.position != 'Owner' || mem.position != 'Admin'"><knocksgroupmemberdelete 
+                          :authposition = "authposition"
+                          :position="mem.position" @member_deleted="group_members.response.splice(index,1)" :group_id="group_object.id" :gid="index" :member_delete = "mem.user_id"></knocksgroupmemberdelete></span>
       				      </li>
       				    </ul>
       				    </div>
       					  </el-tab-pane>
-      					 <el-tab-pane v-if="flag">
+      					 <el-tab-pane v-if="flag || flag3">
       					 	<span slot="label" class="grey-text"><i class="knocks-user-plus"></i> Add Members</span>
       					 	<knockselinput v-model = "test" placeholder="search" autocomplete :autocomplete_start="2" autocomplete_from = "user/search" @autocomplete="user = $event" ></knockselinput>
       					 	<ul class="uk-list uk-list-divider">
@@ -159,6 +161,7 @@ export default {
     return {
      group_members : null,
      flag : false,
+     flag3 : false,
      memberInGroup : false,
      members_names : [],
      user : [],
@@ -168,7 +171,8 @@ export default {
      group_files : null,
      group_voices : null,
      group_videos : null,
-     current_user : UserId
+     current_user : UserId , 
+     authposition : null , 
     }
   },
   props:{
@@ -180,16 +184,23 @@ export default {
   methods:{
        isOwner(){
        	const vm = this
-
        	let i;
        	 for (i = 0; i < vm.group_members.response.length; i++){
        	 	 if( parseInt(UserId) == vm.group_members.response[i].user_id &&
        	 	 	vm.group_members.response[i].position == 'Owner' ){
-                 return vm.flag = true;
-           }else{
-           	return vm.flag = false
+                 vm.flag = true;
+                 vm.authposition = 'Owner'
            }
        	 }
+         let j;
+         for (j = 0; j < vm.group_members.response.length; j++){
+           if( parseInt(UserId) == vm.group_members.response[j].user_id &&
+            vm.group_members.response[j].position == 'Admin' ){
+                 vm.authposition = 'Admin'
+                 return vm.flag3 = true;
+           }
+         }
+         if (vm.authposition == null ) vm.authposition = 'Member'
        },
         inGroup(id){
               const vm = this

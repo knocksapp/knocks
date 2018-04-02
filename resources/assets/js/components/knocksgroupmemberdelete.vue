@@ -1,12 +1,8 @@
 <template>
 
 	<div>
-		<knocksretriver
-		v-model=  "flag_member"
-		url = "check_member_position"
-		:xdata = "{group_id : group_id , mem_id : member_delete}"
-	     >
-		</knocksretriver>
+
+
 			<knocksretriver
 		url = "remove_member"
 		:xdata = "{group_id : group_id , mem_id : member_delete}"
@@ -28,8 +24,11 @@
   </div>
 </el-popover>
 
-	<el-button v-popover:popover5  type="danger"><i class="knocks-close"></i></el-button>
+	<el-button v-popover:popover5 v-if="flag_member.response && flag" type="danger"><i class="knocks-close"></i> Kick</el-button>
+  <el-button v-popover:popover5 v-if="canKick()" type="danger"><i class="knocks-close"></i> Kick</el-button>
+  <el-button v-popover:popover5 v-if="member_delete == auth"  type="danger"><i class="knocks-close"></i> Leave</el-button>
 </div>
+
 </div>
 </template>
 
@@ -49,12 +48,24 @@ export default {
      gid : {
      	type : Number,
      	required : true,
+     },
+     position : {
+      type : String,
+      required : true,
+     },
+     authposition : {
+      type : String , 
+      required : true
      }
   },
   data () {
     return {
        visible2 : false,
        flag_member : false,
+       flag_admin : false,
+       flag : false,
+       flag3 : false,
+       auth : parseInt(UserId) , 
     }
   },
   methods:{
@@ -70,7 +81,13 @@ export default {
            }
        	 
        	else alert('error')
-       }
+       },
+     canKick(){
+      if(this.authposition == 'Owner' && this.member_delete != parseInt(UserId) && this.position != 'Owner') return true;
+      if(this.authposition == 'Admin' && this.member_delete != parseInt(UserId) && this.position != 'Owner') return true;
+      return false ;
+     }
+
   },
 
 }
