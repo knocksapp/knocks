@@ -330,4 +330,80 @@ class UserController extends Controller {
 		return view('user.profile', ['user' => $c]);
 	}
 
+	public function updateUserfirstName(Request $request){
+  $user = User::find(auth()->user()->id);
+	$user->first_name = $request->first_name;
+	$user->update();
+return 'done';
+}
+
+public function updateUsermiddleName(Request $request){
+$user = User::find(auth()->user()->id);
+$user->middle_name = $request->middle_name;
+$user->update();
+return 'done';
+}
+public function updateUserlastName(Request $request){
+$user = User::find(auth()->user()->id);
+$user->last_name = $request->last_name;
+$user->update();
+return 'done';
+}
+
+public function updateUsernickName(Request $request){
+$user = User::find(auth()->user()->id);
+$user->nickname = $request->nickname;
+$user->update();
+return 'done';
+}
+
+
+public function updateUserbirthdate(Request $request){
+$user = User::find(auth()->user()->id);
+$user->birthdate = $request->birthdate;
+$user->update();
+return 'done';
+}
+
+public function updateUserorientation(Request $request){
+	$user = User::find(auth()->user()->id);
+	$user->orientation = $request->orientation;
+	$user->update();
+	return 'done';
+}
+
+public function updateUserreligon(Request $request){
+	$user = User::find(auth()->user()->id);
+	$user->religon = $request->religon;
+	$user->update();
+	return 'done';
+}
+
+public function updateUsermaritalstatus(Request $request){
+	$user = User::find(auth()->user()->id);
+	$user->marital_status = $request->marital_status;
+	$user->update();
+	return 'done';
+}
+
+public function updateUserbio(Request $request){
+	$user = User::find(auth()->user()->id);
+	$user->bio = $request->bio;
+	$user->update();
+	return 'done';
+}
+
+public function updateUserphone(Request $request){
+	$user = User::find(auth()->user()->id);
+	$user->phone = $request->phone;
+	$user->update();
+	return 'done';
+}
+
+public function updateUsergender(Request $request){
+	$user = User::find(auth()->user()->id);
+	$user->gender = $request->gender;
+	$user->update();
+	return 'done';
+}
 }
