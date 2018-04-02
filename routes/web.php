@@ -38,6 +38,11 @@ Route::get('/search', function () {
 	return view('test.searchpage', compact('q'));
 });
 
+
+Route::get('/useredit', function () {
+	return view('user.userinfoedit');
+});
+
 Route::post('object/hide', 'ObjController@hide');
 
 Route::post('dev/all_langs', 'LanguageController@collect');
@@ -261,6 +266,30 @@ Route::get('media/cover/compressed/{id}', 'BlobController@retriveCoverCompressed
 Route::get('media/avatar/ref/compressed/{id}', 'BlobController@retriveAvatarCompressed');
 
 Route::post('search/main', 'UserController@mainSearch');
+
+//userupdate
+
+Route::post('user/updatefirstname', 'UserController@updateUserfirstName');
+
+Route::post('user/updatemiddlename', 'UserController@updateUsermiddleName');
+
+Route::post('user/updatelastname', 'UserController@updateUserlastName');
+
+Route::post('user/updatenickname', 'UserController@updateUsernickName');
+
+Route::post('user/updatebirthdate', 'UserController@updateUserbirthdate');
+
+Route::post('user/updateorientation', 'UserController@updateUserorientation');
+
+Route::post('user/updatereligon', 'UserController@updateUserreligon');
+
+Route::post('user/updatemaritalstatus', 'UserController@updateUsermaritalstatus');
+
+Route::post('user/updatebio', 'UserController@updateUserbio');
+
+Route::post('user/updatephone', 'UserController@updateUserphone');
+
+Route::post('user/updategender', 'UserController@updateUsergender');
 
 // Route::get('add_notification' , function(){
 //   $not = new App\Ballon();

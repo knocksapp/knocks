@@ -73,7 +73,7 @@
     <!-- Default Presentation Begins ========================================================================-->
     <div v-if = "onDefaultView && userObject != null" :class = "[main_container]">
       <div v-if = "!hide_popover">
-        <knocksimg  v-popover:userpopover 
+        <knocksimg  v-popover:userpopover
         :src = "asset('media/avatar/compressed/'+user)" :classes = "[knocks_avatar_classes, {'knocks_user_profile_scope' : thatsMe}]" v-if = "!hide_image">
         </knocksimg>
         <div :class = "name_container_class" class="" v-if ="!hide_text_info">
@@ -118,6 +118,13 @@
           <span v-if ="userObject.first_name != null && userObject.first_name != undefined" >{{userObject.first_name}} </span>
           <span v-if ="userObject.middle_name != null && userObject.middle_name != undefined" >{{userObject.middle_name}} </span>
           <span v-if ="userObject.last_name != null && userObject.last_name != undefined" >{{userObject.last_name}} </span>
+        </div>
+        <div class = "col s12">
+          <span class = "knocks-user14" v-if ="userObject.gender != null && userObject.gender != undefined && userObject.gender.toLowerCase() == 'female'" ></span>
+          <span class = "knocks-user12" v-if ="userObject.gender != null && userObject.gender != undefined && userObject.gender.toLowerCase() == 'male'" ></span>
+          <span class = "knocks-user-outline"  v-if ="userObject.gender == null || userObject.gender == undefined "></span>
+          <static_message msg = "UserName : "></static_message>
+          <span v-if ="userObject.username != null && userObject.username != undefined" >{{userObject.username}} </span>
         </div>
         <div class = "col s12" v-if ="userObject.gender != null && userObject.gender != undefined && userObject.gender.toLowerCase() == 'male'" >
           <span class = "knocks-male2"></span><span><static_message msg = "Male"></static_message></span>
@@ -215,28 +222,28 @@ export default {
   name: 'knocksusershortcut',
   props : {
     user : {
-      type : Number , 
+      type : Number ,
       required : true ,
-    } , 
+    } ,
     lazy_user : {
-      type : Boolean , 
+      type : Boolean ,
       default : false ,
     },
     callback_container : {
-      type : String , 
+      type : String ,
       default : 'knocks_gray_on_hover knocks_standard_border_radius'
     },
     image_container_class : {
       type : String ,
-      default : 'col s3' 
+      default : 'col s3'
     },
     name_container_class : {
       type : String ,
-      default : 'col s9' 
+      default : 'col s9'
     },
     main_container : {
-       type : String , 
-       default : 'row' 
+       type : String ,
+       default : 'row'
     },
     name_class : {
       type : String ,
@@ -251,86 +258,86 @@ export default {
       default : 'blue knocks_inline'
     },
     knocks_avatar_classes : {
-      type : String , 
+      type : String ,
       default : 'knocks_avatar knocks_house_keeper col '
     },
     user_actions_container : {
-      type : String , 
+      type : String ,
       default : 'right'
     },
     show_image : {
       type : Boolean ,
-      default : true 
+      default : true
     } ,
     show_username : {
       type : Boolean ,
-      default : true 
+      default : true
     } ,
     show_accept_shortcut : {
-      type : Boolean , 
-      default : true 
-    }, 
+      type : Boolean ,
+      default : true
+    },
     hide_username : {
-      type : Boolean , 
-      default : false 
+      type : Boolean ,
+      default : false
     },
     hide_name : {
-      type : Boolean , 
-      default : false 
+      type : Boolean ,
+      default : false
     },
     hide_text_info : {
       type : Boolean ,
-      default : false 
+      default : false
     },
     hide_popover : {
-      type : Boolean , 
+      type : Boolean ,
       default : false ,
     },
     hide_image : {
-      type : Boolean , 
+      type : Boolean ,
       default : false ,
     },
     as_chip : {
-      type : Boolean , 
-      default : false 
+      type : Boolean ,
+      default : false
     },
     as_result : {
-      type : Boolean , 
-      default :  false 
+      type : Boolean ,
+      default :  false
     },
     as_report : {
-      type : Boolean , 
-      default :  false 
+      type : Boolean ,
+      default :  false
     },
     as_name : {
-      type : Boolean , 
+      type : Boolean ,
       default : false ,
     },
     as_callback : {
-      type : Boolean , 
+      type : Boolean ,
       default : false ,
     },
     as_url : {
       type : Boolean ,
-      default : false 
+      default : false
     },
     as_label : {
-      type : Boolean , 
+      type : Boolean ,
       default : false ,
     },
     extras : {
-      type : Object , 
+      type : Object ,
       default : null,
     },
   },
   data () {
     return {
-      lazyRetriver : null , 
+      lazyRetriver : null ,
       regularRetriver : null ,
       userObject : null ,
       displayName : '' ,
       userUrl : '#' ,
-      fullName : '' , 
+      fullName : '' ,
       clashProp : false ,
       calcStatus : false ,
     }
@@ -350,7 +357,7 @@ export default {
     App.$on('KnocksContentChanged' , ()=>{
       if(vm.userObject == null) return;
       setTimeout(()=>{
-        if(vm.userObject != null && vm.userObject.id != vm.user){    
+        if(vm.userObject != null && vm.userObject.id != vm.user){
           if(UsersObject[vm.user] != undefined){
             vm.initialize(window.UsersObject[vm.user]);
           }else {
@@ -368,7 +375,7 @@ export default {
     App.$on('knocksUserKeyUpdate' , (payloads)=>{
       if(payloads.user == vm.user){
         if(vm.userObject !== null){
-        let i ; 
+        let i ;
         for(i = 0 ; i < payloads.patch.length; i++){
           vm.userObject[payloads.patch[i].key] = payloads.patch[i].value
         }
@@ -385,13 +392,13 @@ export default {
     },
     onDefaultView(){
        let arr = [
-         this.as_chip , 
-         this.as_report , 
-         this.as_result , 
-         this.as_callback , 
+         this.as_chip ,
+         this.as_report ,
+         this.as_result ,
+         this.as_callback ,
          this.as_name ,
          this.as_url ,
-         this.as_label , 
+         this.as_label ,
        ] , i ;
        for (i = 0; i < arr.length; i++)
         if(arr[i])  return false;
@@ -406,7 +413,7 @@ export default {
       setTimeout(()=>{
         if(this.userObject !== null){
 
-        let i ; 
+        let i ;
         for(i = 0 ; i < payloads.patch.length; i++){
           this.userObject[payloads.patch[i].key] = payloads.patch[i].value
         }
@@ -431,7 +438,7 @@ export default {
       this.userObject.compressedAvatarUrl = this.asset('media/avatar/compressed/'+this.user);
       this.userObject.avatarUrl = this.asset('media/avatar/'+this.user);
       this.userObject.avatarClasses = this.knocks_avatar_classes;
-      this.userObject.name = this.displayName ; 
+      this.userObject.name = this.displayName ;
       this.userObject.fullName = this.fullName ;
       this.userObject.thatsMe = this.thatsMe ;
       this.$emit('input' , this.userObject);
@@ -457,10 +464,10 @@ export default {
     getFullName(){
       if(!this.userObject) null;
       let arr = [
-      'first_name' , 
+      'first_name' ,
       'last_name' ,
-      'middle_name' , 
-      'nickname' , 
+      'middle_name' ,
+      'nickname' ,
       'username'
       ];
       let i, temp = [];
@@ -494,16 +501,16 @@ export default {
            return;
         }
         if(this.userObject.status == 'online' && this.userObject.last_seen == null ) {
-          this.clashProp = false ; 
+          this.clashProp = false ;
           this.userObject.chatStatus = ' ';
           return;
         }
         this.clashProp = false ;
         let offset = new Date().getTimezoneOffset();
         let finalDate = moment(this.userObject.last_seen).subtract(offset ,'m');
-        if(this.userObject.chatStatus = moment().diff(finalDate , 'minutes') < 3) { 
+        if(this.userObject.chatStatus = moment().diff(finalDate , 'minutes') < 3) {
           this.calcStatus = true;
-          this.userObject.chatStatus = ' '; 
+          this.userObject.chatStatus = ' ';
           return;
         }else{
           this.clashProp = false ;
