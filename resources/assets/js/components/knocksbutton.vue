@@ -187,6 +187,17 @@ export default {
       }
     });
 
+      App.$on('knocksButtonVirtualStop' , (payload)=>{
+      let tar;
+        for(tar in payload.scope){
+        if(vm.scope.indexOf(payload.scope[tar]) != -1){
+          vm.isLoading = false ;
+          vm.emit();
+          return ;
+        }
+      }
+    });
+
           App.$on('knocks_presubmit' , (scope)=>{
             if(scope != null){
               let i;
@@ -235,7 +246,7 @@ export default {
       }else{
         Materialize.toast('<span class="knocks_text_danger">'+this.validation_error+'</span>');
         this.$emit('knocks_stack_failed');
-        console.log(this.errorsStack);
+        //console.log(this.errorsStack);
       }
     },
     emit(){
@@ -249,7 +260,7 @@ export default {
         });
     },
     submit(){
-      console.log(this.submit_data);
+      //console.log(this.submit_data);
       App.$emit('knocks_submit_passed');
       const vm = this;
       this.emit();

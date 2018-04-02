@@ -9,6 +9,7 @@
 @import "~croppie/croppie.css"; //CROPPIE
 @import "~/css/animate.css"; //ANIMATE CSS
 @import "~/css/knocks_glyphs/style.css"; //KNOCKS GLYPHS & ICONS PACKAGE
+@import "~/css/knocksapp/style.css"; //KNOCKS GLYPHS & ICONS PACKAGE
 @import "~/css/cairo_font.css"; //CAIRO FONT
 @import "~/css/adequate_font.css"; //ADEQUATE FONT
 @import "~/css/titillium_font.css"; //TITILLIUM FONT
@@ -257,6 +258,9 @@ body{
 .knocks_gray_border{
   border: 1px solid #e7e7e7;
 }
+.knocks_gray_border{
+  border: 1px solid $knocksPinkColor;
+}
 .knocks_light_active_border{
   border : 1px solid $knocksLightActiveColor
 }
@@ -381,6 +385,16 @@ body{
 .knocks_transparent_bg {
   background-color : transparent !important ;
 }
+.knocks_light_pink_color_kit{
+  background-color : $knocksLightCandyPinkColor !important;
+}
+.knocks_candy_pattern{
+    background-image: url(https://knocks.dev/snaps/cupcake.png);
+    background-repeat: round;
+}
+.knocks_baby_blue{
+  background-color : #eef7fa !important;
+}
 
 // KNOCKS COLOR KITS PRESETS ENDS ___________________________________________________________________
 
@@ -502,6 +516,8 @@ body{
 }
 .knocks_tiny_floating_btn > i {
     line-height: 35px !important;
+    font-size: 17px !important;
+    text-align: center;
 }
 .knocks_btn_recording{
   background-color : red !important;

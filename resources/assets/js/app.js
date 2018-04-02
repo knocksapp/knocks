@@ -329,7 +329,14 @@ Vue.component('knocksgroupvoices', require('./components/knocksgroupvoices.vue')
 Vue.component('knocksrightbar', require('./components/knocksrightbar.vue'));
 Vue.component('knocksprivacyadjustments', require('./components/knocksprivacyadjustments.vue'));
 Vue.component('knocksgroupsettings', require('./components/knocksgroupsettings.vue'));
+
 Vue.component('knocksgroupmemberposition', require('./components/knocksgroupmemberposition.vue'));
+
+Vue.component('knockshashtag', require('./components/knockshashtag.vue'));
+Vue.component('knocksusercircles', require('./components/knocksusercircles.vue'));
+Vue.component('knocksquickcircleadder', require('./components/knocksquickcircleadder.vue'));
+Vue.component('knockshashtagchip', require('./components/knockshashtagchip.vue'));
+
 
 
 
@@ -823,6 +830,7 @@ Vue.component('knocksgroupmemberposition', require('./components/knocksgroupmemb
       }
     },
     logout(){
+      this.closeSideBar();
       this.elementNotify({title : 'Logged out' , msg : 'See you again, Bye! '});
         setTimeout(()=>{ window.location.href = LaravelOrgin+'user/logout' },1500);
     },
@@ -1374,6 +1382,10 @@ window.NavInstance = new Vue({
 
   //Right Sidebar
 
+  App.$on('logoutGlobal' , ()=>{
+    vm.logout()
+  });
+
   $(document).ready(function(){
     if(WindowWidth < 900){
     vm.showRightSideBar = false;
@@ -1529,6 +1541,7 @@ window.NavInstance = new Vue({
 
     },
     logout(){
+      this.closeSideBar();
       App.$emit('logged_out' );
       setTimeout(()=>{ window.location.href = LaravelOrgin+'user/logout' },1500);
 
@@ -1628,4 +1641,12 @@ window.GetTranslationByWord = (word)=>{
              window.StaticMessages[word] = translation;
         }});
         return translation;
+}
+window.MigaNumber = (num)=>{
+  if(num/10000000 > 1) return window.TrimExtraZeros((num/10000000).toFixed(2))+'M';
+  if(num/1000 > 1) return window.TrimExtraZeros((num/1000).toFixed(1))+'K';
+  return num;
+}
+window.TrimExtraZeros = (num)=>{
+  return num % 1 == 0 ? parseInt(num) : num ;
 }

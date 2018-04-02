@@ -96,7 +96,7 @@
     </div>
     <div :class = "[ { 'animated slideInUp' : taps == 'circles' } ,  { 'knocks_hidden' : taps != 'circles' || savingMode } , 'row']" style="max-height : 400px; overflow : auto">
       <div v-for = "(circle , index) in allCircles" v-if = "allCircles != null" :key = "index" class = "row">
-        <knockscirclechip :circle = "circle" v-model = "circleObject[circle]" @input = "hashUsers($event)"></knockscirclechip>
+        <knockscirclechip :circle = "circle" v-model = "circleObject[circle]" @input = "hashUsers($event)" no_rebound ></knockscirclechip>
         <knocksmultipleswitch
         v-if = "couldBeMessured.indexOf(circle) != -1"
         class = "right"
@@ -470,7 +470,10 @@ export default {
       this.$emit('input' , this.resultObject);
     },
     handleDefaultPreset(e){
-      this.userDefaultPreset = e; if(e.outcome)this.publicValue = 'choosedefault'
+      this.userDefaultPreset = e; if(e.outcome != null)this.publicValue = 'choosedefault'; 
+      else{
+        if(this.publicValue == 'choosedefault') this.changePublicValue('public')
+      }
       this.$emit('input' , this.resultObject);
     },
     handleAddPreset(e){
