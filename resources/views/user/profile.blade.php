@@ -18,6 +18,8 @@
     <div class = "row knocks_house_keeper" style = "padding : 3px;">
       <div class = "row knocks_house_keeper">
         @if($user->id == auth()->user()->id)
+        <a href = "{{asset('user/settings')}}" style="position: absolute; margin-top : 10px !important; margin-left : 10px; ">
+          <span class = "knocks-settings5 knocks_text_md knocks_blured_bg knocks_tinny_border_radius white-text" style="padding : 5px !important"></span></a>
         <img src = "{{asset('media/cover/'.$user->id)}}" class = "knocks_full_cover_photo knocks_user_cover_scope" v-if = "lowerTrigger != 'cover_uploader'"/>
         <transition name="custom-classes-transition" enter-active-class="animated zoomIn" leave-active-class="animated zoomOut">
           <div v-if = "lowerTrigger == 'cover_uploader'">

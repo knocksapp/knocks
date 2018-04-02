@@ -27,11 +27,6 @@ Route::get('/search', function () {
 	return view('test.searchpage', compact('q'));
 });
 
-
-Route::get('/useredit', function () {
-	return view('user.userinfoedit');
-});
-
 Route::post('object/hide', 'ObjController@hide');
 
 Route::post('dev/all_langs', 'LanguageController@collect');
@@ -270,7 +265,6 @@ Route::get('media/avatar/ref/compressed/{id}', 'BlobController@retriveAvatarComp
 
 Route::post('search/main', 'UserController@mainSearch');
 
-<
 //userupdate
 
 Route::post('user/updatefirstname', 'UserController@updateUserfirstName');
@@ -296,7 +290,6 @@ Route::post('user/updatephone', 'UserController@updateUserphone');
 Route::post('user/updategender', 'UserController@updateUsergender');
 
 Route::post('hashtag/lazy', 'HashtagsController@lazy');
-
 
 // Route::get('add_notification' , function(){
 //   $not = new App\Ballon();
@@ -479,6 +472,10 @@ Route::group(['middleware' => 'auth'], function () {
 				return view('guest.candy_survey');
 			}
 
+		});
+
+		Route::get('/user/settings', function () {
+			return view('user.userinfoedit');
 		});
 
 		Route::post('user/answers', 'AnswerController@userAnswers');

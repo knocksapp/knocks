@@ -204,7 +204,7 @@
    ]"
    :scope = "['user_gender_edit']"
    class = "right"
-   button_classes = "knocks_right_button"
+   
    validation_error = "You need to complete some fields"
    success_at = "done"
    submit_at = "user/updategender"

@@ -329,7 +329,7 @@ Vue.component('knocksgroupvoices', require('./components/knocksgroupvoices.vue')
 Vue.component('knocksrightbar', require('./components/knocksrightbar.vue'));
 Vue.component('knocksprivacyadjustments', require('./components/knocksprivacyadjustments.vue'));
 Vue.component('knocksgroupsettings', require('./components/knocksgroupsettings.vue'));
-
+Vue.component('knocksuserinfo', require('./components/knocksuserinfo.vue'));
 Vue.component('knocksgroupmemberposition', require('./components/knocksgroupmemberposition.vue'));
 
 Vue.component('knockshashtag', require('./components/knockshashtag.vue'));
