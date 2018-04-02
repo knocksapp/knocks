@@ -8,10 +8,10 @@
         >
         </knocksretriver>
         <knocksretriver
-          v-model=  "group_requests"
-          url = "check_group_user_request"
-          :xdata="{group_id : group_id}"
-          >
+        v-model=  "group_requests"
+        url = "check_group_user_request"
+        :xdata="{group_id : group_id}"
+        >
     </knocksretriver>
       <div v-if="group_object != null && !as_result && !add_member_mode" class="knocks_fair_bounds knocks_sp_top_margin">
       <el-button 
@@ -49,6 +49,17 @@
       <span> Invite <i class="knocks-plus2"></i></span>
     </el-button>
     </div>
+    <div v-if = "add_member_mode && group_object != null && !checkMem">
+      <el-button 
+      v-if="group_object.preset == 'closed'"
+      @click="addMemberToGroup('closed')"
+      type="primary"
+      v-loading="isLoading"
+      :disabled = "isLoading"
+      >
+      <span> Invite <i class="knocks-plus2"></i></span>
+    </el-button>
+    </div>
      <div v-if="as_result && group_object != null && !add_member_mode && group_requests != null" class="knocks_fair_bounds knocks_sp_top_margin">
       <el-button
       type="primary"
@@ -59,24 +70,26 @@
       <span v-if="close && !group_requests.response"> Ask for Join <i class="knocks-log-in"></i></span>
       <span v-if="open && !group_requests.response"> Open <i class="knocks-login"></i></span>
       <span v-if="join && !group_requests.response"> Join <i class="knocks-log-out"></i></span> 
-      <span v-if="wait || group_requests.response"> Waiting <i class="knocks-log-out"></i></span> 
+      <span v-if="wait || group_requests.response"> Requested <i class="knocks-paper-plane"></i></span> 
       </el-button>
     </div>
-    <div class="row" v-if = "as_owner && group_object != null">
+    <div class="row" v-if = "as_owner && group_object != null && group_object.preset == 'closed'">
       <el-button 
-      v-if="group_object.preset == 'closed'"
+      v-if="!declined"
       @click="isChecked('accpet')"
       type="primary"
       v-loading="isLoading"
-      :disabled = "isLoading"
+      :disabled = "disabled"
       >
-      <span> Accept <i class="knocks-plus2"></i></span>
+      <span v-if ="accpet"> Accept <i class="knocks-plus2"></i></span>
+      <span v-if="confirmed"> Confirmed <i class="knocks-tick"></i></span>
     </el-button>
     <el-button 
       @click="isChecked('decline')"
       type="danger"
       v-loading="isLoading"
-      :disabled = "isLoading"
+      :disabled = "disabled"
+      v-if="!confirmed || declined"
       >
       <span> Decline <i class="knocks-close"></i></span>
     </el-button>
@@ -124,6 +137,10 @@ export default {
        checkMem : false,
        join_request : null,
        group_requests : null,
+       confirmed : false,
+       accpet : true,
+       disabled : false,
+       declined : false,
     }
   },
   methods : {
@@ -209,9 +226,10 @@ export default {
                   message: 'You Have Accpeted The Member Request to Group '+vm.group_object.name+' Successfully',
                   type: 'success'
                 });
-                    setTimeout(()=>{
-                         window.location.href = LaravelOrgin + 'group/'+vm.group_id
-                    },1200);
+                    vm.isLoading = false;
+                    vm.confirmed = true;
+                    vm.accpet = false;
+                    vm.disabled = true;
                    }else{
                     this.$notify.error({
                     title: 'Error',
@@ -225,9 +243,15 @@ export default {
                  axios({
                    url : LaravelOrgin + '/decline_request_group',
                    method : 'post',
-                   data : {user : vm.user_id, group : vm.group_id}
+                   data : {user : vm.user_id, group : vm.group_id},
+                   onDownloadProgress : (progressEvent)=>{
+                  vm.isLoading = true;
+                },  
                  }).then((response)=>{
-                  
+                     vm.isLoading = false;
+                    vm.declined = true;
+                    vm.accpet = false;
+                    vm.disabled = true;
                  });
           }
       },
@@ -321,8 +345,33 @@ export default {
                    }
              });
           }
+           if(state == 'closed'){
+             axios({
+              url : LaravelOrgin + 'add_member_public_group',
+              method : 'post',
+              data : {user : vm.user_id , group : vm.group_id},
+              onDownloadProgress : (progressEvent)=>{
+                  vm.isLoading = true;
+                },  
+             }).then((response)=>{
+                   if(response.data == 'done'){
+                    App.$emit('knocksPushNewGroup' , { id : vm.group_id });
+                    this.$notify({
+                  title: 'Success',
+                  message: 'New Member Have Add to Group '+vm.group_object.name+' Successfully',
+                  type: 'success'
+                });
+                    vm.$emit('member_added', (vm.user_id))
+                   }else{
+                    this.$notify.error({
+                    title: 'Error',
+                    message: 'This is an error message'
+                  });
+                   }
+             });
+          }
 
-     }
+     },
   },
   mounted(){
         this.getGroup()
