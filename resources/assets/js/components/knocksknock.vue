@@ -20,7 +20,10 @@
     </div>
     <div v-if = "knockObject != null || isLoading">
   <transition    name="custom-classes-transition" enter-active-class="animated fadeIn" leave-active-class="animated fadeOut">
-    <div class=" ":class = "{'knocks_color_kit_light knocks_gray_border knocks_standard_border_radius panel' : !as_shortcut}">
+    <div class=" ":class = "[
+    {'knocks_color_kit_light knocks_gray_border knocks_standard_border_radius panel' : !as_shortcut && ownerObject != null && !ownerObject.kid} ,
+    {'knocks_baby_blue knocks_pink_border knocks_standard_border_radius panel' : !as_shortcut && ownerObject != null && ownerObject.kid}
+     ]">
       <transition    name="custom-classes-transition"  enter-active-class="animated fadeIn" leave-active-class="animated fadeOut">
         
         <center><knocksloader :gid= "gid+'_knock_loading_span'" v-if = "isLoading" ></knocksloader></center>
@@ -196,7 +199,7 @@
             reactor_collapser_icon = "knocks_text_ms knocks-like knocks_dark_anchor"
             reply_initial_class = "btn btn-floating knocks_super_tiny_floating_btn right knocks_side_padding knocks_noshadow_ps  knocks_text_dark transparent"
             reactor_initial_class = "btn btn-floating knocks_reaction_trigger knocks_super_tiny_floating_btn knocks_noshadow_ps knocks_text_dark transparent"
-            bar_classes ="knocks_color_kit_light"
+            bar_classes ="transparent"
             :parent_date = "knockObject.created_at"
             :reply_scope="[ gid + '_reply_scope']"
             parent_type = "knock"
@@ -480,10 +483,8 @@ export default {
            if(this.knockObject.index.check_in != null  )this.address_url = this.knockObject.index.check_in.url;
            this.retriveComments();
            return;
-          }
-
-
-      
+          }else{
+                 
         
         const vm = this;
         axios({
@@ -555,6 +556,7 @@ export default {
             vm.retriveComments();
            
         }).catch((err)=>{ });
+          }
     },
     showRange(){
       return this.comments.length - this.showKey -1;

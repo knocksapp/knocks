@@ -22,6 +22,10 @@
         <li v-for="(circle,index) in circles" class="knocks_text_dark knocks_fair_bounds" v-if = "index < userShowKey">
           <knockscirclechip :circle = "circle" v-model = "circlesModels[index]"></knockscirclechip>
         </li>
+        <li v-if = "circles != null && circles.length == 0">
+        	<span class = "knocks-alert"></span>
+        	<static_message msg=  "You have no circle that matches your search"></static_message>
+        </li>
       </ul>
             <div class = "row">
            <a :class ="[{'knocks_hidden':!(circles.length > userShowKey)}]" @click = "userShowKey += 3">
@@ -32,6 +36,9 @@
       </a>
       </div>
     </div>
+            <div class = "row knocks_fair_bounds">
+      	<knocksquickcircleadder v-model="circleAdder" :scope = "['sidebar_cirlce_adder']"></knocksquickcircleadder>
+      </div>
   </div>
 </div>
 </template>
@@ -49,6 +56,7 @@ export default {
     	searchPlaceHolder : '',
     	search : '' ,
     	userShowKey : 3 ,
+    	circleAdder : null ,
     }
   },
   methods : {

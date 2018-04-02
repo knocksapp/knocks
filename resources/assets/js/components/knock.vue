@@ -76,21 +76,17 @@
   </transition>
 
     <!--LEVEL TWO -->
-
+    <static_message msg = "What's going on.." v-model = "messages.knockerPlaceholder" class = "knocks_hidden"></static_message>
 
     <div :class = "[input_container , {'knocks_hidden': draggingMode}]"   
     contenteditable = "true" 
-    class = "knocks_language_follower white" data-text="Enter text here..." :id = "gid+'_input'" v-model = "bodyContent" @input = "constructInput()">
+    class = "knocks_language_follower white" :data-text="messages.knockerPlaceholder" :id = "gid+'_input'" v-model = "bodyContent" @input = "constructInput()">
 
     </div>
   </div>
     <knocksmultipleuploader :gid = "gid+'_file_uploader'" v-model  = "uploader" :scope = "scope"></knocksmultipleuploader>
-
-
+    <knockshashtag :body = "bodyContent" v-model = "hashtagComp"></knockshashtag> 
     <!--Level Three-->
-
-
-        
         <div :class = "options_bar_class" class = "" style = "margin-top:4px; margin-bottom:0px">
    
           <div class = "col s9 knocks_house_keeper">
@@ -537,8 +533,10 @@ export default {
       hasText : false ,
       lastKey : null ,
       isSelectingAll : false ,
+      hashtagComp : [] ,
       hashTagRegex :  /\B(\#[a-zA-Z_]+\b)(?!;)/g , 
       urlRegex : /^((https?|ftp|smtp):\/\/)?(www.)?[a-z0-9]+\.[a-z]+(\/[a-zA-Z0-9#]+\/?)*/g,
+      messages : { knockerPlaceholder : '' },
       submitButton :  { 
           isLoading : false , 
           isHovered : false , 
@@ -762,6 +760,7 @@ export default {
       do {
           m = this.hashTagRegex.exec(this.textContent.text);
           if(m) {
+              if(m[1].length > 3 && res.indexOf(m[1]) == -1 )
               res.push(m[1]);
           }
       } while (m);
@@ -851,6 +850,7 @@ export default {
   		});
   	},
     pushToHashTags(){
+      let tempHashTags = [];
       let masterContent = $(containerElement).html();
       let i , j , currentDom , containerElement = document.getElementById(this.gid+'_input');
       let hashtagElements = containerElement.getElementsByClassName('knocks_hashtag');
@@ -861,14 +861,17 @@ export default {
       for(i = 0 ; i < this.hashTags.length; i++){
         hash = this.hashTags[i];
         noHash= this.hashTags[i].replace('#' , '');
-       currentDom = $(containerElement).html().split(this.hashTags[i]).join(
-        '<a contenteditable="false" href = "'+LaravelOrgin+'trend/'+noHash+'"  class= "knocks_hashtag">'+hash+'</a> ');
+        
+          tempHashTags.push(noHash)
+        currentDom = $(containerElement).html().split(this.hashTags[i]).join(
+        '<a contenteditable="false" href = "'+LaravelOrgin+'trend/'+noHash+'"  class= "knocks_hashtag">'+hash+'</a>');
       $(containerElement).empty();
       $(containerElement).html(currentDom);
-      if(masterContent != currentDom)
-      this.placeCaretAtEnd(containerElement);
-    }
+       this.bodyContent = currentDom;
 
+        
+
+    }
     },
     pushToUrls(){
       let masterContent = $(containerElement).html();
@@ -1044,8 +1047,7 @@ export default {
 
 
       //console.log(this.filesTokens);
-
-
+      this.collectHashTags();
 
       let res =  {
         body : this.bodyContent , 
@@ -1054,6 +1056,7 @@ export default {
         has_pictures : this.hasImages , 
         images_specifications : imagesTokens , 
         //images_quotes : quotes ,
+        hashtags : this.hashtagComp , 
         text : this.finalTextBody , 
         has_files : this.hasFiles , 
         files_specifications : filesTokens , 
@@ -1131,10 +1134,11 @@ export default {
       },
       watchMyDom(){
        const vm = this;
+       if(this.hashtagComp.length > 0)
+       App.$emit('knocksRetriver' , {scope : ['hashtag_input']})
         this.updateTextContent();
         if(!this.isAnArrow(this.lastKey) && !this.isSelectingAll){
-                  this.collectHashTags();
-        this.collectUrls(); 
+        //sthis.collectUrls(); 
         }
        let childs = document.getElementById(vm.gid+'_input').children;
        let i;

@@ -1,27 +1,31 @@
 <template>
 <div class = "row ">
   <div class = "">
+
+        <static_message :msgid="place_holder" class = "knocks_hidden" v-model = "innerPlaceholder" v-if = "placeholder == null && !disable_placeholder && inner_placeholder"></static_message>
+        <static_message :msg="placeholder" class = "knocks_hidden" v-model = "innerPlaceholder"  v-else-if = "placeholder != null && !disable_placeholder && inner_placeholder" ></static_message>
     
        <el-input  
         @focus="addFocus()"
         @blur="removeFocus()"
+        :placeholder = "innerPlaceholder"
         @keyup.enter = "submit()"
         @change="construct($event)"
         v-model = "elinput"
        :id = "gid">
-         <template :slot = "labelPosition">
+         <template :slot = "labelPosition" v-if = "!disable_placeholder && !inner_placeholder">
          <i v-if="!isLoading" class="material-icons prefix " :class = "iconClasses"></i>
         <static_message :msgid="place_holder" :class="labelClasses" v-if = "placeholder == null && !disable_placeholder"></static_message>
         <static_message :msg="placeholder" :class="labelClasses" v-else-if = "placeholder != null && !disable_placeholder" ></static_message>
       </template>
       <template v-if = "has_slot" :slot = "notLabelPosition">
-        <slot name = "aside"></slot>
+        <slot name = "aside" ></slot>
       </template>
       </el-input>
 
   
   </div>
-  <div class = "userInput2" :class = "lang_alignment">
+  <div class = "userInput2" :class = "lang_alignment" v-if = "!hide_errors">
     <ul v-if = " isFired  && !isValid" >
       <li v-for= "errors in errorsStack" class = "animated slideInDown " :class ="icon_error">
         <span :class = 'errorsBus[errors].icon'></span>
@@ -31,52 +35,6 @@
         <span v-if ="errorsBus[errors].postfix !== null">{{errorsBus[errors].postfix}}</span>
       </li>
     </ul>
-<!--     <ul v-if = " isFired  && !isValid" >
-      <li v-if="hasError(0)" class = "animated slideInDown " :class ="icon_error" >
-        <span :class = "is_required_icon"></span>
-        <static_message :msg= "is_required_msg"></static_message>
-      </li>
-
-      <li v-if="hasError(1)" class = "animated slideInDown " :class ="icon_error" >
-        <span :class = "is_required_icon"></span>
-        <static_message :msg= "is_numeric_msg"></static_message>
-      </li>
-
-      <li v-if="hasError(2)" class = "animated slideInDown " :class ="icon_error" >
-        <span :class = "is_required_icon"></span>
-        <static_message :msg= "max_value_msg"></static_message>
-      </li>
-
-      <li v-if="hasError(3)" class = "animated slideInDown " :class ="icon_error" >
-        <span :class = "is_required_icon"></span>
-        <static_message :msg= "min_value_msg"></static_message>
-      </li>
-
-      <li v-if="hasError(4)" class = "animated slideInDown " :class ="icon_error" >
-        <span :class = "is_required_icon"></span>
-        <static_message :msg= "max_length_msg"></static_message>
-      </li>
-
-      <li v-if="hasError(5)" class = "animated slideInDown " :class ="icon_error" >
-        <span :class = "is_required_icon"></span>
-        <static_message :msg= "min_length_msg"></static_message>
-      </li>
-
-      <li v-if="hasError(6)" class = "animated slideInDown " :class ="icon_error" >
-        <span :class = "is_required_icon"></span>
-        <static_message :msg= "regex_bus_msg"></static_message>
-      </li>
-
-      <li v-if="hasError(7)" class = "animated slideInDown " :class ="icon_error" >
-        <span :class = "is_required_icon"></span>
-        <static_message :msg= " check_live_msg"></static_message>
-      </li>
-
-      <li v-if="hasError(9)" class = "animated slideInDown " :class ="icon_error" >
-        <span :class = "is_required_icon"></span>
-        <static_message :msg= "samilarity_msg"></static_message>
-      </li>
-    </ul> -->
     <slot></slot>
   </div>
 </div>
@@ -106,6 +64,10 @@
             default : null 
           },
           disable_placeholder: {
+            type : Boolean , 
+            default : false 
+          },
+          inner_placeholder : {
             type : Boolean , 
             default : false 
           },
@@ -358,6 +320,10 @@
           type : [String , Number, Array , Object] ,
           default : null
         },
+        hide_errors : {
+          type : Boolean , 
+          default : false 
+        }
 
     
 
@@ -383,6 +349,7 @@
             errorsBus : [],
             submitScope : null ,
             elinput : '' ,
+            innerPlaceholder : '' ,
 
           }
         },
@@ -634,10 +601,12 @@
                 data : {q : this.elinput},
                 onDownloadProgress: function (progressEvent) {
                   vm.isLoading = true;
+                  vm.$emit('loading' , vm.isLoading);
                 },
             })
             .then(function(response) {
                 vm.isLoading = false;
+                vm.$emit('loading_done' , vm.isLoading);
                 if(response.data == vm.check_invalid_at){
                   vm.checkResult = false ;
                 }else if (response.data == vm.check_valid_at){

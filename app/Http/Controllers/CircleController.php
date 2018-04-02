@@ -19,7 +19,7 @@ class CircleController extends Controller {
 
 		$circle = new Circle();
 		$circle->initialize($request->name, json_encode($request->icon));
-		return 'done';
+		return $circle->id;
 	}
 	public function view(Request $request) {
 		$circle = Circle::find($request->id);
@@ -51,6 +51,10 @@ class CircleController extends Controller {
 
 	public function search(Request $request) {
 		return Circle::where('user_id', '=', auth()->user()->id)->where('circle_name', 'like', '%' . $request->q . '%')->get()->pluck('id');
+	}
+
+	public function check(Request $request) {
+		return Circle::where('user_id', '=', auth()->user()->id)->where('circle_name', '=', $request->q)->exists() ? 'invalid' : 'valid';
 	}
 
 }

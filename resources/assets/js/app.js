@@ -331,7 +331,8 @@ Vue.component('knocksprivacyadjustments', require('./components/knocksprivacyadj
 Vue.component('knocksgroupsettings', require('./components/knocksgroupsettings.vue'));
 Vue.component('knockshashtag', require('./components/knockshashtag.vue'));
 Vue.component('knocksusercircles', require('./components/knocksusercircles.vue'));
-
+Vue.component('knocksquickcircleadder', require('./components/knocksquickcircleadder.vue'));
+Vue.component('knockshashtagchip', require('./components/knockshashtagchip.vue'));
 
 
 
@@ -1377,6 +1378,10 @@ window.NavInstance = new Vue({
 
   //Right Sidebar
 
+  App.$on('logoutGlobal' , ()=>{
+    vm.logout()
+  });
+
   $(document).ready(function(){
     if(WindowWidth < 900){
     vm.showRightSideBar = false;
@@ -1632,4 +1637,12 @@ window.GetTranslationByWord = (word)=>{
              window.StaticMessages[word] = translation;
         }});
         return translation;
+}
+window.MigaNumber = (num)=>{
+  if(num/10000000 > 1) return window.TrimExtraZeros((num/10000000).toFixed(2))+'M';
+  if(num/1000 > 1) return window.TrimExtraZeros((num/1000).toFixed(1))+'K';
+  return num;
+}
+window.TrimExtraZeros = (num)=>{
+  return num % 1 == 0 ? parseInt(num) : num ;
 }

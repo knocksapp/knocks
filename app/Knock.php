@@ -3,9 +3,11 @@
 namespace App;
 
 use App\Blob;
+use App\hashtags;
 use App\ignore_object;
 use App\obj;
 use App\User;
+use App\User_hashtags;
 use App\User_keywords;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
@@ -168,6 +170,7 @@ class Knock extends Model {
 			'tags' => $object->tags,
 			'images_reactions' => $images_reactions,
 			'images_comments' => $images_comments,
+			'hashtags' => $object->hashtags,
 
 		));
 		// $this->UserShowPost($object->user_privacy,$this->object_id);
@@ -204,6 +207,18 @@ class Knock extends Model {
 		}
 		$this->user_id = auth()->user()->id;
 		$this->save();
+		//hashtags
+		for ($h = 0; $h < count($object->hashtags); $h++) {
+			$ht = new hashtags();
+			$ht->createOrUpdate($object->hashtags[$h]);
+			$uht = new User_hashtags();
+			$uht->hashtag = $object->hashtags[$h];
+			$uht->object_id = $this->object_id;
+			$uht->parent_type = 'knock';
+			$uht->parent_id = $this->id;
+			$uht->user_id = auth()->user()->id;
+			$uht->save();
+		}
 	}
 	public function knockIndex() {
 		return json_decode($this->index);

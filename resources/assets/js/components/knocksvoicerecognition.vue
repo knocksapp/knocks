@@ -1,7 +1,18 @@
 <template>
-	 <button @mousedown="startRecognition($event)" @click = "preventDefault($event)" @mouseup = "stopRecognition()" :class = "[{'pulse animated infinite ':holding}]" class = "knocks_recoginition_button">
-	 	<span class = "knocks-microphone-3" :class = "[{'red-text ':holding}]"></span>
+     <el-tooltip  placement="bottom" effect="light">
+    <span slot = "content">
+      <span :class = "[{ 'knocks-microphone-3' : featureAvailable} , { 'knocks-muted' : !featureAvailable} , {'red-text ':holding} ]"></span>
+      <static_message msg=  "Hold to search with your voice." :class = "[{'knocks_hidden' : !featureAvailable}]"></static_message>
+      <static_message msg=  "Voice Searching is not available for your browser.":class = "[{'knocks_hidden' : featureAvailable}]"></static_message>
+    </span>
+    <span>
+	 <button 
+   :disabled= "!featureAvailable"
+   @mousedown="startRecognition($event)" @click = "preventDefault($event)" @mouseup = "stopRecognition()" :class = "[{'pulse animated infinite ':holding}]" class = "knocks_recoginition_button">
+	 	<span :class = "[{ 'knocks-microphone-3' : featureAvailable} , { 'knocks-muted' : !featureAvailable} , {'red-text ':holding} ]"></span>
 	 </button>
+  </span>
+  </el-tooltip>
 </template>
 
 <script>
@@ -25,12 +36,13 @@ export default {
       speaking : false , 
       loading : false  ,
       isFired : false ,
+      featureAvailable : window.hasOwnProperty('webkitSpeechRecognition') ,
 
 
     }
   },
   mounted() {
-
+        
   },
   methods : {
     preventDefault(e){
@@ -43,7 +55,7 @@ export default {
   		    const vm = this;
       
     if (window.hasOwnProperty('webkitSpeechRecognition')) {
-  
+      vm.featureAvailable = true ;
       vm.recognition = new webkitSpeechRecognition();
 
       vm.recognition.continuous = true;
@@ -92,6 +104,8 @@ export default {
         console.log(vm.res);
       }
 
+    }else{
+      vm.featureAvailable = false ;
     }
 
   	},

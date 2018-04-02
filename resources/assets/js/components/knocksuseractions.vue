@@ -17,12 +17,21 @@
         replaceable :replacements = "[{target : '**' , body : userObject.name}]">
         </static_message>
         <ul class="uk-list uk-list-striped">
-          <knocksquickaddcircle v-model="userCirlces"></knocksquickaddcircle>
-          <li v-for = "(circle , index) in userCirlces">            
+          <knocksquickcircleadder v-model="userCirlces" :scope = "['action_cirlce_adder_'+user]" hide_errors placeholder = "Add or Search for circles"></knocksquickcircleadder>
+          
+          <li v-for = "(circle , index) in userCirlces" :class = "[{'knocks_hidden' : index >= userShowKey}]">            
              <el-checkbox v-model="checkedCircles[circle]" class = "bounceInLeft" ></el-checkbox>
-             <knockscirclechip class = "animated bounceInRight" :circle="circle" :popover = "false"></knockscirclechip>
+             <knockscirclechip class = "animated bounceInRight" :circle="circle" :popover = "false"  v-if = "index < userShowKey"></knockscirclechip>
           </li>
         </ul>
+        <div class = "row">
+           <a :class ="[{'knocks_hidden':!(userCirlces.length > userShowKey)}]" @click = "userShowKey += 3">
+        <static_message msg = "See More"></static_message>
+      </a>
+      <a :class ="[{'knocks_hidden':!(userShowKey > 3 && userCirlces.length > 3)}]" class = "right" @click = "userShowKey -= 3">
+        <static_message msg = "See Less"></static_message>
+      </a>
+      </div>
         </el-popover>
 	    <el-button 
 	    v-popover:addtomypeople type = "primary" 
@@ -87,8 +96,9 @@ export default {
   data () {
     return {
     	userObject : null , 
-      userCirlces : null ,
+      userCirlces : [] ,
       checkedCircles : {},
+      userShowKey : 3 ,
 
     }
   },

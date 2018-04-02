@@ -1,8 +1,9 @@
 <template>
 	<div>
-  <el-input placeholder="Please input" v-model="circleName" @input  = "inSearchScope" class="input-with-select">
-    		    <knockselbutton 
-    		    slot="append" 
+    <static_message :msg = "placeholder" class = "knocks_hidden" v-model = "placeholderTrans"></static_message>
+  <el-input :placeholder="placeholderTrans" v-model="circleName" @input  = "inSearchScope" class="input-with-select">
+    		<knockselbutton 
+    		slot="append" 
 				disable_placeholder
 				:disabled = "disabled"
 				icon = "knocks-plus5"
@@ -26,10 +27,17 @@
 export default {
 
   name: 'knocksquickaddcircle',
-
+  props :{
+    placeholder : {
+      type : String , 
+      default : 'Add or Search for a circle'
+    }
+  },
   data () {
     return {
     	circleName : '' ,
+      placeholderTrans : ''
+
     }
   },
   mounted(){
@@ -58,6 +66,7 @@ export default {
   methods : {
     refreshCircles(){
   		App.$emit('knocksRequestCirclesRefresh');
+      this.circleName = '';
   	},
   	inSearchScope(){
   		let counter = 0;

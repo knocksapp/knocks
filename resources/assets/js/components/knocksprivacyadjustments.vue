@@ -470,7 +470,10 @@ export default {
       this.$emit('input' , this.resultObject);
     },
     handleDefaultPreset(e){
-      this.userDefaultPreset = e; if(e.outcome)this.publicValue = 'choosedefault'
+      this.userDefaultPreset = e; if(e.outcome != null)this.publicValue = 'choosedefault'; 
+      else{
+        if(this.publicValue == 'choosedefault') this.changePublicValue('public')
+      }
       this.$emit('input' , this.resultObject);
     },
     handleAddPreset(e){

@@ -1,4 +1,8 @@
 <template>
+	<div :class = "[{'knocks_xs_padding' : result.length > 0}]">
+		    
+			<knockshashtagchip :hashtag = "res" v-for = "(res, index) in result" :key = "index" class = "animated fadeIn"></knockshashtagchip>
+	</div>
 </template>
 
 <script>
@@ -19,21 +23,20 @@ export default {
   },
   computed : {
   	result(){
-		return this.collectHashTags(this.body);
-  	}
-  },
-  methods : {
-  	collectHashTags(body){
-  		let m , res = [];
+		let m , res = [];
 		do {
-		    m = this.regex.exec(body);
-		    if(m) {
+		    m = this.regex.exec(this.body);
+		    if(m && res.indexOf(m[1]) == -1) {
 		        res.push(m[1]);
+		        
 		    }
 		} while (m);
   		this.$emit('input' , res);
   		return res;
   	}
+  },
+  methods : {
+
   }
 }
 </script>

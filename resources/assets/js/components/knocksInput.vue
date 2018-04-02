@@ -27,8 +27,8 @@
     </div>
   </div>
   <div class = "userInput2" :class = "lang_alignment">
-    <ul v-if = " isFired  && !isValid" >
-      <li v-for= "errors in errorsStack" class = "animated slideInDown " :class ="icon_error">
+    <ul v-if = " isFired  && !isValid && !avoidClash" >
+      <li v-for= "errors in errorsStack" class = "animated slideInDown " :class ="icon_error" v-if ="errorsStack.length != 0">
         <span :class = 'errorsBus[errors].icon'></span>
         <span v-if ="errorsBus[errors].prefix !== null">{{errorsBus[errors].prefix}}</span>
         <!-- <static_message :msgid = "errorsBus[errors].message_id" parent_class="knocks_inline"></static_message> -->
@@ -374,7 +374,7 @@
             errorMessages : [] ,
             errorsBus : [],
             submitScope : null ,
-
+            avoidClash : false ,
           }
         },
 

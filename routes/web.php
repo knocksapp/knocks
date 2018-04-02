@@ -100,6 +100,8 @@ Route::post('get_circles', 'UserController@getUserCircles');
 
 Route::post('circle/search', 'CircleController@search');
 
+Route::post('circle/check', 'CircleController@check');
+
 Route::post('/create_group', 'GroupController@createGroup');
 
 Route::post('/get_group_members', 'GroupMemberController@getGroupMembers');
@@ -252,6 +254,8 @@ Route::get('media/cover/compressed/{id}', 'BlobController@retriveCoverCompressed
 Route::get('media/avatar/ref/compressed/{id}', 'BlobController@retriveAvatarCompressed');
 
 Route::post('search/main', 'UserController@mainSearch');
+
+Route::post('hashtag/lazy', 'HashtagsController@lazy');
 
 // Route::get('add_notification' , function(){
 //   $not = new App\Ballon();
