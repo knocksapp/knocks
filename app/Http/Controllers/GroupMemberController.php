@@ -34,6 +34,16 @@ class GroupMemberController extends Controller
         else
             return 'false';
     }
+    public function checkAdmin(Request $request){
+        $mems = Group_member::where('group_id','=',$request->group_id)
+        ->where('user_id','=', $request->mem_id)
+        ->where('position','=','Admin')->get();
+
+        if(count($mems) > 0)
+            return 'true';
+        else
+            return 'false';
+    }
 
     public function removeMember(Request $request){
         $group = Group::find($request->group_id);
@@ -54,6 +64,12 @@ class GroupMemberController extends Controller
     public function setMembersToAdmin(Request $request){
         $upd = Group_member::where('group_id','=',$request->group_id)->where('user_id','=',$request->user_id)->where('position','=','Member')->get()->first();
                 $upd->position = 'Admin';
+                $upd->update();
+                return 'done';
+    }
+    public function setAdminToMember(Request $request){
+        $upd = Group_member::where('group_id','=',$request->group_id)->where('user_id','=',$request->user_id)->where('position','=','Admin')->get()->first();
+                $upd->position = 'Member';
                 $upd->update();
                 return 'done';
     }

@@ -108,6 +108,8 @@ Route::post('/get_group_members', 'GroupMemberController@getGroupMembers');
 
 Route::post('/check_member_position', 'GroupMemberController@checkOwner');
 
+Route::post('/check_member_position_admin', 'GroupMemberController@checkAdmin');
+
 Route::post('get_group_request', 'UserRequestController@getGroupWaitResponse');
 
 Route::post('check_group_user_request', 'UserRequestController@checkGroupResponse');
@@ -197,6 +199,8 @@ Route::post('add_member_public_group', 'GroupController@addMemberPublicGroup');
 Route::post('get_group_members_positions', 'GroupMemberController@getMembersPosition');
 
 Route::post('set_member_admin', 'GroupMemberController@setMembersToAdmin');
+
+Route::post('set_admin_member', 'GroupMemberController@setAdminToMember');
 
 Route::post('post/create', 'KnockController@create');
 
