@@ -590,6 +590,7 @@ export default {
       // prevent the default behaviour of return key pressed
       return false;
     }
+    App.$emit('KnocksContentChanged')
   });
 
     document.getElementById(this.gid+'_input').onpaste = function(){

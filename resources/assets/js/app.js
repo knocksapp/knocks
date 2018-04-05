@@ -15,6 +15,9 @@ require('pnotify');  //Notifier JS Based Library.
 
 require('vue-popperjs');
 require('countries-list');
+
+window.lamejs = require("lamejs");
+
 import countries from 'countries-list'
 window.Countries = countries;
 
