@@ -1,5 +1,6 @@
 <template>
 <div>
+  <knocksuser :user = "auth" class = "knocks_hidden" v-model = "authModel"></knocksuser>
   <div class="fixed-action-btn knocks_reactor_target knocks_house_keeper " 
      :class = "[
      {'horizontal knocks_reactor_index' : inverse } ,
@@ -10,9 +11,9 @@
     >
       <i class="material-icons" :class = "intialReactor"></i>
     </a>
-    <ul :class = "[
-     {'knocks_reactor_candy' : inverse && candy} , 
-     {'knocks_reactor_adult' : inverse && !candy} , 
+    <ul v-if = "authModel != null" :class = "[
+     {'knocks_reactor_candy' : inverse && (candy || authModel.kid)} , 
+     {'knocks_reactor_adult' : inverse && !candy && !authModel.kid} , 
      {knocks_reactor_ul : !inverse} , 
      { 'knocks_horizontal_reactor col' : inverse } ,
      'knocks_reactor_target_ul'
@@ -38,22 +39,22 @@
           <i class="material-icons" :class = "[laughing_icon, {'knocks_active_reaction infinite rubberBand':selected == 'laugh'}]"></i>
         </a>
       </li>
-      <li v-if = "!candy">
+      <li v-if = "!candy && !authModel.kid">
         <a  @click="assign('poker')"  class="knocks_reaction_btn btn-floating deep-purple darken-1" :class="[{'pulse':selected == 'poker'}]"   :id = "gid+'_poker'">
           <i class="material-icons" :class = "[poker_icon, {'knocks_active_reaction infinite rubberBand':selected == 'poker'}]"></i>
         </a>
       </li>
-      <li v-if = "!candy">
+      <li v-if = "!candy && !authModel.kid">
         <a  @click="assign('angry')"  class="knocks_reaction_btn btn-floating blue-grey darken-3" :class="[{'pulse':selected == 'angry'}]"  :id = "gid+'_angry'">
           <i class="material-icons" :class = "[angry_icon, {'knocks_active_reaction infinite rubberBand':selected == 'angry'}]"></i>
         </a>
       </li>
-      <li v-if = "!candy">
+      <li v-if = "!candy && !authModel.kid">
         <a  @click="assign('sad')"  class="knocks_reaction_btn btn-floating  light-blue darken-4" :class="[{'pulse':selected == 'sad'}]"  :id = "gid+'_sad'">
           <i class="material-icons" :class = "[sad_icon, {'knocks_active_reaction infinite rubberBand':selected == 'sad'}]"></i>
         </a>
       </li>
-      <li v-if = "!candy">
+      <li v-if = "!candy && !authModel.kid">
         <a  @click="assign('finger')"  class="knocks_reaction_btn btn-floating red darken-4" :class="[{'pulse':selected == 'finger'}]"  :id = "gid+'_finger'">
           <i class="material-icons" :class = "[middlefinger_icon, {'knocks_active_reaction infinite rubberBand':selected == 'finger'}]"></i>
         </a>
@@ -207,7 +208,9 @@ export default {
     return {
       selected : null ,
       timer : 0 ,
-      interval : null
+      interval : null , 
+      auth : parseInt(UserId) , 
+      authModel : null , 
     }
   },
   computed : {
