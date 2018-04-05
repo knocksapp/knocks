@@ -32,6 +32,7 @@
         "google-maps": "^3.2.1",
         "howler": "^2.0.8",
         "jquery-touchswipe": "^1.6.18",
+        "lamejs": "^1.2.0",
         "materialize-css": "^0.100.2",
         "moment": "^2.20.1",
         "moment-js": "^1.1.15",

@@ -82,7 +82,7 @@
           </knockselinput>
     </div>
     <div class = "">
-              <knockselinput
+              <knockselinput 
               placeholder = "Last Name"
               is_required
               el_follower

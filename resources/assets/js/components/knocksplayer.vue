@@ -13,7 +13,7 @@
           <span v-if="!supportedType">Voice notes are not supported by your browser</span>
           <span v-if = "supportedType">Play/Pause</span>
         </el-popover>
-         <el-button v-popover:playpo :class = "playingButtonClasses"  @click = "construct($event)" :loading = "loadingState" :disabled = "!supportedType">
+         <el-button v-popover:playpo :class = "playingButtonClasses"  @click = "construct($event)" v-loading = "loadingState" :disabled = "!supportedType">
             <!-- <knocksloader :gid = "gid+'_loader'" v-if = "isLoading"></knocksloader> -->
             <span :class = "playingContentClasses"></span>
          </el-button>
@@ -214,7 +214,8 @@ export default {
       return document.getElementById(this.gid).currentTime;
     },
     loadingState(){
-      return !this.canBePlayed || this.metaLoading ? true : false;
+      if(!this.interest) return false ;
+      return !this.playable || this.metaLoading ? true : false;
     },
     playingButtonClasses(){
       let classArray = [];
