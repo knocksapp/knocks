@@ -77,7 +77,7 @@
               <span v-if = "group_object.preset == 'closed'" class="knocks_text_xs knocks_text_bold knocks_tinny_side_padding grey-text"> Closed group <i class="knocks-lock2"> </i></span>
             </div>
             <div class = "right">
-                 <knocksgroupjoining as_result :group_id = "group_id"></knocksgroupjoining>
+                 <knocksgroupjoining as_result :user_id="user" :group_id = "group_id"></knocksgroupjoining>
             </div>
           </div>
         </div>
@@ -126,6 +126,7 @@ export default {
        members_count : '',
        dialogVisible: false,
        checkUser: false,
+       user : parseInt(UserId)
     }
   },
   methods : {

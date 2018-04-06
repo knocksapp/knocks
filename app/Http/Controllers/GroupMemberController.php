@@ -48,13 +48,27 @@ class GroupMemberController extends Controller
     public function removeMember(Request $request){
         $group = Group::find($request->group_id);
         if(Group_member::where('group_id' , '=' , $request->group_id)->where('user_id' , '=' , auth()->user()->id)->get()->first()->isAdmin()){
-        $mem = Group_member::where('group_id','=',$request->group_id)->where('user_id','=',$request->mem_id)->delete();
+            if(Group_member::where('group_id' , '=' , $request->group_id)->where('user_id' , '=' , $request->mem_id)->get()->first()->isAdmin()){
+                if(count(Group_member::where('group_id','=',$request->group_id)->where('position','=','Owner')->get()) < 2 )
+                    {
+                        return 'faild';
+                    }else{
+                     $mem = Group_member::where('group_id','=',$request->group_id)->where('user_id','=',$request->mem_id)->delete();
+                       $group->decreaseMembers();
+                        return 'done';
+                    }
+            }else{
+                 $mem = Group_member::where('group_id','=',$request->group_id)->where('user_id','=',$request->mem_id)->delete();
         $group->decreaseMembers();
         return 'done';
+            }
+       
         }
         else 
         {
-            return 'invalid';
+           $mem = Group_member::where('group_id','=',$request->group_id)->where('user_id','=',$request->mem_id)->delete();
+        $group->decreaseMembers();
+        return 'done';
         }
     }
     public function getMembersPosition(Request $request){
@@ -70,6 +84,12 @@ class GroupMemberController extends Controller
     public function setAdminToMember(Request $request){
         $upd = Group_member::where('group_id','=',$request->group_id)->where('user_id','=',$request->user_id)->where('position','=','Admin')->get()->first();
                 $upd->position = 'Member';
+                $upd->update();
+                return 'done';
+    }
+      public function setToOwner(Request $request){
+        $upd = Group_member::where('group_id','=',$request->group_id)->where('user_id','=',$request->user_id)->get()->first();
+                $upd->position = 'Owner';
                 $upd->update();
                 return 'done';
     }

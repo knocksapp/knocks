@@ -375,7 +375,10 @@ export default {
   },
   mounted(){
         this.getGroup()
-        this.checkMemberInGroups() 
+        setTimeout(()=>{
+          this.checkMemberInGroups() 
+        },1000);
+        
   },
 }
 </script>
