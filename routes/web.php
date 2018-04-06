@@ -291,6 +291,11 @@ Route::post('user/updategender', 'UserController@updateUsergender');
 
 Route::post('hashtag/lazy', 'HashtagsController@lazy');
 
+//user delete
+
+Route::post('usermiddlename/delete', 'UserController@deleteUsermiddleName');
+
+
 // Route::get('add_notification' , function(){
 //   $not = new App\Ballon();
 //   $not->initialize( json_encode(

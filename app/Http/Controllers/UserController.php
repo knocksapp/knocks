@@ -406,4 +406,13 @@ public function updateUsergender(Request $request){
 	$user->update();
 	return 'done';
 }
+
+public function deleteUsermiddleName(Request $request){
+	$user = User::find(auth()->user()->id);
+	$user->middle_name = null;
+	$user->update();
+	return 'done';
+}
+
+
 }
