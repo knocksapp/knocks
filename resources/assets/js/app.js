@@ -4,7 +4,7 @@
  * building robust, powerful web applications using Vue and Laravel.
  */
  //app.js
- 
+
 require('axios'); //AJAX XHR Performer.
 require('vue');   //Front End Framework.
 require('materialize-css'); //Front/JS/CSS Framework based on JS/CSS.
@@ -334,19 +334,12 @@ Vue.component('knocksprivacyadjustments', require('./components/knocksprivacyadj
 Vue.component('knocksgroupsettings', require('./components/knocksgroupsettings.vue'));
 Vue.component('knocksuserinfo', require('./components/knocksuserinfo.vue'));
 Vue.component('knocksgroupmemberposition', require('./components/knocksgroupmemberposition.vue'));
-
 Vue.component('knockshashtag', require('./components/knockshashtag.vue'));
 Vue.component('knocksusercircles', require('./components/knocksusercircles.vue'));
 Vue.component('knocksquickcircleadder', require('./components/knocksquickcircleadder.vue'));
 Vue.component('knockshashtagchip', require('./components/knockshashtagchip.vue'));
-
-
-
-
-
-
-
-
+Vue.component('knocksusergenralinfo', require('./components/knocksusergenralinfo.vue'));
+Vue.component('knocksuserinfodelete', require('./components/knocksuserinfodelete.vue'));
 
  window.App = new Vue();
  new Vue({
@@ -1491,7 +1484,7 @@ window.NavInstance = new Vue({
       $('.drag-target').click()
     },
     toggleGroupCreator(flag){
-      this.closeSideBar();      
+      this.closeSideBar();
       App.$emit('knocksGroupCreationToggle' , {toggle : flag})
     },
     runVoiceSearch(e){

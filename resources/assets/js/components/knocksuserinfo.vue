@@ -80,6 +80,14 @@
           slot = "aside">
           </knockselbutton>
           </knockselinput>
+          <knocksuserinfodelete
+            :userObject="userObject"
+            @knocks_info_deleted ="deleteMiddlename(userObject.middle_name)"
+            route="usermiddlename"
+            message="middlename"
+            class="col right"
+            >
+          </knocksuserinfodelete>
     </div>
     <div class = "">
               <knockselinput 
@@ -204,7 +212,7 @@
    ]"
    :scope = "['user_gender_edit']"
    class = "right"
-   
+
    validation_error = "You need to complete some fields"
    success_at = "done"
    submit_at = "user/updategender"
@@ -453,6 +461,16 @@ name: 'knocksuserinfoedit',
        ob.id = e.submit_data.user_id;
        this.$emit('knocks_user_name_updated' , ob );
         // this.dialogVisible=false;
+     },
+     deleteMiddlename(index){
+       const vm = this;
+       App.$emit('knocksUserKeyUpdate' ,
+         {
+           user : vm.auth ,
+           patch : [
+           { key : 'middle_name' , value :  null } ,
+         ]
+       })
      },
    construct(){
      console.log(this.tabIndex(this.userObject.gender))

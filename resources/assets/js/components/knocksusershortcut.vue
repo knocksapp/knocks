@@ -110,7 +110,7 @@
     <!--Report Presentation Begins =====================================================================-->
     <div  :class="main_container" contenteditable="false" v-if="as_report && userObject != null">
       <div class = "row knocks_house_keeper knocks_text_dark">
-        <div class = "col s12">
+        <!-- <div class = "col s12">
           <span class = "knocks-user14" v-if ="userObject.gender != null && userObject.gender != undefined && userObject.gender.toLowerCase() == 'female'" ></span>
           <span class = "knocks-user12" v-if ="userObject.gender != null && userObject.gender != undefined && userObject.gender.toLowerCase() == 'male'" ></span>
           <span class = "knocks-user-outline"  v-if ="userObject.gender == null || userObject.gender == undefined "></span>
@@ -118,7 +118,7 @@
           <span v-if ="userObject.first_name != null && userObject.first_name != undefined" >{{userObject.first_name}} </span>
           <span v-if ="userObject.middle_name != null && userObject.middle_name != undefined" >{{userObject.middle_name}} </span>
           <span v-if ="userObject.last_name != null && userObject.last_name != undefined" >{{userObject.last_name}} </span>
-        </div>
+        </div> -->
         <div class = "col s12">
           <span class = "knocks-user14" v-if ="userObject.gender != null && userObject.gender != undefined && userObject.gender.toLowerCase() == 'female'" ></span>
           <span class = "knocks-user12" v-if ="userObject.gender != null && userObject.gender != undefined && userObject.gender.toLowerCase() == 'male'" ></span>
