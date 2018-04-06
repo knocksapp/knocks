@@ -20,7 +20,7 @@
     </div>
     <div v-if = "knockObject != null || isLoading">
   <transition    name="custom-classes-transition" enter-active-class="animated fadeIn" leave-active-class="animated fadeOut">
-    <div class=" " :class = "[
+    <div class=" ":class = "[
     {'knocks_color_kit_light knocks_gray_border knocks_standard_border_radius panel' : !as_shortcut && ownerObject != null && !ownerObject.kid} ,
     {'knocks_baby_blue knocks_pink_border knocks_standard_border_radius panel' : !as_shortcut && ownerObject != null && ownerObject.kid}
      ]">
@@ -360,10 +360,6 @@ export default {
     inverse_reactor : {
       type : Boolean ,
       default : true ,
-    },
-    index : {
-      type : Number , 
-      default : 0
     }
 
     

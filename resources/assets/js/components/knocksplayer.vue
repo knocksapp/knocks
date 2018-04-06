@@ -339,7 +339,6 @@ export default {
     }
   },
   canBePlayed(state){
-    
     this.playable = state;
     this.isLoading = !state;
   },

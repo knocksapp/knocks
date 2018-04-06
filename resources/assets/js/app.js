@@ -338,7 +338,7 @@ Vue.component('knockshashtag', require('./components/knockshashtag.vue'));
 Vue.component('knocksusercircles', require('./components/knocksusercircles.vue'));
 Vue.component('knocksquickcircleadder', require('./components/knocksquickcircleadder.vue'));
 Vue.component('knockshashtagchip', require('./components/knockshashtagchip.vue'));
-Vue.component('knocksusergenralinfo', require('./components/knocksusergenralinfo.vue'));
+// Vue.component('knocksusergenralinfo', require('./components/knocksusergenralinfo.vue'));
 Vue.component('knocksuserinfodelete', require('./components/knocksuserinfodelete.vue'));
 
  window.App = new Vue();
