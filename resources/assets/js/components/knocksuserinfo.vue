@@ -68,6 +68,9 @@
           disable_placeholder
           icon = "knocks-plus"
           success_at = "done"
+          :precondition = "middle_name != userObject.middle_name"
+          validation_error = "You Didn't change your middle name."
+          :disabled =  "middle_name == userObject.middle_name"
           :error_at = "[
           { res : 'invalid' , msg : 'You already have a preset with this name.' }
           ]"
@@ -80,17 +83,20 @@
           slot = "aside">
           </knockselbutton>
           </knockselinput>
+          <div v-if = "userObject.middle_name != null" class = "row">
           <knocksuserinfodelete
             :userObject="userObject"
+            placeholder = "Delete Middle name"
             @knocks_info_deleted ="deleteMiddlename(userObject.middle_name)"
             route="usermiddlename"
             message="middlename"
-            class="col right"
+            class="right"
             >
           </knocksuserinfodelete>
     </div>
+  </div>
     <div class = "">
-              <knockselinput 
+              <knockselinput
               placeholder = "Last Name"
               is_required
               el_follower
@@ -136,6 +142,11 @@
                   disable_placeholder
                   icon = "knocks-plus"
                   success_at = "done"
+
+                  :precondition = "nickname != userObject.nickname"
+                  validation_error = "You Didn't change your Nickname."
+                  :disabled =  "nickname == userObject.nickname"
+
                   :error_at = "[
                   { res : 'invalid' , msg : 'You already have a preset with this name.' }
                   ]"
@@ -146,9 +157,20 @@
                   @knocks_submit_accepted = "passToParent($event)"
 
                   slot = "aside">
+
                   </knockselbutton>
                   </knockselinput>
+                  <div v-if = "userObject.nickname != null" class = "row">
+                  <knocksuserinfodelete
+                    :userObject="userObject"
+                    placeholder = "Delete Nickname"
+                    route="usernickname"
+                    message="nickname"
+                    class="right"
+                    >
+                  </knocksuserinfodelete>
                 </div>
+              </div>
                 <div class="row">
               <div class = "col s12 knocks_house_keeper">
                 <div class = "col s11 knocks_house_keeper">
@@ -202,11 +224,12 @@
   anchor_active_class = "blue white-text"
   anchor_regular_class = "white blue-text knocks_sm_side_padding"
   anchor_class ="btn  knocks_noshadow_ps knocks_gray_border"
+  :hide_labels_on_small = "true"
  :options = "knocksTapsDevOptionss" >
    </knockstaps>
 
    <knockselbutton
-   placeholder = "Upgrade Gender"
+   placeholder = "Update Gender"
    :error_at = "[
    { res : 'invalid' , msg : 'You already have a preset with this name.' }
    ]"
@@ -248,6 +271,9 @@
          disable_placeholder
          icon = "knocks-plus"
          success_at = "done"
+         :precondition = "orientation != userObject.orientation"
+         validation_error = "You Didn't change your Orientation."
+         :disabled =  "orientation == userObject.orientation"
          :error_at = "[
          { res : 'invalid' , msg : 'You already have a preset with this name.' }
          ]"
@@ -258,6 +284,16 @@
          slot = "aside">
          </knockselbutton>
          </knockselinput>
+         <div v-if = "userObject.orientation != null" class = "row">
+         <knocksuserinfodelete
+           :userObject="userObject"
+           placeholder = "Delete Orientation"
+           route="userorientation"
+           message="orientation"
+           class="right"
+           >
+         </knocksuserinfodelete>
+       </div>
        </div>
      <div class = "">
            <knockselinput
@@ -276,6 +312,9 @@
            disable_placeholder
            icon = "knocks-plus"
            success_at = "done"
+           :precondition = "religon != userObject.religon"
+           validation_error = "You Didn't change your Religon."
+           :disabled =  "religon == userObject.religon"
            :error_at = "[
            { res : 'invalid' , msg : 'You already have a preset with this name.' }
            ]"
@@ -286,6 +325,16 @@
            slot = "aside">
            </knockselbutton>
            </knockselinput>
+           <div v-if = "userObject.religon != null" class = "row">
+           <knocksuserinfodelete
+             :userObject="userObject"
+             placeholder = "Delete Religon"
+             route="userreligon"
+             message="religon"
+             class="right"
+             >
+           </knocksuserinfodelete>
+         </div>
        </div>
        <div class = "">
              <knockselinput
@@ -304,6 +353,9 @@
              disable_placeholder
              icon = "knocks-plus"
              success_at = "done"
+             :precondition = "marital_status != userObject.marital_status"
+             validation_error = "You Didn't change your Martial status"
+             :disabled =  "marital_status == userObject.marital_status"
              :error_at = "[
              { res : 'invalid' , msg : 'You already have a preset with this name.' }
              ]"
@@ -314,6 +366,16 @@
              slot = "aside">
              </knockselbutton>
              </knockselinput>
+             <div v-if = "userObject.marital_status != null" class ="row">
+             <knocksuserinfodelete
+               :userObject="userObject"
+               placeholder = "Delete Marital status"
+               route="usermaritalstatus"
+               message="maritalstatus"
+               class="right"
+               >
+             </knocksuserinfodelete>
+           </div>
            </div>
          <div class = "">
                <knockselinput
@@ -332,6 +394,9 @@
                disable_placeholder
                icon = "knocks-plus"
                success_at = "done"
+               :precondition = "bio != userObject.bio"
+               validation_error = "You Didn't change your Bio."
+               :disabled =  "bio == userObject.bio"
                :error_at = "[
                { res : 'invalid' , msg : 'You already have a preset with this name.' }
                ]"
@@ -342,8 +407,18 @@
                slot = "aside">
                </knockselbutton>
                </knockselinput>
+               <div v-if = "userObject.bio != null" class="row">
+               <knocksuserinfodelete
+                 :userObject="userObject"
+                 placeholder = "Delete Bio"
+                 route="userbio"
+                 message="bio"
+                 class="right"
+                 >
+               </knocksuserinfodelete>
              </div>
-           <div class = "">
+             </div>
+           <div class = " ">
                  <knockselinput
                  placeholder = "Phone"
                  is_required
@@ -360,6 +435,9 @@
                  disable_placeholder
                  icon = "knocks-plus"
                  success_at = "done"
+                 :precondition = "phone != userObject.phone"
+                 validation_error = "You Didn't change your Phone."
+                 :disabled =  "phone == userObject.phone"
                  :error_at = "[
                  { res : 'invalid' , msg : 'You already have a preset with this name.' }
                  ]"
@@ -370,10 +448,21 @@
                  slot = "aside">
                  </knockselbutton>
                  </knockselinput>
+                 <div v-if = "userObject.phone != null" class = "row">
+                 <knocksuserinfodelete
+                   :userObject="userObject"
+                   route="userphone"
+                     placeholder = "Delete Phone"
+                   message="phone"
+                   class="right"
+                   >
+                 </knocksuserinfodelete>
+</div>
 </div>
     <!-- </el-dialog> -->
 </div>
 <div class = "col l4 hide-on-med-and-down">
+
 </div>
 </div>
 </template>
@@ -450,7 +539,7 @@ name: 'knocksuserinfoedit',
        dialogVisible: false,
         knocksTapsDevOptionss : [ { icon : 'knocks-male2' , label : 'Male' , static : true , value : 'male'} ,
                                  { icon : 'knocks-female2' , label : 'Female' , static : true , value : 'female'} ,
-                                 { label : 'Other' , static : true , value : 'other'}
+                                 { icon : 'knocks-genderless' , label : 'Other' , static : true , value : 'other'}
                                ],
    }
    },

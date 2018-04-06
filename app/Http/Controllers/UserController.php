@@ -414,5 +414,47 @@ public function deleteUsermiddleName(Request $request){
 	return 'done';
 }
 
+public function deleteUsernickName(Request $request){
+	$user = User::find(auth()->user()->id);
+	$user->nickname = null;
+	$user->update();
+	return 'done';
+}
+
+public function deleteUserorientation(Request $request){
+	$user = User::find(auth()->user()->id);
+	$user->orientation = null;
+	$user->update();
+	return 'done';
+}
+
+public function deleteUserreligon(Request $request){
+	$user = User::find(auth()->user()->id);
+	$user->religon = null;
+	$user->update();
+	return 'done';
+}
+
+public function deleteUsermaritalstatus(Request $request){
+	$user = User::find(auth()->user()->id);
+	$user->marital_status = null;
+	$user->update();
+	return 'done';
+}
+
+public function deleteUserbio(Request $request){
+	$user = User::find(auth()->user()->id);
+	$user->bio = null;
+	$user->update();
+	return 'done';
+}
+
+public function deleteUserphone(Request $request){
+	$user = User::find(auth()->user()->id);
+	$user->phone = null;
+	$user->update();
+	return 'done';
+}
+
 
 }
