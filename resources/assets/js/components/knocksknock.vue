@@ -172,6 +172,7 @@
             :sources = 'knockObject.index.images_specifications'
             :object_id = "knockObject.object_id"
             :user_id = "current_user"
+            :created_at = "knockObject.created_at"
             :owner_object = "ownerObject"
             :owner_id = "knockObject.user_id"></knocksimageviewer>
           </div>

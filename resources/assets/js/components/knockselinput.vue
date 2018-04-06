@@ -471,14 +471,14 @@
             App.$emit('knocks_input_status' , vm.isValid);
            }
           });
-            App.$on('knocks_input_update' , (scope)=>{
+            App.$on('knocks_input_update' , (payloads)=>{
             if(scope != null){
               let i;
               if(vm.scope == null) return;
-              for(i = 0; i < scope.length; i++){
-                if(vm.scope.indexOf(scope[i]) != -1){
+              for(i = 0; i < payloads.scope.length; i++){
+                if(vm.scope.indexOf(payloads.scope[i]) != -1){
                  vm.isFired = true;
-                 vm.input = scope.value ;
+                 vm.input = payloads.scope.value ;
                  return;
                 }
               }

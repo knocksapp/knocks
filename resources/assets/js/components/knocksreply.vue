@@ -1,6 +1,7 @@
 <template>
 <transition   name="custom-classes-transition" enter-active-class="animated zoomInDown" leave-active-class="animated zoomOutUp">
   <div :class = "main_container" :id = "gid" class = " " v-if= "showState" style="margin-bottom : 2px !important;">
+    <slot name = "top"></slot>
     <div class = "    col s12 knocks_house_keeper ">
       <!-- LEVEL ONE -->
       <transition enter-active-class = "animated fadeInUp" leave-active-class = "animated fadeOutDown">
@@ -879,10 +880,12 @@ export default {
 
     watchMyDom(){
       const vm = this;
+      if(vm.parent_type != 'timelinephoto'){
       document.getElementById(this.gid+'_input').onpaste = function(){
       vm.watchMyDomKeeper();
       vm.watchMyDomKeeper();
     }
+  }
     $(document).on('keyup' , '#'+this.gid+'_input' , function(){
       vm.watchMyDomKeeper();
       vm.watchMyDomKeeper();
