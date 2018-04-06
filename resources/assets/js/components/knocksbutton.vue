@@ -176,8 +176,10 @@ export default {
     });
 
     App.$on('knocksFinalSubmit' , (payload)=>{
+      if(vm.scope == null || !vm.scope || payload.scope === undefined || payload.scope == null) return
       let tar;
-        for(tar in payload.scope){
+        for(tar = 0 ; tar < payload.scope.length ; tar++){
+        if(vm.scope && payload.scope[tar])
         if(vm.scope.indexOf(payload.scope[tar]) != -1){
           if(vm.submit_flag && vm.errorsStack.length == 0){
             vm.submit();

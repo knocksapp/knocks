@@ -471,6 +471,23 @@
             App.$emit('knocks_input_status' , vm.isValid);
            }
           });
+            App.$on('knocks_input_update' , (scope)=>{
+            if(scope != null){
+              let i;
+              if(vm.scope == null) return;
+              for(i = 0; i < scope.length; i++){
+                if(vm.scope.indexOf(scope[i]) != -1){
+                 vm.isFired = true;
+                 vm.input = scope.value ;
+                 return;
+                }
+              }
+              return;
+           }else if(scope == null && vm.scope == null){
+            vm.isFired = true;
+             vm.input = scope.value ;
+           }
+          });
           $('#'+this.gid+'>input').keyup(function(e){
             if(e.which == 13)
               vm.submit();
