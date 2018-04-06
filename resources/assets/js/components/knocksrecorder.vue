@@ -324,7 +324,7 @@ export default {
 
     this.$on('recordStoped' , () => {
       vm.mainRecorder.onstop = function(e) {
-        var blob = new Blob(vm.chunks, { 'type' : 'audio/ ; codecs=opus'  });
+        var blob = new Blob(vm.chunks, { 'type' : 'audio/webm; codecs=opus'  });
       //var audElement = document.getElementById('ele');
       var audioSource = URL.createObjectURL(blob);
       //console.log(console.log(audioSource));
