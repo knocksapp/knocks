@@ -1926,6 +1926,9 @@ table.highlight > tbody > tr:hover {
 .knocks_blured_bg{
   background-color :rgba(0,0,0,0.5) !important;
 }
+.knocks_dark_blured_bg{
+  background-color :rgba(0,0,0,0.95) !important;
+}
 
 input:-webkit-autofill {
     -webkit-text-fill-color: $knocksLightColor !important;

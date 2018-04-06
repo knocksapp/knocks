@@ -390,4 +390,21 @@ class BlobController extends Controller {
 		}
 
 	}
+
+	public function imageStates(Request $req) {
+		$blob = Blob::find($req->token);
+		if ($blob == null) {
+			return 'invalid';
+		}
+		$object = obj::find($blob->object_id);
+		if ($object == null) {
+			return 'invalid';
+		}
+		if ($object->isAvailable(auth()->user()->id)) {
+			return array('object_id' => $object->id);
+		} else {
+			return 'invalid';
+		}
+
+	}
 }

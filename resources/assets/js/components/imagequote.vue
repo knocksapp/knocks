@@ -35,7 +35,7 @@ export default {
   data () {
     return {
     	quote : null ,
-    	isLoading : false ,
+    	isLoading : true ,
     	refreshOption : false ,
     }
   },

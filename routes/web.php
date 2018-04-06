@@ -247,6 +247,8 @@ Route::post('media/group/upload', 'BlobController@uploadGroupPicture');
 
 Route::post('media/cover/upload', 'BlobController@uploadCover');
 
+Route::post('media/image/states', 'BlobController@imageStates');
+
 Route::get('media/record/retrive/{id}', 'BlobController@retriveRecord');
 
 Route::get('media/image/retrive/{id}', 'BlobController@retriveImage');
@@ -298,7 +300,6 @@ Route::post('hashtag/lazy', 'HashtagsController@lazy');
 //user delete
 
 Route::post('usermiddlename/delete', 'UserController@deleteUsermiddleName');
-
 
 // Route::get('add_notification' , function(){
 //   $not = new App\Ballon();

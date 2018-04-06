@@ -1,103 +1,85 @@
 <template>
-	<div class = "col s12 knocks_house_keeper">
-
-<!--     <div class="carousel carousel-slider center" :id = "gid+'_outter_carousel'" data-indicators="true" style="max-height : 300px;" @mouseover="hoverFlag()">
-    <a class="carousel-item uk-vertical-align" v-for = "(src , index) in sources" >
-      <img class = "knocks_standard_border_radius uk-vertical-align-middle white z-depth-1" v-if = "inCarouselRange(index)" :src="generateUrl(src)" @dblclick="openViewPort()">
-    </a>
-     <div class="carousel-fixed-item center">
-      <a class="btn waves-effect white grey-text darken-text-2 knocks_standard_border_radius" @click = "openViewPort()">
-        <span class = "knocks-pictures3"></span> 
-        {{sources.length}}
-    </a>
-    </div>
-  </div> -->
+<div class = "col s12 knocks_house_keeper">
   <div class = "uk-position-relative uk-visible-toggle uk-light" @mouseover="hoverFlag()" uk-slideshow = "animation:scale; min-height: 300; max-height: 300">
     <ul class = "uk-slideshow-items animated zoomIn" style = "height : 300px;">
       <li v-for = "(src , index) in sources" v-loading = "mediaLoading[index]">
         <div class="uk-position-cover uk-animation-kenburns uk-animation-reverse uk-transform-origin-center-left" uk-parallax="blur: 2; sepia: 20; bgy: -400;">
-         <img class = "knocks_standard_border_radius uk-vertical-align-middle white z-depth-1" 
-         @load = "imageLoaded(index)"
-         v-if = "inCarouselRange(index)" :src="generateUrl(src)" @dblclick="openViewPort()" uk-cover>
-       </div>
-         <div v-if ="!unquoted"
-          class="uk-overlay uk-overlay-primary uk-position-bottom uk-text-center uk-transition-slide-bottom" @click = "openViewPort()" 
-         uk-parallax="viewport: 0.5">
-                <h3 class="uk-margin-remove knocks_language_font" uk-parallax="viewport: 0.5" v-if="sources.length > 1 && owner_object != null">
-                  <span class= "knocks-pictures3"></span> {{sources.length+' photos by '+owner_object.name}}
-                </h3>
-                <h3 class="uk-margin-remove knocks_language_font" uk-parallax="viewport: 0.5" v-if="sources.length == 1 && owner_object != null">
-                  <span class= "knocks-pictures3"></span> {{sources.length+' photo by '+owner_object.name}}
-                </h3>
-                <!-- <p class="uk-margin-remove">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p> -->
-                <imagequote v-if = "!unquoted" :gid = "gid" :object_id = "object_id" :blob_token = "src"></imagequote>
-         </div>
+          <img class = "knocks_standard_border_radius uk-vertical-align-middle white z-depth-1"
+          @load = "imageLoaded(index)"
+          v-if = "inCarouselRange(index)" :src="generateUrl(src)" @dblclick="viewportOpen()" uk-cover>
+        </div>
+        <div v-if ="!unquoted" @click = "viewportOpen()"
+          class="uk-overlay uk-overlay-primary uk-position-bottom uk-text-center uk-transition-slide-bottom"
+          uk-parallax="viewport: 0.5">
+          <span  @click = "viewportOpen()" class = "knocks_pointer">
+            <static_message msg = "tap to show"></static_message>
+          </span>
+          <h3 class="uk-margin-remove knocks_language_font" uk-parallax="viewport: 0.5" v-if="sources.length > 1 && owner_object != null">
+          <span class= "knocks-pictures3"></span> {{sources.length+' photos by '+owner_object.name}}
+          </h3>
+          <h3 class="uk-margin-remove knocks_language_font" uk-parallax="viewport: 0.5" v-if="sources.length == 1 && owner_object != null">
+          <span class= "knocks-pictures3"></span> {{sources.length+' photo by '+owner_object.name}}
+          </h3>
+          <imagequote v-if = "!unquoted" :gid = "gid" :object_id = "object_id" :blob_token = "src"></imagequote>
+        </div>
       </li>
     </ul>
-       <a class="uk-position-center-left uk-position-small uk-hidden-hover" href="#" uk-slidenav-previous uk-slideshow-item="previous"></a>
-       <a class="uk-position-center-right uk-position-small uk-hidden-hover" href="#" uk-slidenav-next uk-slideshow-item="next"></a>
+    <a class="uk-position-center-left uk-position-small uk-hidden-hover" href="#" uk-slidenav-previous uk-slideshow-item="previous"></a>
+    <a class="uk-position-center-right uk-position-small uk-hidden-hover" href="#" uk-slidenav-next uk-slideshow-item="next"></a>
   </div>
+  <knocksloader :gid="gid+'_loader'" v-if = "isLoading"></knocksloader>
+  <div :id="'knocks_image_port_'+gid" class="uk-modal-full" uk-modal v-if = "modalFire">
+    <div class="uk-modal-dialog knocks_dark_blured_bg" style="max-height : 100vh !important; min-height : 100vh !important; overflow : auto !important;">
+      <button class="uk-modal-close-full uk-close-large transparent" type="button" uk-close  @click = "viewportClose()"></button>
+      <div class = "row">
+      <div v-loading = "mediaLoading[currentIndex]" class = "col l8 s12 " :id = "gid+'_iv_swipping_port'">
 
+        <button class = "knocks_switch_button knocks_switch_button_left" @click = "switchImg(getPrevIndex())" :id ="gid+'_knocks_switch_button_left'">
+        <span class = "knocks-chevron-left3 knocks_text_light knocks_text_lg"></span>
+        </button>
+        <button class = "knocks_switch_button knocks_switch_button_right " @click = "switchImg(getNextIndex())" :id = "gid+'_knocks_switch_button_right'">
+        <span class = "knocks-chevron-right3 knocks_text_light knocks_text_lg"></span>
+        </button>
+       <center><div>
+          <img :src="generateUrl(sources[currentIndex])" class = "knocks_image_port_child  animated pulse " :id = "gid+'_show_origin'" @load="handleHeight(currentIndex)">
+       </div></center>
+      </div>
+      <div  class = "col l4 s12  white  animated slideInRight" style="max-height : 100vh !important; min-height : 100vh !important; overflow : auto !important;">
+        <knockspopover class = "right">
+        <template slot = "container">
 
-    <!-- <a @click = "openViewPort()" class = "col s12 valign-wrapper " style="height:200px; width: 200px"> -->
-<!--       <span style = "position: absolute; top: 140px; width:200px  "  v-if = "sources.length > 1 "
-      class="knocks_text_lg knocks_blured_bg knocks_tinny_padding knocks center white-text ">+{{ sources.length -1 }}</span> -->
-      <knocksloader :gid="gid+'_loader'" v-if = "isLoading"></knocksloader>
-    <!--   <img :src = "generateUrl(sources[currentIndex])"  v-if="sources.length > 0 && !isLoading" class = "knocks_standard_border_radius" style="max-height:200px; max-width: 200px" />
-    </a>   -->
-		<a v-if = "viewPortMode" class = "knocks_black_wrapper" @click = "closeViewPort()">	
+        </template>
+        <span slot = "content"  class = "knocks_tooltip animated flipInX" >
+          <span class = "knocks-x-circle"></span>
+          <static_message msg = "Close"></static_message>
+        </span>
+        </knockspopover>
+        <br/>
+        <div class = "row knocks_house_keeper">
+          <knocksuser :user="owner_id" main_container = "col s12 knocks_house_keeper "></knocksuser>
+        </div>
+        <div v-if = "!avoidClash" class = "animated fadeIn ">
+         <br/>
+          <imagequote :gid = "gid" :object_id = "object_id" :blob_token = "sources[currentIndex]" 
+          classes = "  knocks_text_dark knocks_text_ms"
+          class = "animated slideInDown "></imagequote>
+           <div class="ui divider"></div>
 
-		</a>
-     <transition 
-        enter-active-class="animated zoomIn" 
-        leave-active-class="animated zoomOut" >
-			<div  class = "knocks_img_viewport row"  v-if = "viewPortMode">
-       
-				<div v-loading = "mediaLoading[currentIndex]" v-if = "viewPortMode" class = "col l9 s12 knocks_img_viewport_viewer" :id = "gid+'_iv_swipping_port'">
-          <a class = "knocks_left_img_port_colser white-text" @click = "closeViewPort()">
-            <span class = "knocks-x-circle knocks_text_ms"></span>
-          </a>
-          
-					<button class = "knocks_switch_button knocks_switch_button_left" @click = "switchImg(getPrevIndex())"> 
-						<span class = "knocks-chevron-left3 knocks_text_light knocks_text_lg"></span> 
-					</button>
-          
-					<button class = "knocks_switch_button knocks_switch_button_right " @click = "switchImg(getNextIndex())"> 
-						<span class = "knocks-chevron-right3 knocks_text_light knocks_text_lg"></span> 
-					</button>
-					
-					<img :src="generateUrl(sources[currentIndex])" class = "knocks_image_port_child  animated pulse " @load="handleHeight(currentIndex)">
-					
-				</div>
-      
-				<transition 
-        enter-active-class="animated slideInRight" 
-        leave-active-class="animated slideOutLeft" 
-        >
-					<div v-if = "viewPortMode" class = "col m3 hide-on-med-and-down knocks_img_viewport_content animated slideInRight">
-       <knockspopover class = "right">
-            <template slot = "container">
-               <button class = " knock_text_anchor knocks_borderless right" @click = "closeViewPort()">
-                  <span class = "knocks-x-circle knocks_text_anchor knocks_text_md"></span>
-                 </button>
-            </template>
-             <span slot = "content"  class = "knocks_tooltip animated flipInX" >
-                    <span class = "knocks-x-circle"></span>
-                    <static_message msg = "Close"></static_message>
-              </span>
-          </knockspopover>
-          <div class = "row">
-            <knocksuser :user="owner_id"></knocksuser>
-          </div>
-          <slot></slot>     
-          </div>
-				</transition>
-       
-				
-			</div>
-      </transition>	
-	</div>
-</template>
+          <knocksimagestates
+          :gid = "gid+'_states'"
+          :created_at = "created_at"
+          v-if = "owner_object != null"
+          :scope = "[gid + '_state_scope']"
+          :candy = "owner_object.kid"
+          :owner_object = "owner_object"
+          :token = "sources[currentIndex]"></knocksimagestates>
+        </div>
+      </div>
+    </div>
+    </div>
+  </div>
+  </div>
+  </template>
 
 <script>
 export default {
@@ -136,6 +118,10 @@ export default {
       type : Boolean , 
       default : false 
     },
+    created_at : {
+      type : String , 
+      default : ''
+    }
 
   },
   data () {
@@ -147,6 +133,8 @@ export default {
       isHovered : true ,
       carouselHover : false ,
       mediaLoading : [] ,
+      avoidClash : false ,
+      modalFire : false ,
 
     }
   },
@@ -163,11 +151,16 @@ export default {
     $(document).ready(function(){
       $('.carousel').carousel();
     });
+
      const vm = this;
   	//this.retriveImages();
   	$(document).ready(function(){
-  		$('.knocks_image_port_child').css({ 'margin-top' : ($($(this).parent()).height()-$(this).height())/2+ ' px' });
+      vm.reviseHeight();
+  	//	$('.knocks_image_port_child').css({ 'margin-top' : ($($(this).parent()).height()-$(this).height())/2+ ' px' });
   	});
+    $(window).resize(function(){
+      vm.reviseHeight();
+    })
     $('body').keyup(function(e){
        var code = e.keyCode || e.which;
        if(vm.viewPortMode && code === 27){
@@ -185,6 +178,36 @@ export default {
     })
   },
   methods : {
+    viewportOpen(){
+    const vm = this;
+    if(!this.modalFire) this.modalFire = true;
+    this.viewPortMode = true
+     setTimeout(()=>{
+      UIkit.modal( $('#knocks_image_port_'+this.gid)).show(); 
+      this.reviseHeight();
+      this.listenForSwips();
+    },200)
+     
+
+    },
+    viewportClose(){
+      this.viewPortMode = false
+      UIkit.modal( $('#knocks_image_port_'+this.gid)).hide();
+    },
+    listenForSwips(){
+      const vm = this;
+       $('#'+vm.gid+'_iv_swipping_port').swipe( {
+        //Generic swipe handler for all directions
+        swipe:function(event, direction, distance, duration, fingerCount, fingerData) {
+          console.log(direction); console.log(distance)
+          if(direction == 'left') vm.switchImg(vm.getPrevIndex());
+          if(direction == 'right') vm.switchImg(vm.getNextIndex());
+          if(direction == 'up' || direction == 'down') vm.viewportClose();
+        },
+        //Default is 75px, set to 0 for demo so any distance triggers swipe
+         threshold:0
+      });
+    },
     imageLoaded(src){
       console.log('src loaded #'+src);
       this.mediaLoading[src] = false;
@@ -208,6 +231,7 @@ export default {
   		return LaravelOrgin+this.fill_from+'/'+source
   	},
   	openViewPort(){
+
   		this.viewPortMode = true;
       const vm = this;
       $('body').css({ 'overflow' : 'hidden'});
@@ -233,29 +257,54 @@ export default {
       $('body').css({'overflow' : 'inherit'})
   	},
   	handleHeight(src){
+      const vm = this;
   		this.imageLoaded(src);
   	 $(document).ready(function(){
   	    	//alert($('knocks_image_port_child').height());
 
-  		$('.knocks_image_port_child').css
-  		({ 'margin-left' : ($('.knocks_img_viewport_viewer').width() - $('.knocks_image_port_child').width()) /2+ 'px'});
-  		 $('.knocks_image_port_child').css
-  		({ 'margin-top' : ($('.knocks_img_viewport').height() - $('.knocks_image_port_child').height()) /2+ 'px'});
-  		$('.knocks_image_port_child').css
-  		({ 'max-height' : ($('.knocks_img_viewport').height()) + 'px'});
-  		$('.knocks_image_port_child').removeClass('animated pulse').addClass('animated pulse'); 		
-  		$(window).resize(function(){
-	  		$('.knocks_image_port_child').css
-	  		({ 'margin-left' : ($('.knocks_img_viewport_viewer').width() - $('.knocks_image_port_child').width()) /2+ 'px'});
-	  		 $('.knocks_image_port_child').css
-	  		({ 'margin-top' : ($('.knocks_img_viewport').height() - $('.knocks_image_port_child').height()) /2+ 'px'});
-	  		$('.knocks_image_port_child').css
-	  		({ 'max-height' : ($('.knocks_img_viewport').height()) + 'px'});
-	  		$('.knocks_image_port_child').removeClass('animated pulse').addClass('animated pulse');
-  		});
+  		// $('.knocks_image_port_child').css
+  		// ({ 'margin-left' : ($('.knocks_img_viewport_viewer').width() - $('.knocks_image_port_child').width()) /2+ 'px'});
+      vm.reviseHeight();
+  		// $('.knocks_image_port_child').css
+  		// ({ 'max-height' : ($('.knocks_img_viewport').height()) + 'px'});
+  		// $('.knocks_image_port_child').removeClass('animated pulse').addClass('animated pulse'); 		
+  		// $(window).resize(function(){
+	  	// 	$('.knocks_image_port_child').css
+	  	// 	({ 'margin-left' : ($('.knocks_img_viewport_viewer').width() - $('.knocks_image_port_child').width()) /2+ 'px'});
+	  	// 	 $('.knocks_image_port_child').css
+	  	// 	({ 'margin-top' : ($('.knocks_img_viewport').height() - $('.knocks_image_port_child').height()) /2+ 'px'});
+	  	// 	$('.knocks_image_port_child').css
+	  	// 	({ 'max-height' : ($('.knocks_img_viewport').height()) + 'px'});
+	  	// 	$('.knocks_image_port_child').removeClass('animated pulse').addClass('animated pulse');
+  		// });
 
   	});
   	},
+    reviseHeight(){
+      //let images = document.getElementsByClassName('knocks_image_port_child');
+      let image = $('#'+this.gid+'_show_origin')
+      if($(window).height() >= image.height() && $(window).width() > 900)
+       $(image).css
+      ({ 'margin-top' : ($(window).height() - image.height()) /2+ 'px'});
+     let switcherRight , switcherLeft ;
+     if($(window).width() < 900){
+       switcherRight = document.getElementById(this.gid+'_knocks_switch_button_right');
+        $(switcherRight).css
+        ({ 'top' : (image.height() - 35 ) / 2 + 'px'});
+
+       switcherLeft = $('#'+this.gid+'_knocks_switch_button_left');
+        $(switcherLeft).css
+        ({ 'top' :  (image.height() - 35 ) / 2 + 'px'});
+      }else{
+         switcherRight = document.getElementById(this.gid+'_knocks_switch_button_right');
+        $(switcherRight).css
+        ({ 'top' : ($(window).height() - 35 ) / 2 + 'px'});
+
+       switcherLeft = $('#'+this.gid+'_knocks_switch_button_left');
+        $(switcherLeft).css
+        ({ 'top' :  ($(window).height() - 35 ) / 2 + 'px'});
+      }
+    },
   	getNextIndex(){
   		return this.currentIndex + 1 == this.len ? 0 : this.currentIndex+1 ;
   	},
@@ -263,9 +312,17 @@ export default {
   		return this.currentIndex == 0 ? this.len-1 : this.currentIndex-1;
   	},
   	switchImg(index){
-  		this.currentIndex = index;
-  		$('.knocks_image_port_child').removeClass('animated pulse');
-  		//setTimeout(()=>{ $('.knocks_image_port_child').addClass('animated pulse');} ,200);
+      this.avoidClash = true;
+    	this.currentIndex = index;
+  		setTimeout(()=>{ 
+        this.avoidClash = false 
+        this.reviseHeight()
+         $('.knocks_image_port_child').removeClass('animated pulse');
+        $('.knocks_image_port_child').addClass('animated pulse');
+      } ,200);
+        
+      
+      
 
   	},
     toggleHoverMode(){
@@ -276,6 +333,11 @@ export default {
 </script>
 
 <style lang="css" scoped>
+.uk-modal-full {
+    padding: 0;
+    background: none;
+    z-index: 800000000000 !important;
+}
 .knocks_img_viewport{
 	position: fixed !important ;
 	top : 70px !important;
@@ -297,19 +359,23 @@ export default {
 	z-index : 2000000 !important;
 }
 .knocks_image_port_child{
-	border-radius: 15px ;
+	border-radius: 5px ;
 	border: 0px solid transparent;
 	opacity: 0.9;
-	
+	max-height: 80vh !important
 }
 
 .knocks_switch_button{
 	position: absolute;
-	top : 47%;
+	top : calc(50% - 35px);
+  height: 70px;
+  width: 70px;
+  //line-height: 70px;
+  text-align: center;
 	background-color: rgba(255,255,255,0.1);
 	border-radius: 10px;
 	border : 0px transparent;
-	padding: 2% !important;
+	//padding: 2% !important;
 	z-index: 2000003 !important;
 }
 .knocks_switch_button:hover{
@@ -323,7 +389,7 @@ export default {
 }
 @media only screen and (min-width : 800px) {
   .knocks_switch_button_right{
-	right: calc(25% + 7px) !important;
+	right: calc(33.3% + 7px) !important;
 
 }
 .knocks_img_viewport_viewer{
