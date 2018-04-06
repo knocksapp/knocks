@@ -590,7 +590,6 @@ export default {
       // prevent the default behaviour of return key pressed
       return false;
     }
-    App.$emit('KnocksContentChanged')
   });
 
     document.getElementById(this.gid+'_input').onpaste = function(){
@@ -1025,6 +1024,7 @@ export default {
     });
     },
     submitFormat(){
+      this.watchMyDom();
       let hasPictures , imagesTokens , quotes;
       if(this.filesTokens == null) hasPictures = false ;
       else if(this.filesTokens.images == undefined) hasPictures = false ;
