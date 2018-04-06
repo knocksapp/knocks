@@ -16,8 +16,8 @@
 		@success="requestCount()"
 	  >
 		</knocksretriver>
-		  <div class="row knocks_fair_bounds" v-if="update_pic" style ="width : 50%;">
-		  	<div class="">
+		  <div class="row knocks_fair_bounds" v-if="update_pic">
+		  	<div class="col s12 l6">
           	 <knockscroppie
 		    gid = "knocks_group_picture_uploader"
 		    success_at = "done"
@@ -132,42 +132,8 @@
         </span>
       </div>
     </li>
-    <li>
-      <div class="collapsible-header"><i class="knocks-group2 grey-text"></i>Group Members</div>
-      <div class="collapsible-body">
-      	<span>
-           <div class="row" v-if="group_members != null && group_members.response != null">
-				   <ul class="uk-list uk-list-divider">
-				    	<li  v-for="(mem,index) in group_members.response" class="knocks_fair_bounds">
-				    	<knocksuser
-				        :show_accept_shortcut="false" 
-				        class="col s10 animated fadeIn" 
-				        :user="mem.user_id"  :as_result="true"
-				        >
-                        <span 
-                        slot="append_to_name" 
-                        class=""
-                        ><span v-if="mem.position == 'Owner'" class="uk-badge red" style="font-size : 10px !important">Owner</span>
-                        <span v-if="mem.position == 'Member'" class="uk-badge blue knocks_text_sm" style="font-size : 10px !important">Member</span>
-                        <span v-if="mem.position == 'Admin'" class="uk-badge green knocks_text_sm" style="font-size : 10px !important">Admin</span>
-                      </span>
-                        </knocksuser>
-                        <span class="right">
-                        	<knocksgroupmemberdelete 
-                        	@member_deleted="group_members.response.splice(index,1)" 
-                        	:group_id="group_object.id" 
-                        	:gid="index"
-                            :member_delete = "mem.user_id"
-                            ></knocksgroupmemberdelete>
-                        </span>
-      				     </li>
-      			   </ul>
-      		</div>
-         </span>
-       </div>
-    </li>
     <li v-if="group_object.preset == 'closed' || group_object.preset == 'secret'">
-      <div v-if="group_requests != null && group_requests.response != null" class="collapsible-header"><i class="knocks-mail4 grey-text"></i>Mange Users Requests </br> <el-badge :value="request_count" class="item"></el-badge></div>
+      <div v-if="group_requests != null && group_requests.response != null" class="collapsible-header"><i class="knocks-mail4 grey-text"></i>Manage Users Requests </br> <el-badge :value="request_count" class="item"></el-badge></div>
       <div class="collapsible-body" v-if="group_requests != null && group_requests.response != null && group_object != null">
       	<span v-if="group_requests.response != null"> 
       		<div  v-for="(user,index) in group_requests.response" >
@@ -196,13 +162,15 @@
         <span>
            <div class="row" v-if="group_members != null && group_members.response != null">
            <ul class="uk-list uk-list-divider">
-              <li  v-for="(mem,index) in group_members.response" class="knocks_fair_bounds">
-                
+              <li  v-for="(mem,index) in group_members.response">
+                 <knocksgroupmemberposition :user_id = "mem.user_id" :group_id="group_object.id"></knocksgroupmemberposition>
               <knocksuser
                 :show_accept_shortcut="false" 
-                class=" animated fadeIn" 
-                :user="mem.user_id"  :as_result="true"
+                class="col s5 animated fadeIn" 
+                :user="mem.user_id" 
+                :as_result="true"
                 :show_username = "false"
+
                 > 
                 <span 
                 slot = "append_to_name"
@@ -231,7 +199,7 @@
                 </span>
                 
                         </knocksuser>
-                        <knocksgroupmemberposition :user_id = "mem.user_id" :group_id="group_object.id"></knocksgroupmemberposition>
+                       
                    </li>
                </ul>
           </div>
@@ -261,7 +229,8 @@ export default {
       group_requests : null,
       request_count : 0,
       pic : false,
-      update_pic : false
+      update_pic : false,
+      authposition : UserId
     }
   },
   methods : {

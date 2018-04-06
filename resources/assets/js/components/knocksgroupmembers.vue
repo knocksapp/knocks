@@ -64,7 +64,8 @@
                    Admin
                   </span></span>
                          </knocksuser>
-                         <span class="right" v-if="mem.position != 'Owner' || mem.position != 'Admin'"><knocksgroupmemberdelete 
+                         <span class="right" v-if="mem.position != 'Owner' || mem.position != 'Admin'">
+                          <knocksgroupmemberdelete 
                           :authposition = "authposition"
                           :position="mem.position" @member_deleted="group_members.response.splice(index,1)" :group_id="group_object.id" :gid="index" :member_delete = "mem.user_id"></knocksgroupmemberdelete></span>
       				      </li>

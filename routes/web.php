@@ -122,6 +122,8 @@ Route::post('/decline_request_group', 'UserRequestController@declineRequestForGr
 
 Route::post('/remove_member', 'GroupMemberController@removeMember');
 
+Route::post('/delete_group', 'GroupController@deleteGroup');
+
 Route::post('/get_group_pictures', 'GroupController@getPictures');
 
 Route::post('/get_group_files', 'GroupController@getFiles');
@@ -203,6 +205,8 @@ Route::post('get_group_members_positions', 'GroupMemberController@getMembersPosi
 Route::post('set_member_admin', 'GroupMemberController@setMembersToAdmin');
 
 Route::post('set_admin_member', 'GroupMemberController@setAdminToMember');
+
+Route::post('set_to_owner', 'GroupMemberController@setToOwner');
 
 Route::post('post/create', 'KnockController@create');
 

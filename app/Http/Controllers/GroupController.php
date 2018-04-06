@@ -45,12 +45,17 @@ class GroupController extends Controller
     }
 
     public function joinPublicGroup(Request $request){
-    	$newUser = new Group_member;
-    	$newUser->initialize(
-    		$user_id = $request->user,
-    		$group_id = $request->group,
-    		$position = 'Member'
-    	);
+      $checkUser = Group_member::where('user_id','=',$request->user)
+      ->where('group_id','=',$request->group)->get();
+      if(count($checkUser) > 0){
+        return 'fail';
+      }else{
+        $newUser = new Group_member;
+      $newUser->initialize(
+        $user_id = $request->user,
+        $group_id = $request->group,
+        $position = 'Member'
+      );
 
       if($request->state == 'request'){
         $upd = User_request::where('sender_id','=',$request->user)->where('reciver_id','=',$request->group)->
@@ -58,14 +63,21 @@ class GroupController extends Controller
         $upd->response = 'accepted';
         $upd->update();
       }
-    	
-    	$group = Group::find($request->group);
-    	$group->increaseMembers();
+      
+      $group = Group::find($request->group);
+      $group->increaseMembers();
         $newUser->save();
-    	return 'done';
+      return 'done';
+      }
+    	
     }
 
     public function joinClosedGroup(Request $request){
+       $checkUser = Group_member::where('user_id','=',$request->user)
+      ->where('group_id','=',$request->group)->get();
+      if(count($checkUser) > 0){
+        return 'false';
+      }else{
          $checkOwner = Group_member::where('user_id','=',$auth->user()->id)->where('group_id','=',$request->group)->get();
       if(count($checkOwner) > 0){
          $newUser = new Group_member;
@@ -82,10 +94,15 @@ class GroupController extends Controller
     }else{
       return 'false';
     }
-     
+     }
     }
 
     public function addMemberPublicGroup(Request $request){
+       $checkUser = Group_member::where('user_id','=',$request->user)
+      ->where('group_id','=',$request->group)->get();
+      if(count($checkUser) > 0){
+        return 'failed';
+      }else{
       $ingroup = Group_member::where('group_id','=',$request->group)->where('user_id','=',auth()->user()->id)->where('position','=','Owner')->get();
       if(count($ingroup) > 0){
         $newUser = new Group_member;
@@ -100,6 +117,7 @@ class GroupController extends Controller
       return 'done';
       }
       return 'failed';
+    }
     }
 
 
@@ -203,5 +221,9 @@ class GroupController extends Controller
         $group->update();
         return 'done';
       }else return 'not found';
+    }
+    public function deleteGroup(Request $request){
+          $del = Group::find($request->group_id)->delete();
+          return 'done';
     }
 }
