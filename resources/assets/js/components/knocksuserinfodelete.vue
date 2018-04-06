@@ -1,17 +1,22 @@
 <template>
 
 	<div >
-		 <el-tooltip class="item" effect="light" content="Delete" placement="bottom">
-    		<knockselbutton
-    		      icon = "knocks-trash-can3 knocks_text_md"
-              class = "right knocks_tinny_margin"
-              size = "mini"
-              disable_placeholder
-              type=""
-              button_classes = "knocks_rounded_border"
-              :submit_flag = "false"
-              @knocks_button_clicked="centerDialogVisible = true"
-    		 ></knockselbutton>
+		 <el-tooltip class="col knocks_house_keeper" effect="light" content="Delete" placement="bottom">
+
+				 <knockselbutton
+         :placeholder = "placeholder"
+				 icon = "knocksapp-trash red-text"
+					type = "default"
+					success_at = "done"
+					button_classes = "knocks_borderless"
+					label_classes= "red-text"
+					:scope = "['delete_'+message]"
+				 :submit_flag = "false"
+				  @knocks_button_clicked="centerDialogVisible = true"
+
+
+
+				 ></knockselbutton>
             		    </el-tooltip>
                       <el-dialog
                        :title="message"
@@ -22,6 +27,17 @@
 
                        <span v-if="message == 'middlename' || message == 'Middlename' || message == 'middle name' || message == 'Middle name'"> <span><i style="color : red; font-size : 30px" class="knocks-trash-can3"> </i></span> Are you sure that you want to delete  <strong style="font-size : 20px; color : red;">{{userObject.middle_name}}</strong>  from your Informations?</span>
 
+											 <span v-if="message == 'nickname' || message == 'Nickname' || message == 'nick name' || message == 'Nick name'"> <span><i style="color : red; font-size : 30px" class="knocks-trash-can3"> </i></span> Are you sure that you want to delete  <strong style="font-size : 20px; color : red;">{{userObject.nickname}}</strong>  from your Informations?</span>
+
+											 <span v-if="message == 'orientation' || message == 'Orientation' "> <span><i style="color : red; font-size : 30px" class="knocks-trash-can3"> </i></span> Are you sure that you want to delete  <strong style="font-size : 20px; color : red;">{{userObject.orientation}}</strong>  from your Informations?</span>
+
+											 <span v-if="message == 'religon' || message == 'Religon' "> <span><i style="color : red; font-size : 30px" class="knocks-trash-can3"> </i></span> Are you sure that you want to delete  <strong style="font-size : 20px; color : red;">{{userObject.religon}}</strong>  from your Informations?</span>
+
+											 <span v-if="message == 'maritalstatus' || message == 'Maritalstatus' || message == 'marital status' || message == 'Marital status'"> <span><i style="color : red; font-size : 30px" class="knocks-trash-can3"> </i></span> Are you sure that you want to delete  <strong style="font-size : 20px; color : red;">{{userObject.marital_status}}</strong>  from your Informations?</span>
+
+											 <span v-if="message == 'bio' || message == 'Bio' "> <span><i style="color : red; font-size : 30px" class="knocks-trash-can3"> </i></span> Are you sure that you want to delete  <strong style="font-size : 20px; color : red;">{{"Bio"}}</strong>  from your Informations?</span>
+
+											 <span v-if="message == 'phone' || message == 'Phone' "> <span><i style="color : red; font-size : 30px" class="knocks-trash-can3"> </i></span> Are you sure that you want to delete  <strong style="font-size : 20px; color : red;">{{userObject.phone}}</strong>  from your Informations?</span>
 
 
                        <span slot="footer" class="dialog-footer">
@@ -78,6 +94,10 @@ export default {
          	type : Object,
          	default : null
          },
+				 placeholder: {
+					 type : String ,
+					 default : ''
+				 },
          route : {
           type: String,
           required : true
@@ -85,7 +105,11 @@ export default {
          message : {
           type : String,
           required : true
-         }
+				},
+				 classes : {
+					 type : String,
+           required : false
+				 }
     },
   }
 </script>

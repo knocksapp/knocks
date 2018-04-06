@@ -6,6 +6,7 @@
   <static_message msg = "General" class = "hide-on-small-only"></static_message>
 </span>
 <knocksuser main_container = "row knocks_house_keeper" v-model = "userObject" :user="user" as_report></knocksuser>
+<knocksusergenralinfo :user ="user"></knocksusergenralinfo>
 </el-tab-pane>
 <el-tab-pane name = "career" v-loading = "careerIsLoading">
 <span class ="knocks_text_anchor" slot="label">
