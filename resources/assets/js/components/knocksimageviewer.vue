@@ -72,6 +72,7 @@
           :scope = "[gid + '_state_scope']"
           :candy = "owner_object.kid"
           :owner_object = "owner_object"
+          :knock_id = "knock_id"
           :token = "sources[currentIndex]"></knocksimagestates>
         </div>
       </div>
@@ -121,6 +122,10 @@ export default {
     created_at : {
       type : String , 
       default : ''
+    },
+    knock_id : {
+      type : Number , 
+      required : true ,
     }
 
   },

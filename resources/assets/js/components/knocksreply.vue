@@ -938,6 +938,7 @@ export default {
       this.textContent = {text : '' , voice : ''};
       this.finalTextBody = "";
       App.$emit('knocks_multiple_uploader_reset' , this.scope);
+      this.$emit('knocks_reply_done');
       $('#'+this.gid+'_input').empty()
       $('#'+this.gid+'_input').blur()
       this.notifi();

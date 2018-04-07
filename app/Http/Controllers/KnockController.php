@@ -108,7 +108,7 @@ class KnockController extends Controller {
 		if ($request->max == null) {
 			if (Knock::find($request->knock)->comments()) {
 				$array = array();
-				$comments = Knock::find($request->knock)->comments()->get();
+				$comments = Knock::find($request->knock)->comments()->where('type', '=', 'knock')->get();
 				foreach ($comments as $comment) {
 					$object = obj::find($comment->object_id);
 					if ($object->isAvailable(auth()->user()->id)) {

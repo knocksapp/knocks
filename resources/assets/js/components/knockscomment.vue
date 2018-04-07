@@ -248,7 +248,7 @@ passedOnce : false ,
 ownerObject : null ,
 interest : false ,
 userId : UserId  , 
-parentKnockOwner : null ,
+
 isLoading : false , 
 };
 },
@@ -375,7 +375,7 @@ loadKnockData(){
           window.UserComments[vm.knock] = vm.knockObject;
           vm.knockObject.time = null;
           vm.knockObject.timedate = null;
-          vm.parentKnockOwner = UserKnocks[vm.knockObject.post_id].user_id;
+          //vm.parentKnockOwner = UserKnocks[vm.knockObject.post_id].user_id;
 
           
           setTimeout( ()=>{

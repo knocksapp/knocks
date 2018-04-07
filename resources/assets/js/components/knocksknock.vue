@@ -174,6 +174,7 @@
             :user_id = "current_user"
             :created_at = "knockObject.created_at"
             :owner_object = "ownerObject"
+            :knock_id = "knock"
             :owner_id = "knockObject.user_id"></knocksimageviewer>
           </div>
           <div class = "row knocks_house_keeper" v-if = "knockObject.index.has_files && knockObject.index.files_specifications.length > 0" style="padding : 4px !important">

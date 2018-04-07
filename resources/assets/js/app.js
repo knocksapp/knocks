@@ -340,6 +340,7 @@ Vue.component('knocksquickcircleadder', require('./components/knocksquickcirclea
 Vue.component('knockshashtagchip', require('./components/knockshashtagchip.vue'));
 Vue.component('knocksimagestates', require('./components/knocksimagestates.vue'));
 Vue.component('knocksuserinfodelete', require('./components/knocksuserinfodelete.vue'));
+Vue.component('knocksphotocomments', require('./components/knocksphotocomments.vue'));
 
  window.App = new Vue();
  new Vue({
