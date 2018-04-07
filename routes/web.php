@@ -245,6 +245,8 @@ Route::post('media/cover/upload', 'BlobController@uploadCover');
 
 Route::post('media/image/states', 'BlobController@imageStates');
 
+Route::post('media/image/comments', 'BlobController@imageComments');
+
 Route::get('media/record/retrive/{id}', 'BlobController@retriveRecord');
 
 Route::get('media/image/retrive/{id}', 'BlobController@retriveImage');

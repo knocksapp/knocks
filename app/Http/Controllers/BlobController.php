@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Blob;
+use App\Comment;
 use App\Group;
 use App\obj;
 use App\User;
@@ -406,5 +407,28 @@ class BlobController extends Controller {
 			return 'invalid';
 		}
 
+	}
+	public function imageComments(Request $req) {
+		$blob = Blob::find($req->token);
+		if ($blob == null) {
+			return 'invalid';
+		}
+		$object = obj::find($blob->object_id);
+		if ($object == null) {
+			return 'invalid';
+		}
+		if ($object->isAvailable(auth()->user()->id)) {
+			$comments = Comment::where('type', '=', 'timelinephoto')
+				->where('at', '=', $req->token)
+				->where('id', '>', $req->max)->orderBy('id')->get()->pluck('id')->chunk(5);
+			if (count($comments)) {
+				return $comments[0];
+			} else {
+				return array();
+			}
+
+		} else {
+			return 'invalid';
+		}
 	}
 }

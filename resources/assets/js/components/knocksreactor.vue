@@ -1,13 +1,13 @@
 <template>
 <div>
   <knocksuser :user = "auth" class = "knocks_hidden" v-model = "authModel"></knocksuser>
-  <div class="fixed-action-btn knocks_reactor_target knocks_house_keeper " 
+  <div class="fixed-action-btn knocks_reactor_target knocks_house_keeper " :id = "gid + '_main'"
      :class = "[
      {'horizontal knocks_reactor_index' : inverse } ,
      {'vertical knocks_reactor_container' : !inverse} , 
      ]">
     <a :class="[initial_class , {'pulse' : selected != null } , intialButton]" @dblclick="resetORLike()" @mousedown="beginTimer()" @mouseup="checkTimer()"
-    @touchstart="beginTimer()" @touchend="checkTimer()"
+    @touchstart="beginTimer()" @touchend="checkTimer()"  @click = "openReactions()"
     >
       <i class="material-icons" :class = "intialReactor"></i>
     </a>
@@ -275,8 +275,12 @@ export default {
         this.insert();
       }
       this.$emit('input', this.selected);
+      $('#'+this.gid+'_main').closeFAB();
     },
-      insert() {
+    openReactions(){
+       $('#'+this.gid+'_main').openFAB();
+    },
+  insert() {
 
   const vm = this;
 
