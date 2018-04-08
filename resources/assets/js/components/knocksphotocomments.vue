@@ -20,7 +20,7 @@
                 class = "knocks_side_padding knocks_text_sm knocks_text_anchor knocks_pointer" style = "margin-left:2px;">
                 <span class = "knocks-chat-2"></span> Show Comments
               </a>
-              <span class = "grey-text right knocks_text_sm knocks_side_padding" v-if = "comments != null && comments.length > 0">{{showKey+'/'+comments.length}} Comments</span>
+              <span class = "grey-text right knocks_text_sm knocks_side_padding" v-if = "comments != null && comments.length > 0">{{showKeyMin+'/'+comments.length}} Comments</span>
             </div>
 		<div class="" v-for = "(com , index) in comments"  v-if = "comments != null && comments.length > 0" >
 
@@ -68,6 +68,11 @@ export default {
     	showKey : 3 , 
     	max : -1 ,
     }
+  },
+  computed :  {
+  	showKeyMin(){
+  		return Math.min(this.comments.length , this.showKey);
+  	}
   },
   methods : {
   	showRange(){

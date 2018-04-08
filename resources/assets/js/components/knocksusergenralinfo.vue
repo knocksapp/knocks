@@ -7,14 +7,14 @@
       <a
          v-if ="info_exist() "
          @click = "see_more_info()"
-         class = "left knocks_side_padding knocks_text_sm knocks_text_anchor knocks_pointer" >
-        <span class = "knocks-user"></span> See More
+         class = "left knocks_side_padding knocks_text_ms knocks_text_anchor knocks_pointer" >
+        <span class = "knocksapp-sort-down"></span> <static_message msg = "See More"></static_message>
       </a>
 
 </div>
 </div>
 
-      <div class="row knocks_house_keeper knocks_text_dark  " v-if ="userObject != null ,count == 1" >
+      <div class="row knocks_house_keeper knocks_text_dark animated fadeInDown " v-if ="userObject != null && count == 1" >
 <div class = "col s12">
           <ul >
       <li v-if="userObject.phone !== undefined && (userObject.phone !='' && userObject.phone != null )" > <span class="knocks-mobile6"></span>  <static_message msg= "Phone"></static_message>  :  {{userObject.phone}} </li>
@@ -41,8 +41,8 @@
           <a
              v-if ="info_exist() "
              @click = "see_less_info()"
-             class = "left knocks_side_padding knocks_text_sm knocks_text_anchor knocks_pointer" >
-            <span class = "knocks-user"></span> See Less
+             class = "left knocks_side_padding knocks_text_ms knocks_text_anchor knocks_pointer" >
+            <span class = "knocksapp-sort-up"></span> <static_message msg = "See Less"></static_message>
           </a>
       </div>
     </div>

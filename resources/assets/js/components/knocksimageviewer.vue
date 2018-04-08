@@ -34,13 +34,13 @@
       <div class = "row">
       <div v-loading = "mediaLoading[currentIndex]" class = "col l8 s12 " :id = "gid+'_iv_swipping_port'">
 
-        <button class = "knocks_switch_button knocks_switch_button_left" @click = "switchImg(getPrevIndex())" :id ="gid+'_knocks_switch_button_left'">
+        <button class = "knocks_switch_button knocks_switch_button_left" @click = "switchImg(getPrevIndex())" v-if ="sources.length > 1" :id ="gid+'_knocks_switch_button_left'">
         <span class = "knocks-chevron-left3 knocks_text_light knocks_text_lg"></span>
         </button>
-        <button class = "knocks_switch_button knocks_switch_button_right " @click = "switchImg(getNextIndex())" :id = "gid+'_knocks_switch_button_right'">
+        <button class = "knocks_switch_button knocks_switch_button_right " @click = "switchImg(getNextIndex())" v-if ="sources.length > 1" :id = "gid+'_knocks_switch_button_right'">
         <span class = "knocks-chevron-right3 knocks_text_light knocks_text_lg"></span>
         </button>
-       <center><div>
+       <center><div  v-loading = "mediaLoading[currentIndex] || avoidClash" >
           <img :src="generateUrl(sources[currentIndex])" class = "knocks_image_port_child  animated pulse " :id = "gid+'_show_origin'" @load="handleHeight(currentIndex)">
        </div></center>
       </div>
@@ -317,6 +317,7 @@ export default {
   		return this.currentIndex == 0 ? this.len-1 : this.currentIndex-1;
   	},
   	switchImg(index){
+      if(this.sources.length < 2) return ;
       this.avoidClash = true;
     	this.currentIndex = index;
   		setTimeout(()=>{ 
