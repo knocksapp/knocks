@@ -341,6 +341,7 @@ Vue.component('knockshashtagchip', require('./components/knockshashtagchip.vue')
 Vue.component('knocksimagestates', require('./components/knocksimagestates.vue'));
 Vue.component('knocksuserinfodelete', require('./components/knocksuserinfodelete.vue'));
 Vue.component('knocksphotocomments', require('./components/knocksphotocomments.vue'));
+Vue.component('knocksusergenralinfo', require('./components/knocksusergenralinfo.vue'));
 
  window.App = new Vue();
  new Vue({

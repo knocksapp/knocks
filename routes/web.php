@@ -210,6 +210,8 @@ Route::post('set_to_owner', 'GroupMemberController@setToOwner');
 
 Route::post('post/create', 'KnockController@create');
 
+Route::get('usersupdatesettings', 'UserController@updateSettings');
+
 Route::post('post/seen', 'KnockController@tickSeen');
 
 Route::post('post/comments', 'KnockController@getComments');

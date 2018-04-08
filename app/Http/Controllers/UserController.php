@@ -330,131 +330,149 @@ class UserController extends Controller {
 		return view('user.profile', ['user' => $c]);
 	}
 
-	public function updateUserfirstName(Request $request){
-  $user = User::find(auth()->user()->id);
-	$user->first_name = $request->first_name;
-	$user->update();
-return 'done';
-}
+	public function updateUserfirstName(Request $request) {
+		$user = User::find(auth()->user()->id);
+		$user->first_name = $request->first_name;
+		$user->update();
+		return 'done';
+	}
 
-public function updateUsermiddleName(Request $request){
-$user = User::find(auth()->user()->id);
-$user->middle_name = $request->middle_name;
-$user->update();
-return 'done';
-}
-public function updateUserlastName(Request $request){
-$user = User::find(auth()->user()->id);
-$user->last_name = $request->last_name;
-$user->update();
-return 'done';
-}
+	public function updateUsermiddleName(Request $request) {
+		$user = User::find(auth()->user()->id);
+		$user->middle_name = $request->middle_name;
+		$user->update();
+		return 'done';
+	}
+	public function updateUserlastName(Request $request) {
+		$user = User::find(auth()->user()->id);
+		$user->last_name = $request->last_name;
+		$user->update();
+		return 'done';
+	}
 
-public function updateUsernickName(Request $request){
-$user = User::find(auth()->user()->id);
-$user->nickname = $request->nickname;
-$user->update();
-return 'done';
-}
+	public function updateUsernickName(Request $request) {
+		$user = User::find(auth()->user()->id);
+		$user->nickname = $request->nickname;
+		$user->update();
+		return 'done';
+	}
 
+	public function updateUserbirthdate(Request $request) {
+		$user = User::find(auth()->user()->id);
+		$user->birthdate = $request->birthdate;
+		$user->update();
+		return 'done';
+	}
 
-public function updateUserbirthdate(Request $request){
-$user = User::find(auth()->user()->id);
-$user->birthdate = $request->birthdate;
-$user->update();
-return 'done';
-}
+	public function updateUserorientation(Request $request) {
+		$user = User::find(auth()->user()->id);
+		$user->orientation = $request->orientation;
+		$user->update();
+		return 'done';
+	}
 
-public function updateUserorientation(Request $request){
-	$user = User::find(auth()->user()->id);
-	$user->orientation = $request->orientation;
-	$user->update();
-	return 'done';
-}
+	public function updateUserreligon(Request $request) {
+		$user = User::find(auth()->user()->id);
+		$user->religon = $request->religon;
+		$user->update();
+		return 'done';
+	}
 
-public function updateUserreligon(Request $request){
-	$user = User::find(auth()->user()->id);
-	$user->religon = $request->religon;
-	$user->update();
-	return 'done';
-}
+	public function updateUsermaritalstatus(Request $request) {
+		$user = User::find(auth()->user()->id);
+		$user->marital_status = $request->marital_status;
+		$user->update();
+		return 'done';
+	}
 
-public function updateUsermaritalstatus(Request $request){
-	$user = User::find(auth()->user()->id);
-	$user->marital_status = $request->marital_status;
-	$user->update();
-	return 'done';
-}
+	public function updateUserbio(Request $request) {
+		$user = User::find(auth()->user()->id);
+		$user->bio = $request->bio;
+		$user->update();
+		return 'done';
+	}
 
-public function updateUserbio(Request $request){
-	$user = User::find(auth()->user()->id);
-	$user->bio = $request->bio;
-	$user->update();
-	return 'done';
-}
+	public function updateUserphone(Request $request) {
+		$user = User::find(auth()->user()->id);
+		$user->phone = $request->phone;
+		$user->update();
+		return 'done';
+	}
 
-public function updateUserphone(Request $request){
-	$user = User::find(auth()->user()->id);
-	$user->phone = $request->phone;
-	$user->update();
-	return 'done';
-}
+	public function updateUsergender(Request $request) {
+		$user = User::find(auth()->user()->id);
+		$user->gender = $request->gender;
+		$user->update();
+		return 'done';
+	}
 
-public function updateUsergender(Request $request){
-	$user = User::find(auth()->user()->id);
-	$user->gender = $request->gender;
-	$user->update();
-	return 'done';
-}
+	public function deleteUsermiddleName(Request $request) {
+		$user = User::find(auth()->user()->id);
+		$user->middle_name = null;
+		$user->update();
+		return 'done';
+	}
 
-public function deleteUsermiddleName(Request $request){
-	$user = User::find(auth()->user()->id);
-	$user->middle_name = null;
-	$user->update();
-	return 'done';
-}
+	public function deleteUsernickName(Request $request) {
+		$user = User::find(auth()->user()->id);
+		$user->nickname = null;
+		$user->update();
+		return 'done';
+	}
 
-public function deleteUsernickName(Request $request){
-	$user = User::find(auth()->user()->id);
-	$user->nickname = null;
-	$user->update();
-	return 'done';
-}
+	public function deleteUserorientation(Request $request) {
+		$user = User::find(auth()->user()->id);
+		$user->orientation = null;
+		$user->update();
+		return 'done';
+	}
 
-public function deleteUserorientation(Request $request){
-	$user = User::find(auth()->user()->id);
-	$user->orientation = null;
-	$user->update();
-	return 'done';
-}
+	public function deleteUserreligon(Request $request) {
+		$user = User::find(auth()->user()->id);
+		$user->religon = null;
+		$user->update();
+		return 'done';
+	}
 
-public function deleteUserreligon(Request $request){
-	$user = User::find(auth()->user()->id);
-	$user->religon = null;
-	$user->update();
-	return 'done';
-}
+	public function deleteUsermaritalstatus(Request $request) {
+		$user = User::find(auth()->user()->id);
+		$user->marital_status = null;
+		$user->update();
+		return 'done';
+	}
 
-public function deleteUsermaritalstatus(Request $request){
-	$user = User::find(auth()->user()->id);
-	$user->marital_status = null;
-	$user->update();
-	return 'done';
-}
+	public function deleteUserbio(Request $request) {
+		$user = User::find(auth()->user()->id);
+		$user->bio = null;
+		$user->update();
+		return 'done';
+	}
 
-public function deleteUserbio(Request $request){
-	$user = User::find(auth()->user()->id);
-	$user->bio = null;
-	$user->update();
-	return 'done';
-}
+	public function deleteUserphone(Request $request) {
+		$user = User::find(auth()->user()->id);
+		$user->phone = null;
+		$user->update();
+		return 'done';
+	}
 
-public function deleteUserphone(Request $request){
-	$user = User::find(auth()->user()->id);
-	$user->phone = null;
-	$user->update();
-	return 'done';
-}
+	public function updateSettings(Request $request) {
+		$users = User::all();
+		foreach ($users as $user) {
+			$cog = json_decode($user->configuration);
+			$privacyUserSet = $cog->privacy_user_set;
+			$privacyCircleSet = $cog->privacy_circle_set;
+			$circle = $user->mainCircle();
+			$privacyCircleSet->phone = array(["circle" => $circle->id, "preset" => "valid"], ["circle" => -1, "preset" => "valid"]);
 
+			$privacyUserSet->phone = array();
+
+			$cog->privacy_user_set = $privacyUserSet;
+			$cog->privacy_circle_set = $privacyCircleSet;
+			$user->configuration = json_encode($cog);
+			$user->update();
+
+		}
+		return 'done';
+	}
 
 }

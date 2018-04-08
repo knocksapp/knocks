@@ -149,7 +149,7 @@
           :label_classes = "btn_label_classes"
           @knocks_submit_accepted = "resetKnock()"
           :materialize_feedback = "false"
-          button_classes = " left el-button knocks_color_kit knocks_tinny_el_round_btn knocks_btn_color_kit knocks_right knocks_noshadow_ps knocks_borderless">
+          button_classes = " el-button knocks_color_kit btn-floating knocks_tiny_floating_btn  knocks_btn_color_kit  knocks_right knocks_noshadow_ps knocks_borderless">
           </knocksbutton>
           </template>
           <span slot = "content"  class = "knocks_tooltip animated flipInX" style="margin-top: 20px !important;" >
@@ -243,7 +243,7 @@ export default {
   	},
   	btn_icon : {
   		type : String ,
-  		default : 'knocks-paper-plane-o knocks_text_light knocks_custom_margin_left'
+  		default : 'knocks-send3 knocks_text_light knocks_custom_margin_left'
   	},
   	btn_disable_placeholder : {
   		type : Boolean , 

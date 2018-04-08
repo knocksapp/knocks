@@ -265,6 +265,7 @@ class User extends Authenticatable {
 			"religon" => array(["circle" => $circle->id, "preset" => "valid"], ["circle" => -1, "preset" => "valid"]),
 			"marital_status" => array(["circle" => $circle->id, "preset" => "valid"], ["circle" => -1, "preset" => "valid"]),
 			"bio" => array(["circle" => $circle->id, "preset" => "valid"], ["circle" => -1, "preset" => "valid"]),
+			"phone" => array(["circle" => $circle->id, "preset" => "valid"], ["circle" => -1, "preset" => "valid"]),
 		);
 		$cog->privacy_circle_set = $privacyCircleSet;
 		$cog->main_circle = $circle->id;
@@ -312,8 +313,10 @@ class User extends Authenticatable {
 			'display_name' => $this->cog()->display_name,
 		);
 	}
+
 	public function retriveForUser($requester) {
 		//Get the configuration
+
 		$cog = json_decode($this->configuration);
 		$privacyUserSet = $cog->privacy_user_set;
 		$privacyCircleSet = $cog->privacy_circle_set;
@@ -326,6 +329,7 @@ class User extends Authenticatable {
 			"username" => $this->username,
 			"gender" => $this->gender,
 			"display_name" => $cog->display_name,
+			"phone" => $this->phone,
 		);
 		//Declaring the user propirties
 		$userProperties = array(
@@ -336,6 +340,7 @@ class User extends Authenticatable {
 			"religon" => null,
 			"gender" => null,
 			"bio" => null,
+			"phone" => null,
 		);
 		$userExeptions = array(
 			"birthdate" => false,
@@ -345,6 +350,7 @@ class User extends Authenticatable {
 			"religon" => false,
 			"bio" => false,
 			"gender" => false,
+			"phone" => false,
 		);
 		/*
 			        We are having three types of presets
