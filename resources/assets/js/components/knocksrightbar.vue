@@ -9,13 +9,14 @@
 			anchor_class = " col s4 center knocks_gray_hover knocks_tinny_border_radius knocks_tinny_padding "
 			left_most_class = ""
 			right_most_class = ""
+			unlabeled 
 			anchor_regular_class=" grey-text text-darken-2 knocks_text_ms "
 			anchor_active_class = "blue-text knocks_text_md animated rubberBand grey lighten-4 "
 			:options = "
 			[ 
-			{ icon : 'knocks-speech-bubble-2' , label : '' , static : false , value : 'chat'} ,
-			{ icon : 'knocks-balloon' , label : '' , static : true , value : 'ballons'} ,
-			{ icon : 'knocks-user-add-outline' , label : '' , static : true , value : 'requests'}
+			{ icon : 'knocks-speech-bubble-2' , label : 'Chatting' , static : true , value : 'chat'} ,
+			{ icon : 'knocks-balloon' , label : 'Ballons' , static : true , value : 'ballons'} ,
+			{ icon : 'knocks-user-add-outline' , label : 'Friendship Requests' , static : true , value : 'requests'}
 			]" >
 			</knockstaps>
 		</div>

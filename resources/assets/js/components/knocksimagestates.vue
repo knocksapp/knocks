@@ -9,7 +9,7 @@
 	reply_initial_class = "btn btn-floating knocks_super_tiny_floating_btn right knocks_side_padding knocks_noshadow_ps  knocks_text_dark transparent"
 	reactor_initial_class = "btn btn-floating knocks_reaction_trigger knocks_super_tiny_floating_btn knocks_noshadow_ps knocks_text_dark transparent"
 	bar_classes ="transparent"
-	:parent_date = "created_at"
+	:parent_date = "res.date.date"
 	:reply_scope="[ gid + '_reply_scope_'+token]"
 	parent_type = "timelinephoto"
 	:gid = "gid+'_reaction_stats'"
@@ -63,10 +63,6 @@ export default {
   	gid : {
   		type : String , 
   		required : true ,
-  	},
-  	created_at : {
-  		type : String , 
-  		default : ''
   	},
   	owner_object : {
   		type : Object ,

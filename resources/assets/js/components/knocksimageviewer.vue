@@ -1,8 +1,22 @@
 <template>
 <div class = "col s12 knocks_house_keeper">
-  <div class = "uk-position-relative uk-visible-toggle uk-light" @mouseover="hoverFlag()" uk-slideshow = "animation:scale; min-height: 300; max-height: 300">
+  <knocksretriver
+  v-if = "sourcesList.length > 0"
+  url = "object/hide"
+  :xdata = "{ blob : sourcesList[currentIndex] }"
+  prevent_on_mount
+  @success = "confirmHide($event)"
+  :scope = "['blob_ignore_'+gid]"></knocksretriver>
+  <knocksretriver
+  v-if = "sourcesList.length > 0"
+  url = "knock/delete"
+  :xdata = "{ blob : sourcesList[currentIndex] }"
+  prevent_on_mount
+  @success = "confirmDelete($event)"
+  :scope = "['blob_delete_'+gid]"></knocksretriver>
+  <div v-if = "entrance == 'default'" class = "uk-position-relative uk-visible-toggle uk-light" @mouseover="hoverFlag()" uk-slideshow = "animation:scale; min-height: 300; max-height: 300">
     <ul class = "uk-slideshow-items animated zoomIn" style = "height : 300px;">
-      <li v-for = "(src , index) in sources" v-loading = "mediaLoading[index]">
+      <li v-for = "(src , index) in sourcesList" v-loading = "mediaLoading[index]">
         <div class="uk-position-cover uk-animation-kenburns uk-animation-reverse uk-transform-origin-center-left" uk-parallax="blur: 2; sepia: 20; bgy: -400;">
           <img class = "knocks_standard_border_radius uk-vertical-align-middle white z-depth-1"
           @load = "imageLoaded(index)"
@@ -14,11 +28,11 @@
           <span  @click = "viewportOpen()" class = "knocks_pointer">
             <static_message msg = "tap to show"></static_message>
           </span>
-          <h3 class="uk-margin-remove knocks_language_font" uk-parallax="viewport: 0.5" v-if="sources.length > 1 && owner_object != null">
-          <span class= "knocks-pictures3"></span> {{sources.length+' photos by '+owner_object.name}}
+          <h3 class="uk-margin-remove knocks_language_font" uk-parallax="viewport: 0.5" v-if="sourcesList.length > 1 && owner_object != null">
+          <span class= "knocks-pictures3"></span> {{sourcesList.length+' photos by '+owner_object.name}}
           </h3>
-          <h3 class="uk-margin-remove knocks_language_font" uk-parallax="viewport: 0.5" v-if="sources.length == 1 && owner_object != null">
-          <span class= "knocks-pictures3"></span> {{sources.length+' photo by '+owner_object.name}}
+          <h3 class="uk-margin-remove knocks_language_font" uk-parallax="viewport: 0.5" v-if="sourcesList.length == 1 && owner_object != null">
+          <span class= "knocks-pictures3"></span> {{sourcesList.length+' photo by '+owner_object.name}}
           </h3>
           <imagequote v-if = "!unquoted" :gid = "gid" :object_id = "object_id" :blob_token = "src"></imagequote>
         </div>
@@ -27,60 +41,113 @@
     <a class="uk-position-center-left uk-position-small uk-hidden-hover" href="#" uk-slidenav-previous uk-slideshow-item="previous"></a>
     <a class="uk-position-center-right uk-position-small uk-hidden-hover" href="#" uk-slidenav-next uk-slideshow-item="next"></a>
   </div>
+  <a v-if = "entrance == 'custom'" @click = "viewportOpen()">
+    <slot name = "entrance"></slot>
+  </a>
   <knocksloader :gid="gid+'_loader'" v-if = "isLoading"></knocksloader>
-  <div :id="'knocks_image_port_'+gid" class="uk-modal-full" uk-modal v-if = "modalFire">
+  <div :id="'knocks_image_port_'+gid" class="uk-modal-full" uk-modal v-if = "modalFire  && sourcesList.length > 0">
     <div class="uk-modal-dialog knocks_dark_blured_bg" style="max-height : 100vh !important; min-height : 100vh !important; overflow : auto !important;">
+      <div v-if = "viewPortMode"> 
       <button class="uk-modal-close-full uk-close-large transparent" type="button" uk-close  @click = "viewportClose()"></button>
+      <knocksprivacyadjustments :scope = "[gid+'_privacy_trigger']" hide_trigger class = "" v-model = "privacy_setting"></knocksprivacyadjustments>
       <div class = "row">
-      <div v-loading = "mediaLoading[currentIndex]" class = "col l8 s12 " :id = "gid+'_iv_swipping_port'">
-
-        <button class = "knocks_switch_button knocks_switch_button_left" @click = "switchImg(getPrevIndex())" v-if ="sources.length > 1" :id ="gid+'_knocks_switch_button_left'">
-        <span class = "knocks-chevron-left3 knocks_text_light knocks_text_lg"></span>
-        </button>
-        <button class = "knocks_switch_button knocks_switch_button_right " @click = "switchImg(getNextIndex())" v-if ="sources.length > 1" :id = "gid+'_knocks_switch_button_right'">
-        <span class = "knocks-chevron-right3 knocks_text_light knocks_text_lg"></span>
-        </button>
-       <center><div  v-loading = "mediaLoading[currentIndex] || avoidClash" >
-          <img :src="generateUrl(sources[currentIndex])" class = "knocks_image_port_child  animated pulse " :id = "gid+'_show_origin'" @load="handleHeight(currentIndex)">
-       </div></center>
-      </div>
-      <div  class = "col l4 s12  white  animated slideInRight" style="max-height : 100vh !important; min-height : 100vh !important; overflow : auto !important;">
-        <knockspopover class = "right">
-        <template slot = "container">
-
-        </template>
-        <span slot = "content"  class = "knocks_tooltip animated flipInX" >
-          <span class = "knocks-x-circle"></span>
-          <static_message msg = "Close"></static_message>
-        </span>
-        </knockspopover>
-        <br/>
-        <div class = "row knocks_house_keeper">
-          <knocksuser :user="owner_id" main_container = "col s12 knocks_house_keeper "></knocksuser>
+        <div v-loading = "mediaLoading[currentIndex]" class = "col l8 s12 " :id = "gid+'_iv_swipping_port'">
+          <button class = "knocks_switch_button knocks_switch_button_left" @click = "switchImg(getPrevIndex())" v-if ="sourcesList.length > 1" :id ="gid+'_knocks_switch_button_left'">
+          <span class = "knocks-chevron-left3 knocks_text_light knocks_text_lg"></span>
+          </button>
+          <button class = "knocks_switch_button knocks_switch_button_right " @click = "switchImg(getNextIndex())" v-if ="sourcesList.length > 1" :id = "gid+'_knocks_switch_button_right'">
+          <span class = "knocks-chevron-right3 knocks_text_light knocks_text_lg"></span>
+          </button>
+          <center><div  v-loading = "mediaLoading[currentIndex] || avoidClash" >
+            <img :src="generateUrl(sourcesList[currentIndex])" class = "knocks_image_port_child  animated pulse " :id = "gid+'_show_origin'" @load="handleHeight(currentIndex)">
+          </div></center>
         </div>
-        <div v-if = "!avoidClash" class = "animated fadeIn ">
-         <br/>
-          <imagequote :gid = "gid" :object_id = "object_id" :blob_token = "sources[currentIndex]" 
-          classes = "  knocks_text_dark knocks_text_ms"
-          class = "animated slideInDown "></imagequote>
-           <div class="ui divider"></div>
-
-          <knocksimagestates
-          :gid = "gid+'_states'"
-          :created_at = "created_at"
-          v-if = "owner_object != null"
-          :scope = "[gid + '_state_scope']"
-          :candy = "owner_object.kid"
-          :owner_object = "owner_object"
-          :knock_id = "knock_id"
-          :token = "sources[currentIndex]"></knocksimagestates>
+        <div  class = "col l4 s12  white  animated slideInRight" style="max-height : 100vh !important; min-height : 100vh !important; overflow : auto !important;">
+          <div class = "row knocks_house_keeper">
+            <div class = "col s12" style="padding: 55px 0 5px 0px !important;">
+              <el-tooltip  placement="bottom" effect="light">
+              <span slot = "content">
+                <span class = "knocks-locked4 yellow-text text-darken-3"></span>
+                <static_message msg=  "Choose your privacy setting."></static_message>
+              </span>
+              <a @click="triggerPrivacyModal()" class = "amber lighten-4 white-text knocks_side_margins darken-2 btn-floating knocks_super_tiny_floating_btn knocks_noshadow_ps knocks_borderless">
+                <center><span class = "knocks-locked4"></span></center>
+              </a>
+              </el-tooltip>   
+              <el-tooltip  placement="bottom" effect="light">
+              <span slot = "content">
+                <span class = "knocks-menu8 grey-text text-darken-3"></span>
+                <static_message msg=  "More."></static_message>
+              </span>
+              <a class='dropdown-button transparent right'  :data-activates="gid+'_options_dropdown'">
+                <i class=" knocks_icon knocks-menu8 knocks_text_md grey-text text-darken-3"></i>
+              </a>
+              </el-tooltip>
+              <el-tooltip  placement="bottom" effect="light" v-if = "hasNextPorts">
+              <span slot = "content">
+                <span class = "knocksapp-square-arrow-right grey-text text-darken-3"></span>
+                <static_message msg=  "Next Port."></static_message>
+              </span>
+              <a class='right '  style="margin-right : 7px;" v-if = "hasNextPorts" @click = "switchToNextPort()" >
+                <i class="  knocksapp-square-arrow-right knocks_text_md grey-text text-darken-3"></i>
+              </a>
+              </el-tooltip>
+              <el-tooltip  placement="bottom" effect="light" v-if = "hasPrevPorts">
+              <span slot = "content">
+                <span class = "knocksapp-square-arrow-left grey-text text-darken-3"></span>
+                <static_message msg=  "Pervious Port."></static_message>
+              </span>
+              <a class=' right'  style="margin-right : 7px;"  @click = "switchToPrevPort()" v-if = "hasPrevPorts" >
+                <i class="  knocksapp-square-arrow-left knocks_text_md grey-text text-darken-3"></i>
+              </a>
+              </el-tooltip>
+              <!-- Dropdown Structure -->
+              <ul :id="gid+'_options_dropdown'" class='dropdown-content'>
+                <li  v-if = "ownerObject != null && ownerObject.thatsMe">
+                  <a  @click = "deletePost()">
+                    <span class = "knocks-pencil9 knocks_icon_border red-text"></span>
+                    <static_message msg = "Delete" classes="red-text"></static_message>
+                  </a>
+                </li>
+                <li class="divider"></li>
+                <li>
+                  <a @click = "hidePost()">
+                    <span class = "knocks-minus-circle2 knocks_icon_border orange-text text-lighten-1"></span>
+                    <static_message msg = "Hide this time" classes= "orange-text text-lighten-1"></static_message>
+                  </a>
+                </li>
+                <li>
+                  <a @click = "hideAlways()">
+                    <span class = "knocks-trash5 red-text text-accent-2 knocks_icon_border"></span>
+                    <static_message msg = "Hide always" classes="red-text text-accent-2"></static_message>
+                  </a>
+                </li>
+              </ul>
+            </div>
+            <knocksuser :user="owner_id" main_container = "col s12 knocks_house_keeper " v-model = "ownerObject"></knocksuser>
+          </div>
+          <div v-if = "!avoidClash" class = "animated fadeIn ">
+            <br/>
+            <imagequote :gid = "gid" :object_id = "object_id" :blob_token = "sourcesList[currentIndex]"
+            classes = "  knocks_text_dark knocks_text_ms"
+            class = "animated slideInDown "></imagequote>
+            <div class="ui divider"></div>
+            <knocksimagestates
+            :gid = "gid+'_states'"
+            v-if = "owner_object != null"
+            :scope = "[gid + '_state_scope']"
+            :candy = "owner_object.kid"
+            :owner_object = "owner_object"
+            :knock_id = "knock_id"
+            :token = "sourcesList[currentIndex]"></knocksimagestates>
+          </div>
         </div>
       </div>
     </div>
-    </div>
   </div>
   </div>
-  </template>
+</div>
+</template>
 
 <script>
 export default {
@@ -103,6 +170,10 @@ export default {
   		type : String , 
   		default : 'media/image/retrive'
   	},
+    entrance : {
+      type : String ,
+      default : 'default'
+    },
   	user_id : {
   		type : Number , 
   		default : null 
@@ -126,6 +197,10 @@ export default {
     knock_id : {
       type : Number , 
       required : true ,
+    },
+    scope : {
+      type : Array , 
+      default : null ,
     }
 
   },
@@ -135,30 +210,73 @@ export default {
     	isLoading : false ,
     	viewPortMode : false ,
     	currentIndex : 0 ,
-      isHovered : true ,
+      isHovered : false ,
       carouselHover : false ,
       mediaLoading : [] ,
       avoidClash : false ,
       modalFire : false ,
+      privacy_setting : null ,
+      ownerObject : null ,
+      sourcesList : [] ,
+      viewersStack : window.ImageViewerStack ,
 
     }
   },
   computed : {
   	len(){
-  		return this.sources.length;
-  	}
+  		return this.sourcesList.length;
+  	},
+     hasPrevPorts(){
+      return this.currentPortIndex < 1 ? false : true
+    },
+    hasNextPorts(){
+      return this.currentPortIndex < this.viewersStack.length-1 ? true : false
+    },
+    currentPortIndex(){
+      return this.viewersStack.indexOf(this.gid);
+    }
   },
   mounted(){
     //Initialize media Loading
+    this.sourcesList = this.sources
     let ld ;
-    for(ld in this.sources)
+    for(ld in this.sourcesList)
       this.mediaLoading[ld] = true;
     $(document).ready(function(){
       $('.carousel').carousel();
     });
-
+    
      const vm = this;
   	//this.retriveImages();
+
+    //Adding SourcesList remotly
+     App.$on('new_picture_uploaded' , (payloads)=>{
+      if(vm.scope == null) return ;
+      let i ;
+      for(i = 0 ; i < payloads.scope.length ; i++){
+        if(vm.scope.indexOf(payloads.scope[i]) != -1){
+          vm.sourcesList.splice(0 , 0 , payloads.id);
+        }
+      }
+     });
+
+
+     App.$on('knocksImageViewerGlobalClose' , (payloads)=>{
+      if(!vm.viewPortMode) return;
+      if(payloads.gid != vm.gid){
+        vm.viewportClosePerm()
+      }
+     });
+
+     App.$on('knocksImageViewerGlobalOpen' , (payloads)=>{
+      if(payloads.gid == vm.gid){
+        vm.viewportOpen()
+      }
+     });
+
+
+
+
   	$(document).ready(function(){
       vm.reviseHeight();
   	//	$('.knocks_image_port_child').css({ 'margin-top' : ($($(this).parent()).height()-$(this).height())/2+ ' px' });
@@ -184,6 +302,13 @@ export default {
   },
   methods : {
     viewportOpen(){
+      if(this.sourcesList.length == 0) return;
+    if(window.ImageViewerStack.indexOf(this.gid) == -1 ){
+      if(window.ImageViewerStack[window.ImageViewerStack.length -1] != this.gid){
+        window.ImageViewerStack.push(this.gid);
+        this.viewersStack = window.ImageViewerStack
+      }
+    }
     const vm = this;
     if(!this.modalFire) this.modalFire = true;
     this.viewPortMode = true
@@ -191,6 +316,19 @@ export default {
       UIkit.modal( $('#knocks_image_port_'+this.gid)).show(); 
       this.reviseHeight();
       this.listenForSwips();
+
+       $('.dropdown-button').dropdown({
+      inDuration: 300,
+      outDuration: 225,
+      constrainWidth: false, // Does not change width of dropdown to that of the activator
+      hover: false, // Activate on hover
+      gutter: 0, // Spacing from edge
+      belowOrigin: false, // Displays dropdown below the button
+      alignment: 'left', // Displays dropdown with edge aligned to the left of button
+      stopPropagation: false // Stops event propagation
+    }
+  );
+
     },200)
      
 
@@ -198,13 +336,19 @@ export default {
     viewportClose(){
       this.viewPortMode = false
       UIkit.modal( $('#knocks_image_port_'+this.gid)).hide();
+      App.$emit('knocksImageViewerGlobalClose' , { gid : this.gid });
+    },
+    viewportClosePerm(){
+       UIkit.modal( $('#knocks_image_port_'+this.gid)).hide();
+      this.viewPortMode = false
+      
     },
     listenForSwips(){
       const vm = this;
        $('#'+vm.gid+'_iv_swipping_port').swipe( {
         //Generic swipe handler for all directions
         swipe:function(event, direction, distance, duration, fingerCount, fingerData) {
-          
+            
           if(direction == 'left') vm.switchImg(vm.getPrevIndex());
           if(direction == 'right') vm.switchImg(vm.getNextIndex());
           if( (direction == 'up' || direction == 'down' ) && distance > 200) vm.viewportClose();
@@ -317,7 +461,7 @@ export default {
   		return this.currentIndex == 0 ? this.len-1 : this.currentIndex-1;
   	},
   	switchImg(index){
-      if(this.sources.length < 2) return ;
+      if(this.sourcesList.length < 2) return ;
       this.mediaLoading[index] = true;
       this.avoidClash = true;
     	this.currentIndex = index;
@@ -332,10 +476,56 @@ export default {
       
 
   	},
+    triggerPrivacyModal(){
+      App.$emit('knocksPrivacyAdjustmentsTrigger', { scope : [this.gid+'_privacy_trigger'] , state : true} )
+    },
     toggleHoverMode(){
       this.isHovered = true;
-    }
+    },
+    switchToPrevPort(){
+        App.$emit('knocksImageViewerGlobalClose' , { gid : this.gid });
+            setTimeout( ()=>{
+        App.$emit('knocksImageViewerGlobalOpen' , { gid :  this.viewersStack[this.currentPortIndex -1 ] })
+      } , 300);
+    },
+    switchToNextPort(){
+      App.$emit('knocksImageViewerGlobalClose' , { gid : this.gid });
+      setTimeout( ()=>{
+        console.log(this.viewersStack[this.currentPortIndex + 1 ])
+        App.$emit('knocksImageViewerGlobalOpen' , { gid :  this.viewersStack[this.currentPortIndex + 1 ] })
+      } , 300);
+      
+    },
+
+
+
+     hidePost(){
+      this.hiddenNow = true;
+      setTimeout( ()=>{ this.knockObject = null ;  }, 1000);
+     },
+     hideAlways(){
+      this.isLoading = true;
+      App.$emit('knocksRetriver' , {scope : ['knock_ignore_'+this.gid ]});
+     },
+     deletePost(){
+      this.isLoading = true;
+      App.$emit('knocksRetriver' , {scope : ['knock_delete_'+this.gid ]});
+     },
+     confirmHide(e){
+      this.isLoading = false;
+      if(e.response == 'done'){
+        this.hidePost();
+      }
+     },
+    confirmDelete(e){
+      this.isLoading = false;
+      if(e.response == 'done'){
+        this.hidePost();
+      }
+
+
   }
+}
 }
 </script>
 
@@ -440,4 +630,5 @@ export default {
   z-index: 2000003 !important;
   padding : 2px;
 }
+
 </style>

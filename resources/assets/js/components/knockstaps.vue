@@ -1,13 +1,22 @@
 <template>
-	<div :class = "main_container">
-		<a :class = "[indexEquiv(index) , valueEquiv(option.value) , anchor_class]" :disabled = "isDisabled(option)"
-		v-for = "(option, index) in options" @click = "assign(option.value)" >
-			<span :class = "label_class" v-if="option.label != undefined && (option.static == undefined || option.static == false )">{{ option.label }}</span>
-			<static_message :class = "{'hide-on-med-and-down' : hide_labels_on_small}" :classes = "label_class" 
-      v-if="option.label != undefined && (option.static != undefined && option.static)" :msg="option.label"></static_message>
-			<span :class = "[icon_class , option.icon]" v-if="option.icon != undefined"></span>
-		</a>
-	</div>
+<div :class = "main_container">
+  <el-tooltip class="item"  v-for = "(option, index) in options" :key = "index"  placement="bottom">
+        <span slot = "content" v-if = "!untooltipped" >
+          <span :class = "[icon_class , option.icon]" v-if="option.icon != undefined"></span>
+      <span :class = "label_class" v-if="option.label != undefined && (option.static == undefined || option.static == false )">{{ option.label }}</span>
+      <static_message  :classes = "label_class"
+      v-if=" option.label != undefined && (option.static != undefined && option.static)" :msg="option.label"></static_message>
+      <span :class = "label_class" v-if="option.label != undefined && (option.static == undefined || option.static == false )">{{ option.label }}</span>
+    </span>
+  <a :class = "[indexEquiv(index) , valueEquiv(option.value) , anchor_class]" :disabled = "isDisabled(option)"
+    @click = "assign(option.value)" >
+    <span :class = "label_class" v-if="!unlabeled && option.label != undefined && (option.static == undefined || option.static == false )">{{ option.label }}</span>
+    <static_message :class = "{'hide-on-med-and-down' : hide_labels_on_small}" :classes = "label_class"
+    v-if="!unlabeled && option.label != undefined && (option.static != undefined && option.static)" :msg="option.label"></static_message>
+    <span :class = "[icon_class , option.icon]" v-if="option.icon != undefined"></span>
+  </a>
+  </el-tooltip>
+</div>
 </template>
 <script>
 export default {
@@ -80,6 +89,14 @@ export default {
     hide_labels_on_small : {
       type : Boolean , 
       default : false ,
+    },
+    unlabeled : {
+      type : Boolean , 
+      default : false 
+    },
+    untooltipped : {
+      type : Boolean , 
+      default : false 
     }
   },
   data () {

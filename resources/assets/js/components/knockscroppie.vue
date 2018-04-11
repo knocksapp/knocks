@@ -289,8 +289,9 @@ export default {
                 }).then(function(response){
                   vm.isLoading = false;
                   var temp = response.data;
-                  if(temp == vm.success_at){
-                     App.$emit('new_picture_uploaded' , { blob : vm.cropped , scope : vm.scope });
+                    if(temp.state == vm.success_at){
+                     App.$emit('new_picture_uploaded' , { blob : vm.cropped , scope : vm.scope , id : temp.id});
+
                           vm.$emit('knocks_file_uploaded' );
                         vm.notifi();
                         vm.cropped = null;
@@ -345,8 +346,8 @@ export default {
                 }).then(function(response){
                   vm.isLoading = false;
                   var temp = response.data;
-                  if(temp == vm.success_at){
-                     App.$emit('new_picture_uploaded' , { blob : vm.cropped , scope : vm.scope });
+                  if(temp.state == vm.success_at){
+                     App.$emit('new_picture_uploaded' , { blob : vm.cropped , scope : vm.scope , id : temp.id});
                           vm.$emit('knocks_file_uploaded' );
                         vm.notifi();
                         vm.cropped = null;
@@ -356,6 +357,7 @@ export default {
                         }
                       return true;
                   }else{
+
                     var i ;
                     for( i = 0; i < vm.error_at.length ; i++ ){
                       if(vm.error_at[i].res == temp){

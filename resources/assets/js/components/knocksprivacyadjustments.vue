@@ -20,7 +20,7 @@
   :scope = "['kpsd_presets']"
   @success = "handleDefaultPreset($event.response)"
   ></knocksretriver>
-   <el-tooltip  placement="bottom" effect="light">
+   <el-tooltip  placement="bottom" effect="light" v-if = "!hide_trigger">
     <span slot = "content">
       <span class = "knocks-locked4 yellow-text text-darken-3"></span>
       <static_message msg=  "Choose your privacy setting."></static_message>
@@ -32,6 +32,7 @@
   <el-dialog
   :visible.sync="centerDialogVisible"
   width="90%"
+  append-to-body
   center>
   <div >
     <center>
@@ -288,6 +289,14 @@ export default {
     trigger_class : {
       type : [ Object , Array , String ],
       default : ''
+    },
+    hide_trigger : {
+      type : Boolean , 
+      default : false
+    },
+    scope : {
+      type : Array , 
+      default : null ,
     }
   },
   data () {
@@ -325,6 +334,18 @@ export default {
   },
   mounted(){
     this.changePublicValue('choosedefault');
+    const vm = this;
+    App.$on('knocksPrivacyAdjustmentsTrigger' , (payloads)=>{
+      if(vm.scope == null || payloads.scope === undefined || payloads.scope == null || payloads.scope.length == 0) return;
+      let i ; 
+      for(i = 0 ; i < payloads.scope.length; i++){
+        if(vm.scope.indexOf(payloads.scope[i]) != -1){
+          if(payloads.state){
+            vm.triggerModal();
+          }
+        }
+      }
+    })
   },
   computed : {
   	circleSwitchStructure(){

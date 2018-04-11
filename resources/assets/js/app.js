@@ -59,6 +59,7 @@ window.UserCirclesList = [];
 window.AllLangs = null;
 window.Cropper = require('cropperjs');
 window.CurrentHref = window.location.href;
+window.ImageViewerStack = [] ;
 
 //Packages Configration
 GoogleMapsLoader.KEY = 'AIzaSyAtO8ZPlOkAAlV6oxGu-dD_ghyk9obCOXk'; //Google maps api configuration >> Key.
@@ -342,6 +343,7 @@ Vue.component('knocksimagestates', require('./components/knocksimagestates.vue')
 Vue.component('knocksuserinfodelete', require('./components/knocksuserinfodelete.vue'));
 Vue.component('knocksphotocomments', require('./components/knocksphotocomments.vue'));
 Vue.component('knocksusergenralinfo', require('./components/knocksusergenralinfo.vue'));
+Vue.component('knocksdepimgviewer', require('./components/knocksdepimgviewer.vue'));
 
  window.App = new Vue();
  new Vue({
@@ -386,7 +388,6 @@ Vue.component('knocksusergenralinfo', require('./components/knocksusergenralinfo
 
     sideBarSearchLanguage : currentUserLanguage ,
    /* CORE DATA ENDS */
-
 
 
 
@@ -441,7 +442,8 @@ Vue.component('knocksusergenralinfo', require('./components/knocksusergenralinfo
     knocksTapsDevIsRequired : false ,
 
     userTest : null ,
-
+    authModel : null ,
+    profileModel : null ,
 
    /* Developers Zone End */
 
@@ -826,6 +828,15 @@ Vue.component('knocksusergenralinfo', require('./components/knocksusergenralinfo
       }else{
         this.elementNotify({title : 'Failed' , msg : 'You have already added '+this.q6i+' once.'});
       }
+    },
+    setCoverTrigger(state){
+      App.$emit('cover_uploader_status_changed' , state);
+    },
+    setProfileTrigger(state){
+      App.$emit('profile_uploader_status_changed' , state);
+    },
+    setCircleAdderTrigger(state){
+      App.$emit('circle_adder_status_changed' , state);
     },
     logout(){
       this.closeSideBar();

@@ -114,7 +114,7 @@ class BlobController extends Controller {
 		$user->update();
 
 		if ($upload) {
-			return 'done';
+			return array('state' => 'done', 'id' => $blob->id);
 		}
 
 	}
@@ -131,7 +131,7 @@ class BlobController extends Controller {
 		$group->update();
 
 		if ($upload) {
-			return 'done';
+			return array('state' => 'done', 'id' => $blob->id);
 		}
 
 	}
@@ -149,7 +149,7 @@ class BlobController extends Controller {
 		$user->update();
 
 		if ($upload) {
-			return 'done';
+			return array('state' => 'done', 'id' => $blob->id);
 		}
 
 	}
@@ -159,6 +159,21 @@ class BlobController extends Controller {
 		if ($blob == null) {
 			return 'invalid';
 		} else {
+			if ($blob->type == 'avatar' || $blob->type == 'cover') {
+
+				$parent = obj::find($blob->object_id);
+				if ($parent == null) {
+					return 'invalid';
+				}
+
+				if (!$parent->isAvailable(auth()->user()->id)) {
+					return 'invalid';
+				}
+
+				return response($blob->retriveImgBlob())
+					->header('Content-Disposition', 'inline; filename="Knocks ' . User::find($parent->user_id)->username . '\'s Image #' . $id)
+					->header('Content-Type', $blob->extension);
+			}
 			if ($blob->type != 'image') {
 				return 'invalid';
 			}
@@ -402,7 +417,7 @@ class BlobController extends Controller {
 			return 'invalid';
 		}
 		if ($object->isAvailable(auth()->user()->id)) {
-			return array('object_id' => $object->id);
+			return array('object_id' => $object->id, 'date' => $object->created_at);
 		} else {
 			return 'invalid';
 		}

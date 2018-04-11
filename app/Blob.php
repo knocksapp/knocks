@@ -24,6 +24,7 @@ class Blob extends Model {
 		$this->extension = $object->extension;
 		$this->object_id = $parent_object->id;
 		$this->album = $object->album;
+		$this->user_id = auth()->user()->id;
 
 		$this->index = json_encode(array(
 			'blob' => $object->blob,
@@ -43,6 +44,7 @@ class Blob extends Model {
 		$this->extension = $object->extension;
 		$this->object_id = $parent_object->id;
 		$this->album = $object->album;
+		$this->user_id = auth()->user()->id;
 
 		$this->index = json_encode(array(
 			'blob' => $object->blob,
@@ -61,6 +63,7 @@ class Blob extends Model {
 		$this->extension = $object->extension;
 		$this->object_id = $parent_object->id;
 		$this->album = 'Profile Pictures';
+		$this->user_id = auth()->user()->id;
 		if ($object->compressed != null) {
 			$this->index = json_encode(array(
 				'blob' => $object->blob,
@@ -85,6 +88,7 @@ class Blob extends Model {
 		$this->extension = $object->extension;
 		$this->object_id = $parent_object->id;
 		$this->album = 'Profile Pictures';
+		$this->user_id = auth()->user()->id;
 
 		if ($object->compressed != null) {
 			$this->index = json_encode(array(
@@ -111,6 +115,7 @@ class Blob extends Model {
 		$this->extension = 'audio/webm';
 		$this->album = 'User Records';
 		$this->object_id = $parent_object->id;
+		$this->user_id = auth()->user()->id;
 		$this->index = json_encode(array(
 			'blob' => $object->blob,
 			'duration' => $object->duration,

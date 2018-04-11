@@ -564,8 +564,38 @@ class User extends Authenticatable {
 		return Language::where('name', '=', $this->userLanguage())->get()->first()->alignment;
 	}
 	public function profilePicture() {
-
 		return ($this->profile_picture);
+	}
+	public function profilePictures() {
+		return Blob::where('type', '=', 'avatar')->where('album', '=', 'Profile Pictures')->where('user_id', '=', $this->id)->orderBy('id', 'desc')->get()->pluck('id');
+	}
+	public function coverPictures() {
+		return Blob::where('type', '=', 'cover')->where('album', '=', 'Profile Pictures')->where('user_id', '=', $this->id)->orderBy('id', 'desc')->get()->pluck('id');
+	}
+	public function profilePictureBlob() {
+		if ($this->profile_picture == null) {
+			return array('object_id' => -1, 'created_at' => -1);
+		}
+		if (Blob::find($this->profile_picture) == null) {
+			return array('object_id' => -1, 'created_at' => -1);
+
+		}
+		return Blob::find($this->profile_picture);
+	}
+	public function profilePictureBlobObject() {
+		if ($this->profile_picture == null) {
+			return null;
+		}
+		if (Blob::find($this->profile_picture) == null) {
+			return null;
+		}
+		return Blob::find($this->profile_picture)->object_id;
+	}
+	public function coverPictureBlob() {
+		if ($this->cover_picture == null) {
+			return array('object_id' => null);
+		}
+		return Blob::find($this->cover_picture);
 	}
 	public function nextProfilePicture() {
 		if ($this->profile_picture == null) {

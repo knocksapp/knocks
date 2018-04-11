@@ -72,11 +72,15 @@
     </div>
   </div>
     <div class = "row" v-if = "knockObject.index.has_pictures">
-      <knocksimageviewer :gid = "gid+'_image_viewer'"
-      :sources = 'knockObject.index.images_specifications'
-      :object_id = "knockObject.object_id"
-      :user_id = "current_user"
-      :owner_id = "knockObject.user_id"></knocksimageviewer>
+
+              <knocksimageviewer :gid = "gid+'_image_viewer_comment_'+knock"
+            :sources = 'knockObject.index.images_specifications'
+            :object_id = "knockObject.object_id"
+            :user_id = "current_user"
+            :created_at = "knockObject.created_at"
+            :owner_object = "ownerObject"
+            :knock_id = "knock"
+            :owner_id = "knockObject.user_id"></knocksimageviewer>
     </div>
     
     <div class="row knocks_house_keeper" style="padding-right : 5px !important; padding-left : 5px !important;">
