@@ -51,7 +51,9 @@
       <button class="uk-modal-close-full uk-close-large transparent" type="button" uk-close  @click = "viewportClose()"></button>
       <knocksprivacyadjustments :scope = "[gid+'_privacy_trigger']" hide_trigger class = "" v-model = "privacy_setting"></knocksprivacyadjustments>
       <div class = "row">
-        <div v-loading = "mediaLoading[currentIndex]" class = "col l8 s12 " :id = "gid+'_iv_swipping_port'">
+        <div v-loading = "mediaLoading[currentIndex]" 
+         :class = "[{ 'animated slideOutUp knocks_hidden' : !showImagePart }, { 'animated. slideInDown' : showImagePart }]"
+        class = "col l8 s12 " :id = "gid+'_iv_swipping_port'" >
           <button class = "knocks_switch_button knocks_switch_button_left" @click = "switchImg(getPrevIndex())" v-if ="sourcesList.length > 1" :id ="gid+'_knocks_switch_button_left'">
           <span class = "knocks-chevron-left3 knocks_text_light knocks_text_lg"></span>
           </button>
@@ -62,9 +64,23 @@
             <img :src="generateUrl(sourcesList[currentIndex])" class = "knocks_image_port_child  animated pulse " :id = "gid+'_show_origin'" @load="handleHeight(currentIndex)">
           </div></center>
         </div>
-        <div  class = "col l4 s12  white  animated slideInRight" style="max-height : 100vh !important; min-height : 100vh !important; overflow : auto !important;">
+        <div  class = "col l4 s12  white  animated slideInRight" :id = "gid+'_reacting_zone'" style="max-height : 100vh !important; min-height : 100vh !important; overflow : auto !important;">
           <div class = "row knocks_house_keeper">
             <div class = "col s12" style="padding: 55px 0 5px 0px !important;">
+
+              <div class = "col s12 knocks_house_keeper hide-on-large-only show-on-medium-and-down">
+              <el-tooltip  placement="bottom" effect="light">
+              <span slot = "content">
+                <span class = " grey-text text-darken-3"  :class = "[{ 'knocksapp-circle-chevron-up' : !showImagePart }, { 'knocksapp-circle-chevron-down' : showImagePart }]"></span>
+                <static_message msg=  "Toggle The Image."></static_message>
+              </span>
+              <a @click="toggleImagePart()" class = "center knocks_text_ms grey-text text-darken-3">
+                <center><span class = "" :class = "[{ 'knocksapp-circle-chevron-up' : !showImagePart }, { 'knocksapp-circle-chevron-down' : showImagePart }]"></span></center>
+              </a>
+              </el-tooltip>   
+              </div>
+
+
               <el-tooltip  placement="bottom" effect="light">
               <span slot = "content">
                 <span class = "knocks-locked4 yellow-text text-darken-3"></span>
@@ -219,6 +235,7 @@ export default {
       ownerObject : null ,
       sourcesList : [] ,
       viewersStack : window.ImageViewerStack ,
+      showImagePart : true , 
 
     }
   },
@@ -283,6 +300,10 @@ export default {
   	});
     $(window).resize(function(){
       vm.reviseHeight();
+      if( $(window).width()  > 900 ){
+        vm.showImagePart = true;
+        vm.reviseHeight()
+      }
     })
     $('body').keyup(function(e){
        var code = e.keyCode || e.which;
@@ -332,6 +353,10 @@ export default {
     },200)
      
 
+    },
+    toggleImagePart(){
+      this.showImagePart = !this.showImagePart ; 
+      this.reviseHeight();
     },
     viewportClose(){
       this.viewPortMode = false
