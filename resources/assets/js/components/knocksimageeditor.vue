@@ -160,7 +160,13 @@ export default {
   } , 
   cropDone(){
     const vm = this ;
-        this.basic.result('canvas' ).then(function(blob) {
+         let options = {
+         type: 'canvas',
+         size: 'viewport',
+         format: 'jpeg',
+         circle: false
+     }
+        this.basic.result(options ).then(function(blob) {
           vm.currentSource = blob;
            $('#'+vm.gid+'_image_editor_modal').modal('close');
            vm.assign();
