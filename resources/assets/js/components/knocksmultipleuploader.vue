@@ -15,7 +15,7 @@
     </div>
 
     <div class = "row knocks_house_keeper" v-if = "files.length > 0" :class = "[{'knocks_hidden':isLoading}]">
-        <div class = "col s3 knocks_house_keeper offset-s1 knocks_image_mup_port" v-for = "(img , index) in images" style="line-hight : 200px">
+        <div class = "col s4 l3 knocks_house_keeper offset-s1 knocks_image_mup_port" v-for = "(img , index) in images" style="line-hight : 200px">
 
             <knockspopover>
             <template slot = "container">
@@ -469,6 +469,9 @@ export default {
         let img , counter;
         counter = 0;
         for(img in this.finalResult.images){
+             vm.finalResult.images[img].blob.replace('data:'+vm.finalResult.imagesTypes[img]+';base64,' ,'');
+              vm.finalResult.images[img].blob.replace('data:image/png;base64,' ,'')
+              vm.finalResult.images[img].blob.replace('data:image/jpeg;base64,' ,'')
             axios({
                 method : 'post' ,
                 url : LaravelOrgin + vm.images_url ,

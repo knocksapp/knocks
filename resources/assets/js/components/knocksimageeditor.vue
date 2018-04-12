@@ -1,14 +1,27 @@
 <template>
 <div class="row knocks_xs_side_padding">
-  <a class = "knocks_file_upload  modal-trigger" @click="crop()" :id="gid+'_container'" :href="'#'+gid+'_image_editor_modal'"  >
-    <img :src = "currentSource" width = "100%" v-if = "currentSource != null" />
-  </a>
-  <div :id="gid+'_image_editor_modal'" class="modal" style = "height : 70% !important">
-    <div class="modal-content">
+  
+  <div class="col s12 grid modal-trigger" @click="crop()" :id="gid+'_container'" :href="'#'+gid+'_image_editor_modal'"  >
+  <div class="column">
+    <div class="ui fluid card">
+      <div class="ui  middle aligned  image" style=" " :id="gid+'_img_editor_toggler'">
+        <img :src = "currentSource"  v-if = "currentSource != null" :id="gid+'_img_editor_el'"  @load = "setHeight()"/>
+      </div>
+      <div class="content">
+        <a class="header center" @click = "crop()">
+          <span class = "knocksapp-edit"></span>
+          <static_message msg = "Edit" v-if = "windowWidth > 900"></static_message>
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+  <div :id="gid+'_image_editor_modal'" class="modal" style = "width : 100% !important; top: 10px !important; min-height: 83vh;">
+    <div class="modal-content" style="">
       <el-input placeholder="Quote Your Image.." v-model="quote" class = "knocks_fair_bounds" @input = "assign()">
         <template slot="prepend"><span class = "knocks-pencil9"></span></template>
       </el-input>
-      <div class = " col s12 " style= "max-height : 200px !important; z-index : 30000000000" :id = "`knocks_upload_port_`+gid" >
+      <div class = " col s12 knocks_house_keeper " style= "z-index : 30000000000" :id = "`knocks_upload_port_`+gid" >
       </div>
     </div>
     <div class="modal-footer" style="">
@@ -83,22 +96,42 @@ export default {
     return {
       currentSource : null , 
       basic : null ,
-      quote : '',
+      quote : '', 
+      windowWidth : $(window).width() ,
+      windowHeight : $(window).height() ,
+      minOrigin : 0 ,
     }
   }
   , mounted(){
     $('#'+this.gid+'_image_editor_modal').modal();
+    this.minOrigin = Math.min(this.windowWidth , this.windowHeight)
     this.assign();
   	setTimeout( ()=>{ this.assignToModel(this.source);} , 200);
-    
+    const vm = this;
+    $(window).resize(function(){
+      vm.windowWidth =  $(window).width()
+      vm.windowHeight = $(window).height()
+      vm.minOrigin = Math.min(vm.windowWidth , vm.windowHeight)
+      vm.setHeight();
+    })
+    //this.setHeight();
   },
   methods: {
-  	represent(){
+  represent(){
     
   } ,
+  setHeight(){
+    setTimeout( ()=>{
+    let imgWidth = $('#'+this.gid+'_img_editor_toggler').width();
+    console.log(imgWidth)
+    $('#'+this.gid+'_img_editor_toggler').css({'height' : imgWidth })
+    $('#'+this.gid+'_img_editor_el').css({'max-height' : imgWidth })
+  }, 200)
+  },
   assignToModel(source){
     this.currentSource = source;
     this.$emit('input' , {blob : this.currentSource , quote : this.quote});
+    this.setHeight();
 
   },
   crop(){
@@ -106,13 +139,13 @@ export default {
     $('#knocks_upload_port_'+vm.gid).empty();
     let targetElement = document.getElementById('knocks_upload_port_'+vm.gid );
     vm.basic = new Croppie( targetElement , {
-                   viewport: {
-                    width: 100, 
-                    height: 100 
+                   boundary: {
+                    width: vm.minOrigin * 80 / 100,
+                    height: vm.minOrigin * 80 / 100,
                   },
-                    boundary: { 
-                      width: 200, 
-                      height: 200 
+                    viewport: { 
+                      width: vm.minOrigin * 50 / 100, 
+                      height: vm.minOrigin * 50 / 100 
                     },
                     showZoomer: false,
                     enableResize: true,
