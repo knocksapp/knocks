@@ -351,7 +351,7 @@ export default {
             
           if(direction == 'left') vm.switchImg(vm.getPrevIndex());
           if(direction == 'right') vm.switchImg(vm.getNextIndex());
-          if( (direction == 'up' || direction == 'down' ) && distance > 200) vm.viewportClose();
+          if( ( direction == 'down' ) && distance > ( $(window).height() * 70 / 100 ) ) vm.viewportClose();
         },
         //Default is 75px, set to 0 for demo so any distance triggers swipe
          threshold:0
