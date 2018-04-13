@@ -367,7 +367,7 @@ class BlobController extends Controller {
 
 		$blob = Blob::find($pp);
 		if ($blob == null) {
-			return redirect('snaps/avatar.jpg');
+			return redirect('snaps/cover.png');
 		} else {
 			if ($blob->type != 'cover') {
 				return redirect('snaps/cover.png');

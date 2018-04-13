@@ -61,9 +61,9 @@
       xfbml      : true,
       version    : 'v2.12'
     });
-  
+
     FB.AppEvents.logPageView();
-  
+
   };
 
   (function(d, s, id){
@@ -100,7 +100,7 @@
  {
  "@type": "Person",
  "name": "Khaled Ashraf"
- } 
+ }
  ]
 }
 </script>
