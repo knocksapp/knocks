@@ -210,6 +210,7 @@ export default {
         this.$emit('knocks_stack_passed');
         if(this.submit_flag)
            if(this.submit_on == null){
+            this.isLoading = true;
             this.submit();
            }
       }else{

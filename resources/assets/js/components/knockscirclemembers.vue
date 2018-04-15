@@ -5,7 +5,15 @@
 	v-model = "retriver"
 	:xdata = "{circle : circle}"
 	@success = "handle($event)"></knocksretriver>
-	<div class = "col s12 white knocks_gray_border knocks_tinny_border_radius">
+	<div class = "col s12 white knocks_gray_border knocks_tinny_border_radius" v-loading = "retriver.loading">
+		<div v-if = "handled">
+		<span class = 'knocksapp-edit'></span>
+		<static_message 
+		class = "animated fadeIn" 
+		msg = "Edit %%% Members."
+		replaceable
+		:replacements = "[{ target : '%%%'  , body : retriver.response.name }]"></static_message>
+		</div>
 		<knockselinput
 		icon = "knocks-search-2"
 		v-if = "handled"

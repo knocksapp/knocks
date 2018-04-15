@@ -19,12 +19,12 @@
     </div>
     <div class = "row">
       <ul class= "uk-list uk-list-divider">
-        <li v-for="(circle,index) in circles" class="knocks_text_dark knocks_fair_bounds" v-if = "index < userShowKey">
+        <li v-for="(circle,index) in circles" class="knocks_text_dark knocks_fair_bounds knocks_blue_gray_hover knocks_tinny_border_radius" v-if = "index < userShowKey" v-loading = "circlesListLoaders[index]">
           <knockscirclechip :circle = "circle" v-model = "circlesModels[index]"></knockscirclechip>
-          <el-button type="button" class = "right  uk-button-small uk-button uk-button-default " v-if = "circle != mainCircle">
+          <el-button type="button" class = "right  uk-button-small uk-button uk-button-default knocks_borderless" v-if = "circle != mainCircle">
           <span class = "knocks-more-vertical"></span>
           </el-button>
-          <div uk-dropdown = "pos: bottom-right; mode: click"  class = "knocks_house_keeper" v-if = "circle != mainCircle">
+          <div uk-dropdown = "pos: bottom-right; mode: click" :id = "'knocks_sidebar_circles_dd_c_'+circle" class = "knocks_house_keeper" v-if = "circle != mainCircle">
             <ul class="uk-nav uk-dropdown-nav knocks_house_keeper">
               <li class = "knocks_xs_padding">
                 <knockselbutton
@@ -39,6 +39,7 @@
                 { res : 'invalid' , msg : 'This process can\'t be done, please try again.' } ,
                 { res : 'main' , msg : 'You can\'t delete your main circle.' }
                 ]"
+                @knocks_button_clicked = "triggerAction( circle , index , true )"
                 @knocks_submit_accepted = "deleteCircle(index)"
                 label_classes  = "red-text left"
                 class = "col s12"
@@ -51,7 +52,7 @@
                 icon = "knocksapp-edit knocks_icon_border "
                 :submit_flag = "false"
                 label_classes = "left"
-                @knocks_button_clicked = "membersEditor = circle"
+                @knocks_button_clicked = "membersEditor = circle; triggerAction(circle , index , false)"
                 type = "default"
                 class = "col s12"
                 button_classes = "knocks_borderless  uk-button-small uk-button uk-button-default knocks_gray_hover knocks_tinny_border_radius knocks_xs_padding"
@@ -60,6 +61,10 @@
               
             </ul>
           </div>
+           <el-button type="button" class = "right  uk-button-small uk-button uk-button-default animated fadeIn knocks_borderless" v-if = "membersEditor == circle" 
+          @click ="membersEditor = null" >
+          <span class = "knocksapp-chevron-up"></span>
+          </el-button>
           <knockscirclemembers :circle = "circle" v-if = "membersEditor == circle"></knockscirclemembers>
         </li>
         <li v-if = "circles != null && circles.length == 0">
@@ -100,6 +105,7 @@ export default {
     	circleAdder : null ,
       mainCircle : window.UserMainCircle , 
       membersEditor : null ,
+      circlesListLoaders : [] ,
     }
   },
   methods : {
@@ -109,12 +115,18 @@ export default {
       },200)		
   	},
   	refreshContent(){
+      let i ;
+      this.circlesListLoaders = [];
+      for(i = 0 ; i < this.circles.length; i++){
+        this.circlesListLoaders.push(false);
+      }
   		App.$emit('KnocksContentChanged')
   	},
     deleteCircle(index){
+
       this.circles.splice( index , 1);
       this.searchForCircles();
-      
+      this.circlesListLoaders[index] = false
 
     },
     pushCircle(e){
@@ -126,6 +138,10 @@ export default {
       App.$emit('KnocksContentChanged')
       },200)
 
+    },
+    triggerAction(circle , index , loader){
+      UIkit.dropdown(document.getElementById('knocks_sidebar_circles_dd_c_'+circle)).hide();
+      this.circlesListLoaders[index] = loader ;
     }
   }
 }
