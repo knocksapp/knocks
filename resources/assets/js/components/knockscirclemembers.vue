@@ -28,7 +28,7 @@
 		@autocomplete="searchUsers = $event; userShowKey = 2; refreshUsersContent()" >
 		</knockselinput>
 		<ul class = "knocks_house_keeper" v-if = "handled && searchInput.length > 0">
-			<li v-for = "(member , index) in searchUsers" class = "knocks_house_keeper knocks_tinny_border_radius col knocks_gray_hover s12" v-if = "currentMembers.indexOf(member) == -1 && index < userShowKey ">
+			<li v-for = "(member , index) in searchUsers" class = "knocks_house_keeper knocks_tinny_border_radius col knocks_gray_hover s12" v-if = "currentMembers.indexOf(member) == -1 && index < userShowKey && members != auth">
 				<div class = "row knocks_house_keeper">
 					<knocksuser as_label class = "col" :user="member" show_image>
 					</knocksuser>
@@ -128,7 +128,8 @@ export default {
     	userShowKey : 2 ,
     	memShowKey : 2 ,
     	lastEdit : null ,
-    	handled : false
+    	handled : false , 
+    	auth : parseInt(window.UserId)
     }
   },
   computed : {
@@ -145,7 +146,7 @@ export default {
    	refreshUsersContent(){
    		let i ;
    		for(i = 0; i < this.searchUsers.length; i++){
-   			if(this.currentMembers.indexOf(this.searchUsers[i]) != -1){
+   			if(this.currentMembers.indexOf(this.searchUsers[i]) != -1 || this.searchUsers[i] == this.auth){
    				this.searchUsers.splice(i , 1 );
    			}
    		}
