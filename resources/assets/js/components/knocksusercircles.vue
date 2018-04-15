@@ -22,62 +22,64 @@
         <li v-for="(circle,index) in circles" class="knocks_text_dark knocks_fair_bounds" v-if = "index < userShowKey">
           <knockscirclechip :circle = "circle" v-model = "circlesModels[index]"></knockscirclechip>
           <el-button type="button" class = "right  uk-button-small uk-button uk-button-default " v-if = "circle != mainCircle">
-            <span class = "knocks-more-vertical"></span>
+          <span class = "knocks-more-vertical"></span>
           </el-button>
-<div uk-dropdown = "pos: bottom-right; mode: click"  class = "knocks_house_keeper" v-if = "circle != mainCircle">
-    <ul class="uk-nav uk-dropdown-nav knocks_house_keeper">
-      <li class = "knocks_xs_padding">
-        <knockselbutton
-        placeholder = "Delete Circle"
-        icon = "knocksapp-trash knocks_icon_border red-text "
-         submit_at = "circle/delete"
-         :submit_data = "{ circle : circle }"
-         type = "default"
-         success_at = "done"
-         :scope = "['sidebar_circle_delete_'+circle]"
-        :error_at = "[
-        { res : 'invalid' , msg : 'This process can\'t be done, please try again.' } , 
-        { res : 'main' , msg : 'You can\'t delete your main circle.' }
-        ]"
-        @knocks_submit_accepted = "deleteCircle(index)"
-         label_classes  = "red-text left"
-         class = "col s12"
-         button_classes = "knocks_borderless  uk-button-small uk-button uk-button-default knocks_gray_hover knocks_tinny_border_radius knocks_xs_padding"
-        ></knockselbutton>
-      </li>
-      <li class = "knocks_xs_padding">
-      <knockselbutton
-        placeholder = "Edit Members"
-        icon = "knocksapp-edit knocks_icon_border "
-         submit_at = "user/preset/save"
-         :submit_data = "{}"
-         label_classes = "left"
-         type = "default"
-         class = "col s12"
-         button_classes = "knocks_borderless  uk-button-small uk-button uk-button-default knocks_gray_hover knocks_tinny_border_radius knocks_xs_padding"
-        ></knockselbutton>
-      </li>
-      
-    </ul>
-</div>
+          <div uk-dropdown = "pos: bottom-right; mode: click"  class = "knocks_house_keeper" v-if = "circle != mainCircle">
+            <ul class="uk-nav uk-dropdown-nav knocks_house_keeper">
+              <li class = "knocks_xs_padding">
+                <knockselbutton
+                placeholder = "Delete Circle"
+                icon = "knocksapp-trash knocks_icon_border red-text "
+                submit_at = "circle/delete"
+                :submit_data = "{ circle : circle }"
+                type = "default"
+                success_at = "done"
+                :scope = "['sidebar_circle_delete_'+circle]"
+                :error_at = "[
+                { res : 'invalid' , msg : 'This process can\'t be done, please try again.' } ,
+                { res : 'main' , msg : 'You can\'t delete your main circle.' }
+                ]"
+                @knocks_submit_accepted = "deleteCircle(index)"
+                label_classes  = "red-text left"
+                class = "col s12"
+                button_classes = "knocks_borderless  uk-button-small uk-button uk-button-default knocks_gray_hover knocks_tinny_border_radius knocks_xs_padding"
+                ></knockselbutton>
+              </li>
+              <li class = "knocks_xs_padding">
+                <knockselbutton
+                placeholder = "Edit Members"
+                icon = "knocksapp-edit knocks_icon_border "
+                :submit_flag = "false"
+                label_classes = "left"
+                @knocks_button_clicked = "membersEditor = circle"
+                type = "default"
+                class = "col s12"
+                button_classes = "knocks_borderless  uk-button-small uk-button uk-button-default knocks_gray_hover knocks_tinny_border_radius knocks_xs_padding"
+                ></knockselbutton>
+              </li>
+              
+            </ul>
+          </div>
+          <knockscirclemembers :circle = "circle" v-if = "membersEditor == circle"></knockscirclemembers>
         </li>
         <li v-if = "circles != null && circles.length == 0">
-        	<span class = "knocks-alert"></span>
-        	<static_message msg=  "You have no circle that matches your search"></static_message>
+          <span class = "knocks-alert"></span>
+          <static_message msg=  "You have no circle that matches your search"></static_message>
         </li>
       </ul>
-            <div class = "row">
-           <a :class ="[{'knocks_hidden':!(circles.length > userShowKey)}]" @click = "userShowKey += 3">
-        <static_message msg = "See More"></static_message>
-      </a>
-      <a :class ="[{'knocks_hidden':!(userShowKey > 3 && circles.length > 3)}]" class = "right" @click = "userShowKey -= 3">
-        <static_message msg = "See Less"></static_message>
-      </a>
+
+      <div class = "row">
+        <a :class ="[{'knocks_hidden':!(circles.length > userShowKey)}]" @click = "userShowKey += 3">
+          <static_message msg = "See More"></static_message>
+        </a>
+        <a :class ="[{'knocks_hidden':!(userShowKey > 3 && circles.length > 3)}]" class = "right" @click = "userShowKey -= 3">
+          <static_message msg = "See Less"></static_message>
+        </a>
       </div>
     </div>
-            <div class = "row knocks_fair_bounds">
-      	<knocksquickcircleadder v-model="circleAdder" :scope = "['sidebar_cirlce_adder']" @knocks_circle_added = "pushCircle($event)"></knocksquickcircleadder>
-      </div>
+    <div class = "row knocks_fair_bounds">
+      <knocksquickcircleadder v-model="circleAdder" :scope = "['sidebar_cirlce_adder']" @knocks_circle_added = "pushCircle($event)"></knocksquickcircleadder>
+    </div>
   </div>
 </div>
 </template>
@@ -97,6 +99,7 @@ export default {
     	userShowKey : 3 ,
     	circleAdder : null ,
       mainCircle : window.UserMainCircle , 
+      membersEditor : null ,
     }
   },
   methods : {

@@ -552,6 +552,10 @@ Route::group(['middleware' => 'auth'], function () {
 
 		Route::post('accept/request', 'CircleMemberController@acceptGroup');
 
+		Route::post('circle/member/add', 'CircleMemberController@addMember');
+
+		Route::post('circle/member/remove', 'CircleMemberController@removeMember');
+
 		Route::post('request/one', 'UserRequestController@sendOne');
 
 		Route::post('request/cancel', 'UserRequestController@cancelOne');

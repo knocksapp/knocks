@@ -80,7 +80,7 @@
 
     <div :class = "[input_container , {'knocks_hidden': draggingMode}]"   
     contenteditable = "true" 
-    class = "knocks_language_follower white" :data-text="messages.knockerPlaceholder" :id = "gid+'_input'" v-model = "bodyContent" @input = "constructInput()">
+    class = "knocks_language_follower white knocks_ce_watch_align" :data-text="messages.knockerPlaceholder" :id = "gid+'_input'" v-model = "bodyContent" @input = "constructInput()">
 
     </div>
   </div>

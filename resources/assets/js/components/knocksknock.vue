@@ -471,6 +471,7 @@ export default {
             } else
             {
             $('#'+this.gid).html(this.knockObject.body);
+            this.handleAlignment()
             this.bodyLen =  $('#'+this.gid).text().length;
             this .bodyText =  $('#'+this.gid).text();
             //console.log(this.bodyLen);
@@ -538,6 +539,7 @@ export default {
             } else
             {
             $('#'+vm.gid).html(vm.knockObject.body);
+            vm.handleAlignment();
             vm.bodyLen =  $('#'+vm.gid).text().length;
             vm.bodyText =  $('#'+vm.gid).text();
             //console.log(vm.bodyLen);
@@ -559,6 +561,10 @@ export default {
            
         }).catch((err)=>{ });
           }
+    },
+    handleAlignment(){
+      let fonts = { right : 'cairo' , left : 'titillium' }
+      $('#'+this.gid).css({ 'text-align' : window.TextAlignWeight($('#'+this.gid).text()).max , 'font-family' : fonts[window.TextAlignWeight($('#'+this.gid).text()).max] })
     },
     showRange(){
       return this.comments.length - this.showKey -1;

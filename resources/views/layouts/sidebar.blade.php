@@ -81,7 +81,7 @@
             </div>
             <transition enter-active-class = "animated bounceInLeft" leave-active-class = "animated bounceOutRight">
               <div v-if = "sidebarSearchRecognition.loading" class = "animated bounceInLeft">
-                <span class = "blue-text knocks-spinner13 knocks_spinner"></span>
+                <div class="ui active inline loader"></div>
                 <static_message msg = "Processing your voice.." classes = "blue-text"></static_message>
               </div>
             </transition>

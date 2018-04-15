@@ -25,6 +25,10 @@
 
   
   </div>
+  <div v-if = "show_autocomplete_progress && autoCompleteLoading" class = "animated fadeIn">
+    <div class="ui active tiny inline loader"></div>
+    <static_message :msg = "autocomplete_progress_message" :classes = "autocomplete_progress_message_classes"></static_message>
+  </div>
   <div class = "userInput2" :class = "lang_alignment" v-if = "!hide_errors">
     <ul v-if = " isFired  && !isValid" >
       <li v-for= "errors in errorsStack" class = "animated slideInDown " :class ="icon_error">
@@ -323,6 +327,18 @@
         hide_errors : {
           type : Boolean , 
           default : false 
+        },
+        show_autocomplete_progress : {
+          type : Boolean , 
+          default : false 
+        },
+        autocomplete_progress_message : {
+          type : String , 
+          default : 'Searching...'
+        },
+        autocomplete_progress_message_classes : {
+          type : String , 
+          default : 'blue-text'
         }
 
     
@@ -350,6 +366,7 @@
             submitScope : null ,
             elinput : '' ,
             innerPlaceholder : '' ,
+            autoCompleteLoading : false ,
 
           }
         },
@@ -435,6 +452,13 @@
         mounted() {
           
           const vm = this;
+
+            $('.el-input__inner').change(function(){
+            $(this).css({ 'text-align' : window.TextAlignWeight($(this).val()).max  , 'font-family' : FontsAlignment[window.TextAlignWeight($(this).val()).max]})
+          })
+          $('.el-input__inner').keyup(function(){
+            $(this).css({ 'text-align' : window.TextAlignWeight($(this).val()).max  , 'font-family' : FontsAlignment[window.TextAlignWeight($(this).val()).max]})
+          })
 
           // App.$on('errorsMessageBusLoaded' , function(errorsMessageBus){
           //   vm.bindErrorBus(errorsMessageBus);
@@ -645,10 +669,12 @@
                 data : {q : this.elinput},
                 onDownloadProgress: function (progressEvent) {
                   vm.isLoading = true;
+                  vm.autoCompleteLoading = true ;
                 },
             })
             .then(function(response) {
               vm.isLoading = false;
+              vm.autoCompleteLoading = false ;
               vm.$emit('autocomplete' , response.data)
             });
           },

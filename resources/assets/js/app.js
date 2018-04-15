@@ -60,6 +60,7 @@ window.AllLangs = null;
 window.Cropper = require('cropperjs');
 window.CurrentHref = window.location.href;
 window.ImageViewerStack = [] ;
+window.FontsAlignment = { left : 'titillium' , right : 'cairo' }
 
 //Packages Configration
 GoogleMapsLoader.KEY = 'AIzaSyAtO8ZPlOkAAlV6oxGu-dD_ghyk9obCOXk'; //Google maps api configuration >> Key.
@@ -344,6 +345,7 @@ Vue.component('knocksuserinfodelete', require('./components/knocksuserinfodelete
 Vue.component('knocksphotocomments', require('./components/knocksphotocomments.vue'));
 Vue.component('knocksusergenralinfo', require('./components/knocksusergenralinfo.vue'));
 Vue.component('knocksdepimgviewer', require('./components/knocksdepimgviewer.vue'));
+Vue.component('knockscirclemembers', require('./components/knockscirclemembers.vue'));
 
  window.App = new Vue();
  new Vue({
@@ -622,6 +624,25 @@ Vue.component('knocksdepimgviewer', require('./components/knocksdepimgviewer.vue
 
 
     $(document).ready(function(){
+
+      $('.knocks_input_watch_align').change(function(){
+        $(this).css({ 'text-align' : window.TextAlignWeight($(this).val()).max  , 'font-family' : FontsAlignment[window.TextAlignWeight($(this).val()).max]})
+      })
+      $('.knocks_input_watch_align').keyup(function(){
+        $(this).css({ 'text-align' : window.TextAlignWeight($(this).val()).max  , 'font-family' : FontsAlignment[window.TextAlignWeight($(this).val()).max]})
+      })         
+      $('.el-input__inner').change(function(){
+        $(this).css({ 'text-align' : window.TextAlignWeight($(this).val()).max  , 'font-family' : FontsAlignment[window.TextAlignWeight($(this).val()).max]})
+      })
+      $('.el-input__inner').keyup(function(){
+        $(this).css({ 'text-align' : window.TextAlignWeight($(this).val()).max  , 'font-family' : FontsAlignment[window.TextAlignWeight($(this).val()).max]})
+      })
+      $('.knocks_ce_watch_align').change(function(){
+        $(this).css({ 'text-align' : window.TextAlignWeight($(this).text()).max  , 'font-family' : FontsAlignment[window.TextAlignWeight($(this).text()).max]})
+      })
+      $('.knocks_ce_watch_align').keyup(function(){
+        $(this).css({ 'text-align' : window.TextAlignWeight($(this).text()).max  , 'font-family' : FontsAlignment[window.TextAlignWeight($(this).text()).max]})
+      })
       $($('body').find('.tooltipped')).tooltip({delay : 50});
 
       $(window).resize(function(){
@@ -1658,4 +1679,15 @@ window.MigaNumber = (num)=>{
 }
 window.TrimExtraZeros = (num)=>{
   return num % 1 == 0 ? parseInt(num) : num ;
+}
+window.TextAlignWeight = (text)=>{
+  let rightChars =  ["ة", "ج", "ح", "خ", "ه", "ع", "غ", "ف", "ق", "ث", "ص", "ض", "ش", "س", "ي", "ب", "ل", "ا", "ت", "ن", "م", "ك", "و", "ر", "ز", "د", "ذ", "ط", "ظ", "ئ", "أ", "إ", "ؤ", "آ"];
+  let i , splitted = text.split('') , rightCounter = 0 , len = splitted.length , leftCounter = len ;
+  for(i = 0 ; i < len; i++){
+    if(rightChars.indexOf(splitted[i]) != -1){
+      rightCounter++;
+      leftCounter--;
+    }
+  }
+  return { right : rightCounter , left : leftCounter , max : Math.max(leftCounter , rightCounter) == leftCounter ? 'left' : 'right' }
 }

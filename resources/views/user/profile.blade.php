@@ -46,7 +46,7 @@
             entrance = "custom"
             :knock_id =  "{{$user->profilePictureBlob()['object_id']}}"
             :owner_id = "{{$user->id}}">
-            <img src = "{{asset('media/cover/'.$user->id)}}" slot = "entrance" class = "knocks_full_cover_photo knocks_user_cover_scope" v-if = "lowerTrigger != 'cover_uploader'"/>
+            <knocksimg src = "{{asset('media/cover/'.$user->id)}}" slot = "entrance" class = "knocks_full_cover_photo z-depth-1 knocks_user_cover_scope" v-if = "lowerTrigger != 'cover_uploader'"></knocksimg>
             </knocksimageviewer>
             <transition name="custom-classes-transition" enter-active-class="animated zoomIn" leave-active-class="animated zoomOut">
               <div v-if = "lowerTrigger == 'cover_uploader'">
@@ -79,7 +79,7 @@
             </transition>
             @endif
             @if($user->id != auth()->user()->id)
-            <img src = "{{asset('media/cover/'.$user->id)}}" class = "knocks_full_cover_photo "/>
+            <knocksimg src = "{{asset('media/cover/'.$user->id)}}" class = "knocks_full_cover_photo z-depth-1"></knocksimg>
             @endif
           </div>
           <div class = "knocks_profile_avatar_frame knocks_house_keeper">
@@ -97,13 +97,13 @@
                 entrance = "custom"
                 :knock_id =  "{{$user->profilePictureBlob()['object_id']}}"
                 :owner_id = "{{$user->id}}">
-                <img slot = "entrance" class = "knocks_profile_avatar z-depth-1 knocks_user_profile_scope" src = "{{asset('media/avatar/'.$user->id)}}"/>
+                <knocksimg slot = "entrance" class = "knocks_profile_avatar z-depth-1 knocks_user_profile_scope" src = "{{asset('media/avatar/'.$user->id)}}"></knocksimg>
                 </knocksimageviewer>
                 <span class = "knocksapp-edit knocks_profile_update_anchor" @click = "setProfileTrigger" v-if = "lowerTrigger != 'profile_uploader'"></span>
               </div>
               @endif
               @if($user->id != auth()->user()->id)
-              <img class = "knocks_profile_avatar z-depth-1 " src = "{{asset('media/avatar/'.$user->id)}}"/>
+              <knocksimg class = "knocks_profile_avatar z-depth-1 " src = "{{asset('media/avatar/'.$user->id)}}"></knocksimg>
               @endif
             </a>
           </div>

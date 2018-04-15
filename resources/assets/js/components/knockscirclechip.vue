@@ -60,26 +60,31 @@ export default {
     this.loadCircleData(); 
     $('.tooltipped').tooltip({delay: 50});
     const vm = this;
-      App.$on('KnocksContentChanged' , ()=>{
-      if(vm.circleObject == null) return;
-      if(vm.circleObject.id != vm.circle){
+    App.$on('knocksRebindCircle' , (payloads)=>{
+      if(payloads.circle == vm.circle){
+        vm.bindCircle(payloads.object)
+      }
+    })
+    App.$on('KnocksContentChanged' , ()=>{
+    if(vm.circleObject == null) return;
+    if(vm.circleObject.id != vm.circle){
+      if(UserCircles[vm.circle] != undefined){
+        vm.reboundCirlce(); 
+      }
+    }
+    setTimeout(()=>{
+      if(vm.circleObject.id != vm.circle){   
         if(UserCircles[vm.circle] != undefined){
           vm.reboundCirlce(); 
         }
       }
-      setTimeout(()=>{
-        if(vm.circleObject.id != vm.circle){   
-          if(UserCircles[vm.circle] != undefined){
-            vm.reboundCirlce(); 
-          }
-        }
-      },300);
-    })
+    },300);
+  })
   }, 
   methods: {
     loadCircleData(){
       if(window.UserCircles[this.circle] != undefined && !this.no_rebound){
-        this.circleObject = window.UserCircles[this.circle];
+        this.bindCircle(window.UserCircles[this.circle]);
 
       }else if (window.UserCircles[this.circle] == undefined || this.no_rebound){
         
@@ -89,14 +94,16 @@ export default {
           url : LaravelOrgin + 'retrive_circle' , 
           data : { circle : vm.circle }
         }).then( (response)=>{
-          vm.circleObject = response.data;
-          vm.circleObject.icon = (JSON.parse(vm.circleObject.icon));
-          window.UserCircles[vm.circle] = vm.circleObject;
-          App.$emit('circleLoaded' , [ window.UserCircles , window.UserCirclesLength() ]);
-          vm.$emit('input' , vm.circleObject);
-
+          vm.bindCircle(response.data)
         }).catch((err)=>{ console.log(err); });
       }
+    },
+    bindCircle(object){
+      this.circleObject = object;
+      this.circleObject.icon = (JSON.parse(this.circleObject.icon));
+      window.UserCircles[this.circle] = this.circleObject;
+      App.$emit('circleLoaded' , [ window.UserCircles , window.UserCirclesLength() ]);
+      this.$emit('input' , this.circleObject);
     },
     reboundCirlce(){
       this.circleObject = null ;

@@ -20,7 +20,7 @@
         :style = "'font-family :'+ lang_font"
         :class="[inputClasses , knocksclass , 
         {'knocks_materialize_input' : mat_follower} , {'el-input__inner' : el_follower}]" />
-      <label for="icon_prefix"  >
+      <label for="icon_prefix"  :id = "gid+'_label'" >
         <static_message :msgid="place_holder" :class="labelClasses" v-if = "placeholder == null && !disable_placeholder"></static_message>
         <static_message :msg="placeholder" :class="labelClasses" v-else-if = "placeholder != null && !disable_placeholder" ></static_message>
       </label>
@@ -351,6 +351,14 @@
           type : String ,
           default : 'knocks-alert-circle' , 
         },
+        focus_on_mount : {
+          type : Boolean , 
+          default : false 
+        },
+        handle_autofill : {
+          type : Boolean , 
+          default : false 
+        }
     
 
 
@@ -416,7 +424,7 @@
 
           },
           inputClasses(){
-            var classes = [ this.knocksclass ];
+            var classes = [ this.knocksclass , 'knocks_input_watch_align' ];
             classes.push(this.scope);
             if(this.lang_alignment == 'right') classes.push('knocks_text_right');
             if(this.focus) classes.push('knocks_input_focus');
@@ -452,6 +460,25 @@
         mounted() {
           
           const vm = this;
+
+          $(document).ready(function(){
+            if(vm.focus_on_mount){
+              setTimeout( ()=>{
+                $('#'+vm.gid).focus();
+
+              } , 500)
+            }
+
+            if(vm.handle_autofill){
+              setTimeout( ()=>{
+                $('#'+vm.gid+'_label').addClass('active');
+                
+
+              } , 300)
+            }
+
+
+          })
 
           // App.$on('errorsMessageBusLoaded' , function(errorsMessageBus){
           //   vm.bindErrorBus(errorsMessageBus);

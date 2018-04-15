@@ -2,82 +2,129 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+use App\Circle;
+use App\Circle_member;
 use App\User;
 use App\User_request;
-use App\Circle_member;
-use App\Circle;
-class CircleMemberController extends Controller
-{
-    public function acceptGroup(Request $request){
-      //validate the http
-      $request->validate([
-        'circles_confirm' => 'required' ,
-        'req_id' => 'required' ,
-      ]);
-      //validate the request circles
-      if(Circle::find($request->req_id))
-      return 'invalid';
-      else $knocks_request = User_request::find($request->req_id);
+use Illuminate\Http\Request;
 
-      if(!auth()->user()->hasRecievedRequest($request->req_id)){
-        return 'invalid';
-      }
+class CircleMemberController extends Controller {
+	public function acceptGroup(Request $request) {
+		//validate the http
+		$request->validate([
+			'circles_confirm' => 'required',
+			'req_id' => 'required',
+		]);
+		//validate the request circles
+		if (Circle::find($request->req_id)) {
+			return 'invalid';
+		} else {
+			$knocks_request = User_request::find($request->req_id);
+		}
 
-      //return $knocks_request;
+		if (!auth()->user()->hasRecievedRequest($request->req_id)) {
+			return 'invalid';
+		}
 
-      $reqeust_circles = json_decode($knocks_request->circles);
-      $sender = User::find($knocks_request->sender_id);
+		//return $knocks_request;
 
+		$reqeust_circles = json_decode($knocks_request->circles);
+		$sender = User::find($knocks_request->sender_id);
 
-      //Validating Senders Circles
+		//Validating Senders Circles
 
-      foreach($reqeust_circles as $rc){
-        if( ! $sender->hasCircleById($rc) )
-        return 'invalid';
-      }
+		foreach ($reqeust_circles as $rc) {
+			if (!$sender->hasCircleById($rc)) {
+				return 'invalid';
+			}
 
-      //Validating Confirm Circles
+		}
 
-      $confirm_circles = json_decode($request->circles_confirm);
+		//Validating Confirm Circles
 
-      foreach($confirm_circles as $rc){
-        if( ! auth()->user()->hasCircleById($rc) )
-        return 'invalid';
-      }
+		$confirm_circles = json_decode($request->circles_confirm);
 
+		foreach ($confirm_circles as $rc) {
+			if (!auth()->user()->hasCircleById($rc)) {
+				return 'invalid';
+			}
 
-      //push as a circle members for the specified and for @all@
+		}
 
-      //Adding Circle members for the sender
+		//push as a circle members for the specified and for @all@
 
-      $member = new Circle_member();
-      $member->initialize( $sender->id , $sender->getCircleId('@all@') );
+		//Adding Circle members for the sender
 
-      foreach($reqeust_circles as $rc){
-         $member = new Circle_member();
-         $member->initialize($sender->id, $rc);
-      }
+		$member = new Circle_member();
+		$member->initialize($sender->id, $sender->getCircleId('@all@'));
 
-      //Adding Circle members for the reciever
+		foreach ($reqeust_circles as $rc) {
+			$member = new Circle_member();
+			$member->initialize($sender->id, $rc);
+		}
 
-       $member = new Circle_member();
-      $member->initialize( auth()->user()->id , $sender->getCircleId('@all@') );
+		//Adding Circle members for the reciever
 
-      foreach($confirm_circles as $rc){
-         $member = new Circle_member();
-         $member->initialize(auth()->user()->id, $rc);
-      }
+		$member = new Circle_member();
+		$member->initialize(auth()->user()->id, $sender->getCircleId('@all@'));
 
-      $knocks_request->response = 'accepted';
-      $knocks_request->update();
+		foreach ($confirm_circles as $rc) {
+			$member = new Circle_member();
+			$member->initialize(auth()->user()->id, $rc);
+		}
 
-      return 'done';
+		$knocks_request->response = 'accepted';
+		$knocks_request->update();
 
-    }
-    public function groupPushMembers(Request $request){
-               $members = Circle::find($request->circle_id)->circleMembers()->get()->pluck('user_id');
+		return 'done';
 
-               return $members;
-    }
+	}
+	public function groupPushMembers(Request $request) {
+		$members = Circle::find($request->circle_id)->circleMembers()->get()->pluck('user_id');
+
+		return $members;
+	}
+	public function addMember(Request $req) {
+		$req->validate([
+			'circle' => 'required',
+			'user' => 'required',
+		]);
+		$circle = Circle::find($req->circle);
+		if ($circle == null) {
+			return 'invalid';
+		}
+		if ($circle->user_id != auth()->user()->id) {
+			return 'invalid';
+		}
+		$membership = Circle_member::where('user_id', '=', $req->user)
+			->where('circle_id', '=', $req->circle);
+		if ($membership->exists()) {
+			return 'exists';
+		}
+		$mem = new Circle_member();
+		$mem->initialize($req->user, $req->circle);
+		return 'done';
+	}
+
+	public function removeMember(Request $req) {
+		$req->validate([
+			'circle' => 'required',
+			'user' => 'required',
+		]);
+		$circle = Circle::find($req->circle);
+		if ($circle == null) {
+			return 'invalid';
+		}
+		if ($circle->user_id != auth()->user()->id) {
+			return 'invalid';
+		}
+		$membership = Circle_member::where('user_id', '=', $req->user)
+			->where('circle_id', '=', $req->circle);
+		if (!$membership->exists()) {
+			return 'exists';
+		}
+		$membership->first()->delete();
+
+		return 'done';
+	}
 }

@@ -967,7 +967,7 @@ span.badge.new{
   border-left : 1px solid #29b6f6;
 }
 #knocks_main_navbar{
-  background-color : #fff !important;
+  background-color : $knocksPrimaryColor !important;
  //border-bottom : 2px solid $knocksPrimaryColor;
   height : 50px !important;
   min-height : 50px !important;
@@ -1943,16 +1943,18 @@ table.highlight > tbody > tr:hover {
 }
 
 input:-webkit-autofill {
-    -webkit-text-fill-color: $knocksLightColor !important;
+   // -webkit-text-fill-color: $knocksLightColor !important;
+   border-radius : 5px !important;
+   border: 1px solid;
 }
 input:-webkit-autofill , input:-webkit-autofill:hover,
 input:-webkit-autofill:focus{
-    -webkit-box-shadow: 0 0 0 30px transparent inset;
-    background-color: transparent !important;
+  //  -webkit-box-shadow: 0 0 0 30px transparent inset;
+  //  background-color: transparent !important;
 }
 input:-webkit-autofill {
-    -webkit-box-shadow: 0 0 0px 1000px rgba(105,26,64,1) inset !important;
-    -webkit-text-fill-color: rgba(255,248,220,0.1) !important;
+  //  -webkit-box-shadow: 0 0 0px 1000px rgba(105,26,64,1) inset !important;
+  //  -webkit-text-fill-color: rgba(255,248,220,0.1) !important;
 }
 .knocks_circular_avatar{
   width: 100px !important;
@@ -2151,6 +2153,7 @@ font-size: 70%;
 .knocks_full_cover_photo{
   width: 100% !important; 
   border-radius : 15px;
+  border : 3px solid #fff;
 }
 
 .el-dialog{
@@ -2161,23 +2164,33 @@ font-size: 70%;
     z-index : 5000000000 !important;
   }
  @media only screen and (max-width : 750px){
-    .knocks_rightbar_toggler{
-      margin-top : 10px ;
-      margin-right : 10px;
-    }
     .el-dialog--small{
     width : 90% ;
   }
 }
   @media only screen and (min-width : 750px){
-    .knocks_rightbar_toggler{
-      margin-top : -3px ;
-      margin-right : -3px;
-    }
     .el-dialog--small{
     width : 70% ;
   }
 }
+ @media only screen and (max-width : 600px){
+      .knocks_rightbar_toggler{
+      margin-top : 10px ;
+      margin-right : 18px;
+    }
+    .knocks_responsive_text_xs{
+      font-size : 10px;
+    }
+}
+ @media only screen and (min-width : 600px){
+      .knocks_rightbar_toggler{
+      margin-top : -3px ;
+      margin-right : 2px;
+    }
+    .knocks_responsive_text_xs{
+      font-size : 20px;
+    }
+ }
 .el-select-dropdown__list{
   z-index:5000000001 !important;
 }
