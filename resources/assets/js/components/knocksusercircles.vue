@@ -127,6 +127,7 @@ export default {
       this.circles.splice( index , 1);
       this.searchForCircles();
       this.circlesListLoaders[index] = false
+      App.$emit('KnocksContentChanged')
 
     },
     pushCircle(e){
