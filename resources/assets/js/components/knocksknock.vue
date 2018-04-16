@@ -202,6 +202,7 @@
             reply_initial_class = "btn btn-floating knocks_super_tiny_floating_btn right knocks_side_padding knocks_noshadow_ps  knocks_text_dark transparent"
             reactor_initial_class = "btn btn-floating knocks_reaction_trigger knocks_super_tiny_floating_btn knocks_noshadow_ps knocks_text_dark transparent"
             bar_classes ="transparent"
+            :show_reply_on_mount = "show_reply_on_mount"
             :parent_date = "knockObject.created_at"
             :reply_scope="[ gid + '_reply_scope']"
             parent_type = "knock"
@@ -213,7 +214,7 @@
             :replier_message = "replier_message"
             :scope= "[ gid + '_reply_scope']"
             :error_at="[]"
-            show_on_mount
+            :show_on_mount = "show_reply_on_mount"
             :object_id = "knockObject.object_id"
             :parent_id = "knockObject.id"
             submit_at = "comment/create"
@@ -250,6 +251,7 @@
             <div class="" v-for = "(com , index) in comments"  v-if = "comments != null && comments.length > 0" >
               <knockscomment
               v-if="inRange(index)"
+              :show_reply_on_mount = "show_comment_reply_on_mout"
               :gid= "gid+'_comment_'+index"
               :knock="com"
               @invalid = "removeComment($event)"
@@ -362,6 +364,14 @@ export default {
     inverse_reactor : {
       type : Boolean ,
       default : true ,
+    },
+    show_reply_on_mount : {
+      type : Boolean , 
+      default : true ,
+    },
+    show_comment_reply_on_mout : {
+      type : Boolean ,
+      default : false
     }
 
     

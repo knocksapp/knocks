@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Ballon;
 use App\Knock;
 use App\obj;
 use App\Reply;
@@ -51,6 +52,17 @@ class Comment extends Model {
 		$this->post_id = $object->post_id;
 		$this->text_content = $object->text;
 		$this->quick_preset = $object->privacy_setting->tip;
+
+		//Add follower
+		$pknock = Knock::find($object->post_id);
+		if ($pknock != null) {
+			$kobj = obj::find($pknock->object_id);
+			if ($kobj != null) {
+				if ($kobj->type == 'knock') {
+					$pknock->addFollower(auth()->user()->id);
+				}
+			}
+		}
 		//$object->$user_privacy ;
 		//Images specifications reactions
 		//images_quotes
@@ -142,6 +154,24 @@ class Comment extends Model {
 		}
 		$this->user_id = auth()->user()->id;
 		$this->save();
+
+		//Add follower
+		$pknock = Knock::find($object->post_id);
+		if ($pknock != null) {
+			$kobj = obj::find($pknock->object_id);
+			if ($kobj != null) {
+				if ($kobj->type == 'knock') {
+					$pknock->addFollower(auth()->user()->id);
+					$pkfollowers = $pknock->knockIndex()->followers;
+					foreach ($pkfollowers as $flwr => $state) {
+						if ($state && $flwr != auth()->user()->id) {
+							$bal = new Ballon();
+							$bal->userComment(auth()->user()->id, $flwr, $pknock->id, $this->id);
+						}
+					}
+				}
+			}
+		}
 	}
 
 }

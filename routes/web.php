@@ -34,6 +34,7 @@ Route::post('dev/all_msgs', 'StaticMessageController@collect');
 Route::post('dev/new_word', 'StaticMessageController@addNewWord');
 Route::post('dev/translate', 'StaticMessageController@boundTranslation');
 Route::post('dev/translate/force', 'StaticMessageController@forceTranslation');
+Route::post('dev/delete/allmems', 'DevController@removeAllFriends');
 
 //Resetting the app
 Route::post('dev/trunc/knocks', 'DevController@resetKnocks');

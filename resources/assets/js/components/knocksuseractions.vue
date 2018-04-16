@@ -4,11 +4,14 @@
         ref="addtomypeople"
         placement="right"
         width="200"
+
         trigger="hover">
         <static_message msg= "Add ** to my people" replaceable :replacements = "[{target : '**' , body : userObject.name}]"></static_message>
         </el-popover>
         <el-popover
+        style = "max-width : 100vw"
         ref="circlestoaccept"
+        v-if = "bond == 'requester' && !show_accept_shortcut" 
         placement="bottom"
         @show = "updateBalloonsTimer()"
         @hide="runBalloonsTimer()"
@@ -17,11 +20,11 @@
         replaceable :replacements = "[{target : '**' , body : userObject.name}]">
         </static_message>
         <ul class="uk-list uk-list-striped">
-          <knocksquickcircleadder v-model="userCirlces" :scope = "['action_cirlce_adder_'+user]" hide_errors placeholder = "Add or Search for circles"></knocksquickcircleadder>
+          <knocksquickcircleadder v-model="userCirlces" :scope = "['action_un_cirlce_adder_'+user]" hide_errors placeholder = "Add or Search for circles"></knocksquickcircleadder>
           
           <li v-for = "(circle , index) in userCirlces" :class = "[{'knocks_hidden' : index >= userShowKey}]">            
              <el-checkbox v-model="checkedCircles[circle]" class = "bounceInLeft" ></el-checkbox>
-             <knockscirclechip class = "animated bounceInRight" :circle="circle" :popover = "false"  v-if = "index < userShowKey"></knockscirclechip>
+             <knockscirclechip class = "animated bounceInRight" :circle="circle" no_rebound :popover = "false"  v-if = "index < userShowKey"></knockscirclechip>
           </li>
         </ul>
         <div class = "row">
@@ -108,6 +111,19 @@ export default {
     App.$on('KnocksGlogbalCirclesList' , ()=>{
       vm.userCirlces = window.UserCirclesList;
     });
+
+    App.$on('knocksUserKeyUpdate' , (payloads)=>{
+      if(payloads.user == vm.user){
+        if(vm.userObject !== null){
+        let i ;
+        for(i = 0 ; i < payloads.patch.length; i++){
+          vm.userObject[payloads.patch[i].key] = payloads.patch[i].value
+        }
+       
+      }
+    }
+    });
+
   	App.$on('KnocksContentChanged' , ()=>{
       if(vm.userObject == null) return;
       if(vm.userObject != vm.user){
@@ -163,7 +179,7 @@ export default {
   				return;
   			}else{
   			   vm.userObject.requested = true;
-  		       vm.updateClientData();
+  		     vm.updateClientData();
   			}
   		})
   	},
@@ -187,7 +203,24 @@ export default {
       window.UsersObject[this.user].is_friend = true;
       window.UsersObject[this.user].requester = window.UsersObject[this.user].requested = false ;
       App.$emit('knocksUserResetContent' , this.user);
+      App.$emit('knocksUserKeyUpdate' ,
+       { user : this.user  , 
+        patch : [ 
+        { key : 'requested' , value : false } ,
+        { key : 'requester' , value : false } , 
+        { key : 'is_friend' , value : true  } 
+       ]})
+
+      let i ;
+      for(i in this.checkedCircles){
+        if(this.checkedCircles){
+          App.$emit('' , { circle : parseInt(i) , member : this.user  })
+        }
+      }
+
+      this.$emit('user_action' , { action : 'accept' })
     },
+
   	updateClientData(){
   		App.$emit('knocksUserDataUpdated' , {user : this.user , update : this.userObject});
   	},

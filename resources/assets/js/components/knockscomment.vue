@@ -96,7 +96,7 @@
     :parent_date = "knockObject.created_at"
     :reply_scope="[ gid + '_reply_scope']"
     parent_type = "comment" 
-    :show_reply_on_mount = "false"
+    :show_reply_on_mount = "show_reply_on_mount"
     :gid = "gid+'_reaction_stats'" 
     :toggle_object_id = "knockObject.object_id"
     :object_id = "knockObject.object_id">
@@ -124,6 +124,7 @@
     submit_at = "reply/create"
     :recorder_upload_data = "{ user : current_user , index : {}}"
     :player_show_options = "false"
+    :show_on_mount = "show_reply_on_mount"
     :post_at = "current_user"
     parent_type = "comment"
     success_at = "done"
@@ -275,6 +276,10 @@ type : String,
 default : 'voice_note'
 },
   as_shortcut : {
+    type : Boolean , 
+    default : false 
+  },
+  show_reply_on_mount : {
     type : Boolean , 
     default : false 
   }

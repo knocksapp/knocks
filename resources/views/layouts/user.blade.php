@@ -15,17 +15,17 @@
     <meta name="pp_index" content="{{ auth()->user()->profile_picture }}">
     <meta name="user" content="{{auth()->user()->id}}">
     <meta name="main_circle" content="{{auth()->user()->mainCircle()->id}}">
-{{--     <meta http-equiv="Content-Security-Policy" 
+{{--     <meta http-equiv="Content-Security-Policy"
     content="default-src *;
    img-src * 'self' data: https:; script-src 'self' 'unsafe-inline' 'unsafe-eval' *;
    style-src  'self' 'unsafe-inline' *"> --}}
 
    <meta http-equiv="Content-Security-Policy" content="
                             default-src * data: blob: ws: wss: gap://ready file://*;
-                            style-src * 'unsafe-inline'; 
+                            style-src * 'unsafe-inline';
                             script-src * 'unsafe-inline' 'unsafe-eval';
                             connect-src * ws: wss:;">
-    <?php auth()->user()->updateToken(csrf_token()); ?>
+    <?php auth()->user()->updateToken(csrf_token());?>
     <link rel = "stylesheet" href = {{asset('css/app.css')}}  />
     <meta name="session-type" content="user">
     <audio src = "{{asset('snaps/knocks_notification.mp3')}}" id = "knocks_notification" style = "display : none" controls></audio>
@@ -62,18 +62,18 @@
         <div class = "knocks_balloons_container" >
         <knocksballon
         v-for = "(ballon , ind) in ballons" :key="ind"
-        :gid="'knocks_notification_wall_'+ind"   
-        v-if = "ballon.poped == 0" 
+        :gid="'knocks_notification_wall_'+ind"
+        v-if = "ballon.poped == 0 && ballon.index.sender_id != auth"
         :constrains = "ballon"
         ></knocksballon>
 
       {{--   <knocksballon
-        
+
         :gid="'knocks_notification_wall_'"
         category = "System"
-        
+
         :constrains = "{
-         content : '<h3>Hello</h3>' , 
+         content : '<h3>Hello</h3>' ,
         }"
 
         ></knocksballon> --}}
@@ -81,7 +81,7 @@
 
       </div>
 
-  
+
      <div>
        @yield('content')
 

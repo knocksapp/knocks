@@ -5,7 +5,8 @@
   url = "circle/search"
   @success="circles = $event.response; refreshContent()"
   :xdata = "{ q : search }"
-  :scope = "['sidebar_circle_search']"
+  :scope = "['sidebar_circle_search_special']"
+  :precondition = "search.length > 0 && !isFiredSearch"
   >
   </knocksretriver>
   <static_message msg = "search for circles .." v-model = "searchPlaceHolder" class = "knocks_hidden"></static_message>
@@ -13,7 +14,7 @@
   <div class="row">
     <div class="row knocks_fair_bounds">
       <div class="ui icon input fluid">
-        <input type="text" :placeholder="searchPlaceHolder" @input = "searchForCircles()" v-model = "search">
+        <input type="text" :placeholder="searchPlaceHolder" @input = "" v-model = "search">
         <i class="search icon"></i>
       </div>
     </div>
@@ -106,12 +107,14 @@ export default {
       mainCircle : window.UserMainCircle , 
       membersEditor : null ,
       circlesListLoaders : [] ,
+      isFiredSearch : false ,
     }
   },
   methods : {
   	searchForCircles(){
+      this.isFiredSearch = true
       setTimeout(()=>{
-       App.$emit('knocksRetriver' , { scope : ['sidebar_circle_search'] }) 
+       App.$emit('knocksRetriver' , { scope : ['sidebar_circle_search_special'] }) 
       },200)		
   	},
   	refreshContent(){

@@ -382,6 +382,8 @@ Vue.component('knockscirclemembers', require('./components/knockscirclemembers.v
 
     currentKnocks : null ,
 
+    auth : parseInt(UserId) ,
+
     maxRetrived : null ,
     minRetrived : null ,
     lastIndex  : null ,
@@ -1401,6 +1403,8 @@ window.NavInstance = new Vue({
   showSidebarGroupKey : 3 ,
   showSidebarKnockKey : 3 ,
   showSidebarUserKey : 3 ,
+  sidebarXHRCancelToken : null , 
+  sidebarXHRSource : null ,
 
   showRightSideBar : true ,
   sideBarSearchLanguage : currentUserLanguage ,
@@ -1489,11 +1493,18 @@ window.NavInstance = new Vue({
       $('#knocks_sidebar_search_form').submit();
     },
     sidebarRunSearch(){
+
       if(this.sidebarSearch.length == 0) return;
       const vm = this;
+      if(vm.sidebarSeachLoading)
+      vm.sidebarXHRSource.cancel('Operation canceled by the user.');
+      vm.sidebarXHRCancelToken = axios.CancelToken;
+      vm.sidebarXHRSource = vm.sidebarXHRCancelToken.source();
+      vm.sidebarSeachLoading = true;
       axios({
         url : LaravelOrgin + '/search/main' ,
         method : 'post' ,
+        cancelToken: vm.sidebarXHRSource.token ,
         onDownloadProgress : ()=> { vm.sidebarSeachLoading = true; } ,
         data : {q : vm.sidebarSearch}
       }).then((res)=>{

@@ -170,17 +170,17 @@
           Delete Knocks Data
           </el-button>
         </div>
-        <div class = "col s9">
-          Truncate all the Knocks, which means deleting its childs too, this will truncate all of <b class ="knocks_text_danger">Ballons, Reactions, Blobs, Comments</b> and
-          <b class = "knocks_text_danger">Knocks</b> tables.
+        <div class = "col ">
+          Truncate all the Knocks, which means deleting its childs too, this will truncate all of <span class ="knocks_text_danger">Ballons, Reactions, Blobs, Comments</span> and
+          <span class = "knocks_text_danger">Knocks</span> tables.
         </div>
         <el-dialog
         title="Delete All Knocks Data ?"
         :visible.sync="resetKnocksDialog"
         width="30%"
         >
-        <span>Confirming this dialog will truncate all of <b class ="knocks_text_danger">Ballons, Reactions, Blobs, Comments</b> and
-          <b class = "knocks_text_danger">Knocks</b> tables.
+        <span>Confirming this dialog will truncate all of <span class ="knocks_text_danger">Ballons, Reactions, Blobs, Comments</span> and
+          <span class = "knocks_text_danger">Knocks</span> tables.
         Are you sure that you want to truncate them?</span>
         <span slot="footer" class="dialog-footer">
           <el-button @click="resetKnocksDialog = false">Cancel</el-button>
@@ -194,17 +194,17 @@
           Delete Users Data
           </el-button>
         </div>
-        <div class = "col s9">
-          Truncate all the Users, which means deleting its childs too, this will truncate all of  <b class ="knocks_text_danger">Ballons, Reactions, Blobs, Comments, Knocks, Circles, Circle Members, Privacy Circle Sets, Privacy User Sets, Objects</b> and
-          <b class = "knocks_text_danger">Users</b> tables.
+        <div class = "col ">
+          Truncate all the Users, which means deleting its childs too, this will truncate all of  <span class ="knocks_text_danger">Ballons, Reactions, Blobs, Comments, Knocks, Circles, Circle Members, Privacy Circle Sets, Privacy User Sets, Objects</span> and
+          <span class = "knocks_text_danger">Users</span> tables.
         </div>
         <el-dialog
         title="Delete All Knocks Data ?"
         :visible.sync="resetAllDialog"
         width="30%"
         >
-        <span>Confirming this dialog will truncate all of <b class ="knocks_text_danger">Ballons, Reactions, Blobs, Comments, Knocks, Circles, Circle Members, Privacy Circle Sets, Privacy User Sets, Objects</b> and
-          <b class = "knocks_text_danger">Users</b> tables.
+        <span>Confirming this dialog will truncate all of <span class ="knocks_text_danger">Ballons, Reactions, Blobs, Comments, Knocks, Circles, Circle Members, Privacy Circle Sets, Privacy User Sets, Objects</span> and
+          <span class = "knocks_text_danger">Users</span> tables.
         Are you sure that you want to truncate them?</span>
         <span slot="footer" class="dialog-footer">
           <el-button @click="resetKnocksDialog = false">Cancel</el-button>
@@ -218,22 +218,36 @@
           Rebound The Initial Data
           </el-button>
         </div>
-        <div class = "col s9">
+        <div class = "col ">
           If you have a fresh install or migration for the Database, so this will rebound the initial data for the whole App
-          <b class ="knocks_text_danger">, You will need to reinsert the Static Messages manually from the database but still you cant if you dont have this kind of data</b>
+          <span class ="knocks_text_danger">, You will need to reinsert the Static Messages manually from the database but still you cant if you dont have this kind of data</span>
         </div>
         <el-dialog
         title="Delete All Knocks Data ?"
         :visible.sync="reinstallDialog"
         width="30%"
         >
-        <span>Confirming this dialog will reinsert <b class ="knocks_text_danger">Langauges and Presets</b>
+        <span>Confirming this dialog will reinsert <span class ="knocks_text_danger">Langauges and Presets</span>
         Are you sure that you already dont have them inserted?</span>
         <span slot="footer" class="dialog-footer">
           <el-button @click="reinstallDialog = false">Cancel</el-button>
           <el-button type="primary" @click="reboundInitialData()">Confirm</el-button>
         </span>
         </el-dialog>
+        <div class = "col s12">
+          <div class="ui horizontal divider transparent">
+            Delete Circle Members
+          </div>
+        <knockselbutton
+        type = "danger"
+        submit_at = "dev/delete/allmems"
+        :submit_data = "{}"
+        success_at = "done"
+        placeholder = "Delete All Circle Members"
+        icon = "knocks-trash2"></knockselbutton>
+        <span class = "red-text knocks_fair_bounds">Clicking this will remove all circle members which means all friendship relations will be removed.s</span>
+
+        </div>
 
       </div>
     </transition>

@@ -240,6 +240,7 @@ class User extends Authenticatable {
 				"religon" => array(),
 				"marital_status" => array(),
 				"bio" => array(),
+				"phone" => array(),
 			),
 
 		));

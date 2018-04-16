@@ -20,6 +20,14 @@ class Knock extends Model {
 		return $this->belongsTo('App\obj', 'object_id');
 	}
 
+	public function addFollower($user) {
+		$index = $this->knockIndex();
+		$followers = $index->followers;
+		$followers->$user = true;
+		$this->index = json_encode($index);
+		$this->update();
+	}
+
 	public function canEdit($user) {
 		if ($this->user_id == $user) {
 			return true;

@@ -659,6 +659,7 @@
             return this.errorsStack.indexOf(errorId) == -1 ? false : true;
           },
           autoComplete(){
+            console.log({ ob : 'ac ' , gid :  this.gid , scope :this.scope })
             if(this.elinput.length < this.autocomplete_start) return;
             const vm = this;
             axios

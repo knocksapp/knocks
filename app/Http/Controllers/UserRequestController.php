@@ -2,141 +2,163 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use App\User_request;
-use App\User;
 use App\Ballon;
+use App\User;
+use App\User_request;
+use Illuminate\Http\Request;
 
-class UserRequestController extends Controller
-{
-    public function sendGroup(Request $request){
-      $request->validate([
-        'users'=> 'required',
-        'circles' => 'required'
-      ]);
-      $request->users = json_decode( $request->users);
-      foreach($request->users as $user){
-        if(User::find($user) != null){
-          $req = new User_request();
-          $req->initialize($user, $request->circles);
-        }
-        return 'done';
-      }
+class UserRequestController extends Controller {
+	public function sendGroup(Request $request) {
+		$request->validate([
+			'users' => 'required',
+			'circles' => 'required',
+		]);
+		$request->users = json_decode($request->users);
+		foreach ($request->users as $user) {
+			if (User::find($user) != null) {
+				$req = new User_request();
+				$req->initialize($user, $request->circles);
+			}
+			return 'done';
+		}
 
-    }
-    public function sendOne(Request $request){
-      $request->validate([
-        'to' => 'required'
-      ]);
-      //Validate if exist
-      if($request->to == auth()->user()->id) return 'invalid';
-      $user = User::find($request->to);
-      if(!$user) return 'invalid';
-      //Validate if already friends
-      if(auth()->user()->isFriend($user)) return 'invalid';
-      //Initialize and send
-      $req = new User_request();
-      $req->initialize(auth()->user()->id , $user->id);
-      $ballon = new Ballon();
-      $ballon->friendRequestBalloon(auth()->user()->id , $request->to, $req->id);
-      return 'done';
+	}
+	public function sendOne(Request $request) {
+		$request->validate([
+			'to' => 'required',
+		]);
+		//Validate if exist
+		if ($request->to == auth()->user()->id) {
+			return 'invalid';
+		}
 
-    }
-      public function cancelOne(Request $request){
-      $request->validate([
-        'to' => 'required'
-      ]);
-      //Validate if exist
-      if($request->to == auth()->user()->id) return 'invalid';
-      $user = User::find($request->to);
-      if(!$user) return 'invalid';
-      //Validate if already friends
-      if(auth()->user()->isFriend($user)) return 'invalid';
-      //Initialize and send
-      $req = auth()->user()->userSentRequests()->where('reciver_id' , '=' , $request->to)->get();
-      if($req->count() == 0) return 'invalid';
-      else{
-        foreach($req as $r){
-          $r->response = 'canceled';
-          $r->update();
-        }
-      }
-      return 'done';
+		$user = User::find($request->to);
+		if (!$user) {
+			return 'invalid';
+		}
 
-    }
+		//Validate if already friends
+		if (auth()->user()->isFriend($user)) {
+			return 'invalid';
+		}
 
-     public function accept(Request $request){
-      $request->validate([
-        'target' => 'required' , 
-        
-      ]);
+		//Initialize and send
+		$req = new User_request();
+		$req->initialize(auth()->user()->id, $user->id);
+		$ballon = new Ballon();
+		$ballon->friendRequestBalloon(auth()->user()->id, $request->to, $req->id);
+		return 'done';
 
-     //Validate if the target exists;
-     $target = User::find($request->target);
-     if($target == null) return 'invalid'; 
+	}
+	public function cancelOne(Request $request) {
+		$request->validate([
+			'to' => 'required',
+		]);
+		//Validate if exist
+		if ($request->to == auth()->user()->id) {
+			return 'invalid';
+		}
 
-     //Validate if they already friends 
-     if(auth()->user()->isFriend($request->target)) return 'invalid';
+		$user = User::find($request->to);
+		if (!$user) {
+			return 'invalid';
+		}
 
-     //Validate if has a friend request
-     $fr = auth()->user()->hasFriendRequestObject($request->target);
-     if(!$fr) return 'invalid';
+		//Validate if already friends
+		if (auth()->user()->isFriend($user)) {
+			return 'invalid';
+		}
 
-     //pair as friends
+		//Initialize and send
+		$req = auth()->user()->userSentRequests()->where('reciver_id', '=', $request->to)->get();
+		if ($req->count() == 0) {
+			return 'invalid';
+		} else {
+			foreach ($req as $r) {
+				$r->response = 'canceled';
+				$r->update();
+			}
+		}
+		return 'done';
 
-     auth()->user()->pairAsFriend($target);
+	}
 
-     //Connect the acceptance circles
+	public function accept(Request $request) {
+		$request->validate([
+			'target' => 'required',
 
-     $target->createCirclesMembership($request->circles);
+		]);
 
-     //Create acceptance balloon
+		//Validate if the target exists;
+		$target = User::find($request->target);
+		if ($target == null) {
+			return 'invalid';
+		}
 
-     $ballon = new Ballon();
-     $ballon->friendRequestAccepted($request->target , $request->target);
+		//Validate if they already friends
+		if (auth()->user()->isFriend($request->target)) {
+			return 'invalid';
+		}
 
-     //update the request as accepted
+		//Validate if has a friend request
+		$fr = auth()->user()->hasFriendRequestObject($request->target);
+		if (!$fr) {
+			return 'invalid';
+		}
 
-     $fr->response = 'accepted' ;
-     $fr->update();
+		//pair as friends
 
-     return 'done';
-    }
+		auth()->user()->pairAsFriend($target);
 
-    public function sendGroupRequest(Request $request){
+		//Connect the acceptance circles
 
-              $newRequest = new User_request();
-              $newRequest->initializeForGroups(
-              auth()->user()->id,
-              $request->reciver_id
-              );
-              return 'done';
-    }
+		$target->createCirclesMembership($request->circles);
 
-    public function getGroupWaitResponse(Request $request){
-                 $res = User_request::where('sender_id','=',auth()->user()->id)->where('reciver_id','=',$request->group_id)->get();
-                 return $res;
-    }
-    public function getGroupResponse(Request $request){
-                 $res = User_request::where('parent_type','=','Group')->where('reciver_id','=',$request->group_id)->get();
-                 return $res;
-    }
-    public function declineRequestForGroup(Request $request){
-               $upd = User_request::where('sender_id','=',$request->user)->where('reciver_id','=',$request->group)->where('response','=','waiting')->get()->first();
-                $upd->response = 'declined';
-                $upd->update();
-    }
-    public function checkGroupResponse(Request $request){
-         $check = User_request::where('sender_id','=',auth()->user()->id)
-         ->where('reciver_id','=',$request->group_id)
-         ->where('response','=','waiting')->get();
-         if(count($check) > 0){
-          return 'true';
-         }else
-         {
-          return 'false';
-        }
+		//Create acceptance balloon
 
-    }
+		$ballon = new Ballon();
+		$ballon->friendRequestAccepted(auth()->user()->id, $request->target);
+
+		//update the request as accepted
+
+		$fr->response = 'accepted';
+		$fr->update();
+
+		return 'done';
+	}
+
+	public function sendGroupRequest(Request $request) {
+
+		$newRequest = new User_request();
+		$newRequest->initializeForGroups(
+			auth()->user()->id,
+			$request->reciver_id
+		);
+		return 'done';
+	}
+
+	public function getGroupWaitResponse(Request $request) {
+		$res = User_request::where('sender_id', '=', auth()->user()->id)->where('reciver_id', '=', $request->group_id)->get();
+		return $res;
+	}
+	public function getGroupResponse(Request $request) {
+		$res = User_request::where('parent_type', '=', 'Group')->where('reciver_id', '=', $request->group_id)->get();
+		return $res;
+	}
+	public function declineRequestForGroup(Request $request) {
+		$upd = User_request::where('sender_id', '=', $request->user)->where('reciver_id', '=', $request->group)->where('response', '=', 'waiting')->get()->first();
+		$upd->response = 'declined';
+		$upd->update();
+	}
+	public function checkGroupResponse(Request $request) {
+		$check = User_request::where('sender_id', '=', auth()->user()->id)
+			->where('reciver_id', '=', $request->group_id)
+			->where('response', '=', 'waiting')->get();
+		if (count($check) > 0) {
+			return 'true';
+		} else {
+			return 'false';
+		}
+
+	}
 }
- 

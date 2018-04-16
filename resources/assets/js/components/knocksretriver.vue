@@ -47,6 +47,10 @@ export default {
   		type : Boolean , 
   		default : null ,
   	},
+    precondition : {
+      type : Boolean , 
+      default : null ,
+    },
   	behind_recursion : {
   		type : Boolean , 
   		default : false ,
@@ -103,6 +107,7 @@ export default {
   },
   methods : {
   	retrive(){
+      if(this.precondition != null && this.precondition == false) return;
   		const vm = this;
   		axios({
   			method : vm.method , 

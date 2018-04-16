@@ -34,9 +34,10 @@
       <div class = "">
         <div class ="white col s10 knocks_house_keeper knocks_standard_border_radius" style="margin-top : 1px !important;"
           :class = "[{'knocks_theme_active_border':focused},{'knocks_pink_border' : !focused}]">
+          <static_message msg = "Type here.." v-model = "ceaPlaceholder" class = "knocks_hidden"></static_message>
           <div :class = "[input_container , {'col s12':focused}, {'col m8 s6':!focused}]" v-if="!draggingMode"
             contenteditable = "true"
-            class = "knocks_language_follower white knocks_ce_watch_align" data-text="Enter text here..." :id = "gid+'_input'" v-model = "bodyContent" @input = "constructInput()">
+            class = "knocks_language_follower white knocks_ce_watch_align" :data-text="ceaPlaceholder" :id = "gid+'_input'" v-model = "bodyContent" @input = "constructInput()">
           </div>
           
           <!--Level Three-->
@@ -491,7 +492,7 @@ export default {
       textContent : {text : '' , voice : ''} ,
       finalTextBody : '' ,
       focused : false ,
-      
+      ceaPlaceholder : '' ,
 
     }
   } , 

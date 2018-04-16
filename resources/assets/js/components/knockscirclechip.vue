@@ -65,6 +65,33 @@ export default {
         vm.bindCircle(payloads.object)
       }
     })
+    App.$on('knocksCircleAddMember' , (payloads)=>{
+      if(payloads.circle == vm.circle){
+        if(vm.circleObject == null) vm.loadCircleData();
+        else {
+          vm.circleObject.members.push(payloads.member)
+          vm.bindCircle(vm.circleObject);
+         }
+      }
+    })
+    App.$on('knocksCircleRemoveMember' , (payloads)=>{
+      if(payloads.circle == vm.circle){
+        if(vm.circleObject == null) vm.loadCircleData();
+        else {
+          vm.circleObject.members.splice(vm.circleObject.members.indexOf(payloads.member) , 1)
+          vm.bindCircle(vm.circleObject);
+         }
+      }
+    })
+    App.$on('knocksCircleGlobalRemoveMember' , (payloads)=>{
+      
+        if(vm.circleObject == null) vm.loadCircleData();
+        else {
+          vm.circleObject.members.splice(vm.circleObject.members.indexOf(payloads.member) , 1)
+          vm.bindCircle(vm.circleObject);
+         }
+      
+    })
     App.$on('KnocksContentChanged' , ()=>{
     if(vm.circleObject == null) return;
     if(vm.circleObject.id != vm.circle){
