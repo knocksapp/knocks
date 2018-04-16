@@ -325,6 +325,10 @@ export default {
       type : Boolean ,
       default : false ,
     },
+    no_rebound : {
+      type : Boolean , 
+      default : false
+    },
     extras : {
       type : Object ,
       default : null,
@@ -343,7 +347,7 @@ export default {
     }
   },
   mounted(){
-    if(!this.isKnown()){
+    if(!this.isKnown() || this.no_rebound){
       App.$emit('knocksRetriver' , { scope : ['user_retriver_'+this.user] } );
     }else this.initialize(window.UsersObject[this.user]);
     //Reacting on events
@@ -410,6 +414,8 @@ export default {
       return window.UsersObject[this.user] === undefined ? false : true ;
     },
     holdOnChanges(payloads){
+      if(payloads === null || payloads == undefined) return;
+      if(payloads.patch === undefined) return;
       setTimeout(()=>{
         if(this.userObject !== null){
 

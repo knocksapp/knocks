@@ -1,12 +1,18 @@
 <template>
 <transition enter-active-class = "animated bounceInRight" :leave-active-class = "leaveActiveClass" >
-  <div class = "knocks_ballon knocks_standard_border_radius knocks_color_kit_light knocks_gray_border knocks_house_keeper animated shake "
+  <div :class = "container_class"
     v-if="!closed"
     :id = "gid"
     @mouseover = "hoverAct()"
     @mouseleave="mouseLeaveAct()">
+    <knocksretriver 
+    url = "ballon/seen"
+    :xdata = "{ ballon : constrains.id }"
+    prevent_on_mount
+    @success = "handleSeen($event)"
+    :scope = "['ballon_'+gid+'_seen']"></knocksretriver>
     <div class = " knocks_fair_bounds" >
-      <a @click = "leaveActiveClass = 'animated zoomOut'; closed = true" class="right knocks_text_anchor knocks_text_md"><span uk-icon="close"></span></a>
+      <a @click = "leaveActiveClass = 'animated zoomOut'; closed = true" v-if = "!keep_showing" class="right knocks_text_anchor knocks_text_md"><span uk-icon="close"></span></a>
     </div>
     <!--System Ballons-->
     <div v-if = "constrains.index.category == 'System'">
@@ -19,6 +25,11 @@
       </knocksuser>
       <static_message  style = "padding : 3px;" classes = "knocks_text_ms knocks_text_dark" v-if="domainUser != null" msg = "** sent you a friendship request."
       replaceable :replacements = "[ {target : '**' , body : domainUser.name}]"></static_message>
+      <br  v-if = "domainUser != null && domainUser.is_friend"/>
+      <b v-if = "domainUser != null && domainUser.is_friend" class = "green-text right">
+        <span class = "knocksapp-circle-checkmark"></span>
+        <static_message msg = "Accepted"></static_message>
+      </b>
       <br/>
       <a class = "knocks_text_pink" :href = "domainUser.userUrl" v-if = "domainUser != null">
         <span class = "knocksapp-home4"></span>
@@ -37,7 +48,7 @@
     
     <!--Friend Request Acceptance -->
     <div v-if = "constrains.index.category == 'friend_request_accepted'" class = "knocks_fair_bounds">
-      <knocksuser :user=  "constrains.index.sender_id" v-model = "domainUser" :show_username = "false"
+      <knocksuser no_rebound :user=  "constrains.index.sender_id" v-model = "domainUser" :show_username = "false"
       image_container_class = "knocks_inline" main_container = "row knocks_house_keeper" name_container_class = " knocks_inline" :extras="{hover_id : gid}">
       </knocksuser>
       <div class = "knocks_fair_bounds">
@@ -54,7 +65,7 @@
     <!--Commentss -->
     <div v-if = "constrains.index.category == 'comment'">
       <div class = "knocks_fair_bounds">
-        <knocksuser :user=  "constrains.index.sender_id" v-model = "domainUser" :show_username = "false"
+        <knocksuser  :user=  "constrains.index.sender_id" v-model = "domainUser" :show_username = "false"
         image_container_class = "knocks_inline" main_container = "row knocks_house_keeper" name_container_class = " knocks_inline" :extras="{hover_id : gid}">
         </knocksuser>
         <a :href = "asset('knock/'+constrains.index.knock+'/'+constrains.index.comment)" target="_blank">
@@ -84,7 +95,19 @@ export default {
   	constrains : {
   		type : Object , 
   		default : null
-  	}
+  	},
+    container_class : {
+      type : String , 
+      default : 'knocks_ballon knocks_standard_border_radius knocks_color_kit_light knocks_gray_border knocks_house_keeper animated shake ' 
+    },
+    keep_showing : {
+      type : Boolean , 
+      default : false
+    },
+    mute : {
+      type : Boolean ,
+      default : false
+    }
    },
 
   data () {
@@ -123,6 +146,9 @@ export default {
   methods : {
 
   	hoverAct(){
+      if(!this.hovered && this.constrains.seen == 0){
+        App.$emit('knocksRetriver' , { scope : ['ballon_'+this.gid+'_seen'] })
+      }
       this.hovered = true;
   		this.intervalCounter = 0;
       // this.swipeToLeave();
@@ -139,13 +165,13 @@ export default {
        ]})
       }
       if(this.constrains.index.category == 'friend_request'){
-      App.$emit('knocksUserKeyUpdate' ,
-       { user : this. constrains.index.sender_id  , 
-        patch : [ 
-        { key : 'requested' , value : false } ,
-        { key : 'requester' , value : true } , 
-        { key : 'is_friend' , value : false  } 
-       ]})
+      // App.$emit('knocksUserKeyUpdate' ,
+      //  { user : this. constrains.index.sender_id  , 
+      //   patch : [ 
+      //   { key : 'requested' , value : false } ,
+      //   { key : 'requester' , value : true } , 
+      //   { key : 'is_friend' , value : false  } 
+      //  ]})
       }
     },
   	mouseLeaveAct(){
@@ -157,6 +183,7 @@ export default {
       return window.Asset(url);
     },
   	countDown(){
+      if(this.keep_showing) return;
 	  	this.balloonInterval = setInterval( ()=>{
 	  	if(this.hovered || this.outterHover){
 	  	   clearInterval(this.balloonInterval);
@@ -175,12 +202,18 @@ export default {
       this.closed = true;
     },
   	soundNotification(){
+      if(this.mute) return;
   	  var vidId = document.getElementById('knocks_notification');
       vidId.play();
       setTimeout(function () {
           vidId.pause();
       },3000);
   	
+  },
+  handleSeen(e){
+    if(e.response == 'done'){
+      this.$emit('seen')
+    }
   },
   swipeToLeave(){
     // const vm = this;

@@ -1210,6 +1210,7 @@ Vue.component('knockscirclemembers', require('./components/knockscirclemembers.v
             vm.ballons.push(response.data[j]);
           }
         }
+        App.$emit('knocksBallonsUpdate' , {patch : vm.ballons})
         vm.updatePoped();
       }).catch(()=>{ vm.balloonsLooper = false ; });
     } ,

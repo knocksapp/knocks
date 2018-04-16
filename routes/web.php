@@ -69,6 +69,8 @@ Route::post('get_notification', 'BallonController@getUserNotification');
 
 Route::post('update_notifications', 'BallonController@setToPoped');
 
+Route::post('ballon/seen', 'BallonController@setToSeen');
+
 Route::post('user/info', 'UserController@getInfo');
 
 Route::post('user/info/lazy', 'UserController@getInfoLazy');
