@@ -20,11 +20,11 @@
     </div>
     <!--Friend Requests-->
     <div v-if = "constrains.index.category == 'friend_request'" class = "knocks_fair_bounds" >
-      <knocksuser :user=  "constrains.index.sender_id" v-model = "domainUser" :show_username = "false"
+      <knocksuser :user=  "constrains.index.sender_id" v-model = "domainUser" :show_username = "false" @input = "notifyMe()"
       image_container_class = "knocks_inline" main_container = "row knocks_house_keeper" name_container_class = " knocks_inline" :extras="{hover_id : gid}">
       </knocksuser>
       <static_message  style = "padding : 3px;" classes = "knocks_text_ms knocks_text_dark" v-if="domainUser != null" msg = "** sent you a friendship request."
-      replaceable :replacements = "[ {target : '**' , body : domainUser.name}]"></static_message>
+      replaceable :replacements = "[ {target : '**' , body : domainUser.name}]" v-model = "sm.fr"></static_message>
       <br  v-if = "domainUser != null && domainUser.is_friend"/>
       <b v-if = "domainUser != null && domainUser.is_friend" class = "green-text right">
         <span class = "knocksapp-circle-checkmark"></span>
@@ -47,7 +47,7 @@
     </div>
     
     <!--Friend Request Acceptance -->
-    <div v-if = "constrains.index.category == 'friend_request_accepted'" class = "knocks_fair_bounds">
+    <div  v-if = "constrains.index.category == 'friend_request_accepted'" class = "knocks_fair_bounds">
       <knocksuser no_rebound :user=  "constrains.index.sender_id" v-model = "domainUser" :show_username = "false"
       image_container_class = "knocks_inline" main_container = "row knocks_house_keeper" name_container_class = " knocks_inline" :extras="{hover_id : gid}">
       </knocksuser>
@@ -75,10 +75,35 @@
       </div>
       <knocksknock  :knock = "constrains.index.knock" :gid="gid+'_ballon_comment_'+constrains.index.comment" interested
       :comments_to_show = "[constrains.index.comment]"
-      show_comment_reply_on_mout
+      :show_comment_reply_on_mout = "!hide_replies"
       :show_reply_on_mount = "false"
       :current_user = "auth" replier_message = "Leave a comment" ></knocksknock>
     </div>
+
+    <el-tooltip v-if = "formNowDate != 'Invalid date' " class = "knocks_fair_bounds">
+          <span slot = "content"  class = "" >
+        <span class = "knocks-calendar10"></span>
+        <span class = "knocks_language_default_font">{{detailsDate}}</span>
+      </span>
+        <span >
+          <span 
+          class = "knocks_language_default_font knocks_text_sm    gray-text text-darken-3">
+        <span class = "knocks-clock9  "></span> {{ formNowDate }}</span>
+        </span>
+  </el-tooltip>
+
+  <el-tooltip v-if = "formNowDate != 'Invalid date' && constrains.seen == 1 " class = "knocks_fair_bounds">
+          <span slot = "content"  class = "" >
+        <span class = "knocksapp-circle-checkmark"></span>
+        <span class = "knocks_language_default_font">{{detailsDates}}</span>
+      </span>
+        <span >
+          <span 
+          class = "knocks_language_default_font knocks_text_sm  green-text  gray-text text-darken-3">
+        <span class = "knocksapp-circle-checkmark  "></span>
+        <static_message msg = "Seen "></static_message> {{ formNowDates }}</span>
+        </span>
+  </el-tooltip>
   </div>
 </transition>
 </template>
@@ -107,6 +132,14 @@ export default {
     mute : {
       type : Boolean ,
       default : false
+    },
+    hide_replies :{
+      type : Boolean , 
+      default : false
+    },
+    show_browser_notification : {
+      type : Boolean , 
+      default : false
     }
    },
 
@@ -120,7 +153,12 @@ export default {
       leaveActiveClass : 'animated slideOutRight' , 
       outterHover : false ,
       domainUser : null ,
-      auth : parseInt(UserId)
+      auth : parseInt(UserId) , 
+      seenOnce : false ,
+      seenTime : null ,
+      time : null , 
+      times : null ,
+      sm : { fr : '' }
 
 
     }
@@ -142,11 +180,92 @@ export default {
         if(!vm.hovered) vm.countDown();
       }
     });
+
+
+   this.timer();
+
+   if(this.show_browser_notification){
+    document.addEventListener('DOMContentLoaded', function () {
+  if (!Notification) {
+    
+    return;
+  }
+
+  if (Notification.permission !== "granted")
+    Notification.requestPermission();
+   }); 
+
+  
+   }
+      
+   
+  },
+  computed : {
+    formNowDate(){
+    
+      return this.time == null ? '' : moment(this.time).fromNow();
+    },
+    formNowDateSpliced(){
+      return this.requireSplicing ? this.formNowDate.substring(0,5)+'..' : this.formNowDate;
+    },
+
+    requireSplicing(){
+      return this.formNowDate.length > 4 && this.windowWidth < 800 ? true : false ;
+    },
+    detailsDate(){
+
+      return  this.time == null ? '' : moment(this.time).format('MMMM Do YYYY, h:mm a');
+    },
+    formattedDate(){
+      return moment.tz( this.time , moment.tz.guess() ).format('YYYY-MM-DD')
+    },
+    formNowDates(){
+    
+      return this.times == null ? '' : moment(this.times).fromNow();
+    },
+    formNowDateSpliceds(){
+      return this.requireSplicings ? this.formNowDates.substring(0,5)+'..' : this.formNowDates;
+    },
+
+    requireSplicings(){
+      return this.formNowDates.length > 4 && this.windowWidth < 800 ? true : false ;
+    },
+    detailsDates(){
+
+      return  this.times == null ? '' : moment(this.times).format('MMMM Do YYYY, h:mm a');
+    },
+    formattedDates(){
+      return moment.tz( this.times , moment.tz.guess() ).format('YYYY-MM-DD')
+    },
   },
   methods : {
+    timer(){
+      let offset = new Date().getTimezoneOffset();
+       if(this.constrains.created_at == undefined) this.time = null ;
+       else this.time =  this.constrains.created_at
+       if(this.seenTime != null) this.times =  this.seenTime;
+       if(this.constrains.updated_at == undefined) this.times =  null ;
+       else this.times =  this.constrains.updated_at
+        this.time = moment(this.time).subtract(offset ,'m');
+        this.times = moment(this.times).subtract(offset ,'m');
+      setInterval( ()=>{
+        this.time = ''; 
+        if(this.constrains.created_at == undefined) this.time = null ;
+        else this.time =  this.constrains.created_at
+        if(this.seenTime != null) this.times =  this.seenTime;
+        if(this.constrains.updated_at == undefined) this.times =  null ;
+        else this.times =  this.constrains.updated_at
 
+        this.time = moment(this.time).subtract(offset ,'m');
+        this.times = moment(this.times).subtract(offset ,'m');
+
+     
+
+       }
+          , 5000);
+    },
   	hoverAct(){
-      if(!this.hovered && this.constrains.seen == 0){
+      if(!this.hovered && !this.seenOnce){
         App.$emit('knocksRetriver' , { scope : ['ballon_'+this.gid+'_seen'] })
       }
       this.hovered = true;
@@ -213,6 +332,9 @@ export default {
   handleSeen(e){
     if(e.response == 'done'){
       this.$emit('seen')
+      App.$emit('knocksBallonGlobalSeen' , { ballon : this.constrains.id})
+      this.seenOnce = true;
+      this.seen = moment();
     }
   },
   swipeToLeave(){
@@ -235,7 +357,41 @@ export default {
     //   });
 
      // } , 500);
-  }
+  },
+  notifyMe() {
+    if(!this.show_browser_notification) return;
+ if (Notification.permission !== "granted")
+    Notification.requestPermission();
+  else {
+    //Friend request
+    let options = {} , title , url 
+    if(this.constrains.index.category == 'friend_request'){
+     options = {
+      icon : this.domainUser.compressedAvatarUrl , 
+      body : this.domainUser.name+' Sent you a friendship request'
+     }
+     url = this.domainUser.userUrl;
+    }else if(this.constrains.index.category == 'friend_request_accepted'){
+     options = {
+      icon : this.domainUser.compressedAvatarUrl , 
+      body : this.domainUser.name+' Accepted your friendship request.'
+     }
+     url = this.domainUser.userUrl;
+    }else if(this.constrains.index.category == 'comment'){
+     options = {
+      icon : this.domainUser.compressedAvatarUrl , 
+      body : this.domainUser.name+' Commented on a knock.'
+     }
+     url = this.asset('knock/'+this.constrains.index.knock+'/'+this.constrains.index.comment)
+    }
+    var notification = new Notification('Knocks', options);
+
+    notification.onclick = function () {
+      window.open(url);      
+    };
+
+  } 
+}
 }
 }
 </script>

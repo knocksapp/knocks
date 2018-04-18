@@ -79,7 +79,19 @@
             </transition>
             @endif
             @if($user->id != auth()->user()->id)
-            <knocksimg src = "{{asset('media/cover/'.$user->id)}}" class = "knocks_full_cover_photo z-depth-1"></knocksimg>
+             <knocksimageviewer gid ="profile_image_viewer"
+            :sources = "{{ $user->coverPictures() }}"
+            v-if = "profileModel != null"
+            unquoted
+            :scope = "['cover_picture_handler']"
+            :object_id = "{{$user->profilePictureBlob()['object_id']}}"
+            :user_id = "{{auth()->user()->id}}"
+            :owner_object = "profileModel"
+            entrance = "custom"
+            :knock_id =  "{{$user->profilePictureBlob()['object_id']}}"
+            :owner_id = "{{$user->id}}">
+            <knocksimg src = "{{asset('media/cover/'.$user->id)}}" slot = "entrance" class = "knocks_full_cover_photo z-depth-1 " v-if = "lowerTrigger != 'cover_uploader'"></knocksimg>
+            </knocksimageviewer>
             @endif
           </div>
           <div class = "knocks_profile_avatar_frame knocks_house_keeper">
@@ -103,7 +115,19 @@
               </div>
               @endif
               @if($user->id != auth()->user()->id)
-              <knocksimg class = "knocks_profile_avatar z-depth-1 " src = "{{asset('media/avatar/'.$user->id)}}"></knocksimg>
+               <knocksimageviewer gid ="profile_image_viewer"
+                :sources = "{{ $user->profilePictures() }}"
+                v-if = "profileModel != null"
+                unquoted
+                :scope = "['profile_picture_handler']"
+                :object_id = "{{$user->profilePictureBlob()['object_id']}}"
+                :user_id = "{{auth()->user()->id}}"
+                :owner_object = "profileModel"
+                entrance = "custom"
+                :knock_id =  "{{$user->profilePictureBlob()['object_id']}}"
+                :owner_id = "{{$user->id}}">
+                <knocksimg slot = "entrance" class = "knocks_profile_avatar z-depth-1 knocks_user_profile_scope" src = "{{asset('media/avatar/'.$user->id)}}"></knocksimg>
+                </knocksimageviewer>
               @endif
             </a>
           </div>

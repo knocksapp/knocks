@@ -67,6 +67,10 @@ Route::post('registeration', 'UserController@register');
 
 Route::post('get_notification', 'BallonController@getUserNotification');
 
+Route::post('ballons/batch', 'BallonController@getAllUserNotification');
+
+Route::post('ballons/fr/batch', 'BallonController@getAllUserNotificationFr');
+
 Route::post('update_notifications', 'BallonController@setToPoped');
 
 Route::post('ballon/seen', 'BallonController@setToSeen');

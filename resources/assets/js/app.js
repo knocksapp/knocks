@@ -1190,7 +1190,8 @@ Vue.component('knockscirclemembers', require('./components/knockscirclemembers.v
     getNotifications(){
       if(this.sessionType != 'user') return;
       const vm = this;
-      axios({
+      setTimeout( ()=>{
+         axios({
         url : window.location.protocol+'//'+window.location.hostname+':'+window.location.port+'/get_notification' ,
         method : 'post' ,
         timeout : 10000
@@ -1207,12 +1208,14 @@ Vue.component('knockscirclemembers', require('./components/knockscirclemembers.v
           }
           if(pushFlag){
             response.data[j].index = JSON.parse(response.data[j].index);
-            vm.ballons.push(response.data[j]);
+            vm.ballons.splice(0,0,response.data[j]);
           }
         }
         App.$emit('knocksBallonsUpdate' , {patch : vm.ballons})
         vm.updatePoped();
       }).catch(()=>{ vm.balloonsLooper = false ; });
+      }, 500);
+     
     } ,
     updatePoped(){
       var i ;

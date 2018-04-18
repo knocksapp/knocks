@@ -27,7 +27,7 @@ class Ballon extends Model {
 		if (isset($object->parent)) {
 			$this->content = $object->content;
 		}
-
+		$this->category = $object->category;
 		$this->index = json_encode($object->index);
 		$this->object_id = $parentObject->id;
 
@@ -37,6 +37,7 @@ class Ballon extends Model {
 	public function friendRequestBalloon($sender, $reciever, $request) {
 		$this->initialize(json_encode(array(
 			'user' => $reciever,
+			'category' => 'friend_request',
 			'index' => array(
 				'category' => 'friend_request',
 				'sender_id' => $sender,
@@ -48,6 +49,7 @@ class Ballon extends Model {
 	public function friendRequestAccepted($sender, $reciever) {
 		$this->initialize(json_encode(array(
 			'user' => $reciever,
+			'category' => 'friend_request_accepted',
 			'index' => array(
 				'category' => 'friend_request_accepted',
 				'sender_id' => $sender,
@@ -58,6 +60,7 @@ class Ballon extends Model {
 	public function userComment($sender, $reciever, $knock, $comment) {
 		$this->initialize(json_encode(array(
 			'user' => $reciever,
+			'category' => 'comment',
 			'index' => array(
 				'category' => 'comment',
 				'sender_id' => $sender,
