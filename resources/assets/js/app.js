@@ -1198,6 +1198,9 @@ Vue.component('knockscirclemembers', require('./components/knockscirclemembers.v
 
 
       }).then(function(response){
+        if(response.data.length == 0){
+           setTimeout(function(){ if(vm.balloonsLooper) vm.getNotifications()},10000);
+         }else{
         if(vm.ballons == null) vm.ballons = [];
         var j , i , pushFlag;
         for( j = 0 ; j < response.data.length; j++){
@@ -1208,11 +1211,13 @@ Vue.component('knockscirclemembers', require('./components/knockscirclemembers.v
           }
           if(pushFlag){
             response.data[j].index = JSON.parse(response.data[j].index);
-            vm.ballons.splice(0,0,response.data[j]);
+            vm.ballons.push(response.data[j]);
           }
         }
         App.$emit('knocksBallonsUpdate' , {patch : vm.ballons})
-        vm.updatePoped();
+        App.$emit('knocks_refresh_posts_done');
+         setTimeout(function(){ if(vm.balloonsLooper) vm.getNotifications()},10000);
+      }
       }).catch(()=>{ vm.balloonsLooper = false ; });
       }, 500);
      
@@ -1225,6 +1230,7 @@ Vue.component('knockscirclemembers', require('./components/knockscirclemembers.v
         if(this.ballons[i].id != null )
         obj.push(this.ballons[i].id);
       }
+
       axios({
         url : window.location.protocol+'//'+window.location.hostname+':'+window.location.port+'/update_notifications',
         method : 'post' ,

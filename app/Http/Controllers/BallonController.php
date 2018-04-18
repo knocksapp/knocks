@@ -11,7 +11,12 @@ class BallonController extends Controller {
 		$ballons = Ballon::where('user_id', '=', auth()->user()->id)
 			->where('poped', '=', 0)
 			->get();
-		return $ballons;
+		$val = $ballons;
+		foreach ($ballons as $bal) {
+			$bal->poped = 1;
+			$bal->update();
+		}
+		return $val;
 	}
 	public function getAllUserNotification(Request $request) {
 		$ballons = array();

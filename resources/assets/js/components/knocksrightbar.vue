@@ -67,7 +67,12 @@
 						<static_message msg = "You have no older ballons."></static_message>
 					</span>
 					</center>
-					<button class="fluid ui button" v-if = "!noOlderBallonsAvailable && regBallons.length <= showKeyBallon" @click = "askForMoreBallons('r')" :disabled = "ballonsBatchRetriver.loading">Load More</button>
+					<button  
+					style="margin-bottom : 40px;"
+					class="fluid ui button" v-if = "!noOlderBallonsAvailable && regBallons.length <= showKeyBallon" @click = "askForMoreBallons('r')" v-loading = "ballonsBatchRetriver.loading">
+						<span class = "knocks-telescope"></span>
+				    <static_message class = "" msg = "Load Older Ballons"></static_message>
+					</button>
 				</div>
 			</div>
 			<div style = "max-height : calc(95vh - 50px); overflow-y : auto; width : 100%" :class = "[{'knocks_hidden' : tap != 'requests' },{'animated fadeIn' : tap == 'requests' } , 
@@ -90,7 +95,7 @@
 						<static_message msg = "See Less"></static_message>
 					</a>
 				</div>
-				<div class = "row animated fadeIn" v-if = "ballonsBatchRetriver.loading">
+				<div class = "row animated fadeIn" v-if = "ballonsBatchRetriverFr.loading">
 					<div class="ui active inline loader"></div>
 					<static_message msg = "Loading .. " class = "pulse animated infinite"></static_message>
 				</div>
@@ -103,7 +108,10 @@
 					</center>
 					<button  
 					v-if = "!noOlderBallonsAvailableFr && frBallons.length <= showKeyFrBallon" 
-					class="fluid ui button" @click = "askForMoreBallons('f')" :disabled = "ballonsBatchRetriver.loading">Load More</button>
+					class="fluid ui button" @click = "askForMoreBallons('f')" v-loading = "ballonsBatchRetriverFr.loading">
+					<span class = "knocks-telescope"></span>
+				    <static_message class = "" msg = "Load Older Requests"></static_message>
+				</button>
 				</div>
 			</div>
 		</div>
@@ -243,6 +251,7 @@ export default {
 
   		let i ;
   		for(i = 0 ; i < ind; i++){
+  			if(arr[i].id == arr[ind].id) return true;
   			if( (arr[i].index.category == arr[ind].index.category) && (arr[i].index.sender_id == arr[ind].index.sender_id) ){
   				if(arr[ind].index.category == 'comment'){
   					if( (arr[i].index.knock == arr[ind].index.knock ) && (arr[i].index.comment == arr[ind].index.comment) ){

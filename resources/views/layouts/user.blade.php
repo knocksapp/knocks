@@ -64,7 +64,7 @@
         show_browser_notification
         v-for = "(ballon , ind) in ballons" :key="ind"
         :gid="'knocks_notification_wall_'+ind"
-        v-if = "ballon.poped == 0 && ballon.index.sender_id != auth"
+        v-if = "ballon.index.sender_id != auth"
         :constrains = "ballon"
         ></knocksballon>
 
