@@ -120,6 +120,15 @@
           <span v-if ="userObject.last_name != null && userObject.last_name != undefined" >{{userObject.last_name}} </span>
         </div> -->
         <div class = "col s12">
+          <div class = "col s12 knocks_house_keeper">
+            <center>
+          <knocksuseractions
+          class = "knocks_tinny_bounds knocks_tinny_border_radius grey lighten-3 knocks_gray_border"
+          style = "margin-top : 3px;"
+         :user = "user"
+         extended
+         :start_as ="userObject" :extras="{hover_id : 'user_report_'+user}"></knocksuseractions></center>
+       </div>
           <span class = "knocks-user14" v-if ="userObject.gender != null && userObject.gender != undefined && userObject.gender.toLowerCase() == 'female'" ></span>
           <span class = "knocks-user12" v-if ="userObject.gender != null && userObject.gender != undefined && userObject.gender.toLowerCase() == 'male'" ></span>
           <span class = "knocks-user-outline"  v-if ="userObject.gender == null || userObject.gender == undefined "></span>

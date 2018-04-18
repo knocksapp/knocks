@@ -1,78 +1,83 @@
 <template>
-	<div v-if = "userObject != null">
-		<el-popover
-        ref="addtomypeople"
-        placement="right"
-        width="200"
-
-        trigger="hover">
-        <static_message msg= "Add ** to my people" replaceable :replacements = "[{target : '**' , body : userObject.name}]"></static_message>
-        </el-popover>
-        <el-popover
-        style = "max-width : 100vw"
-        ref="circlestoaccept"
-        v-if = "bond == 'requester' && !show_accept_shortcut" 
-        placement="bottom"
-        @show = "updateBalloonsTimer()"
-        @hide="runBalloonsTimer()"
-        trigger="click">
-        <static_message msg= "Search where you want to add ** or create a new circle." classes = "knocks_text_dark knocks_text_ms"
-        replaceable :replacements = "[{target : '**' , body : userObject.name}]">
-        </static_message>
-        <ul class="uk-list uk-list-striped">
-          <knocksquickcircleadder v-model="userCirlces" :scope = "['action_un_cirlce_adder_'+user]" hide_errors placeholder = "Add or Search for circles"></knocksquickcircleadder>
-          
-          <li v-for = "(circle , index) in userCirlces" :class = "[{'knocks_hidden' : index >= userShowKey}]">            
-             <el-checkbox v-model="checkedCircles[circle]" class = "bounceInLeft" ></el-checkbox>
-             <knockscirclechip class = "animated bounceInRight" :circle="circle" no_rebound :popover = "false"  v-if = "index < userShowKey"></knockscirclechip>
-          </li>
-        </ul>
-        <div class = "row">
-           <a :class ="[{'knocks_hidden':!(userCirlces.length > userShowKey)}]" @click = "userShowKey += 3">
-        <static_message msg = "See More"></static_message>
-      </a>
-      <a :class ="[{'knocks_hidden':!(userShowKey > 3 && userCirlces.length > 3)}]" class = "right" @click = "userShowKey -= 3">
-        <static_message msg = "See Less"></static_message>
-      </a>
-      </div>
-        </el-popover>
-	    <el-button 
-	    v-popover:addtomypeople type = "primary" 
-	    @click = "addToMyPeople()"
-	    v-if="bond == 'other'" 
-	    icon = " knocks-user-add-outline knocks_icon knocks_text_ms" class ="">
-	    </el-button>
-	    <el-button 
-	    type = "danger"
-	    @click = "cancelRequest()"
-	    v-if="bond == 'requested'" 
-	    icon = " knocks-plus-circle knocks_icon" class ="">
-	    </el-button>
-      <div class = "row knocks_house_keeper" v-if = "bond == 'requester' && !show_accept_shortcut" style="display:block">
-      <el-button  type="danger" icon="el-icon-search">Ignore</el-button>
-      <el-button-group>
-        <knockselbutton 
-        type = "success"
-        placeholder = "Accept"
-        submit_at = "request/accept"
-        success_at = "done" 
-        reset_on_success      
-        :error_at = "[{ res : 'invalid' , msg : 'You already have this circle!' }]"
-        :success_msg= " 'Added to your Circles succesfully!'"
-        :scope = "['add_friend']"
-        @knocks_submit_accepted = "resetContent()"
-        validation_error = "There's some feilds we need you to complete it."
-        connection_error = "There's a problem in your connection, please try again."
-        :submit_data = "{ target : user, circles : attachedCircles }">
-        </knockselbutton>
-        <!-- <el-button  type="success">Accept</el-button> -->
-        <el-button type="success" v-popover:circlestoaccept >
-          <i class = "el-icon-arrow-down el-icon--right"></i>
-        </el-button>
-      </el-button-group>
+<div v-if = "userObject != null">
+  <el-popover
+  ref="addtomypeople"
+  placement="right"
+  width="200"
+  trigger="hover">
+  <static_message msg= "Add ** to my people" replaceable :replacements = "[{target : '**' , body : userObject.name}]"></static_message>
+  </el-popover>
+  <el-popover
+  style = "max-width : 100vw"
+  ref="circlestoaccept"
+  v-if = "bond == 'requester' && !show_accept_shortcut"
+  placement="bottom"
+  @show = "updateBalloonsTimer()"
+  @hide="runBalloonsTimer()"
+  trigger="click">
+  <static_message msg= "Search where you want to add ** or create a new circle." classes = "knocks_text_dark knocks_text_ms"
+  replaceable :replacements = "[{target : '**' , body : userObject.name}]">
+  </static_message>
+  <ul class="uk-list uk-list-striped">
+    <knocksquickcircleadder v-model="userCirlces" :scope = "['action_un_cirlce_adder_'+user]" hide_errors placeholder = "Add or Search for circles"></knocksquickcircleadder>
+    
+    <li v-for = "(circle , index) in userCirlces" :class = "[{'knocks_hidden' : index >= userShowKey}]">
+      <el-checkbox v-model="checkedCircles[circle]" class = "bounceInLeft" ></el-checkbox>
+      <knockscirclechip class = "animated bounceInRight" :circle="circle" no_rebound :popover = "false"  v-if = "index < userShowKey"></knockscirclechip>
+    </li>
+  </ul>
+  <div class = "row">
+    <a :class ="[{'knocks_hidden':!(userCirlces.length > userShowKey)}]" @click = "userShowKey += 3">
+      <static_message msg = "See More"></static_message>
+    </a>
+    <a :class ="[{'knocks_hidden':!(userShowKey > 3 && userCirlces.length > 3)}]" class = "right" @click = "userShowKey -= 3">
+      <static_message msg = "See Less"></static_message>
+    </a>
+  </div>
+  </el-popover>
+  <el-button
+  v-popover:addtomypeople type = "primary"
+  @click = "addToMyPeople()"
+  v-if="bond == 'other'"
+  icon = " knocks-user-add-outline knocks_icon knocks_text_ms" class ="">
+  </el-button>
+  <el-button
+  type = "danger"
+  @click = "cancelRequest()"
+  v-if="bond == 'requested'"
+  icon = " knocks-plus-circle knocks_icon" class ="">
+  </el-button>
+  <div class = "row knocks_house_keeper" v-if = "bond == 'requester' && !show_accept_shortcut" style="display:block">
+    
+    <el-button-group>
+    <el-button  type="danger">Ignore</el-button>
+    <knockselbutton
+    type = "success"
+    placeholder = "Accept"
+    submit_at = "request/accept"
+    success_at = "done"
+    reset_on_success
+    :error_at = "[{ res : 'invalid' , msg : 'You already have this circle!' }]"
+    :success_msg= " 'Added to your Circles succesfully!'"
+    :scope = "['add_friend']"
+    @knocks_submit_accepted = "resetContent()"
+    validation_error = "There's some feilds we need you to complete it."
+    connection_error = "There's a problem in your connection, please try again."
+    :submit_data = "{ target : user, circles : attachedCircles }">
+    </knockselbutton>
+    <!-- <el-button  type="success">Accept</el-button> -->
+    <el-button type="success" v-popover:circlestoaccept >
+    <i class = "el-icon-arrow-down el-icon--right"></i>
+    </el-button>
+    </el-button-group>
+  </div>
+  <div class="ui buttons white" v-if = "bond == 'friend' && extended">
+    <button class="ui red basic button"><span class = "knocksapp-circle-minus"></span></button>
+    <button class="ui blue basic button"><span class = "knocks-speech-bubble-1"></span></button>
+    <button class="ui yellow basic button"><span class = "knocksapp-star"></span></button>
     </div>
-	</div>
-</template>
+  </div>
+  </template>
 
 <script>
 export default {
@@ -88,6 +93,10 @@ export default {
   		default : null
   	} ,
     show_accept_shortcut : {
+      type : Boolean , 
+      default : false ,
+    },
+    extended : {
       type : Boolean , 
       default : false ,
     },
