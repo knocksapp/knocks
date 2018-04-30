@@ -144,8 +144,30 @@
             </h4>
           </div>
         </div>
+
         <div class = "row knocks_house_keeper white knocks_standard_border_radius" style="border : 1px solid #cfd8dc">
           <knocksuserabout :user = "{{$user->id}}"></knocksuserabout>
+                  @if($user->id == auth()->user()->id)
+          <div class = "row">
+            <h4 class="ui horizontal divider header transparent">
+          <span class="knocks-centralized-structure"></span>
+          <static_message msg = "My People"></static_message>
+          </h4>
+            <knockscirclechip :circle = "{{$user->mainCircle()->id}}" as_list></knockscirclechip>
+          </div>
+          <div class="row"> <h4 class="ui horizontal divider header transparent">
+          <span class="knocks-atom2"></span>
+          <static_message msg = "My Circles"></static_message>
+          </h4>
+                          <knockscollapse icon = 'knocks-atom2' title = "Show" active_title = "hide" dual_title
+                regular_class = "blue-grey-text text-darken-3 knocks_text_ms"
+                toggler_container = " grey lighten-4 row knocks_gray_hover knocks_margin_keeper knocks_gray_border knocks_fair_padding">
+                  <div slot = "content" class = "blue-grey lighten-5 knocks_house_keeper">
+                   <knocksusercircles></knocksusercircles>
+                </div>
+                </knockscollapse>
+          </div>
+          @endif
           <h4 class="ui horizontal divider header transparent">
           <i class="knocks-newspaper5"></i>
           <static_message msg = "** 's Knocks" replaceable :replacements = "[{target : '**' , body : '{{$user->first_name}}' }]"></static_message>
@@ -216,6 +238,7 @@
             </div>
           </transition>
           <div class = "row">
+
             <knock
             :scope= "['knock_at_profile']"
             :error_at="[]"

@@ -50,7 +50,20 @@
   <div class = "row knocks_house_keeper" v-if = "bond == 'requester' && !show_accept_shortcut" style="display:block">
     
     <el-button-group>
-    <el-button  type="danger">Ignore</el-button>
+        <knockselbutton
+    type = "danger"
+    placeholder = "Ignore"
+    submit_at = "request/ignore"
+    success_at = "done"
+    reset_on_success
+    :error_at = "[{ res : 'invalid' , msg : 'You already have this circle!' }]"
+    :success_msg= " 'Done.'"
+    :scope = "['add_friend']"
+    @knocks_submit_accepted = "resetContentReject()"
+    validation_error = "There's some feilds we need you to complete it."
+    connection_error = "There's a problem in your connection, please try again."
+    :submit_data = "{ to : user }">
+    </knockselbutton>
     <knockselbutton
     type = "success"
     placeholder = "Accept"
@@ -72,7 +85,36 @@
     </el-button-group>
   </div>
   <div class="ui buttons white" v-if = "bond == 'friend' && extended">
-    <button class="ui red basic button"><span class = "knocksapp-circle-minus"></span></button>
+    <knocksbutton 
+    button_classes="ui red basic button"
+    icon = "knocksapp-circle-minus left "
+    disable_placeholder
+    :gid = "'user_action_remove_'+user+'_rand'+_uid"
+    success_at = "done"
+    :error_at = "[{ res : 'invalid' , msg : 'Invalid Operation' }]"
+    success_msg = "Removed succesfully."
+    submit_at = "circle/friend/unpair"
+    @knocks_submit_accepted = "unpairFriends()"
+    :submit_data = '{user : user}'
+    ></knocksbutton>
+
+    <button class="ui blue basic button"><span class = "knocks-speech-bubble-1"></span></button>
+    <button class="ui yellow basic button"><span class = "knocksapp-star"></span></button>
+    </div>
+      <div class="ui buttons white" v-if = "bond == 'me' && extended">
+    <knocksbutton 
+    button_classes="ui red basic button"
+    icon = "knocksapp-circle-minus left "
+    disable_placeholder
+    :gid = "'user_action_remove_'+user+'_rand'+_uid"
+    success_at = "done"
+    :error_at = "[{ res : 'invalid' , msg : 'Invalid Operation' }]"
+    success_msg = "Removed succesfully."
+    submit_at = "circle/friend/unpair"
+    @knocks_submit_accepted = "unpairFriends()"
+    :submit_data = '{user : user}'
+    ></knocksbutton>
+
     <button class="ui blue basic button"><span class = "knocks-speech-bubble-1"></span></button>
     <button class="ui yellow basic button"><span class = "knocksapp-star"></span></button>
     </div>
@@ -111,6 +153,7 @@ export default {
       userCirlces : [] ,
       checkedCircles : {},
       userShowKey : 3 ,
+      rand : Math.floor(Math.random() * 5000) + 1
 
     }
   },
@@ -229,7 +272,29 @@ export default {
 
       this.$emit('user_action' , { action : 'accept' })
     },
+    resetContentReject(){
+       window.UsersObject[this.user].is_friend = false;
+      window.UsersObject[this.user].requester = window.UsersObject[this.user].requested = false ;
+      App.$emit('knocksUserResetContent' , this.user);
+      App.$emit('knocksUserKeyUpdate' ,
+       { user : this.user  , 
+        patch : [ 
+        { key : 'requested' , value : false } ,
+        { key : 'requester' , value : false } , 
+        { key : 'is_friend' , value : false  } 
+       ]})
 
+    },
+    unpairFriends(){
+       App.$emit('knocksUserKeyUpdate' ,
+       { user : this.user  , 
+        patch : [ 
+        { key : 'requested' , value : false } ,
+        { key : 'requester' , value : false } , 
+        { key : 'is_friend' , value : false  } 
+       ]})
+       App.$emit('knocksMemberRemoved' , {user : this.user})
+    },
   	updateClientData(){
   		App.$emit('knocksUserDataUpdated' , {user : this.user , update : this.userObject});
   	},

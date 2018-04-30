@@ -28,7 +28,7 @@
 		@autocomplete="searchUsers = $event; userShowKey = 2; refreshUsersContent()" >
 		</knockselinput>
 		<ul class = "knocks_house_keeper" v-if = "handled && searchInput.length > 0">
-			<li v-for = "(member , index) in searchUsers" class = "knocks_house_keeper knocks_tinny_border_radius col knocks_gray_hover s12" v-if = "currentMembers.indexOf(member) == -1 && index < userShowKey && members != auth">
+			<li v-for = "(member , index) in searchUsers" class = "knocks_house_keeper knocks_tinny_border_radius col knocks_gray_hover s12" v-if = "currentMembers.indexOf(member) == -1 && index < userShowKey && member != auth">
 				<div class = "row knocks_house_keeper">
 					<knocksuser as_label class = "col" :user="member" show_image>
 					</knocksuser>

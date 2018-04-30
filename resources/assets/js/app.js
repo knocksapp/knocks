@@ -346,6 +346,12 @@ Vue.component('knocksphotocomments', require('./components/knocksphotocomments.v
 Vue.component('knocksusergenralinfo', require('./components/knocksusergenralinfo.vue'));
 Vue.component('knocksdepimgviewer', require('./components/knocksdepimgviewer.vue'));
 Vue.component('knockscirclemembers', require('./components/knockscirclemembers.vue'));
+Vue.component('knockscollapse', require('./components/knockscollapse.vue'));
+Vue.component('knocksmediaobject', require('./components/knocksmediaobject.vue'));
+Vue.component('knocksshowkeys', require('./components/knocksshowkeys.vue'));
+Vue.component('knocksrecordermpeg', require('./components/knocksrecordermpeg.vue'));
+
+
 
  window.App = new Vue();
  new Vue({
@@ -417,7 +423,7 @@ Vue.component('knockscirclemembers', require('./components/knockscirclemembers.v
    staticMessagesIdTranslate  : 0 ,
    TranslateMessagesLoading : false ,
    TranslateMessagesRes : null ,
-   devStage : 'Dictionary' ,
+   devStage : 'Components' ,
 
 
 
@@ -527,6 +533,7 @@ Vue.component('knockscirclemembers', require('./components/knockscirclemembers.v
    answersObject : {} ,
    userAnswers : null ,
    answersCorrected : false ,
+   mainCircle : -1 ,
 
 
     windowWidth : $(window).width(),
@@ -615,14 +622,17 @@ Vue.component('knockscirclemembers', require('./components/knockscirclemembers.v
 
 
      //Get User Browser
+    
 
      if(typeof InstallTrigger !== 'undefined')
       Window.UserNavigator = 'firefox' ;
 
     if(!!window.chrome && !!window.chrome.webstore)
       Window.UserNavigator = 'chrome' ;
-    if(sessionType == 'user')
+    if(sessionType == 'user'){
       window.UserMainCircle = parseInt(document.querySelector('meta[name="main_circle"]').getAttribute('content'));
+      this.mainCircle = window.UserMainCircle
+    }
 
 
     $(document).ready(function(){
@@ -670,6 +680,28 @@ Vue.component('knockscirclemembers', require('./components/knockscirclemembers.v
 
 
     }) ;
+
+    App.$on('knocksWatchAligns' , ()=>{
+      $('.knocks_input_watch_align').change(function(){
+        $(this).css({ 'text-align' : window.TextAlignWeight($(this).val()).max  , 'font-family' : FontsAlignment[window.TextAlignWeight($(this).val()).max]})
+      })
+      $('.knocks_input_watch_align').keyup(function(){
+        $(this).css({ 'text-align' : window.TextAlignWeight($(this).val()).max  , 'font-family' : FontsAlignment[window.TextAlignWeight($(this).val()).max]})
+      })         
+      $('.el-input__inner').change(function(){
+        $(this).css({ 'text-align' : window.TextAlignWeight($(this).val()).max  , 'font-family' : FontsAlignment[window.TextAlignWeight($(this).val()).max]})
+      })
+      $('.el-input__inner').keyup(function(){
+        $(this).css({ 'text-align' : window.TextAlignWeight($(this).val()).max  , 'font-family' : FontsAlignment[window.TextAlignWeight($(this).val()).max]})
+      })
+      $('.knocks_ce_watch_align').change(function(){
+        $(this).css({ 'text-align' : window.TextAlignWeight($(this).text()).max  , 'font-family' : FontsAlignment[window.TextAlignWeight($(this).text()).max]})
+      })
+      $('.knocks_ce_watch_align').keyup(function(){
+        $(this).css({ 'text-align' : window.TextAlignWeight($(this).text()).max  , 'font-family' : FontsAlignment[window.TextAlignWeight($(this).text()).max]})
+      })
+      $($('body').find('.tooltipped')).tooltip({delay : 50});
+    })
 
     App.$on('profile_uploader_status_changed' , (state)=>{
       vm.setPorfileTrigger(state);

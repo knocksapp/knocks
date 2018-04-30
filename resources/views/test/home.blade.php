@@ -493,6 +493,15 @@
           <h3>Privacy Setter 2</h3>
           <knocksprivacyadjustments></knocksprivacyadjustments>
         </div>
+        <div class = "row">
+          <h3>Knocks Collapse</h3>
+          <knockscollapse title = "Hello" icon = "knocks-knocks">
+            <h3 slot = "content">Hello There! Hello There! Hello There! Hello There! Hello There! Hello There! Hello There! Hello There! Hello There! Hello There! Hello There! Hello There! Hello There! Hello There! Hello There! Hello There! Hello There! Hello There! Hello There! Hello There! Hello There! Hello There! v Hello There! Hello There! Hello There! v Hello There! Hello There! Hello There!</h3>
+          </knockscollapse>
+                    <knockscollapse title = "Hello" icon = "knocks-knocks">
+            <h3 slot = "content">Hello There! Hello There! Hello There! Hello There! Hello There! Hello There! Hello There! Hello There! Hello There! Hello There! Hello There! Hello There! Hello There! Hello There! Hello There! Hello There! Hello There! Hello There! Hello There! Hello There! Hello There! Hello There! v Hello There! Hello There! Hello There! v Hello There! Hello There! Hello There!</h3>
+          </knockscollapse>
+        </div>
 
       </transition>
     </div>

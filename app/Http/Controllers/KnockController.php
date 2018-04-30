@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Comment;
 use App\Knock;
 use App\obj;
+use App\Reply;
 use App\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -162,16 +163,42 @@ class KnockController extends Controller {
 
 	public function viewComment(Request $request, $comment) {
 		$c = Comment::find($comment);
+		if ($c == null) {
+			return view('guest.lost');
+		}
+
 		if ($c) {
 			$k = Knock::find($c->post_id);
 		} else {
-			return 'invalid';
+			return view('guest.lost');
 		}
 		if ($k && $c && $k->comments()->where('id', '=', $c->id)->exists()) {
 			return view('user.comment',
 				['knock' => $k,
 					'comment' => $c,
 					'owner' => User::find($k->user_id), 'commenter' => User::find($c->user_id)]);
+		}
+
+	}
+
+	public function viewReply(Request $request, $reply) {
+		$comment = Reply::find($reply);
+		if ($comment == null) {
+			return view('guest.lost');
+		}
+
+		$c = Comment::find($comment->parent_id);
+		if ($c) {
+			$k = Knock::find($c->post_id);
+		} else {
+			return view('guest.lost');
+		}
+		if ($k && $c && $k->comments()->where('id', '=', $c->id)->exists()) {
+			return view('user.reply',
+				['knock' => $k,
+					'reply' => $comment,
+					'comment' => $c,
+					'owner' => User::find($k->user_id), 'commenter' => User::find($comment->user_id)]);
 		}
 
 	}

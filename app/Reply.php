@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Comment;
 use App\Knock;
 use App\obj;
 use App\User_keywords;
@@ -141,6 +142,22 @@ class Reply extends Model {
 		}
 		$this->user_id = auth()->user()->id;
 		$this->save();
+		$pknock = Comment::find($object->post_id);
+		if ($pknock != null) {
+			$kobj = obj::find($pknock->object_id);
+			if ($kobj != null) {
+				if ($kobj->type == 'comment') {
+					$pknock->addFollower(auth()->user()->id);
+					$pkfollowers = $pknock->knockIndex()->followers;
+					foreach ($pkfollowers as $flwr => $state) {
+						if ($state && $flwr != auth()->user()->id) {
+							$bal = new Ballon();
+							$bal->userReply(auth()->user()->id, $flwr, Knock::find($pknock->post_id)->id, $pknock->id, $this->id, $pknock->object_id);
+						}
+					}
+				}
+			}
+		}
 	}
 
 }

@@ -36,7 +36,7 @@
           :class = "[{'knocks_theme_active_border':focused},{'knocks_pink_border' : !focused}]">
           <static_message msg = "Type here.." v-model = "ceaPlaceholder" class = "knocks_hidden"></static_message>
           <div :class = "[input_container , {'col s12':focused}, {'col m8 s6':!focused}]" v-if="!draggingMode"
-            contenteditable = "true"
+            contenteditable = "true" @focus = "focused = true" @blur = "focused = false"
             class = "knocks_language_follower white knocks_ce_watch_align" :data-text="ceaPlaceholder" :id = "gid+'_input'" v-model = "bodyContent" @input = "constructInput()">
           </div>
           
@@ -44,7 +44,7 @@
           
           <div :class = "options_bar_class" class = "knocks_house_keeper" style = "margin-top:4px; margin-bottom:0px">
             <transition >
-              <div :class = "{'knocks_hidden':focused}" class = "col right">
+              <div :class = "[{'knocks_hidden':focused} , {'animated fadeIn' : !focused}]" class = "col right">
                 <knocksmultipleuploader @change = "showInterest()" :gid = "gid+'_file_uploader'" v-model  = "uploader" :scope = "scope"></knocksmultipleuploader>
                 <!-- <a :class = "[maps_classes , option_classes ]" :data-target="gid+'_map_modal'" class="btn modal-trigger"><span :class = "[maps_icon]" @click="triggerMaps"></span></a> -->
                 
@@ -605,6 +605,7 @@ export default {
         
       }
     });
+    App.$emit('knocksWatchAligns');
   },
   methods : {
   	constructInput(){
@@ -695,8 +696,8 @@ export default {
       let splitter = currentDom.split(/&nbsp;| /);
       splitter.pop();
       splitter.push(
-        '<a class = "chip knocks_tagged_user blue-text knocks_tinny_side_padding" href="'+LaravelOrgin+this.suggestions[index].id+'"  contenteditable = "false">'
-        +'<span class = "knocks-knocks-circle-fill" contenteditable = "false"></span> '
+        '<a class = "chip knocks_tagged_user blue-text " href="'+LaravelOrgin+this.suggestions[index].username+'"  contenteditable = "false">'
+        +'<img src="'+LaravelOrgin+'media/avatar/compressed/'+this.suggestions[index].id+'"> '
         +'<span class = "blue-text tagged_user_container" kid="'+this.suggestions[index].id+'" contenteditable = "false">'
         +this.suggestions[index].username+'</span>  '+'  </a> ');
       let newDom = splitter.join('  ');

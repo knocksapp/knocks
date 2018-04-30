@@ -1,5 +1,6 @@
 <template>
-<knockspopover>
+<div >
+  <knockspopover v-if = "!as_list">
 <template slot = "container">
 <a :href="circle_url" data-position="bottom" >
   <div class="chip ":class="chip_bg_color"v-if = "circleObject != null" >
@@ -13,6 +14,32 @@
    {{circleObject.name}} <static_message msg="Circle"></static_message>
  </span>
   </knockspopover>
+  <div v-if = "as_list" v-loading = "isLoading" >
+
+    <knockscollapse 
+                    regular_class = "blue-grey-text text-darken-3 knocks_text_ms"
+                toggler_container = " grey lighten-4 row knocks_gray_hover knocks_margin_keeper knocks_gray_border knocks_fair_padding"
+class = "blue-grey lighten-5 knocks_house_keeper"
+    title = "Show" active_title = "Hide" dual_title  v-if = "circleObject != null" :icon = "firstIcon()">
+      <div slot = "content">
+         <div class = "row knocks_fair_bounds">
+            <knockselinput
+    icon = "knocks-search-2"
+    autocomplete
+    :autocomplete_start="1"
+    show_autocomplete_progress
+    placeholder = "Search.."
+    inner_placeholder
+    v-model = "searchInput"
+    autocomplete_from = "user/search"
+    @autocomplete="handleSearch($event)" ></knockselinput>
+         </div>
+      <knocksshowkeys  v-if = "circleObject != null && searchInput.length == 0" :as_label = "false" as_result extended :show_input = "circleObject.members"></knocksshowkeys>
+      <knocksshowkeys  v-if = "circleObject != null && searchInput.length > 0" :as_label = "false" as_result extended :show_input = "searchResult"></knocksshowkeys>
+      </div>
+    </knockscollapse>
+  </div>
+</div>
   </template>
 <script>
 export default {
@@ -49,11 +76,18 @@ export default {
     no_rebound : {
       type : Boolean , 
       default : false  
+    },
+    as_list : {
+      type : Boolean , 
+      default : false 
     }
   },
   data () {
     return {
       circleObject : null ,
+      isLoading : false ,
+      searchInput : '' , 
+      searchResult : [] ,
     }
   }, 
   mounted(){
@@ -77,7 +111,7 @@ export default {
     App.$on('knocksCircleRemoveMember' , (payloads)=>{
       if(payloads.circle == vm.circle){
         if(vm.circleObject == null) vm.loadCircleData();
-        else {
+         else if (vm.circleObject.members.indexOf(payloads.member) != -1){
           vm.circleObject.members.splice(vm.circleObject.members.indexOf(payloads.member) , 1)
           vm.bindCircle(vm.circleObject);
          }
@@ -86,11 +120,14 @@ export default {
     App.$on('knocksCircleGlobalRemoveMember' , (payloads)=>{
       
         if(vm.circleObject == null) vm.loadCircleData();
-        else {
+        else if (vm.circleObject.members.indexOf(payloads.member) != -1){
           vm.circleObject.members.splice(vm.circleObject.members.indexOf(payloads.member) , 1)
           vm.bindCircle(vm.circleObject);
          }
       
+    })
+    App.$on('knocksMemberRemoved' , (payloads)=>{
+      vm.removeMember(payloads.user)
     })
     App.$on('KnocksContentChanged' , ()=>{
     if(vm.circleObject == null) return;
@@ -119,14 +156,18 @@ export default {
         axios({
           method : 'post' ,
           url : LaravelOrgin + 'retrive_circle' , 
-          data : { circle : vm.circle }
+          data : { circle : vm.circle } , 
+          onDownloadProgress : ()=>{ vm.isLoading = true }
         }).then( (response)=>{
+          vm.isLoading = false
           vm.bindCircle(response.data)
         }).catch((err)=>{ console.log(err); });
       }
     },
     bindCircle(object){
       this.circleObject = object;
+      
+      if(this.circleObject.icon != null && typeof(this.circleObject.icon) == "string")
       this.circleObject.icon = (JSON.parse(this.circleObject.icon));
       window.UserCircles[this.circle] = this.circleObject;
       App.$emit('circleLoaded' , [ window.UserCircles , window.UserCirclesLength() ]);
@@ -135,6 +176,24 @@ export default {
     reboundCirlce(){
       this.circleObject = null ;
       this.circleObject = window.UserCircles[this.circle];
+    },
+    removeMember(mem){
+      if(this.circleObject == null) return;
+      if(this.circleObject.members.indexOf(mem) != -1){
+        this.circleObject.members.splice(this.circleObject.members.indexOf(mem) , 1);
+        this.bindCircle(this.circleObject);
+      }
+    },
+    firstIcon(){
+      if(this.circleObject.icon != null){
+        return 'knocks-'+this.circleObject.icon[0].class
+      }else return ''
+    },handleSearch(e){
+      if(this.circleObject == null) {return;}
+      let i ; this.searchResult = []
+      for(i = 0; i < e.length; i++)
+        if(this.circleObject.members.indexOf(e[i]) != -1) this.searchResult.push(e[i])
+      App.$emit('KnocksContentChanged')
     }
   }
 }

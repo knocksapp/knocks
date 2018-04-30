@@ -93,6 +93,14 @@
                 <static_message msg = "Listening.." classes = "red-text"></static_message>
               </div>
             </transition>
+            <transition enter-active-class = "animated bounceInLeft" leave-active-class = "animated bounceOutUp">
+              <div v-if = "sidebarSeachLoading" class = "">
+                <a class = "btn btn-floating pulse  cyan lighten-5">
+                  <div class="ui active tiny inline loader"></div>
+                </a>
+                <static_message msg = "Loading.." classes = "red-text"></static_message>
+              </div>
+            </transition>
           </div>
           <transition enter-active-class = "animated zoomIn" leave-active-class = "animated zoomOut">
             <div class = "row knocks_house_keeper" v-if = "sidebarSearchResult != null">
@@ -148,7 +156,7 @@
                     <transition enter-active-class = "animated slideInUp" leave-active-class = "animated slideOutLeft">
                       <div>
                         <div class = "row"  v-for = "(knock , index) in sidebarSearchResult.knock" :key = "index" v-if="inSidebarKnockRange(index)" >
-                          <knocksknock  :knock = "knock" :gid="'knock_side_search_result_'+index" as_shortcut
+                          <knocksknock  :knock = "knock" :gid="'knock_side_search_result_'+index" as_shortcut no_reactor
                           :current_user = "{{auth()->user()->id}}" replier_message = "Leave a comment" ></knocksknock>
                         </div>
                         <div  v-if="sidebarSearchResult != null && sidebarSearchResult.knock.length > 3">
@@ -202,35 +210,26 @@
           </div>
           <div id = "sidebar_contents" :class = "{'animated slideOutUp' : sidebarSearchFocus}">
             <div class = "row">
-              <ul id = "knocks_sidebar_list" class = "l10 push-l1 s10 push-l1">
-                <el-menu    class="el-menu-vertical-demo"  style = "margin-bottom: 4rem !important ">
-                <el-submenu index="1">
-                <template slot="title">
-                <i class="knocks-team "></i>
-                <static_message msg = "My Groups"></static_message>
-                </template>
-                <el-menu-item-group>
-                <knocksgroupslist></knocksgroupslist>
-                </el-menu-item-group>
-                <el-menu-item-group >
-                <span slot = "title">
-                </span>
-                <el-menu-item index="1-3" @click = "toggleGroupCreator(true)">
+              <ul id = "knocks_sidebar_list" class = "l10 push-l1 s10 push-l1" style="margin-bottom: 100px">
+                <knockscollapse icon = 'knocks-team' title = "My Groups"
+                regular_class = "blue-grey-text text-darken-3 knocks_text_ms"
+                toggler_container = " grey lighten-4 row knocks_gray_hover knocks_margin_keeper knocks_gray_border knocks_fair_padding">
+                  <div slot = "content" class = "blue-grey lighten-5 knocks_house_keeper">
+                  <knocksgroupslist></knocksgroupslist>
+                  <a @click = "toggleGroupCreator(true)" class = "fluid ui button knocks_no_border_radius">
                 <i class="knocks-plus7 "></i>
                 <static_message msg = "Create a group"></static_message>
-                </el-menu-item>
-                </el-menu-item-group>
-                </el-submenu>
-                <el-submenu index="2">
-                <template slot="title">
-                <i class="knocks-atom2 "></i>
-                <static_message msg = "My Circles"></static_message>
-                </template>
-                <el-menu-item-group>
-                <knocksusercircles></knocksusercircles>
-                </el-menu-item-group>
-                </el-submenu>
-                </el-menu>
+                  </a>
+                </div>
+                </knockscollapse>
+                <knockscollapse icon = 'knocks-atom2' title = "My Circles"
+                regular_class = "blue-grey-text text-darken-3 knocks_text_ms"
+                toggler_container = " grey lighten-4 row knocks_gray_hover knocks_margin_keeper knocks_gray_border knocks_fair_padding">
+                  <div slot = "content" class = "blue-grey lighten-5 knocks_house_keeper">
+                   <knocksusercircles></knocksusercircles>
+                </div>
+                </knockscollapse>
+
               </ul>
             </div>
           </div>

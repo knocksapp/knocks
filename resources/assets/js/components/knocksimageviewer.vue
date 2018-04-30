@@ -155,6 +155,7 @@
             :candy = "owner_object.kid"
             :owner_object = "owner_object"
             :knock_id = "knock_id"
+            :comments_to_show = "comments_to_show"
             :token = "sourcesList[currentIndex]"></knocksimagestates>
           </div>
         </div>
@@ -217,7 +218,11 @@ export default {
     scope : {
       type : Array , 
       default : null ,
-    }
+    },     
+    comments_to_show : {
+      type : Array , 
+      default : null
+     },
 
   },
   data () {

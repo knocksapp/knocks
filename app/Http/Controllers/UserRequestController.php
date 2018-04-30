@@ -79,6 +79,56 @@ class UserRequestController extends Controller {
 				$r->update();
 			}
 		}
+		$b = new Ballon();
+		$b->initialize(json_encode(array(
+			'user' => $request->to,
+			'category' => 'hidden',
+			'index' => array(
+				'category' => 'friend_request_canceled',
+				'sender_id' => auth()->user()->id,
+			),
+		)));
+		return 'done';
+
+	}
+	public function ignoreOne(Request $request) {
+		$request->validate([
+			'to' => 'required',
+		]);
+		//Validate if exist
+		if ($request->to == auth()->user()->id) {
+			return 'invalid';
+		}
+
+		$user = User::find($request->to);
+		if (!$user) {
+			return 'invalid';
+		}
+
+		//Validate if already friends
+		if (auth()->user()->isFriend($user)) {
+			return 'invalid';
+		}
+
+		//Initialize and send
+		$req = auth()->user()->userRecivedRequests()->where('sender_id', '=', $request->to)->get();
+		if ($req->count() == 0) {
+			return 'invalid';
+		} else {
+			foreach ($req as $r) {
+				$r->response = 'ignored';
+				$r->update();
+			}
+		}
+		$b = new Ballon();
+		$b->initialize(json_encode(array(
+			'user' => $request->to,
+			'category' => 'hidden',
+			'index' => array(
+				'category' => 'friend_request_ignored',
+				'sender_id' => auth()->user()->id,
+			),
+		)));
 		return 'done';
 
 	}

@@ -1,6 +1,7 @@
 @extends('layouts.user')
 @section('content')
 <title>Knocks | Home</title>
+  <knocksrecordermpeg ></knocksrecordermpeg>
   <transition    name="custom-classes-transition" enter-active-class="animated tada" leave-active-class="animated bounceOutRight">
    <h3 v-if = "!loggedIn" class = "center knocks_text_dark">See you again, Bye!</h3>
   </transition>

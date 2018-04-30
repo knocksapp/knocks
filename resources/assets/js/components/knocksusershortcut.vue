@@ -65,6 +65,15 @@
           </div>
         </div>
         <div class = "col s12">
+          <div class = "col s12 knocks_house_keeper">
+            <center>
+          <knocksuseractions
+          
+          style = "margin-top : 3px;"
+         :user = "user"
+         extended
+         :start_as ="userObject" :extras="{hover_id : 'user_report_'+user}"></knocksuseractions></center>
+       </div>
         </div>
       </div>
     </div>
@@ -120,7 +129,7 @@
           <span v-if ="userObject.last_name != null && userObject.last_name != undefined" >{{userObject.last_name}} </span>
         </div> -->
         <div class = "col s12">
-          <div class = "col s12 knocks_house_keeper">
+          <div class = "col s12 knocks_house_keeper" v-if = "!thatsMe">
             <center>
           <knocksuseractions
           class = "knocks_tinny_bounds knocks_tinny_border_radius grey lighten-3 knocks_gray_border"
@@ -202,6 +211,7 @@
               <knocksuseractions v-if = "show_accept_shortcut"
               :extras = "extras"
               :user="user"
+              :extended = "extended"
               :start_as = "userObject"
               :show_accept_shortcut = "show_accept_shortcut">
               </knocksuseractions>
@@ -338,6 +348,10 @@ export default {
       type : Boolean , 
       default : false
     },
+    extended : {
+      type : Boolean , 
+      default : false
+    },
     extras : {
       type : Object ,
       default : null,
@@ -383,6 +397,15 @@ export default {
     App.$on('knocksUserResetContent' , (id)=>{
       if(id == vm.user){
          vm.initialize(window.UsersObject[vm.user]);
+      }
+    });
+    App.$on('knocksUserReload' , (id)=>{
+      if(id == vm.user){
+          console.log('reload')
+          window.UsersObject[vm.user] = undefined;
+          vm.userObject = null;
+          console.log('null')
+           App.$emit('knocksRetriver' , { scope : ['user_retriver_'+vm.user] })
       }
     });
     App.$on('knocksUserKeyUpdate' , (payloads)=>{

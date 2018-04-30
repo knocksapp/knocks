@@ -109,7 +109,7 @@ background-color: #ee6e73 !important;
                             :is_required = "true"
                             :min_len = "5"
                             el_follower
-                            focus_on_mount
+                            handle_autofill
                             :mat_follower=  "false"
                             v-model = "username_login"
                             knocksclass = "knocks_input_ps_light"
@@ -125,6 +125,7 @@ background-color: #ee6e73 !important;
                             icon = "knocks-locked4 "
                             :is_required = "true"
                             :min_len = "8"
+                            handle_autofill
                             v-model = "password_login"
                             type = "password"
                             knocksclass = "knocks_input_ps_light"

@@ -6,6 +6,7 @@
 		@success = "handle($event)"
 		:scope = "[gid]"
 		recursed
+    :prevent_on_mount = "comments_to_show != null && comments_to_show.length > 0"
 		:xdata = "{token : token , max : max}"></knocksretriver>
 				<h4 class="ui horizontal divider header transparent animated slideInDown" slot = "top" v-if = "comments.length > 0" style="padding-top : 7px !important">
 	<i class="knocks-chat-12"></i>
@@ -58,7 +59,11 @@ export default {
   	gid : {
   		type : String , 
   		required : true ,
-  	}
+  	},
+    comments_to_show : {
+      type : Array , 
+      default : null
+     },
   },
   data () {
     return {
@@ -68,6 +73,9 @@ export default {
     	showKey : 3 , 
     	max : -1 ,
     }
+  },
+  mounted(){
+    if(this.comments_to_show != null && this.comments_to_show.length > 0) this.comments = this.comments_to_show
   },
   computed :  {
   	showKeyMin(){

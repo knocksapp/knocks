@@ -1,10 +1,8 @@
 <template>
 <div class = "panel   knocks"  >
-
-   <transition    name="custom-classes-transition"  enter-active-class="animated fadeIn" leave-active-class="animated fadeOut"> 
-    <center><knocksloader :gid= "gid+'_knock_loading_span'" v-if = "knockObject == null" ></knocksloader></center>  
-   </transition>
-
+  <transition    name="custom-classes-transition"  enter-active-class="animated fadeIn" leave-active-class="animated fadeOut">
+    <center><knocksloader :gid= "gid+'_knock_loading_span'" v-if = "knockObject == null" ></knocksloader></center>
+  </transition>
   <div v-if = "knockObject != null" >
     <div v-if = "knock_type == 'normal' " class=" panel pink lighten-4">
       <knocksuser :user="knockObject.user_id" main_container = "col s2" v-model="ownerObject" show_image>
@@ -13,45 +11,186 @@
       <a  class="rdmore right" @click="rd();" :id = "gid+'_readmore'" href="javascript:void(0);">See more</a>
       <p class="right knocks_text_dark">{{knockObject.time}}</p>
     </div>
+    <transition    name="custom-classes-transition"  enter-active-class="animated fadeIn" leave-active-class="animated fadeOut" v-if = "!as_shortcut">
+      <div v-if=" knockObject != null && knock_type == 'voice_note'" class="">
+        <!--       <div   class="col s12  knocks_house_keeper" style="max-height:20px;"
+          v-if = "!expiry() || knockObject.exceptions || knockObject.index.check_in != null"
+          >
+          <a class="knocks_text_dark" :href="address_url" v-if="knockObject.index.check_in != null">
+            <p class="right  knocks_text_ms opcty"> <i class="knocks_text_dark knocks-location3 opcty"></i>
+              Near, {{knockObject.index.check_in.address_components[0].long_name}}
+            </p>
+          </a>
+          
+          <span v-if="!expiry()" class="new knocks_tinny_badge badge right" ></span>
+          <span v-if="knockObject.exceptions" class="badge sec right knocks_tinny_badge" data-badge-caption="Secured"><i class="knocks-eye-off"></i></span>
+        </div> -->
+        <div class = "row knocks_house_keeper">
+          <div class="col knocks_house user"style = "width: 33px">
+            <div class=" ">
+              <!-- <center> -->
+              <knocksuser
+              :user="knockObject.user_id"
+              main_container = " "
+              hide_text_info
+              v-model = "ownerObject"
+              knocks_avatar_classes = "knocks_tinny_avatar"
+              show_image></knocksuser><!-- </center>
+            -->        </div>
+          </div>
+          <div class="col  cnt knocks_gray_border knocks_house_keeper" style="max-width : calc(100% - 50px); margin-left: 15px !important;">
+            
+            <div class="col s12  ">
+              <span class = "knocks_content_padding">
+                <a v-if = "ownerObject != null"  class="col knocks_side_padding  " :href = "asset(ownerObject.username)">{{ownerObject.name}}</a>
+                <span  style = "margin-top: auto"
+                  @dblclick = "flowtext()"
+                class="knocks_text_dark content  col" :id = "gid"></span>
+              </span>
+            </div>
+            <div class="row knocks_house_keeper" v-if="bodyLen > 350" ><div v-if="bodyLen > 350" class="top"><a class="rdmore right" @click="rd();" href="javascript:void(0);" :id = "gid+'_readmore'">See more</a></div>
+          </div>
+          <div class="voice_pad knocks_house_keeper"   v-if = "knockObject.index.has_voices">
+            <!--       <knocksplayer class="voice col s8" gid="noded" live :specifications = "{id : 1}" fill_from="vn/blob" meta = "vn/meta" :load_on_mount="false" :show_volume="true" v-if="knockObject.index.has_voices" :show_options="false"></knocksplayer> -->
+            <knocksplayer
+            :gid="gid+'_player'"
+            initial_class ="btn btn-floating knocks_super_tiny_floating_btn knocks_color_kit knocks_btn_color_kit right"
+            main_container = "row knocks_house_keeper"
+            class="voice col s12 knocks_house_keeper"
+            :show_volume="true"
+            buttons_container = "col knocks_house_keeper"
+            :show_options="false"
+            :specifications = "{id : knockObject.index.voices_specifications , user : current_user , object : knockObject.object_id }"
+            full_back_loading
+            :load_on_mount="false"></knocksplayer>
+            
+          </div>
+          <!-- <a class=" knocks_text_dark lens right" @click="flowtext()" href="#!"  ><i :id="gid+'_lns'" class="knocks-zoomin3 knocks_text_md lensm" @mouseover="lensHover()" @mouseleave="lensLeave()"></i></a> -->
+        </div>
+      </div>
+      <div class = "row" v-if = "knockObject.index.has_pictures">
+        <knocksimageviewer :gid = "gid+'_image_viewer'"
+        :sources = 'knockObject.index.images_specifications'
+        :object_id = "knockObject.object_id"
+        :user_id = "current_user"
+        :owner_id = "knockObject.user_id"></knocksimageviewer>
+      </div>
+      
+      <div class="row knocks_house_keeper">
+        <!--       <span class="right knocks_text_dark since"> {{knockObject.time}} </span>
+        <span class="left knocks_text_dark since"> {{knockObject.timedate}} </span> -->
+        <knocksreactionstats
+        v-if = "ownerObject != null"
+        knocks_reactor_ul = "knocks_tinny_reactor_ul"
+        :owner_id = "knockObject.user_id"
+        :owner_object = "ownerObject"
+        mention_on_reply
+        toggle_same_repliers
 
-   <transition    name="custom-classes-transition"  enter-active-class="animated fadeIn" leave-active-class="animated fadeOut"> 
-    <div v-if=" knockObject != null && knock_type == 'voice_note'" class="">
-<!--       <div   class="col s12  knocks_house_keeper" style="max-height:20px;"
-       v-if = "!expiry() || knockObject.exceptions || knockObject.index.check_in != null"
-      >
-        <a class="knocks_text_dark" :href="address_url" v-if="knockObject.index.check_in != null">
-          <p class="right  knocks_text_ms opcty"> <i class="knocks_text_dark knocks-location3 opcty"></i>
-            Near, {{knockObject.index.check_in.address_components[0].long_name}}
-          </p>
-        </a>
-   
-        <span v-if="!expiry()" class="new knocks_tinny_badge badge right" ></span>
-        <span v-if="knockObject.exceptions" class="badge sec right knocks_tinny_badge" data-badge-caption="Secured"><i class="knocks-eye-off"></i></span>
+        :toggle_object_id = "parent_comment"
+        reactor_collapser_icon = "knocks_text_ms knocks-like knocks_dark_anchor"
+        reply_initial_class = "btn btn-floating knocks_super_tiny_floating_btn right knocks_side_padding knocks_noshadow_ps  knocks_text_dark transparent"
+        reactor_initial_class = "btn btn-floating knocks_reaction_trigger knocks_super_tiny_floating_btn knocks_noshadow_ps knocks_text_dark transparent"
+        bar_classes ="transparent"
+        :parent_date = "knockObject.created_at"
+        :reply_scope="[ gid + '_reply_scope']"
+        parent_type = "comment"
+        :show_reply_on_mount = "show_reply_on_mount"
+        :gid = "gid+'_reaction_stats'"
+        :object_id = "knockObject.object_id">
+        </knocksreactionstats>
+        <!--       <knocksreactionstats
+        knocks_reactor_ul = "knocks_tinny_reactor_ul"
+        reactor_collapser_icon = "knocks_text_ms knocks-like"
+        reply_initial_class = "btn btn-floating knocks_super_tiny_floating_btn right knocks_side_padding knocks_color_kit knocks_btn_color_kit"
+        reactor_initial_class = "btn btn-floating knocks_reaction_trigger knocks_super_tiny_floating_btn  knocks_btn_color_kit knocks_color_kit"
+        bar_classes ="knocks_color_kit_light"
+        :gid = "gid+'_reaction_stats'"
+        :reply_scope="[ gid + '_reply_scope']"
+        parent_type = "comment"
+        toggle_same_repliers
+        :show_reply_on_mount = "false"
+        :parent_date = "knockObject.created_at"
+        :object_id = "knockObject.object_id"></knocksreactionstats> -->
+      </div>
+      <knocksreply
+      replier_message = "Reply here"
+      :scope= "[ gid + '_reply_scope']"
+      :error_at="[]"
+      :parent_id = "parent_comment"
+      :object_id = "parent_object_id"
+      submit_at = "reply/create"
+      :recorder_upload_data = "{ user : current_user , index : {}}"
+      :player_show_options = "false"
+      :post_at = "current_user"
+      parent_type = "comment"
+      toggle_parent_type = "comment"
+      success_at = "done"
+      success_msg = "done"
+       :show_on_mount = "show_reply_on_mount"
+      :gid = "gid+'_reply_replier'"></knocksreply>
+      <!--    <div class = "knocks_light_color_kit row knocks_division_y_padding knocks_standard_border_radius"  v-if ="comments != null && comments.length > 0">
+        <div class = "row knocks_house_keeper">
+          <a v-if = "comments != null && showKey < comments.length && showKey != 0" @click = "increaseRang()"
+            class = "  knocks_side_padding knocks_text_sm knocks_text_anchor knocks_pointer" style = "margin-left:2px;">
+            <span class = "knocks-chat-2"></span> See Older Replies
+          </a>
+          <a v-if = "comments != null && showKey < comments.length && showKey == 0" @click = "increaseRang()"
+            class = "knocks_side_padding knocks_text_sm knocks_text_anchor knocks_pointer" style = "margin-left:2px;">
+            <span class = "knocks-chat-2"></span> Show Replies
+          </a>
+          <span class = "grey-text right knocks_text_sm knocks_side_padding" v-if = "comments != null && comments.length > 0">{{showKey+'/'+comments.length}} Replies</span>
+        </div>
+        <div class="" v-for = "(com , index) in comments"  v-if = "comments != null && comments.length > 0" >
+          <knockschildreply
+          v-if="inRange(index)"
+          :gid= "gid+'_reply_reply_'+index"
+          :knock="com"
+          parent_type = "reply"
+          :current_user="current_user"
+          replier_message = "Reply here" ></knockschildreply>
+        </div>
+        <div class = "row knocks_house_keeper" v-if = "comments != null && showKey != 0">
+          <a v-if = "comments != null && showKey > 1" @click = "reduceRang()"
+            class = "knocks_tinny_padding knocks_text_sm  col knocks_text_anchor knocks_pointer" style = "margin-left:2px;">
+            <span class = "knocks-chat-1"></span> See Less Replies
+          </a>
+          <a v-if = "comments != null && showKey != 0" @click = "showKey = 0"
+            class = "knocks_tinny_padding knocks_text_sm col knocks_text_anchor knocks_pointer" style = "margin-left:2px;">
+            <span class = "knocks-chat-1"></span> Hide Replies
+          </a>
+        </div>
       </div> -->
-      <div class = "row knocks_house_keeper">
-      <div class="col knocks_house user"style = "width: 33px">
+      
+    </div>
+  </transition>
+  <transition    name="custom-classes-transition"  enter-active-class="animated fadeIn" leave-active-class="animated fadeOut" v-else>
+    <div class = "row knocks_house_keeper">
+      <div class=" knocks_house user">
         <div class=" ">
           <!-- <center> -->
-          <knocksuser  
-          :user="knockObject.user_id" 
-          main_container = " "
-          hide_text_info
+          <knocksuser
+          class = "knocks_house_keeper"
+          hide_popover
           v-model = "ownerObject"
-          knocks_avatar_classes = "knocks_tinny_avatar"
-          show_image></knocksuser><!-- </center>
- -->        </div>   
-      </div>
-      <div class="col  cnt knocks_gray_border knocks_house_keeper" style="max-width : calc(100% - 50px); margin-left: 15px !important;">
-       
-          <div class="col s12  ">
-          <span class = "knocks_content_padding">
-          <a v-if = "ownerObject != null"  class="col knocks_side_padding  " :href = "asset(ownerObject.username)">{{ownerObject.name}}</a>
-          <span  style = "margin-top: auto" 
-           @dblclick = "flowtext()"
-           class="knocks_text_dark content  col" :id = "gid"></span>
-         </span>
+          image_container_class = "knocks_inline"
+          name_container_class = " knocks_inline"
+          main_container = "row knocks_house_keeper"
+          :user="knockObject.user_id" show_image>
+          <template slot = "append_to_display_name" class = "" >
+          </template>
+          </knocksuser>
         </div>
-
+      </div>
+      <div class="cnt row  knocks_house_keeper" style="border-radius :0px !important; border-bottom: 1px solid #ccc; background-color:rgba(192,192,192,0.1);" >
+        
+        <div class="row knocks_house_keeper  ">
+          <span class = "">
+            <span
+              @dblclick = "flowtext()"
+            class="knocks_text_dark content " :id = "gid"></span>
+          </span>
+        </div>
         <div class="row knocks_house_keeper" v-if="bodyLen > 350" ><div v-if="bodyLen > 350" class="top"><a class="rdmore right" @click="rd();" href="javascript:void(0);" :id = "gid+'_readmore'">See more</a></div>
       </div>
       <div class="voice_pad knocks_house_keeper"   v-if = "knockObject.index.has_voices">
@@ -60,7 +199,7 @@
         :gid="gid+'_player'"
         initial_class ="btn btn-floating knocks_super_tiny_floating_btn knocks_color_kit knocks_btn_color_kit right"
         main_container = "row knocks_house_keeper"
-        class="voice col s12 knocks_house_keeper"
+        class="voice col s12 knocks_content_padding" style = "padding-bottom : 2px"
         :show_volume="true"
         buttons_container = "col knocks_house_keeper"
         :show_options="false"
@@ -69,110 +208,44 @@
         :load_on_mount="false"></knocksplayer>
         
       </div>
+      <div class = "row knocks_house_keeper" v-if = "knockObject.index.has_pictures"  >
+        <knocksimageviewer :gid = "gid+'_image_viewer'"
+        :sources = 'knockObject.index.images_specifications'
+        :object_id = "knockObject.object_id"
+        :user_id = "current_user"
+        :created_at = "knockObject.created_at"
+        :owner_object = "ownerObject"
+        :knock_id = "knock"
+        :owner_id = "knockObject.user_id"></knocksimageviewer>
+      </div>
+      <knocksreactionstats
+      v-if = "ownerObject != null"
+      :candy = "ownerObject.kid"
+      knocks_reactor_ul = "knocks_tinny_reactor_ul"
+      reactor_collapser_icon = "knocks_text_ms knocks-like knocks_dark_anchor"
+      reply_initial_class = "btn btn-floating knocks_super_tiny_floating_btn right knocks_side_padding knocks_noshadow_ps  knocks_text_dark transparent"
+      reactor_initial_class = "btn btn-floating knocks_reaction_trigger knocks_super_tiny_floating_btn knocks_noshadow_ps knocks_text_dark transparent"
+      bar_classes ="transparent"
+      :show_reply_on_mount = "show_reply_on_mount"
+      :parent_date = "knockObject.created_at"
+      :reply_scope="[ gid + '_reply_scope']"
+      no_reply_option
+      parent_type = "knock"
+      :gid = "gid+'_reaction_stats'"
+      :inverse_reactor = "true"
+      :object_id = "knockObject.object_id">
+      </knocksreactionstats>
+      <a :href ="asset('rply/'+knock)" target="_blank" class = "knocks_text_sm">
+        <span class = "knocksapp-share4"></span>
+        <static_message msg = "More Details"></static_message></a>
       <!-- <a class=" knocks_text_dark lens right" @click="flowtext()" href="#!"  ><i :id="gid+'_lns'" class="knocks-zoomin3 knocks_text_md lensm" @mouseover="lensHover()" @mouseleave="lensLeave()"></i></a> -->
     </div>
   </div>
-    <div class = "row" v-if = "knockObject.index.has_pictures">
-      <knocksimageviewer :gid = "gid+'_image_viewer'"
-      :sources = 'knockObject.index.images_specifications'
-      :object_id = "knockObject.object_id"
-      :user_id = "current_user"
-      :owner_id = "knockObject.user_id"></knocksimageviewer>
-    </div>
-    
-    <div class="row knocks_house_keeper">
-<!--       <span class="right knocks_text_dark since"> {{knockObject.time}} </span>
-      <span class="left knocks_text_dark since"> {{knockObject.timedate}} </span> -->
-    <knocksreactionstats 
-    v-if = "ownerObject != null"
-    knocks_reactor_ul = "knocks_tinny_reactor_ul"
-    :owner_id = "knockObject.user_id"
-    :owner_object = "ownerObject"
-    mention_on_reply
-    toggle_same_repliers
-    :toggle_object_id = "parent_comment"
-    reactor_collapser_icon = "knocks_text_ms knocks-like knocks_dark_anchor"
-    reply_initial_class = "btn btn-floating knocks_super_tiny_floating_btn right knocks_side_padding knocks_noshadow_ps  knocks_text_dark transparent"
-    reactor_initial_class = "btn btn-floating knocks_reaction_trigger knocks_super_tiny_floating_btn knocks_noshadow_ps knocks_text_dark transparent"
-    bar_classes ="transparent" 
-    :parent_date = "knockObject.created_at"
-    :reply_scope="[ gid + '_reply_scope']"
-    parent_type = "comment" 
-    :show_reply_on_mount = "false"
-    :gid = "gid+'_reaction_stats'" 
-    :object_id = "knockObject.object_id">
-    </knocksreactionstats>
-
-<!--       <knocksreactionstats
-      knocks_reactor_ul = "knocks_tinny_reactor_ul"
-      reactor_collapser_icon = "knocks_text_ms knocks-like"
-      reply_initial_class = "btn btn-floating knocks_super_tiny_floating_btn right knocks_side_padding knocks_color_kit knocks_btn_color_kit"
-      reactor_initial_class = "btn btn-floating knocks_reaction_trigger knocks_super_tiny_floating_btn  knocks_btn_color_kit knocks_color_kit"
-      bar_classes ="knocks_color_kit_light" 
-      :gid = "gid+'_reaction_stats'" 
-      :reply_scope="[ gid + '_reply_scope']"
-      parent_type = "comment"
-      toggle_same_repliers
-      :show_reply_on_mount = "false"
-      :parent_date = "knockObject.created_at"
-      :object_id = "knockObject.object_id"></knocksreactionstats> -->
-    </div>
-     <knocksreply
-    replier_message = "Reply here"
-    :scope= "[ gid + '_reply_scope']"
-    :error_at="[]"
-    :parent_id = "parent_comment"
-    :object_id = "parent_object_id"
-    submit_at = "reply/create"
-    :recorder_upload_data = "{ user : current_user , index : {}}"
-    :player_show_options = "false"
-    :post_at = "current_user"
-    parent_type = "comment"
-    toggle_parent_type = "comment"
-    success_at = "done"
-    success_msg = "yess"
-    :gid = "gid+'_reply'"></knocksreply>
-
-<!--    <div class = "knocks_light_color_kit row knocks_division_y_padding knocks_standard_border_radius"  v-if ="comments != null && comments.length > 0">
-     <div class = "row knocks_house_keeper">
-     <a v-if = "comments != null && showKey < comments.length && showKey != 0" @click = "increaseRang()" 
-     class = "  knocks_side_padding knocks_text_sm knocks_text_anchor knocks_pointer" style = "margin-left:2px;">
-       <span class = "knocks-chat-2"></span> See Older Replies
-     </a>
-     <a v-if = "comments != null && showKey < comments.length && showKey == 0" @click = "increaseRang()" 
-     class = "knocks_side_padding knocks_text_sm knocks_text_anchor knocks_pointer" style = "margin-left:2px;">
-       <span class = "knocks-chat-2"></span> Show Replies
-     </a>
-     <span class = "grey-text right knocks_text_sm knocks_side_padding" v-if = "comments != null && comments.length > 0">{{showKey+'/'+comments.length}} Replies</span>
-     </div>
-     <div class="" v-for = "(com , index) in comments"  v-if = "comments != null && comments.length > 0" > 
-     <knockschildreply 
-     v-if="inRange(index)" 
-     :gid= "gid+'_reply_reply_'+index"
-     :knock="com" 
-     parent_type = "reply"
-     :current_user="current_user" 
-     replier_message = "Reply here" ></knockschildreply>
-   </div>
-   <div class = "row knocks_house_keeper" v-if = "comments != null && showKey != 0">
-     <a v-if = "comments != null && showKey > 1" @click = "reduceRang()" 
-     class = "knocks_tinny_padding knocks_text_sm  col knocks_text_anchor knocks_pointer" style = "margin-left:2px;">
-       <span class = "knocks-chat-1"></span> See Less Replies
-   </a>
-   <a v-if = "comments != null && showKey != 0" @click = "showKey = 0" 
-     class = "knocks_tinny_padding knocks_text_sm col knocks_text_anchor knocks_pointer" style = "margin-left:2px;">
-       <span class = "knocks-chat-1"></span> Hide Replies
-   </a>
-   </div>
- </div> -->
-
-   
-  </div>
 </transition>
-  
-  <!-- <div class="row" v-for = "(com , index) in knockObject.comments" v-if="knockObject.comments.length > 0">
-    <knockschildreply  :gid= "gid+'_comment_'+index":comment="com" :current_user="current_user" parent_type = "comment"></knockschildreply>
-  </div> -->
+
+<!-- <div class="row" v-for = "(com , index) in knockObject.comments" v-if="knockObject.comments.length > 0">
+  <knockschildreply  :gid= "gid+'_comment_'+index":comment="com" :current_user="current_user" parent_type = "comment"></knockschildreply>
+</div> -->
 </div>
 <!-- <hr class="uk-divider-icon knocks_ultimate_house_keeper"> -->
 </div>
@@ -209,11 +282,11 @@ required : true ,
 },
 parent_comment : {
 type : Number ,
-required : true ,
+default : null ,
 },
 parent_object_id : {
 type : Number ,
-required : true ,
+default : null ,
 },
 gid : {
 type : String,
@@ -223,6 +296,14 @@ knock_type : {
 type : String,
 default : 'voice_note'
 },
+  as_shortcut : {
+    type : Boolean , 
+    default : false 
+  },
+    show_reply_on_mount : {
+    type : Boolean , 
+    default : false 
+  }
 
 },
 computed : {

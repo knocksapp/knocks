@@ -39,7 +39,7 @@
 	<static_message msg = "Leave a comment"></static_message>
 	</h4>
 	</knocksreply>
-	<knocksphotocomments :token = "token" :gid = "gid + '_comments_injector'"></knocksphotocomments>
+	<knocksphotocomments :token = "token" :gid = "gid + '_comments_injector'" :comments_to_show ="comments_to_show"></knocksphotocomments>
 </div>
 </template>
 
@@ -71,7 +71,11 @@ export default {
   	knock_id : {
       type : Number , 
       required : true ,
-    }
+    },
+    comments_to_show : {
+      type : Array , 
+      default : null
+     },
   },
   data () {
     return {

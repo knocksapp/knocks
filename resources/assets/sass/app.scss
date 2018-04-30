@@ -18,6 +18,7 @@
 @import "~uikit/src/scss/variables-theme.scss"; // UI KIT VARIABLES
 @import "~uikit/src/scss/mixins-theme.scss"; // UI KIT MIXINS
 @import "~uikit/src/scss/uikit-theme.scss"; //UI KIT THEME
+//@import "~bulma/css/bulma.min.css";
 // @import '~vuetify/dist/vuetify.min.css';   //VUETIFY VUE UI
 
 
@@ -318,6 +319,9 @@ body{
 .knocks_borderless{
   border: 0px solid transparent !important;
 }
+.knocks_no_border_radius {
+  border-radius : 0px !important;
+}
 .knocks_ragular_border{
   @include knocks_border_radius(15px) ;
 }
@@ -333,6 +337,9 @@ body{
 }
 .knocks_left_dashed_border{
   border-left : 1px dashed #f48fb1 !important;
+}
+.knocks_bold_white_border{
+  border : 3px solid #fff;
 }
 
 // KNOCKS BORDERS PRESETS ENDS ________________________________________________________________________
@@ -2147,8 +2154,11 @@ font-size: 70%;
   background-color: #fff;
   box-shadow: 0 2px 12px 0 rgba(0,0,0,.1);
   transition: opacity .3s,transform .3s,left .3s,right .3s,top .4s,bottom .3s;
+  cursor : pointer ;
   //transition : 1s ease;
   overflow: hidden;
+  max-height : 90vh; 
+  overflow-y: auto;
   right: 16px;
   z-index: 10000000;
 }

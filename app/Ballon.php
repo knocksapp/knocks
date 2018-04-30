@@ -24,7 +24,7 @@ class Ballon extends Model {
 		}
 
 		$this->user_id = $object->user;
-		if (isset($object->parent)) {
+		if (isset($object->content)) {
 			$this->content = $object->content;
 		}
 		$this->category = $object->category;
@@ -33,7 +33,9 @@ class Ballon extends Model {
 
 		$this->save();
 	}
-
+	public function index() {
+		return json_decode($this->index);
+	}
 	public function friendRequestBalloon($sender, $reciever, $request) {
 		$this->initialize(json_encode(array(
 			'user' => $reciever,
@@ -57,17 +59,105 @@ class Ballon extends Model {
 		)));
 	}
 
-	public function userComment($sender, $reciever, $knock, $comment) {
-		$this->initialize(json_encode(array(
-			'user' => $reciever,
-			'category' => 'comment',
-			'index' => array(
+	public function userComment($sender, $reciever, $knock, $comment, $parent, $object_type) {
+		$same = Ballon::where('user_id', '=', $reciever)->where('parent_id', '=', $parent)->where('poped', '=', 0)->where('category', '=', 'comment');
+		if ($same->exists()) {
+			$ballon = $same->first();
+			$ind = $ballon->index();
+			$commenters = $ind->commenters;
+			if (!in_array($sender, $commenters)) {
+				array_push($commenters, $sender);
+				$ind->commenters = $commenters;
+			}
+			$comments = $ind->comments;
+			array_push($comments, $comment);
+			$ind->comments = $comments;
+			$ind->$comment = $comment;
+			$ind->sender_id = $sender;
+			$ballon->index = json_encode($ind);
+			$ballon->update();
+		} else {
+			$this->initialize(json_encode(array(
+				'user' => $reciever,
 				'category' => 'comment',
-				'sender_id' => $sender,
-				'knock' => $knock,
-				'comment' => $comment,
-			),
-		)));
+				'parent' => $parent,
+				'index' => array(
+					'category' => 'comment',
+					'sender_id' => $sender,
+					'knock' => $knock,
+					'comment' => $comment,
+					'comments' => [$comment],
+					'commenters' => [$sender],
+					'object_type' => $object_type,
+				),
+			)));
+		}
+	}
+
+	public function userReply($sender, $reciever, $knock, $comment, $reply, $parent) {
+		$same = Ballon::where('user_id', '=', $reciever)->where('parent_id', '=', $parent)->where('poped', '=', 0)->where('category', '=', 'reply');
+		if ($same->exists()) {
+			$ballon = $same->first();
+			$ind = $ballon->index();
+			$commenters = $ind->repliers;
+			if (!in_array($sender, $commenters)) {
+				array_push($commenters, $sender);
+				$ind->commenters = $commenters;
+			}
+			$comments = $ind->replies;
+			array_push($comments, $comment);
+			$ind->comments = $comments;
+			$ind->$comment = $comment;
+			$ind->sender_id = $sender;
+			$ballon->index = json_encode($ind);
+			$ballon->update();
+		} else {
+			$this->initialize(json_encode(array(
+				'user' => $reciever,
+				'category' => 'reply',
+				'parent' => $parent,
+				'index' => array(
+					'category' => 'reply',
+					'sender_id' => $sender,
+					'knock' => $knock,
+					'comment' => $comment,
+					'reply' => $reply,
+					'replies' => [$reply],
+					'repliers' => [$sender],
+				),
+			)));
+		}
+	}
+
+	public function userReaction($sender, $reciever, $reaction, $object, $object_type, $child, $parent) {
+		$same = Ballon::where('user_id', '=', $reciever)->where('parent_id', '=', $parent)->where('poped', '=', 0)->where('category', '=', 'reaction');
+		if ($same->exists()) {
+			$ballon = $same->first();
+			$ind = $ballon->index();
+			$commenters = $ind->reactors;
+			if (!in_array($sender, $commenters)) {
+				array_push($commenters, $sender);
+				$ind->commenters = $commenters;
+			}
+			$ind->sender_id = $sender;
+			$ballon->index = json_encode($ind);
+			$ballon->update();
+		} else {
+			$this->initialize(json_encode(array(
+				'user' => $reciever,
+				'category' => 'reaction',
+				'parent' => $parent,
+				'index' => array(
+					'category' => 'reaction',
+					'reaction' => $reaction,
+					'sender_id' => $sender,
+					'object_id' => $object,
+					'object_type' => $object_type,
+					'child' => $child,
+					'reactors' => [$sender],
+				),
+			)));
+		}
 	}
 }
 

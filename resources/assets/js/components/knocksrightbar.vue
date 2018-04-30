@@ -35,7 +35,7 @@
 			</knockstaps>
 		</div>
 		<div style="height : calc(95vh - 50px)" id = "knocks_rightbar_taps_container">
-			<knockschattingzone style = "height : inherit; " :class = "[{' knocks_hidden' : tap != 'chat' },{'animated fadeIn' : tap == 'chat' }]"></knockschattingzone>
+			<knockschattingzone style = "height : inherit; max-height : calc(95vh - 50px); overflow-y : auto; width : 100% " :class = "[{' knocks_hidden' : tap != 'chat' },{'animated fadeIn' : tap == 'chat' }]"></knockschattingzone>
 			<div style = "max-height : calc(95vh - 50px); overflow-y : auto; width : 100%" id = "knocks_rightbar_regballons" :class = "[{'knocks_hidden' : tap != 'ballons' },{'animated fadeIn' : tap == 'ballons' } ]" v-if = "ballons != null">
 				<knocksballon
 				keep_showing
@@ -43,6 +43,7 @@
 				v-for = "(ballon , index) in regBallons" :key="index"
 				:gid="'knocks_notification_rightbar_'+index"
 				mute
+        extended
 				hide_replies
 				@seen = "seenCounter--; seens.push(ballon)"
 				v-if = " index < showKeyBallon && ballonsTickedOnce "
@@ -229,6 +230,7 @@ export default {
   		vm.fqseenCounter = 0;
   		vm.ballons = temp;
   		for(i = 0 ; i < vm.ballons.length; i++){
+        if(vm.ballons[i].category != 'hidden'){
   			if(vm.ballons[i].index.category != 'friend_request' && vm.ballons[i].index.category != 'friend_request_accepted' ){
   		    if(!vm.isRepeatedBallon(i , vm.ballons)){
   			vm.regBallons.push(vm.ballons[i])
@@ -244,6 +246,7 @@ export default {
   			}
   		}
   		}
+    }
   		}
   		App.$emit('knocks_refresh_posts_done');
   	},

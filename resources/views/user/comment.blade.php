@@ -13,15 +13,15 @@
   <div class = "row " style = "padding : 3px;">
 
     <div class = "col l8 s12 white" style="" id = "knocks_main_injectort">
-    
-      
+
+
 
 
   <div class = "">
 
-  <knock 
-   :scope= "['knock']" 
-   :error_at="[]" 
+  <knock
+   :scope= "['knock']"
+   :error_at="[]"
    submit_at = "post/create"
    :recorder_upload_data = "{ user : '7esam' , index : {}}"
    :player_show_options = "false"
@@ -33,13 +33,13 @@
   </div>
 
 
-  
 
 
- 
 
 
- 
+
+
+
 {{--   <knockscircleseditor></knockscircleseditor> --}}
    <div id = "knocks_homepage_lower_area">
 
@@ -51,7 +51,7 @@
     </h5>
 
     <a @click ="clearLowerTrigger()">
-          <span class = "knocks-close red-text right knocks_text_md "></span>    
+          <span class = "knocks-close red-text right knocks_text_md "></span>
     </a>
      <knockscoveruploader
     gid = "coveru"
@@ -80,14 +80,14 @@
     </h5>
 
     <a @click ="clearLowerTrigger()">
-          <span class = "knocks-close red-text right knocks_text_md "></span>    
+          <span class = "knocks-close red-text right knocks_text_md "></span>
     </a>
     <knocksaddcircle gid = "circle_adder"></knocksaddcircle>
    </div>
   </transition>
 
 
-    
+
    <transition name="custom-classes-transition" enter-active-class="animated zoomIn" leave-active-class="zoomOut">
    <div v-if = "lowerTrigger == 'profile_uploader'">
     <h5 class = "knocks_text_dark">
@@ -96,7 +96,7 @@
     </h5>
 
     <a @click ="clearLowerTrigger()">
-          <span class = "knocks-close red-text right knocks_text_md "></span>    
+          <span class = "knocks-close red-text right knocks_text_md "></span>
     </a>
     <knocksfileupload
     gid = "file"
@@ -119,32 +119,33 @@
 </div>
 <hr class="uk-divider-icon">
   <span class = "knocks-chat-2 knocks_text_dark_active knocks_text_md"></span>
-  <static_message 
+  <static_message
   classes = "center knocks_text_md knocks_text_dark_active"
-  msg = "** commented on @@'s Knock" replaceable 
+  msg = "** commented on @@'s Knock" replaceable
   :replacements = "[
-  { target : '**' , body : '{{$owner->first_name}}'  } , 
+  { target : '**' , body : '{{$owner->first_name}}'  } ,
   { target : '@@' , body : '{{$commenter->first_name}}'  }
   ]"></static_message><br/>
-  <span class = "knocks-clock10  knocks_text_dark "></span> 
-  <span class =" knocks_text_dark">{{ fromNowDate( ' <?= $comment->created_at ?> ' ) }}</span>
-  
-   <knocksknock  :knock = "{{$knock->id}}" gid="knock_on_scope" interested 
-    :comments_to_show = "[{{$comment->id}}]"
-   :current_user = "{{auth()->user()->id}}" replier_message = "Leave a comment" ></knocksknock> 
+  <span class = "knocks-clock10  knocks_text_dark "></span>
+  <span class =" knocks_text_dark">{{ fromNowDate( ' <?=$comment->created_at?> ' ) }}</span>
+
+   <knocksknock  :knock = "{{$knock->id}}" gid="knock_on_scope" interested
+    :comments_to_show = "[{{$comment->id}}]" :show_reply_on_mount = "false"
+    :show_comment_reply_on_mout = "true"
+   :current_user = "{{auth()->user()->id}}" replier_message = "Leave a comment" ></knocksknock>
 
 
    </div>
 
    <div class = "col l4 show-on-large hide-on-med-and-down"
-    style="padding: 1rem; margin-top: -3%; 
-    margin-bottom: -3%; 
+    style="padding: 1rem; margin-top: -3%;
+    margin-bottom: -3%;
     min-height:-webkit-fill-available;" >
      <div class = "row ">Right</div>
    </div>
 
   </div>
-    
+
   </div>
   </transition>
 

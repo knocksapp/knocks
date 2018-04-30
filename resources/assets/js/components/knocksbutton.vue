@@ -151,6 +151,7 @@ export default {
       response : null , 
       networkHasErrors : false , 
       networkErrors : null , 
+      actualLoading : false ,
     }
   },
   computed : {
@@ -262,6 +263,8 @@ export default {
         });
     },
     submit(){
+      if(this.actualLoading) {console.log('prevent extra s'); return; }
+      this.actualLoading = true;
       //console.log(this.submit_data);
       App.$emit('knocks_submit_passed');
       const vm = this;
@@ -283,6 +286,7 @@ export default {
       })
       .then(function(response) {
         vm.isLoading = false;
+        vm.actualLoading = true;
         vm.response = response.data;
         vm.emit();
         // vm.$emit('input' , response.data);

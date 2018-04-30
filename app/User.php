@@ -1011,9 +1011,9 @@ class User extends Authenticatable {
 
 	public function pairAsFriend($friend) {
 		$current = new Circle_member();
-		$current->initialize($this->id, $friend->mainCircle()->id);
+		$current->initialize($this->id, $friend->mainCircle()->id, $friend->id);
 		$other = new Circle_member();
-		$other->initialize($friend->id, $this->mainCircle()->id);
+		$other->initialize($friend->id, $this->mainCircle()->id, $this->id);
 	}
 	public function createCirclesMembership($circles) {
 		//$circles = json_encode($circles);
@@ -1021,7 +1021,7 @@ class User extends Authenticatable {
 			$current = Circle::find($circles[$cir]);
 			if ($current != null && !$current->isMember($this->id)) {
 				$mem = new Circle_member();
-				$mem->initialize($this->id, $circles[$cir]);
+				$mem->initialize($this->id, $circles[$cir], $current->user_id);
 			}
 		}
 	}

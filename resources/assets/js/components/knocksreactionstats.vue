@@ -65,6 +65,7 @@
        </div>
         <div class = "col l3 s4 right knocks_house_keeper">
          <knocksreactor 
+         v-if = "!no_reactor"
          :candy = "candy"
          :inverse = "inverse_reactor"
          @input = "showInterest()"
@@ -72,7 +73,7 @@
          :collapser_icon = "reactor_collapser_icon"
          :initial_class = "reactor_initial_class"
          :gid="gid+'_reactor'" class="right knocks_side_padding" :object_id ="object_id" :parent_id = "object_id" parent_type="post"></knocksreactor>
-          <knockspopover v-if = "replyState" >
+          <knockspopover v-if = "replyState && !no_reply_option" >
           <template slot = "container">
            <button v-if = "replyState"  @click = "hideReplyer()" :class = "reply_initial_class">
             <span class = "knocks-chevron-thin-up animated zoomIn" ></span>
@@ -84,7 +85,7 @@
           </span>
         </knockspopover>
          <knockspopover >
-          <template slot = "container" v-if="!replyState">
+          <template slot = "container" v-if="!replyState && !no_reply_option">
             <button v-if="!replyState" @click = "triggerReplyer()" :class = "reply_initial_class">
               <span class = "knocks-chat-2 animated rubberBand" ></span>
             </button>
@@ -227,6 +228,14 @@ export default {
     candy : {
       type : Boolean , 
       default : false , 
+    },
+    no_reply_option : {
+      type : Boolean , 
+      default : false
+    },
+        no_reactor : {
+      type : Boolean , 
+      default : false 
     }
 
   },

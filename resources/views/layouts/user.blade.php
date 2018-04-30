@@ -62,6 +62,7 @@
         <div class = "knocks_balloons_container" >
         <knocksballon
         show_browser_notification
+        :index_timer = "ind"
         v-for = "(ballon , ind) in ballons" :key="ind"
         :gid="'knocks_notification_wall_'+ind"
         v-if = "ballon.index.sender_id != auth"

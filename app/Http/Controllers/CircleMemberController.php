@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Ballon;
 use App\Circle;
 use App\Circle_member;
 use App\User;
@@ -84,6 +85,33 @@ class CircleMemberController extends Controller {
 
 		return $members;
 	}
+	public function unpairFriends(Request $request) {
+		$authMembers = Circle_member::where('owner_id', '=', auth()->user()->id)->where('user_id', '=', $request->user);
+		if ($authMembers->exists()) {
+			foreach ($authMembers->get() as $member) {
+				$member->delete();
+			}
+		}
+
+		$reqMembers = Circle_member::where('owner_id', '=', $request->user)->where('user_id', '=', auth()->user()->id);
+		if ($reqMembers->exists()) {
+			foreach ($reqMembers->get() as $member) {
+				$member->delete();
+			}
+		}
+
+		$b = new Ballon();
+		$b->initialize(json_encode(array(
+			'user' => $request->user,
+			'category' => 'hidden',
+			'index' => array(
+				'category' => 'friendship_unpair',
+				'sender_id' => auth()->user()->id,
+			),
+		)));
+
+		return 'done';
+	}
 	public function addMember(Request $req) {
 		$req->validate([
 			'circle' => 'required',
@@ -102,7 +130,7 @@ class CircleMemberController extends Controller {
 			return 'exists';
 		}
 		$mem = new Circle_member();
-		$mem->initialize($req->user, $req->circle);
+		$mem->initialize($req->user, $req->circle, auth()->user()->id);
 		return 'done';
 	}
 

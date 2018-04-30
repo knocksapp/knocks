@@ -37,6 +37,17 @@ class Comment extends Model {
 	}
 
 	//Comment methods
+	public function addFollower($user) {
+		$index = $this->knockIndex();
+		$followers = $index->followers;
+		$followers->$user = true;
+		$this->index = json_encode($index);
+		$this->update();
+	}
+
+	public function knockIndex() {
+		return json_decode($this->index);
+	}
 
 	public function initialize($object) {
 		$parent_object = new obj();
@@ -156,21 +167,25 @@ class Comment extends Model {
 		$this->save();
 
 		//Add follower
-		$pknock = Knock::find($object->post_id);
-		if ($pknock != null) {
-			$kobj = obj::find($pknock->object_id);
-			if ($kobj != null) {
-				if ($kobj->type == 'knock') {
-					$pknock->addFollower(auth()->user()->id);
-					$pkfollowers = $pknock->knockIndex()->followers;
-					foreach ($pkfollowers as $flwr => $state) {
-						if ($state && $flwr != auth()->user()->id) {
-							$bal = new Ballon();
-							$bal->userComment(auth()->user()->id, $flwr, $pknock->id, $this->id);
+		if ($this->type == 'knock') {
+			$pknock = Knock::find($object->post_id);
+			if ($pknock != null) {
+				$kobj = obj::find($pknock->object_id);
+				if ($kobj != null) {
+					if ($kobj->type == 'knock') {
+						$pknock->addFollower(auth()->user()->id);
+						$pkfollowers = $pknock->knockIndex()->followers;
+						foreach ($pkfollowers as $flwr => $state) {
+							if ($state && $flwr != auth()->user()->id) {
+								$bal = new Ballon();
+								$bal->userComment(auth()->user()->id, $flwr, $pknock->id, $this->id, $pknock->object_id, $this->type);
+							}
 						}
 					}
 				}
 			}
+		} elseif ($this->type == 'timelinephoto') {
+
 		}
 	}
 

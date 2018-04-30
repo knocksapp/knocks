@@ -533,6 +533,8 @@ Route::group(['middleware' => 'auth'], function () {
 
 		Route::get('/cmnt/{comment}', 'KnockController@viewComment');
 
+		Route::get('/rply/{reply}', 'KnockController@viewReply');
+
 		Route::get('/knock/{knock}/{comment}', 'KnockController@viewKnockWithComment');
 
 		Route::post('getstats_reaction/reaction', 'ReactionController@getstats_reaction');
@@ -563,9 +565,13 @@ Route::group(['middleware' => 'auth'], function () {
 
 		Route::post('circle/member/remove', 'CircleMemberController@removeMember');
 
+		Route::post('circle/friend/unpair', 'CircleMemberController@unpairFriends');
+
 		Route::post('request/one', 'UserRequestController@sendOne');
 
 		Route::post('request/cancel', 'UserRequestController@cancelOne');
+
+		Route::post('request/ignore', 'UserRequestController@ignoreOne');
 
 		Route::post('request/accept', 'UserRequestController@accept');
 
