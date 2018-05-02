@@ -1,5 +1,7 @@
 <template>
-<input v-model = "myInput" type = "text" placeholder = "test" @input = "local($event)"/>
+	<div>
+		<audio id = "thisisatest"></audio>
+	</div>
 </template>
 
 <script>
@@ -9,14 +11,13 @@ export default {
 
   data () {
     return {
-    	myInput : '' ,
+
     }
-  } , 
-  methods : {
-  	local(e){
-  		App.$emit('val' , this.myInput);
-  	}
-  }
+  },mounted(){
+  	
+  var	mp3encoder = new lamejs.Mp3Encoder(2, 44100, 128);
+var mp3Data = [];
+}
 }
 </script>
 

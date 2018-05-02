@@ -254,7 +254,7 @@ export default {
     const vm = this;
     var testElement = document.createElement('audio');
     
-    this.supportedType = !!(testElement.canPlayType && testElement.canPlayType('audio/webm;').replace(/no/, ''));
+    this.supportedType = !!(testElement.canPlayType && testElement.canPlayType('audio/mp3;').replace(/no/, ''));
     App.$on('knocksGlobalPlayerRequested' , (payloads)=>{
       if(vm.gid != payloads && vm.playing){
         vm.playing = false ;
