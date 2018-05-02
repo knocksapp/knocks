@@ -1,6 +1,51 @@
 <template>
 <div  :class = "main_container" @mouseover = "showInterest()">
   <div :class = "recorder_container">
+    <el-popover
+  ref="popover1"
+  placement="top-start"
+  
+  width="200"
+  trigger="click"
+  >
+<div>
+
+             <div class = " row">
+              <div class = "col right">
+              <static_message msg = "Select Your Language"></static_message>
+              <el-select v-model="recognitionLang" slot="prepend"  style = "width :110px !important">
+              <el-option label = "English" value = "en"></el-option>
+              <el-option label = "العربيه" value = "ar-sa"></el-option>
+              </el-select>
+              <span class = "knocks-globe9 blue-text knocks_text_md"></span>
+            </div>
+            </div>
+              <p>{{convertedText}}</p>
+              <transition enter-active-class = "animated bounceInLeft" leave-active-class = "animated bounceOutRight">
+              <div v-if = "loading" class = "animated bounceInLeft">
+                <div class="ui active inline loader"></div>
+                <static_message msg = "Processing your voice.." classes = "blue-text"></static_message>
+              </div>
+            </transition>
+            <transition enter-active-class = "animated bounceInLeft" leave-active-class = "animated bounceOutUp">
+              <div v-if = "speaking" class = "">
+                <a class = "btn btn-floating pulse red">
+                  <span class = "knocks-assistive-listening-systems white-text "></span>
+                </a>
+                <static_message msg = "Listening.." classes = "red-text"></static_message>
+              </div>
+            </transition>
+            <div class = "knocks_tinny_padding">
+              <center>
+                <el-button @click = "pushToKnock()" type = "primary" :disabled = "convertedText.length == 0">
+              <static_message msg = "Add to my knock"></static_message>
+            </el-button>
+              </center>
+            </div>
+
+</div>
+</el-popover>
+     <a v-popover:popover1><span class = "knocksapp-list3"></span></a>
     <knockspopover v-if="(currentBlob == null || isRecording) && mainRecorder != null" >
     <template slot = "container">
 
@@ -55,9 +100,28 @@
 <el-progress text-inside type="circle" :percentage="limitPercentage" status="exception" :width = "35" v-if = "isRecording && !timer_right">
     <span  :class = "timer_class" >{{ displayDuration }}</span>
   </el-progress>
+
+    <div  v-if = "  !hide_player">
+    <transition enter-active-class = "animated bounceInLeft" leave-active-class = "animated bounceOutRight">
+              <div v-if = "loading" class = "animated bounceInLeft">
+                <div class="ui active inline loader"></div>
+                <static_message msg = "Processing your voice.." classes = "blue-text"></static_message>
+              </div>
+            </transition>
+            <transition enter-active-class = "animated bounceInLeft" leave-active-class = "animated bounceOutUp">
+              <div v-if = "speaking" class = "">
+                <a class = "btn btn-floating pulse red">
+                  <span class = "knocks-assistive-listening-systems white-text "></span>
+                </a>
+                <static_message msg = "Listening.." classes = "red-text"></static_message>
+              </div>
+            </transition>
   </div>
+  </div>
+
   <transition enter-active-class = "animated zoomIn" leave-active-class = "animated flipOutX">
   <div :class = "player_container" v-if = "isFired && currentSource != null && !upload_on_finish && !hide_player">
+
     <knocksplayer
     :initial_class = "player_initial_class"
     :play_class = "player_play_class"
@@ -300,6 +364,8 @@ export default {
       recognitionLang : window.currentUserLanguage , 
       convertedText : '' , 
       stream : null , 
+      speaking : false ,
+      loading : false ,
       // limitPercentage : 0 ,  
 
 
@@ -571,6 +637,18 @@ methods : {
       vm.recognition.lang = vm.recognitionLang;
       vm.recognition.start();
 
+       vm.recognition.onsoundstart = function(){
+        vm.speaking = true ; 
+        vm.loading = false ;
+        //vm.$emit('input' , {loading : vm.loading , speaking : vm.speaking , result : vm.convertedText});
+      };
+      vm.recognition.onsoundend = function(){
+        vm.speaking = false ; 
+        vm.loading = true ;
+        //vm.$emit('input' , {loading : vm.loading , speaking : vm.speaking , result : vm.convertedText});
+      };
+
+
       vm.recognition.onresult = function(e) {
 
 
@@ -590,6 +668,8 @@ methods : {
       vm.convertToText();
       vm.$emit('recognition',vm.convertedText);
       vm.$emit('input' , { hasRecord : true , text : vm.convertedText });
+        vm.loading = false
+        vm.speaking = false
 
         // console.log(e.results)
         //vm.recognition.stop();
@@ -598,6 +678,8 @@ methods : {
 
       vm.recognition.onerror = function(e) {
         vm.recognition.stop();
+        vm.loading = false
+        vm.speaking = false
         console.log(vm.res);
       }
 
@@ -609,6 +691,9 @@ methods : {
           this.recognition.stop();
     this.recognition = null ;
     }
+  },
+  pushToKnock(){
+    this.$emit('pushtoknock' , this.convertedText)
   }
 }
 }

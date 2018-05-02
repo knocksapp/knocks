@@ -504,7 +504,7 @@
                  vm.elinput = payloads.scope.value ;
                  if(scope.isFired != undefined){
                   vm.isFired = scope.isFired
-                 }else vm.isFired = true
+                 }else vm.isFired = true  
                  return;
                 }
               }

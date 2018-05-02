@@ -94,6 +94,7 @@
           <knocksrecorder
           @recognition="addRecognitionContent($event)"
           @record_reset="addRecognitionContent('')"
+          @pushtoknock = "pushToKnock($event)"
           v-model = "recorder"
           :class = "{'knocks_hidden' : submitButton.isLoading}"
           main_container = "knocks_house_keeper"
@@ -1158,7 +1159,12 @@ export default {
     },
     addRecognitionContent(e){
       this.textContent.voice = e;
+
       this.hashFinalTextContent();
+    },
+    pushToKnock(e){
+      $('#'+this.gid+'_input').append('<span>'+e+'</span>')
+      this.watchMyDom()
     },
     hashFinalTextContent(){
       this.finalTextBody = this.textContent.text+' '+this.textContent.voice.trim();
