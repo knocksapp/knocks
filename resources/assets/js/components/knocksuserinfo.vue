@@ -163,6 +163,7 @@
                   <div v-if = "userObject.nickname != null" class = "row">
                   <knocksuserinfodelete
                     :userObject="userObject"
+                    @knocks_info_deleted ="deleteNickname(userObject.nick_name)"
                     placeholder = "Delete Nickname"
                     route="usernickname"
                     message="nickname"
@@ -287,6 +288,7 @@
          <div v-if = "userObject.orientation != null" class = "row">
          <knocksuserinfodelete
            :userObject="userObject"
+           @knocks_info_deleted ="deleteOrientation(userObject.orientation)"
            placeholder = "Delete Orientation"
            route="userorientation"
            message="orientation"
@@ -322,6 +324,7 @@
            gid = "stage_one_net"
            :submit_data = " {religon : religon} "
            :scope = "['user_religon_edit']"
+           @knocks_submit_accepted = "passToParent($event)"
            slot = "aside">
            </knockselbutton>
            </knockselinput>
@@ -329,6 +332,7 @@
            <knocksuserinfodelete
              :userObject="userObject"
              placeholder = "Delete Religon"
+             @knocks_info_deleted ="deleteReligon(userObject.religon)"
              route="userreligon"
              message="religon"
              class="right"
@@ -369,6 +373,7 @@
              <div v-if = "userObject.marital_status != null" class ="row">
              <knocksuserinfodelete
                :userObject="userObject"
+               @knocks_info_deleted ="deleteMaritalstatus(userObject.marital_status)"
                placeholder = "Delete Marital status"
                route="usermaritalstatus"
                message="maritalstatus"
@@ -407,9 +412,25 @@
                slot = "aside">
                </knockselbutton>
                </knockselinput>
+               <div class ="knocks_house_keeper " >
+             <span
+              class = "bio_style"
+             >
+               <static_message msg = "Bio" ></static_message>
+
+             </span>
+             </div>
+               <el-input
+                  type="textarea"
+                  autosize
+                  :scope = "['user_bio_edit']"
+
+                  v-model="bio">
+                </el-input>
                <div v-if = "userObject.bio != null" class="row">
                <knocksuserinfodelete
                  :userObject="userObject"
+                 @knocks_info_deleted ="deleteBio(userObject.bio)"
                  placeholder = "Delete Bio"
                  route="userbio"
                  message="bio"
@@ -451,6 +472,7 @@
                  <div v-if = "userObject.phone != null" class = "row">
                  <knocksuserinfodelete
                    :userObject="userObject"
+                   @knocks_info_deleted ="deletePhone(userObject.phone)"
                    route="userphone"
                      placeholder = "Delete Phone"
                    message="phone"
@@ -534,6 +556,8 @@ name: 'knocksuserinfoedit',
      bio : '',
      phone : '',
      tabs : '',
+     textarea2: '',
+     textarea3: '',
 
      auth : parseInt(UserId) ,
        dialogVisible: false,
@@ -547,9 +571,25 @@ name: 'knocksuserinfoedit',
      passToParent(e){
 
        let ob = e.submit_data ;
-       ob.id = e.submit_data.user_id;
+       ob.id = e.response;
        this.$emit('knocks_user_name_updated' , ob );
         // this.dialogVisible=false;
+     },
+     deleteReligon(index){
+       const vm = this;
+       App.$emit('knocksUserKeyUpdate' ,
+         {
+           user : vm.auth ,
+           patch : [
+           { key : 'religon' , value :  null } ,
+         ]
+       });
+        App.$emit('knocks_input_update' ,
+        {
+          scope : ['user_religon_edit'],
+          value : '' ,
+          isFired : false
+        });
      },
      deleteMiddlename(index){
        const vm = this;
@@ -559,7 +599,110 @@ name: 'knocksuserinfoedit',
            patch : [
            { key : 'middle_name' , value :  null } ,
          ]
-       })
+       });
+        App.$emit('knocks_input_update' ,
+        {
+          scope : ['user_mname_edit'],
+          value : '' ,
+          isFired : false
+        });
+     },
+     deleteNickname(index){
+       const vm = this;
+       App.$emit('knocksUserKeyUpdate' ,
+         {
+           user : vm.auth ,
+           patch : [
+           { key : 'nickname' , value :  null } ,
+         ]
+       });
+        App.$emit('knocks_input_update' ,
+        {
+          scope : ['user_nname_edit'],
+          value : '' ,
+          isFired : false
+        });
+     },
+     deleteOrientation(index){
+       const vm = this;
+       App.$emit('knocksUserKeyUpdate' ,
+         {
+           user : vm.auth ,
+           patch : [
+           { key : 'orientation' , value :  null } ,
+         ]
+       });
+        App.$emit('knocks_input_update' ,
+        {
+          scope : ['user_orientation_edit'],
+          value : '' ,
+          isFired : false
+        });
+     },
+     deleteMaritalstatus(index){
+       const vm = this;
+       App.$emit('knocksUserKeyUpdate' ,
+         {
+           user : vm.auth ,
+           patch : [
+           { key : 'marital_status' , value :  null } ,
+         ]
+       });
+        App.$emit('knocks_input_update' ,
+        {
+          scope : ['user_marital_status_edit'],
+          value : '' ,
+          isFired : false
+        });
+     },
+     deleteBio(index){
+       const vm = this;
+       App.$emit('knocksUserKeyUpdate' ,
+         {
+           user : vm.auth ,
+           patch : [
+           { key : 'bio' , value :  null } ,
+         ]
+       });
+        App.$emit('knocks_input_update' ,
+        {
+          scope : ['user_bio_edit'],
+          value : '' ,
+          isFired : false
+        });
+     },
+     deletePhone(index){
+       const vm = this;
+       App.$emit('knocksUserKeyUpdate' ,
+         {
+           user : vm.auth ,
+           patch : [
+           { key : 'phone' , value :  null } ,
+         ]
+       });
+        App.$emit('knocks_input_update' ,
+        {
+          scope : ['user_phone_edit'],
+          value : '' ,
+          isFired : false
+        });
+     },
+     updateReligon(index){
+       const vm = this;
+       // App.$emit('knocksUserKeyUpdate' ,
+       //   {
+       //     user : vm.auth ,
+       //     patch : [
+       //     { key : 'religon' , value :  index } ,
+       //   ]
+       // });
+
+        App.$emit('knocks_input_update' ,
+        {
+          scope : ['user_religon_edit'],
+          value : index ,
+          isFired : false
+        });
      },
    construct(){
      console.log(this.tabIndex(this.userObject.gender))
@@ -591,5 +734,21 @@ name: 'knocksuserinfoedit',
     padding:  6px;
     width: 1px;
     white-space: nowrap;
+}
+.bio_style{
+
+    background-color: #fbfdff;
+    color: #97a8be;
+    vertical-align: middle;
+    display: table-cell;
+    position: relative;
+    border: 1px solid #bfcbd9;
+    border-radius: 4px;
+    padding: 0 10px;
+    padding-bottom: 8px;
+    padding-top: 8px;
+    width: 1px;
+    white-space: nowrap;
+
 }
 </style>
