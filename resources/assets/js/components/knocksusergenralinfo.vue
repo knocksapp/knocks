@@ -23,7 +23,7 @@
        <li v-if="userObject.religon != undefined && (userObject.religon != null) "> <span class="knocks-book11"></span>   <static_message msg= "Religon"></static_message>  :  {{userObject.religon}} </li>
        <li v-if="userObject.bio != undefined && (userObject.bio != null) "> <span class="knocks-profile"></span>
          <static_message msg= "Bio"></static_message> : {{bio}}  </li>
-       <div class="row knocks_house_keeper" v-if="bodyLen > 350, userObject.bio != null" >
+       <div class="row knocks_house_keeper" v-if=" userObject.bio != null && userObject.bio.length > 350 " >
          <div v-if="bodyLen > 350, userObject.bio != null" class="top">
            <a v-if="bioCount == 0" class=" right" @click = "seeMore = true, see_more_bio()">
            See more

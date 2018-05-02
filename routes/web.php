@@ -312,6 +312,18 @@ Route::post('hashtag/lazy', 'HashtagsController@lazy');
 
 Route::post('usermiddlename/delete', 'UserController@deleteUsermiddleName');
 
+Route::post('usernickname/delete', 'UserController@deleteUsernickName');
+
+Route::post('userorientation/delete', 'UserController@deleteUserorientation');
+
+Route::post('userreligon/delete', 'UserController@deleteUserreligon');
+
+Route::post('usermaritalstatus/delete', 'UserController@updateUsermaritalstatus');
+
+Route::post('userbio/delete', 'UserController@deleteUserbio');
+
+Route::post('userphone/delete', 'UserController@deleteUserphone');
+
 // Route::get('add_notification' , function(){
 //   $not = new App\Ballon();
 //   $not->initialize( json_encode(
