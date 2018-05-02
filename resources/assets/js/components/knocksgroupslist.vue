@@ -63,6 +63,7 @@ export default {
       return false
     },
        getGroupsName(){
+
        /*	const vm = this
        	axios({
              url : LaravelOrgin+'get_group_name',
@@ -73,6 +74,7 @@ export default {
        	});*/
        	this.groupsIds = this.groups_id.response; 
        	if(this.groupsIds.length > 0) this.lastResultQuery = this.search;
+        App.$emit('KnocksContentChanged')
        },
        // returnView(id){
        // 	axios({
@@ -83,6 +85,7 @@ export default {
              
        // 	});
        // }
+
   },
   computed: {
  filteredItems() {
