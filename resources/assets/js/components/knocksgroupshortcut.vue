@@ -1,5 +1,14 @@
 <template>
-
+  <div>
+      <knocksretriver
+  v-model=  "group_object"
+  url = "get_groupname"
+  @success="constructGroup($event.response , true)"
+  prevent_on_mount
+  :scope = "['request_group'+group_id]"
+  :xdata = "{ group : group_id }"
+  >
+  </knocksretriver>
       <div v-if="group_object != null && group_name != null">
 
             <a class="ui image blue label" v-if = "as_label" :href = "asset('group/'+group_id)">
@@ -35,7 +44,7 @@
 							    	<li class="knocks_fair_bounds"> <i class="knocks-calendar2"></i> Created At : {{group_object.created_at}}</li>
 							    </ul>
 
-							    <h3 v-if="members_count != null && members_count.members_count != null" class="knocks_text_dark">Members : <span class="green-text">{{members_count.members_count}}</span></h3>
+							    <h3 v-if="members_count != null && members_count.members_count != null" class="knocks_text_dark">Members : <span class="green-text">{{members_count}}</span></h3>
 							 	</div>
 
 							 	<div class="col s4 right">
@@ -43,7 +52,6 @@
 
 							 	</div>
 							 </div>
-
 
 							  <span slot="footer" class="dialog-footer" v-if="group_object != null">
 							    <el-button @click="dialogVisible = false">Cancel</el-button>
@@ -71,7 +79,7 @@
             <div class = "col s9">
               <a class = "knocks_text_anchor  knocks_text_bold knocks_tinny_side_padding" :href = "asset('group/'+group_id)"> {{ group_object.name }}</a><slot name = "append_to_display_name"></slot><br/>
               <span class = "knocks_text_xs knocks_text_bold knocks_tinny_side_padding"style = "display:flex" v-if = "members_count != null">
-              <strong class="knocks_text_dark">Members : </strong> <i class="green-text"> {{' ' + members_count.members_count}}</i> </span>
+              <strong class="knocks_text_dark">Members : </strong> <i class="green-text"> {{' ' + members_count}}</i> </span>
               <span v-if = "group_object.preset == 'public'" class="knocks_text_xs knocks_text_bold knocks_tinny_side_padding grey-text"> Public group <i class="knocks-global"> </i></span>
 
               <span v-if = "group_object.preset == 'closed'" class="knocks_text_xs knocks_text_bold knocks_tinny_side_padding grey-text"> Closed group <i class="knocks-lock2"> </i></span>
@@ -84,7 +92,7 @@
       </div>
       </div>
 </div>
-
+</div>
 </template>
 
 <script>
@@ -131,25 +139,35 @@ export default {
   },
   methods : {
        formatGroupData(object){
-
-       	this.group_object = object;
+       	this.group_object.response = object;
        	window.UserGroups[this.group_id] = object;
-       	this.$emit('input' , this.group_object);
+       	this.$emit('input' , this.group_object.response);
        },
-        getGroupsName(){
-       	const vm = this
-       	axios({
-             url : LaravelOrgin+'get_groupname',
-             method : 'post',
-             data : {group : vm.group_id}
-       	}).then((response)=>{
-                  vm.group_name = response.data.name;
-                  vm.group_object = response.data;
-                  vm.group_object.index = JSON.parse(response.data.index);
-                  vm.formatGroupData(vm.group_object);
-                  vm.members_count = vm.group_object.index;
-
-       	});
+        assignGroupAtt(){
+        const vm = this
+          if(window.UserGroups[vm.group_id] !== undefined){
+                       vm.constructGroup(window.UserGroups[vm.group_id] , false);
+          }else{
+                     vm.emitGroupReq();
+              }
+          },
+          constructGroup(groupResponse , flag){
+            const vm = this
+                  if(groupResponse != null || groupResponse.index !== undefined){
+                  if(flag)
+                 groupResponse.index = JSON.parse(vm.group_object.response.index);
+                 vm.members_count = groupResponse.index.members_count;
+                  vm.group_name = groupResponse.name;
+                  vm.group_object = groupResponse;
+                  vm.formatGroupData(groupResponse);
+                  
+                }
+          },
+          
+        
+     
+       emitGroupReq(){
+        App.$emit('knocksRetriver',{scope : ['request_group'+this.group_id]});
        },
        asset(url){
       return LaravelOrgin + url ;
@@ -193,22 +211,17 @@ export default {
 					        });
                    }
              });
-     }
+     },
+
 
   },
   mounted(){
-     this.getGroupsName();
+    this.assignGroupAtt();
      this.checkUserInGroups();
      const vm = this;
      App.$on('KnocksContentChanged' , ()=>{
-       if(vm.group_object == null){ vm.getGroupsName(); return }
-       if(vm.group_object.id != vm.group_id)
-       if(UserGroups[vm.group_id] !== undefined){
-         vm.group_object = null ;
-         setTimeout(()=>{
-          vm.group_object = UserGroups[vm.group_id];
-         },500);
-       }else vm.getGroupsName();
+      vm.group_object = null ; 
+      setTimeout( ()=>{ vm.assignGroupAtt(); } , 500)
      });
   },
 }

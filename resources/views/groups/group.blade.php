@@ -2,11 +2,14 @@
 @section('content')
 <div class = "row knocks_tinny_top_padding" style = "">
    <?php
-
+  $s = $group->groupMembers()->where('position','=','Owner')->pluck('user_id');
+  $name = (int)str_replace('[', '', $s);
+  $name1 = (int)str_replace(']', '', $name);
   $exists = $group->groupMembers()->where('user_id' , '=' , auth()->user()->id)->exists();
 
   ?>
     @if($exists)
+
      <title>{{$group->name}}</title>
            <el-popover
               ref="popover2"
@@ -25,13 +28,38 @@
               @endif
       <div class = "col s4 l3 knocks_house_keeper z-depth-1" style=" border: 2px solid white;
     background-color: white; border-radius: 25px;">
+
           <img class = "knocks_group_avatar_scope" src = "{{ asset('media/group/picture/'.$group->id) }}" style="width : 100%; border-radius : 25px; padding : 3px; " />
+
+          
       </div>
       
-      <div class="col s6 l7 push-l1 push-s1 knocks_house_keeper knocks_fair_bounds" style="padding-top : 120px !important">
+      <div class="col s6 l7 push-l1 push-s1 knocks_house_keeper knocks_fair_bounds" style="padding-top : 50px !important; ">
+
          <h3 class="knocks_house_keeper knocks_text_dark" >{{$group->name}}</h3>
 
-         <h6 class="knocks_sp_top_margin knocks_text_dark" style="opacity : 0.5"><i class="knocks-user"></i> Members : <span class="green-text">{{$group->groupMembers()->count()}} </span></h6>
+         <h6 class="knocks_sp_top_margin grey-text" style=""><i class="knocks-group2 grey-text"></i> Members : <span class="green-text">{{$group->groupMembers()->count()}} </span></h6>
+         
+         <div class="col l6 s12 knocks_house_keeper" >
+         <!--  <span class = "uk-badge red" style="padding : 3px !important; max-height : 15px;">
+            
+          </span> -->
+           <div class="ui horizontal divider transparent" style = "margin : 1px !important">
+    <static_message msg = "Owned by" classes = "grey-text"></static_message>
+  </div>
+          <div style="margin-top : 3px">
+             <knocksuser  
+             name_class = "knocks_text_anchor knocks_text_bold knocks_house_keeper col"
+             
+             image_container_class = "col"
+             name_container_class = "col"
+             main_container="row knocks_house_keeper" class=" animated fadeIn knocks_house_keeper" :as_label="true" :user = "{{$name1}}"></knocksuser> 
+           </div>
+               
+         </div>
+    
+        
+        
     
      </div>
 
@@ -41,6 +69,7 @@
   <div class="col l12 s12 knocks_fair_bounds ">
   <knocksgroupmembers :group_object="{{$group}}"></knocksgroupmembers>
 </div>
+<div class="row">
   <div class="knocks_fair_bounds col l9 s12">
    <knock 
    :scope= "['knockgroup']" 
