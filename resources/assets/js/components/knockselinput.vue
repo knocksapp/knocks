@@ -501,8 +501,10 @@
               if(vm.scope == null) return;
               for(i = 0; i < payloads.scope.length; i++){
                 if(vm.scope.indexOf(payloads.scope[i]) != -1){
-                 vm.isFired = true;
-                 vm.input = payloads.scope.value ;
+                 vm.elinput = payloads.scope.value ;
+                 if(scope.isFired != undefined){
+                  vm.isFired = scope.isFired
+                 }else vm.isFired = true
                  return;
                 }
               }
