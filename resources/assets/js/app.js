@@ -17,6 +17,8 @@ require('vue-popperjs');
 require('countries-list');
 
 window.lamejs = require("lamejs");
+window.BlobToArrayBuffer = require("blob-to-arraybuffer");
+
 
 import countries from 'countries-list'
 window.Countries = countries;
