@@ -352,6 +352,7 @@ Vue.component('knockscollapse', require('./components/knockscollapse.vue'));
 Vue.component('knocksmediaobject', require('./components/knocksmediaobject.vue'));
 Vue.component('knocksshowkeys', require('./components/knocksshowkeys.vue'));
 Vue.component('knocksrecordermpeg', require('./components/knocksrecordermpeg.vue'));
+Vue.component('knocksvoicecommands', require('./components/knocksvoicecommands.vue'));
 
 
 

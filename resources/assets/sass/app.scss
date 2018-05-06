@@ -438,6 +438,22 @@ body{
   background-color: transparent !important;
   border-radius:0px !important;
 }
+.knocks_input_textarea_light_ps {
+  border: 0px solid transparent !important;
+  border-bottom: 3px solid $knocksLightColor !important;
+  color: $knocksLightColor !important;
+  -webkit-box-shadow: 0px 0px 0px transparent !important;
+  background-color: transparent !important;
+  border-radius:0px !important;
+}
+.knocks_input_textarea_light_ps:focus {
+  border: 0px solid transparent !important;
+  border-bottom: 3px solid $knocksLightActiveColor !important;
+  color: $knocksLightColor !important;
+  -webkit-box-shadow: 0px 0px 0px transparent !important;
+  background-color: transparent !important;
+  border-radius:0px !important;
+}
 .knocks_input_ps_light{
   border: 0px solid transparent !important;
   border-bottom: 3px solid $knocksLightColor !important;
@@ -2141,7 +2157,9 @@ font-size: 70%;
 .side-nav .user-view > a, .side-nav .userView > a{
   display: inline-flex;
 }
-
+.tap-target-wrapper.open{
+  z-index: 1000001 !important;
+}
 
 .knocks_ballon{
   //display: flex;
@@ -2150,7 +2168,7 @@ font-size: 70%;
   border-radius: 8px;
   box-sizing: border-box;
   border: 1px solid #ebeef5;
-  position: relative;
+  position: absolute;
   background-color: #fff;
   box-shadow: 0 2px 12px 0 rgba(0,0,0,.1);
   transition: opacity .3s,transform .3s,left .3s,right .3s,top .4s,bottom .3s;
@@ -2235,4 +2253,33 @@ font-size: 70%;
     border-radius: 4px 4px 4px 4px;
     -webkit-box-shadow: none!important;
     box-shadow: none!important;
+}
+//KNOCKS VOICE COMMANDS BUTTON
+#knocks_voice_commands_button{
+    position: fixed;
+    bottom: 5px;
+    right: 5px;
+    z-index: 700000000000000000000000001;
+    width: 70px;
+    height: 70px;
+    line-height: 70px;
+    border : 1px solid $knocksPinkColor !important;
+}
+#knocks_voice_commands_button > span {
+      line-height: 68px;
+      font-size : 300% !important
+}
+#knocks_voice_commands_menu{
+  z-index: 70000000000000000000000000 !important;
+  position : fixed ; 
+  right : 3px;
+  bottom : 80px;
+  background-color : $knocksActiveColorTransparent;
+  border : 1px solid $knocksPinkColor !important;
+  border-top-left-radius : 40px;
+  border-top-right-radius : 10px ;
+  border-bottom-left-radius : 5px;
+  border-bottom-right-radius : 5px;
+  min-width : 317px;
+  padding : 4%;
 }
