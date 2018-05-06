@@ -496,7 +496,7 @@
            }
           });
             App.$on('knocks_input_update' , (payloads)=>{
-            if(scope != null){
+            if(payloads.scope != null){
               let i;
               if(vm.scope == null) return;
               for(i = 0; i < payloads.scope.length; i++){
