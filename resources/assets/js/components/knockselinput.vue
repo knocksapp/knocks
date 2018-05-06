@@ -503,7 +503,7 @@
                 if(vm.scope.indexOf(payloads.scope[i]) != -1){
                  vm.elinput = payloads.scope.value ;
                  if(payloads.isFired != undefined){
-                  vm.isFired = scope.isFired
+                  vm.isFired = payloads.isFired
                  }else vm.isFired = true  
                  return;
                 }
