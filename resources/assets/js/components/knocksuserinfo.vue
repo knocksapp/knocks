@@ -324,7 +324,7 @@
            gid = "stage_one_net"
            :submit_data = " {religon : religon} "
            :scope = "['user_religon_edit']"
-           @knocks_submit_accepted = "passToParent($event)"
+           @knocks_submit_accepted = "updateReligon(religon)"
            slot = "aside">
            </knockselbutton>
            </knockselinput>
@@ -689,13 +689,13 @@ name: 'knocksuserinfoedit',
      },
      updateReligon(index){
        const vm = this;
-       // App.$emit('knocksUserKeyUpdate' ,
-       //   {
-       //     user : vm.auth ,
-       //     patch : [
-       //     { key : 'religon' , value :  index } ,
-       //   ]
-       // });
+       App.$emit('knocksUserKeyUpdate' ,
+         {
+           user : vm.auth ,
+           patch : [
+           { key : 'religon' , value :  index } ,
+         ]
+       });
 
         App.$emit('knocks_input_update' ,
         {
