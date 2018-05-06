@@ -383,17 +383,7 @@
            </div>
            </div>
          <div class = "">
-               <knockselinput
-               placeholder = "Bio"
-               is_required
-               el_follower
-               gid = "qq"
-               :mat_follower=  "false"
-               has_slot
-               :scope = "['user_bio_edit']"
-               v-model = "bio"
-               :start_as="userObject.bio"
-               >
+
                <knockselbutton
                submit_at = "user/updatebio"
                disable_placeholder
@@ -411,7 +401,7 @@
                :scope = "['user_bio_edit']"
                slot = "aside">
                </knockselbutton>
-               </knockselinput>
+
                <div class ="knocks_house_keeper " >
              <span
               class = "bio_style"
@@ -705,6 +695,7 @@ name: 'knocksuserinfoedit',
         });
      },
    construct(){
+     this.bio = this.userObject.bio
      console.log(this.tabIndex(this.userObject.gender))
     App.$emit('knocks_change_taps_value' , {scope : ['user_gender_edit'] , index : this.tabIndex(this.userObject.gender) })
    },
