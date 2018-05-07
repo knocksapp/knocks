@@ -37,16 +37,16 @@
       submit_at = "user/updatefirstname"
       disable_placeholder
       icon = "knocks-plus"
+      :disabled =  "first_name == userObject.first_name"
       success_at = "done"
       :error_at = "[
       { res : 'invalid' , msg : 'You already have a preset with this name.' }
       ]"
       success_msg = "First Name is Updated Successfully"
       gid = "stage_one_net"
-      :submit_data = " {first_name : first_name} "
+      :submit_data = " {first_name : capitalizeFirstLetter(first_name)} "
       :scope = "['user_name_edit']"
-      @knocks_submit_accepted = "passToParent($event)"
-
+      @knocks_submit_accepted = "updateFirstname(first_name) "
       slot = "aside">
       </knockselbutton>
       </knockselinput>
@@ -78,7 +78,7 @@
           gid = "stage_one_net"
           :submit_data = " {middle_name : middle_name} "
           :scope = "['user_mname_edit']"
-          @knocks_submit_accepted = "passToParent($event)"
+          @knocks_submit_accepted = "updateMiddlename(middle_name)"
 
           slot = "aside">
           </knockselbutton>
@@ -112,15 +112,15 @@
               disable_placeholder
               icon = "knocks-plus"
               success_at = "done"
+              :disabled =  "last_name == userObject.last_name"
               :error_at = "[
               { res : 'invalid' , msg : 'You already have a preset with this name.' }
               ]"
               success_msg = "Last Name is Updated Successfully"
               gid = "stage_one_net"
-              :submit_data = " {last_name : last_name} "
+              :submit_data = " {last_name : capitalizeFirstLetter(last_name)} "
               :scope = "['user_lname_edit']"
-              @knocks_submit_accepted = "passToParent($event)"
-
+              @knocks_submit_accepted = "updateLastname(last_name)"
               slot = "aside">
               </knockselbutton>
               </knockselinput>
@@ -154,7 +154,7 @@
                   gid = "stage_one_net"
                   :submit_data = " {nickname : nickname} "
                   :scope = "['user_nname_edit']"
-                  @knocks_submit_accepted = "passToParent($event)"
+                  @knocks_submit_accepted = "updateNickname(nickname)"
 
                   slot = "aside">
 
@@ -189,8 +189,10 @@
                   icon = "knocks-plus"
                   class = "right"
                   success_at = "done"
+                  :disabled =  "!testDate || birthdate == ''"
                   :error_at = "[
                   { res : 'invalid' , msg : 'You already have a preset with this name.' }
+
                   ]"
                   success_msg = "Birthdate is Updated Successfully"
                   gid = "stage_one_net"
@@ -203,11 +205,19 @@
                   border: 1px solid #bfcbd9;
 
                    "
-                  @knocks_submit_accepted = "passToParent($event)"
+                   @knocks_submit_accepted = "updateBirthdate(birthdate)"
                   slot = "aside">
                   </knockselbutton>
 
                 </div>
+                <div class =" right " v-if ="!testDate">
+              <span class = "knocks-alert-circle"style="color:red;">
+
+
+
+              <static_message msg = "Age more than 12 years old" ></static_message></span>
+              </div>
+
 </div></div></div>
 <div class="row">
   <div class =" col knocks_tinny_padding knocks_standard_border_radius knocks_gray_border" >
@@ -236,7 +246,7 @@
    ]"
    :scope = "['user_gender_edit']"
    class = "right"
-
+   :disabled =  "gender == userObject.gender"
    validation_error = "You need to complete some fields"
    success_at = "done"
    submit_at = "user/updategender"
@@ -249,7 +259,7 @@
    border: 1px solid #bfcbd9;
 
     "
-   @knocks_submit_accepted = "passToParent($event)"
+   @knocks_submit_accepted = "updateGender(gender)"
    >
    </knockselbutton>
 
@@ -282,6 +292,7 @@
          gid = "stage_one_net"
          :submit_data = " {orientation : orientation} "
          :scope = "['user_orientation_edit']"
+         @knocks_submit_accepted = "updateOrientation(orientation)"
          slot = "aside">
          </knockselbutton>
          </knockselinput>
@@ -367,6 +378,7 @@
              gid = "stage_one_net"
              :submit_data = " {marital_status : marital_status} "
              :scope = "['user_marital_status_edit']"
+             @knocks_submit_accepted ="updateMaritalstatus(marital_status)"
              slot = "aside">
              </knockselbutton>
              </knockselinput>
@@ -382,53 +394,60 @@
              </knocksuserinfodelete>
            </div>
            </div>
-         <div class = "">
+         <div class = "row">
 
-               <knockselbutton
-               submit_at = "user/updatebio"
-               disable_placeholder
-               icon = "knocks-plus"
-               success_at = "done"
-               :precondition = "bio != userObject.bio"
-               validation_error = "You Didn't change your Bio."
-               :disabled =  "bio == userObject.bio"
-               :error_at = "[
-               { res : 'invalid' , msg : 'You already have a preset with this name.' }
-               ]"
-               success_msg = "Bio is Updated Successfully"
-               gid = "stage_one_net"
-               :submit_data = " {bio : bio} "
-               :scope = "['user_bio_edit']"
-               slot = "aside">
-               </knockselbutton>
+           <div class =" col knocks_tinny_padding knocks_standard_border_radius knocks_gray_border" style="background-color : #fbfdff; order: 1px solid #bfcbd9; color: #97a8be;">
+         <span >
 
-               <div class ="knocks_house_keeper " >
-             <span
-              class = "bio_style"
+
+         </span>
+         <static_message msg = "Bio" ></static_message>
+         </div>
+
+                <div class="row">
+                  <el-input
+                     type="textarea"
+                     autosize
+                     :scope = "['user_bio_edit']"
+                     class="col s10 l8"
+                     v-model="bio">
+                   </el-input>
+             </div>
+             <knockselbutton
+             placeholder = "Update Bio"
+             submit_at = "user/updatebio"
+             success_at = "done"
+             :precondition = "bio != userObject.bio"
+             validation_error = "You Didn't change your Bio."
+             :disabled =  "bio == userObject.bio"
+             :error_at = "[
+             { res : 'invalid' , msg : 'You already have a preset with this name.' }
+             ]"
+             success_msg = "Bio is Updated Successfully"
+             gid = "stage_one_net"
+             :submit_data = " {bio : bio} "
+             @knocks_submit_accepted = "updateBio(bio)"
+             :scope = "['user_bio_edit']"
+             class = "right"
+             style = "
+             background-color: #fbfdff;
+             color: #97a8be;
+             border: 1px solid #bfcbd9;"
              >
-               <static_message msg = "Bio" ></static_message>
+             </knockselbutton>
 
-             </span>
-             </div>
-               <el-input
-                  type="textarea"
-                  autosize
-                  :scope = "['user_bio_edit']"
-
-                  v-model="bio">
-                </el-input>
-               <div v-if = "userObject.bio != null" class="row">
-               <knocksuserinfodelete
-                 :userObject="userObject"
-                 @knocks_info_deleted ="deleteBio(userObject.bio)"
-                 placeholder = "Delete Bio"
-                 route="userbio"
-                 message="bio"
-                 class="right"
-                 >
-               </knocksuserinfodelete>
-             </div>
-             </div>
+             <div v-if = "userObject.bio != null" class="row">
+             <knocksuserinfodelete
+               :userObject="userObject"
+               @knocks_info_deleted ="deleteBio(userObject.bio)"
+               placeholder = "Delete Bio"
+               route="userbio"
+               message="bio"
+               class=""
+               >
+             </knocksuserinfodelete>
+           </div>
+           </div>
            <div class = " ">
                  <knockselinput
                  placeholder = "Phone"
@@ -437,6 +456,9 @@
                  gid = "qq"
                  :mat_follower=  "false"
                  has_slot
+                 is_numeric
+                 :min_len = "10"
+                 :max_len = "15"
                  :scope = "['user_phone_edit']"
                  v-model = "phone"
                  :start_as="userObject.phone"
@@ -455,6 +477,7 @@
                  success_msg = "Phone is Updated Successfully"
                  gid = "stage_one_net"
                  :submit_data = " {phone : phone} "
+                 @knocks_submit_accepted = "updatePhone(phone)"
                  :scope = "['user_phone_edit']"
                  slot = "aside">
                  </knockselbutton>
@@ -501,7 +524,16 @@ name: 'knocksuserinfoedit',
       console.log(this.userObject.phone);
       return s;
     },
+    testDate(){
+        if(this.birth_e == null) return false ;
+      if(moment().diff(moment(this.birth_e,'YYYY-MM-DD'),'years',false) < 12){
+        return false;
+      }
+      else {
+        return true;
+      }
 
+    }
 
   },
 
@@ -694,6 +726,171 @@ name: 'knocksuserinfoedit',
           isFired : false
         });
      },
+
+     updateMiddlename(index){
+       const vm = this;
+       App.$emit('knocksUserKeyUpdate' ,
+         {
+           user : vm.auth ,
+           patch : [
+           { key : 'middle_name' , value :  index } ,
+         ]
+       });
+
+        App.$emit('knocks_input_update' ,
+        {
+          scope : ['user_mname_edit'],
+          value : index ,
+          isFired : false
+        });
+     },
+     updateNickname(index){
+       const vm = this;
+       App.$emit('knocksUserKeyUpdate' ,
+         {
+           user : vm.auth ,
+           patch : [
+           { key : 'nickname' , value :  index } ,
+         ]
+       });
+        App.$emit('knocks_input_update' ,
+        {
+          scope : ['user_nname_edit'],
+          value : index ,
+          isFired : false
+        });
+     },
+     updateOrientation(index){
+       const vm = this;
+       App.$emit('knocksUserKeyUpdate' ,
+         {
+           user : vm.auth ,
+           patch : [
+           { key : 'orientation' , value :  index } ,
+         ]
+       });
+        App.$emit('knocks_input_update' ,
+        {
+          scope : ['user_orientation_edit'],
+          value : index ,
+          isFired : false
+        });
+     },
+     updateMaritalstatus(index){
+       const vm = this;
+       App.$emit('knocksUserKeyUpdate' ,
+         {
+           user : vm.auth ,
+           patch : [
+           { key : 'marital_status' , value :  index } ,
+         ]
+       });
+        App.$emit('knocks_input_update' ,
+        {
+          scope : ['user_marital_status_edit'],
+          value : index ,
+          isFired : false
+        });
+     },
+     updateBio(index){
+       const vm = this;
+       App.$emit('knocksUserKeyUpdate' ,
+         {
+           user : vm.auth ,
+           patch : [
+           { key : 'bio' , value :  index } ,
+         ]
+       });
+        App.$emit('knocks_input_update' ,
+        {
+          scope : ['user_bio_edit'],
+          value : index ,
+          isFired : false
+        });
+     },
+     updatePhone(index){
+       const vm = this;
+       App.$emit('knocksUserKeyUpdate' ,
+         {
+           user : vm.auth ,
+           patch : [
+           { key : 'phone' , value :  index } ,
+         ]
+       });
+        App.$emit('knocks_input_update' ,
+        {
+          scope : ['user_phone_edit'],
+          value : index ,
+          isFired : false
+        });
+     },
+     updateFirstname(index){
+       const vm = this;
+       App.$emit('knocksUserKeyUpdate' ,
+         {
+           user : vm.auth ,
+           patch : [
+           { key : 'first_name' , value :  index } ,
+         ]
+       });
+        App.$emit('knocks_input_update' ,
+        {
+          scope : ['user_name_edit'],
+          value : index ,
+          isFired : false
+        });
+     },
+     updateLastname(index){
+       const vm = this;
+       App.$emit('knocksUserKeyUpdate' ,
+         {
+           user : vm.auth ,
+           patch : [
+           { key : 'last_name' , value :  index } ,
+         ]
+       });
+        App.$emit('knocks_input_update' ,
+        {
+          scope : ['user_lame_edit'],
+          value : index ,
+          isFired : false
+        });
+     },
+     updateGender(index){
+       const vm = this;
+       App.$emit('knocksUserKeyUpdate' ,
+         {
+           user : vm.auth ,
+           patch : [
+           { key : 'gender' , value :  index } ,
+         ]
+       });
+        App.$emit('knocks_input_update' ,
+        {
+          scope : ['user_gender_edit'],
+          value : index ,
+          isFired : false
+        });
+     },
+     updateBirthdate(index){
+       const vm = this;
+       App.$emit('knocksUserKeyUpdate' ,
+         {
+           user : vm.auth ,
+           patch : [
+           { key : 'birthdate' , value :  index } ,
+         ]
+       });
+        App.$emit('knocks_input_update' ,
+        {
+          scope : ['user_birthdate_edit'],
+          value : index ,
+          isFired : false
+        });
+     },
+     capitalizeFirstLetter(strr) {
+    return strr.charAt(0).toUpperCase() + strr.slice(1);
+},
    construct(){
      this.bio = this.userObject.bio
      console.log(this.tabIndex(this.userObject.gender))
