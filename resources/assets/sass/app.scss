@@ -402,6 +402,9 @@ body{
 .knocks_light_pink_color_kit{
   background-color : $knocksLightCandyPinkColor !important;
 }
+.knocks_pink_color_kit{
+  background-color : $knocksPinkColor
+}
 .knocks_candy_pattern{
     background-image: url(https://knocks.dev/snaps/cupcake.png);
     background-repeat: round;
@@ -1967,6 +1970,9 @@ table.highlight > tbody > tr:hover {
 .knocks_fixed_width{
   width: 25% !important;
 }
+.knocks_ligjt_blured_bg{
+  background-color :rgba(0,0,0,0.2) !important;
+}
 .knocks_blured_bg{
   background-color :rgba(0,0,0,0.5) !important;
 }
@@ -2281,5 +2287,8 @@ font-size: 70%;
   border-bottom-left-radius : 5px;
   border-bottom-right-radius : 5px;
   min-width : 317px;
-  padding : 4%;
+  padding : 2%;
+  max-height: calc(100vh - 150px);
+  max-width: 90vw;
+  overflow: auto;
 }

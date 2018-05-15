@@ -7,7 +7,7 @@
   </transition>
   <transition    name="custom-classes-transition" enter-active-class="animated zoomIn" leave-active-class="animated zoomOut">
     <div class = " " style = "padding : 0.2rem" v-if = "loggedIn">
-      <knocksvoicecommands></knocksvoicecommands>
+
 
   <div class = "row " style = "padding : 3px;">
 

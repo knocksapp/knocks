@@ -2,7 +2,7 @@
 
 
       <div :class = "main_container" :id = "gid" class = " "  >
-      <div class = "  knocks_color_kit_light knocks_gray_border knocks_ragular_border row knocks_xs_padding ">
+      <div :class = "knocker_container">
                     <!-- LEVEL ONE -->
     <div v-loading = "submitButton.isLoading" >
     <div class = "row knocks_house_keeper" style = "margin-top : 1px !important; padding : 5px !important;" >
@@ -269,6 +269,10 @@ export default {
   		type : String , 
   		required : true
   	},
+    knocker_container : {
+      type : String ,
+      default : 'knocks_color_kit_light knocks_gray_border knocks_ragular_border row knocks_xs_padding'
+    },
   	main_container : {
   		type : String , 
   		default : 'row' ,
@@ -744,6 +748,24 @@ export default {
         }
       }
     });
+    App.$on('knocksKnockerBoundContent', (payload)=>{
+        if(vm.scope == null || !vm.scope || payload.scope === undefined || payload.scope == null) return
+      let tar;
+        for(tar = 0 ; tar < payload.scope.length ; tar++){
+        if(vm.scope && payload.scope[tar])
+        if(vm.scope.indexOf(payload.scope[tar]) != -1){
+          if(payload.reset === undefined || !payload.reset )
+            $('#'+vm.gid+'_input').append(payload.content)
+          if(payload.reset !== undefined && payload.reset ){
+            $('#'+vm.gid+'_input').html(payload.content)
+          }
+           $('#'+vm.gid+'_input').focus()
+           $('#'+vm.gid+'_input').blur()
+          vm.constructInput()
+          return
+        }
+      }
+    })
     App.$on('knocksMultipleUploaderDragging' , (state)=>{
       vm.draggingMode = state;
     });
@@ -1078,6 +1100,7 @@ export default {
       return res;
     },
     resetKnock(){
+      this.$emit('success' , this.submitObject)
       this.taggedPeople = [] ;
       this.recorder =null ;
       this.tokens =[];

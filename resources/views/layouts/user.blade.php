@@ -60,6 +60,7 @@
 
         <!--Notification-->
         <div class = "knocks_balloons_container" >
+          <knocksvoicecommands></knocksvoicecommands>
         <knocksballon
         show_browser_notification
         :index_timer = "ind"

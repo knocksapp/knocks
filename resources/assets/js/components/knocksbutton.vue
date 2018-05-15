@@ -190,6 +190,19 @@ export default {
       }
     });
 
+     App.$on('knocksButtonRemoteClick' , (payload)=>{
+      if(vm.scope == null || !vm.scope || payload.scope === undefined || payload.scope == null) return
+      let tar;
+        for(tar = 0 ; tar < payload.scope.length ; tar++){
+        if(vm.scope && payload.scope[tar])
+        if(vm.scope.indexOf(payload.scope[tar]) != -1){
+          console.log('matched remote click')
+          vm.construct()
+          return
+        }
+      }
+    });
+
       App.$on('knocksButtonVirtualStop' , (payload)=>{
       let tar;
         for(tar in payload.scope){
@@ -322,6 +335,7 @@ export default {
         vm.$emit('knocks_submit_error');
         Materialize.toast('<span class="knocks_text_danger">'+err+'</span>', 3000, 'rounded');
         vm.isLoading = false ;
+
       });
     }
 

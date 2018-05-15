@@ -356,6 +356,7 @@ Vue.component('knocksvoicecommands', require('./components/knocksvoicecommands.v
 
 
 
+
  window.App = new Vue();
  new Vue({
   el: '#app',
@@ -1736,6 +1737,7 @@ window.MigaNumber = (num)=>{
 window.TrimExtraZeros = (num)=>{
   return num % 1 == 0 ? parseInt(num) : num ;
 }
+
 window.TextAlignWeight = (text)=>{
   let rightChars =  ["ة", "ج", "ح", "خ", "ه", "ع", "غ", "ف", "ق", "ث", "ص", "ض", "ش", "س", "ي", "ب", "ل", "ا", "ت", "ن", "م", "ك", "و", "ر", "ز", "د", "ذ", "ط", "ظ", "ئ", "أ", "إ", "ؤ", "آ"];
   let i , splitted = text.split('') , rightCounter = 0 , len = splitted.length , leftCounter = len ;

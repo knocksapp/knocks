@@ -22,12 +22,26 @@
   ></knocksretriver>
    <el-tooltip  placement="bottom" effect="light" v-if = "!hide_trigger">
     <span slot = "content">
-      <span class = "knocks-locked4 yellow-text text-darken-3"></span>
-      <static_message msg=  "Choose your privacy setting."></static_message>
+      <span class = "knocks-locked4 yellow-text text-darken-3" v-if = "publicValue == null || publicValue == ''"></span>   
+      <span class = "knocks-globe knocks_text_md blue-text text-darken-3 knocks_icon_border" v-if = "publicValue == 'public'"></span>
+      <span class = "knocks-group-1 knocks_text_md green-text knocks_icon_border" v-if = "publicValue == 'onlyforfriends'"></span>
+      <span class = "knocks-star3 knocks_text_md yellow-text text-darken-3 knocks_icon_border" v-if = "publicValue == 'choosedefault'"></span>
+      <span class = "knocks-heart red-text knocks_text_md knocks_icon_border" v-if = "publicValue == 'userpresets'"></span>
+      <span class = "knocks-cog9 knocks_text_md pink-text text-darken-1 knocks_icon_border" v-if = "publicValue == 'custom'"></span>
+      <static_message msg=  "Choose your privacy setting."></static_message>  
     </span>
+
   <a @click="triggerModal()" :class = "trigger_class">
-    <center><span class = "knocks-locked4"></span></center>
+    <center>
+      <span class = "knocks-locked4" v-if = "publicValue == null || publicValue == ''"></span>
+      <span class = "knocks-globe animated jello text-darken-3" v-if = "publicValue == 'public'"></span>
+      <span class = "knocks-group-1 animated jello" v-if = "publicValue == 'onlyforfriends'"></span>
+      <span class = "knocks-star3 animated jello text-darken-3 " v-if = "publicValue == 'choosedefault'"></span>
+      <span class = "knocks-heart animated jello  " v-if = "publicValue == 'userpresets'"></span>
+      <span class = "knocks-cog9  animated jello text-darken-1" v-if = "publicValue == 'custom'"></span>
+    </center>
   </a>
+   
 </el-tooltip>
   <el-dialog
   :visible.sync="centerDialogVisible"
