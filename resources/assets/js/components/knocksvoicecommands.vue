@@ -622,8 +622,8 @@ export default {
     if(!this.textToSpeach){
     this.textToSpeach = new SpeechSynthesisUtterance();
     var voices = window.speechSynthesis.getVoices();
-    this.textToSpeach.voice = voices[32]; // Note: some voices don't support altering params
-    this.textToSpeach.voiceURI = 'Samantha';
+    this.textToSpeach.voice = voices[10]; // Note: some voices don't support altering params
+    this.textToSpeach.voiceURI = 'native';
     this.textToSpeach.volume = 1; // 0 to 1
     this.textToSpeach.rate = 0.92; // 0.1 to 10
     this.textToSpeach.pitch = 1 ; //0 to 2

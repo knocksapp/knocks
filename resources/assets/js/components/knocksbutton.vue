@@ -314,6 +314,7 @@ export default {
             App.$emit('knocks_input_reset' , vm.scope);
           }
           vm.$emit('knocks_submit_accepted');
+          vm.actualLoading = vm.isLoading = false
           return true;
         }else{
           vm.$emit('knocks_submit_rejected');
@@ -326,7 +327,7 @@ export default {
             }else Materialize.toast('<span class="knocks_text_danger">'+vm.error_at[i].msg+'</span>', 3000, 'rounded');
           }
         }
-
+        vm.isLoading = vm.actualLoading = false
 
       }).catch((err)=>{
         vm.networkHasErrors = true ;
