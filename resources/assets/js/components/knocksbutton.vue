@@ -318,6 +318,7 @@ export default {
           return true;
         }else{
           vm.$emit('knocks_submit_rejected');
+          vm.isLoading = vm.actualLoading = false
           var i ;
           for( i = 0; i < vm.error_at.length ; i++ ){
             if(vm.error_at[i].res == temp){
@@ -327,7 +328,7 @@ export default {
             }else Materialize.toast('<span class="knocks_text_danger">'+vm.error_at[i].msg+'</span>', 3000, 'rounded');
           }
         }
-        vm.isLoading = vm.actualLoading = false
+
 
       }).catch((err)=>{
         vm.networkHasErrors = true ;
@@ -335,7 +336,7 @@ export default {
 
         vm.$emit('knocks_submit_error');
         Materialize.toast('<span class="knocks_text_danger">'+err+'</span>', 3000, 'rounded');
-        vm.isLoading = false ;
+        vm.isLoading = vm.actualLoading = false ;
 
       });
     }
