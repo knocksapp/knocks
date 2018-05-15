@@ -1,5 +1,5 @@
 <template>
-<div v-if ="featureAvailable">
+<div >
   <!--retrivers-->
   <knocksretriver
   url = "user/search/global"
