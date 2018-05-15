@@ -531,6 +531,8 @@ Route::group(['middleware' => 'auth'], function () {
 
 		Route::get('/{user}', 'UserController@routeToProfile');
 
+		Route::get('user/profile/{user}', 'UserController@routeToProfileById');
+
 		Route::get('group/{group_id}', 'GroupController@routeToGroup');
 
 		Route::get('group/{group_id}/pictures', 'GroupController@routeToGroupPictures');

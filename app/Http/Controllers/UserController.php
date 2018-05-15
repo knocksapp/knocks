@@ -333,6 +333,14 @@ class UserController extends Controller {
 		$c = $user->get()->first();
 		return view('user.profile', ['user' => $c]);
 	}
+	public function routeToProfileById(Request $request, $user) {
+		$user = User::find($user);
+		if ($user == null) {
+			return view('guest.lost');
+		}
+		$c = $user;
+		return view('user.profile', ['user' => $c]);
+	}
 
 	public function updateUserfirstName(Request $request) {
 		$user = User::find(auth()->user()->id);
