@@ -260,6 +260,10 @@ class UserController extends Controller {
 		return $result;
 
 	}
+	public function globalUserSearch(Request $request) {
+		$user = new User();
+		return $user->soundsLikeID($request->q);
+	}
 	public function mainSearch(Request $request) {
 		$result = array();
 		$result['users'] = auth()->user()->soundsLikeID($request->q);

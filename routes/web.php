@@ -99,6 +99,8 @@ Route::post('group/posts/newer', 'GroupController@retriveNewerGroupKnocks');
 
 Route::post('user/search', 'UserController@searchForFriends');
 
+Route::post('user/search/global', 'UserController@globalUserSearch');
+
 Route::post('userlogin', 'UserController@userlogin');
 
 Route::post('retrive_circle', 'CircleController@retrive');
