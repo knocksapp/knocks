@@ -1970,14 +1970,23 @@ table.highlight > tbody > tr:hover {
 .knocks_fixed_width{
   width: 25% !important;
 }
-.knocks_ligjt_blured_bg{
+.knocks_light_blured_bg{
   background-color :rgba(0,0,0,0.2) !important;
 }
 .knocks_blured_bg{
   background-color :rgba(0,0,0,0.5) !important;
 }
-.knocks_dark_blured_bg{
-  background-color :rgba(0,0,0,0.95) !important;
+.knocks_blured_bg_hover:hover{
+  background-color :rgba(0,0,0,0.5) !important;
+}
+.knocks_red_blured_bg{
+  background-color :rgba(255,0,0,0.85) !important;
+}
+.knocks_red_blured_bg_hover:hover{
+  background-color :rgba(255,0,0,0.5) !important;
+}
+.knocks_red_dark_blured_bg{
+  background-color :rgba(255,0,0,0.95) !important;
 }
 
 input:-webkit-autofill {

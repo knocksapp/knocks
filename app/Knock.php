@@ -179,6 +179,7 @@ class Knock extends Model {
 			'images_reactions' => $images_reactions,
 			'images_comments' => $images_comments,
 			'hashtags' => $object->hashtags,
+			'kvc' => $object->kvc_knock,
 
 		));
 		// $this->UserShowPost($object->user_privacy,$this->object_id);

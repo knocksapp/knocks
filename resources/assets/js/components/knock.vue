@@ -495,6 +495,10 @@ export default {
       type : String , 
       default : 'col s8'
     },
+    kvc_knock : {
+      type : Boolean , 
+      default : false 
+    }
 
 
   },
@@ -1079,6 +1083,7 @@ export default {
         type : this.parent_type ,
         has_pictures : this.hasImages , 
         images_specifications : imagesTokens , 
+        kvc_knock : this.kvc_knock , 
         //images_quotes : quotes ,
         hashtags : this.hashtagComp , 
         text : this.finalTextBody , 

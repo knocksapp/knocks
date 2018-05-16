@@ -164,6 +164,19 @@
                   :load_on_mount="false"></knocksplayer>
                   
                 </div>
+                
+                <div v-if = "knockObject.index.kvc !== undefined && knockObject.index.kvc" class = "knocks_house_keeper row">
+                  <el-tooltip>
+                    <span class = 'blue-text text-darken-3 knocks_text_sm ' style="margin-left : 3px !important;">
+                  <span class = " knocks-knocks-circle-fill"></span>
+                  <static_message msg = "Created By Knocks Assistant"></static_message>
+                </span>
+                  <div slot = "content">
+                    <static_message msg = "Created By Knocks Assistant"></static_message>
+                  </div>
+                  </el-tooltip>
+                  
+                </div>
                 <!-- <a class="knocks_text_dark lens right" @click="flowtext()" href="#!"  ><i :id="gid+'_lns'" class="knocks-zoomin3 knocks_text_md lensm" @mouseover="lensHover()" @mouseleave="lensLeave()"></i></a> -->
               </div>
               <div class = "row knocks_house_keeper" v-if = "knockObject.index.has_pictures"  >
@@ -337,7 +350,7 @@
             </knocksreactionstats>
             <a :href ="asset('knock/'+knock)" target="_blank" class = "knocks_text_sm">
               <span class = "knocksapp-share4"></span>
-              <static_message msg = "More Details"></static_message></a>
+            <static_message msg = "More Details"></static_message></a>
             
           </div>
         </div>

@@ -1,11 +1,23 @@
 <template>
 <div :class = "main_container">
 	<!--Toggler-->
-	<div @click = "toggle($event)" class = "knocks_pointer">
+	<div @click = "toggle($event)" class = "knocks_pointer" :id = "'knocks_'+_uid+'_toggler'">
 		<div v-if = "toggler == 'default'" :class = "toggler_container">
 			<span :class = "togglerClasses" v-if = "!dual_title">
 				<span :class = "[icon]"></span>
+        <el-tooltip>
 				<static_message :msg = "title"></static_message>
+        <div slot = "content">
+          <span :class = "[icon]"></span>
+            <static_message :msg = "title"></static_message>
+          <p v-if = "comment" :class = "comment_class">
+          <br><static_message :msg = "comment"></static_message>
+        </p>
+        </div>
+      </el-tooltip>
+        <small v-if = "comment" :class = "comment_class">
+          <br><static_message :msg = "comment"></static_message>
+        </small>
 				<span :class = "indecatorClasses"></span>
 			</span>
 			<span :class = "togglerClasses" v-else>
@@ -75,7 +87,23 @@ export default {
   	},dual_title : {
   		type : Boolean , 
   		default : false
-  	}
+  	},
+    comment : {
+      type : String , 
+      default : null
+    },
+    comment_class : {
+      type : String , 
+      default : ''
+    },
+    scope : {
+      type : Array , 
+      default : null , 
+    },
+    gid : {
+      type : String , 
+      default : null
+    }
   },
   data () {
     return {
@@ -83,8 +111,31 @@ export default {
     	clickedOnce : false ,
     }
   },
-  mouted(){
+  mounted(){
+    const vm = this
+    App.$on('KnocksCollapseToggle' , (payloads)=>{
+      if(vm.scope == null || payloads.scope == undefined || payloads.scope == null) return
+        console.log('col search')
+      let tar ; 
+      for(tar = 0 ; tar < vm.scope.length ; tar++){
+        if(payloads.scope.indexOf(vm.scope[tar]) != -1){
+          console.log('col match')
+          vm.toggleById()
+          return
+        }
+      }
+    })
 
+    App.$on('KnocksCollapseByGid' , (payloads)=>{
+      console.log('resp')
+      if(vm.gid == null || payloads.gid == undefined || payloads.gid == null) return
+      
+        if(payloads.gid == vm.gid){
+          console.log('col match')
+          vm.toggleById()
+          return
+        }   
+    })
   },
   computed : {
   	toggleStatus(){
@@ -113,6 +164,7 @@ export default {
   	toggle(e){
   		this.clickedOnce = true;
   		this.toggleCase = !this.toggleCase
+      this.$emit('input' , this.toggleCase)
   		let tar = e.currentTarget;
   		let parent = $(tar).parent();
   		let collapse = $(parent).find('.knocks_collapse_content_container');
@@ -121,7 +173,11 @@ export default {
   		}else{
   			$(collapse).slideUp();
   		}
-  	}
+  	},
+    toggleById(){
+      let toggler = document.getElementById('knocks_'+this._uid+'_toggler')
+      this.toggle({currentTarget : toggler})
+    }
   }
 }
 </script>

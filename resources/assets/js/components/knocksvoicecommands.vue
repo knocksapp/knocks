@@ -25,7 +25,7 @@
   ></span>
   </button>
   <transition enter-active-class = "animated zoomIn" leave-activa-class = "animated zoomOut">
-    <div id = "knocks_voice_commands_menu" class = "animated rubberBand " v-if = "toggled" :class = "[{'red' : hasRecError}]">
+    <div id = "knocks_voice_commands_menu" class = "animated rubberBand " v-if = "toggled" :class = "[{'knocks_red_blured_bg' : hasRecError}]">
       <div class = "row">
         <div class="knocks_house_keeper">
           <el-select v-model="recognitionLang" slot="prepend"  style = "width :110px !important" class = "right">
@@ -80,13 +80,13 @@
               </div>
             </transition>
             <transition>
-              <div class = "knocks_house_keeper" 
-              :class ="[
-            {'animated zoomIn' : currentKeyScope =='knock' || currentKeyScope == 'spell_knock' || currentCallBackScope =='knock' || currentCallBackScope == 'spell_knock'} ,
-            {'knocks_hidden' : !(currentKeyScope =='knock' || currentKeyScope == 'spell_knock' || currentCallBackScope =='knock' || currentCallBackScope == 'spell_knock')} ,
-              ]">
+              <div class = "knocks_house_keeper"
+                :class ="[
+                {'animated zoomIn' : currentKeyScope =='knock' || currentKeyScope == 'spell_knock' || currentCallBackScope =='knock' || currentCallBackScope == 'spell_knock'} ,
+                {'knocks_hidden' : !(currentKeyScope =='knock' || currentKeyScope == 'spell_knock' || currentCallBackScope =='knock' || currentCallBackScope == 'spell_knock')} ,
+                ]">
                 <knock
-                knocker_container = " knocks_ligjt_blured_bg knocks_ragular_border row knocks_xs_padding"
+                knocker_container = " knocks_light_blured_bg knocks_ragular_border row knocks_xs_padding"
                 :scope= "['knock_voice_commands_knocker']"
                 :error_at="[]"
                 submit_at = "post/create"
@@ -94,6 +94,7 @@
                 :player_show_options = "false"
                 :post_at = "auth"
                 parent_type = "self"
+                kvc_knock
                 @success = "knockSuccess($event)"
                 success_at = "done"
                 success_msg = "Done."
@@ -124,13 +125,152 @@
                 </div>
               </div>
             </transition>
+            <div class = "row">
+              <knockscollapse icon = 'knocks-telescope' title = "Help"
+              :scope = "['knocks_kvc_clp_help']"
+              id = "knocks_kvc_clp_help"
+              gid = "knocks_kvc_clp_help"
+              regular_class = "knocks_text_light knocks_text_ms"
+              active_class = 'knocks_text_light_active knocks_text_lmd '
+              toggler_container = "transparent knocks_blured_bg_hover knocks_margin_keeper knocks_fair_padding">
+              <div slot = "content" class = " knocks_house_keeper">
+                <knockscollapse icon = 'knocks-question' title = "What is this?" comment = "Get started with Knocks Assistant."
+                regular_class = "knocks_text_light "
+                active_class = 'knocks_text_light_active  '
+                toggler_container = "transparent knocks_blured_bg_hover knocks_margin_keeper knocks_fair_padding">
+                <div slot = "content" class = "white knocks_tinny_border_radius  knocks_tinny_padding">
+                  <ul class="uk-list uk-list-divider">
+                    <li><static_message msg = "Knocks Assistant is designed to make your life cicle much easier in the KnocksApp.
+                    "></static_message></li>
+                    <li><static_message msg = "You can use it through your voice, or texting in the upper text box.
+                      "></static_message> <a href ="#knocks_voice_commands_menu_ta"><span class = "knocks-arrow-up7"></span> <static_message msg ="right there!"></static_message></a> <static_message msg = ", just type what you like and press GO button."></static_message></li>
+                      <li><static_message msg = "Knocks Assistant can take the most common tasks in the app, such as navigating, creating knocks and many more.
+                      "></static_message></li>
+                      <li><static_message msg = "It's now possible to do a lot of things without keyboards or mouse, all you need is a voice and a supporting browser,
+                        check Knocks Assistant Support
+                        "></static_message><a href= "#kvcclpssprt"><static_message msg = "here."></static_message></a></li>
+                      </ul>
+                    </div>
+                    </knockscollapse>
+                    <knockscollapse icon = 'knocks-knocks' title = "Knock Knock!" comment = "Get started with Knock Knock feature."
+                    regular_class = "knocks_text_light "
+                    active_class = 'knocks_text_light_active  '
+                    toggler_container = "transparent knocks_blured_bg_hover knocks_margin_keeper knocks_fair_padding">
+                    <div slot = "content" class = "white knocks_tinny_border_radius  knocks_tinny_padding">
+                      <ul class="uk-list uk-list-divider">
+                        <li><static_message msg = "Knock Knock is a feature to let call your assistant anytime using your voice.
+                        "></static_message></li>
+                        <li><static_message msg = "You can enable Knock Knock by telling your assistant `enable Knock Knock`.
+                        "></static_message></li>
+                        <li><static_message msg = "You can also disable it by the same way, just `disable Knock Knock`.
+                        "></static_message></li>
+                      </ul>
+                    </div>
+                    </knockscollapse>
+                    <knockscollapse icon = 'knocks-home8' title = "Quick Visiting" comment = "Make a quick visit to a freinds's home."
+                    regular_class = "knocks_text_light "
+                    active_class = 'knocks_text_light_active  '
+                    toggler_container = "transparent knocks_blured_bg_hover knocks_margin_keeper knocks_fair_padding">
+                    <div slot = "content" class = "white knocks_tinny_border_radius  knocks_tinny_padding">
+                      <ul class="uk-list uk-list-divider">
+                        <li><static_message msg = "If you need to make a quick visit to a freind or someone's home (profile) in general
+                          you can tell your Knocks Assistant to `visit X profile` or `go to X's home`, Knocks Assistant will search people and find your name,
+                          if there were many people has the same name he will give options to choose from.
+                        "></static_message></li>
+                        <li><static_message msg = "You can even go to your own home, just tell your assistant `go to my own profile`.
+                        "></static_message></li>
+                        <li><static_message msg = "Knocks Assistant can take you directly to your setting, just tell him `take me to settings` and its done.
+                        "></static_message></li>
+                      </ul>
+                    </div>
+                    </knockscollapse>
+                    <knockscollapse icon = 'knocks-pencil9' title = "Write a Knock" comment = "Write and publish your Knocks in a few seconds, from anywhere!."
+                    regular_class = "knocks_text_light "
+                    active_class = 'knocks_text_light_active  '
+                    toggler_container = "transparent knocks_blured_bg_hover knocks_margin_keeper knocks_fair_padding">
+                    <div slot = "content" class = "white knocks_tinny_border_radius  knocks_tinny_padding">
+                      <ul class="uk-list uk-list-divider">
+                        <li><static_message msg = "Knocks Assistant helps you to create a Knock, just tell him what content do you want, and there it is!.
+                        "></static_message></li>
+                        <li><static_message msg = "If you asked Knocks Assistant to `create a new knock` or `create a new post`, he will ask you back to begin with `i want to say` as a begining and then complete your content normally.
+                        "></static_message></li>
+                        <li><static_message msg = "However, if you already know all of this you can start creating your Knock directly saying `i want to say *Your Knock*`.
+                        "></static_message></li>
+                      </ul>
+                    </div>
+                    </knockscollapse>
+                    <knockscollapse icon = 'knocks-log-out' title = "Logging Out" comment = "Log out in a moment."
+                    regular_class = "knocks_text_light "
+                    active_class = 'knocks_text_light_active  '
+                    toggler_container = "transparent knocks_blured_bg_hover knocks_margin_keeper knocks_fair_padding">
+                    <div slot = "content" class = "white knocks_tinny_border_radius  knocks_tinny_padding">
+                      <ul class="uk-list uk-list-divider">
+                        <li><static_message msg = "Quick Logging out can be done through Knocks Assistant in just one word, ne need to fetch hundreds of menus to find where to log out, just tell your assistant `logout` , or `sign out`, he will do it for you in a moment!
+                        "></static_message></li>
+                        <li><static_message msg = "Well, you know what, you can also do it from
+                          "></static_message><a @click = "logout()"><static_message msg = "here!"></static_message></a></li>
+                        </ul>
+                      </div>
+                      </knockscollapse>
+                      <knockscollapse icon = 'knocksapp-help' title = "Support" comment = "Knock Knock devices and browsers." id = "kvcclpssprt"
+                      regular_class = "knocks_text_light "
+                      active_class = 'knocks_text_light_active  '
+                      toggler_container = "transparent knocks_blured_bg_hover knocks_margin_keeper knocks_fair_padding">
+                      <div slot = "content" class = "white knocks_tinny_border_radius  knocks_tinny_padding">
+                        <ul class="uk-list uk-list-divider">
+                          <li><static_message msg = "Knock Knock voice commands works on PC, it only requires
+                            "></static_message>
+                            <b class = " red-text">
+                            <span class = "knocks-chrome " style="border-color : green"></span>
+                            <static_message msg=" Google Chrome" classes = "blue-text"></static_message>
+                            </b>
+                            <static_message msg = " Browser."></static_message>
+                          </li>
+                          <li><static_message msg = "Knock Knock voice commands works on most of PC operating systems, such as
+                            "></static_message>
+                            <ul class="uk-list uk-list-bullet">
+                              <li>
+                                <b class = " blue-text">
+                                <span class = "knocks-brand286 " ></span>
+                                <static_message msg=" Microsoft, Windows" classes = "blue-text"></static_message>
+                                </b>
+                              </li>
+                              <li>
+                                <b class = " blue-text">
+                                <span class = "knocks-brand9 " ></span>
+                                <static_message msg=" Apple, OSX" classes = "grey-text text-darken-1"></static_message>
+                                </b>
+                              </li>
+                              <li>
+                                <b class = " ">
+                                <span class = "knocks-linux " ></span>
+                                <static_message msg="Linux" classes = "black-text"></static_message>
+                                </b>
+                              </li>
+                            </ul>
+                            <static_message msg = " However, Knocks Assistant will reply to you with voice on almost all devices."></static_message>
+                          </li>
+                          <li v-if = 'featureAvailable'>
+                            <span class = "green-text knocks-checkmark8"></span>
+                            <static_message classes ="green-text" msg = "Knocks Voice Commands is available on your device.
+                          "></static_message></li>
+                          <li v-if = '!featureAvailable'>
+                            <span class = "red-text knocks-cancel7"></span>
+                            <static_message classes ="red-text" msg = "Knocks Voice Commands is not available on your device.
+                          "></static_message></li>
+                        </ul>
+                      </div>
+                      </knockscollapse>
+                    </div>
+                    </knockscollapse>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
-        </div>
+        </transition>
       </div>
-    </div>
-  </transition>
-</div>
-</template>
+      </template>
 <script>
 export default {
 
@@ -168,10 +308,22 @@ export default {
           keywords : ['yeah' , 'yes' , 'ok' , 'alright'] , 
           callback : this.invokeDblCB
         },
+        help : {
+          keywords : ['what' , 'is' , 'this' , 'knocks' , 'assistant'] , 
+          callback : this.showHelp
+        },
+        howtowrite : {
+          keywords : ['how' , 'to' , 'write' , 'post' , 'knock'] , 
+          callback : this.showHelpWriteKnock
+        },
         visit_profile : { 
           keywords : ['go' , 'to' , 'visit' , 'profile' , 'home'] ,
           callback : this.visitProfile
         }, 
+        settings : {
+          keywords : ['take' , 'me' , 'to' , 'settings'] , 
+          callback : this.goToSettings
+        },
         visit_my_profile : {
            keywords : ['go' , 'to' , 'profile' , 'home' , 'my' , 'own'] ,
            callback : this.visitMyProfile
@@ -560,7 +712,26 @@ export default {
       this.redirectStopped = true
       this.answer("Okay, order canceled")
   },
-
+  //Go To Settings 
+  goToSettings(){
+        this.countDown({
+        msgs : ["Heading to your settings in 3..." , "2.." , "1"] , 
+        callback : ()=>{
+          window.location.href = this.asset('user/settings')
+        }
+       })
+  },
+  //ShowHelp
+  showHelp(){
+    this.answer("Hello, I am Knocks Assistant, here is more about me.")
+    App.$emit('KnocksCollapseByGid' , { gid : 'knocks_kvc_clp_help' } )
+    document.getElementById('knocks_kvc_clp_help').scrollIntoView();
+  },
+  showHelpWriteKnock(){
+    this.answer("This is how to write a Knock through Knocks Assistant.")
+    App.$emit('KnocksCollapseByGid' , { gid : 'knocks_kvc_clp_help' } )
+    document.getElementById('knocks_kvc_clp_help').scrollIntoView();
+  },
 
   //Assistance functions ==============================================>
   //Reseting
