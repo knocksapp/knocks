@@ -97,15 +97,25 @@
         <knocksuserhigheducation tiny></knocksuserhigheducation>
         </el-carousel-item>
         <el-carousel-item>
-        <knocksusersport tiny></knocksusersport>
-        </el-carousel-item>
-        <el-carousel-item>
         <knocksuserhobby tiny></knocksuserhobby>
+        <knocksusersport tiny></knocksusersport>
         </el-carousel-item>
         <el-carousel-item>
         <knocksusercareers tiny></knocksusercareers>
         </el-carousel-item>
         </el-carousel>
+
+      <el-carousel :interval="4000" type="card" height="300px" class=  "grey lighten-4 knocks_gray_border">
+    <el-carousel-item >
+     <knocksuser :user = "1" as_small_card></knocksuser>
+    </el-carousel-item>
+        <el-carousel-item >
+     <knocksuser :user = "1" as_small_card></knocksuser>
+    </el-carousel-item>
+        <el-carousel-item >
+     <knocksuser :user = "1" as_small_card></knocksuser>
+    </el-carousel-item>
+  </el-carousel>
         <knocksknockinjector :current_user = "{{auth()->user()->id}}" show_appendex></knocksknockinjector>
       </div>
       <div class = "col l4 show-on-large hide-on-med-and-down"
