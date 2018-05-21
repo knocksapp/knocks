@@ -13,8 +13,6 @@
   </el-radio-group>
   </center>
   <div class= "row">
-
-
     <!--Dictionary Siction-->
     <transition enter-active-class = "animated zoomIn" enter-leave-class = "animated zoomOut">
       <div id = "dev_dictionary" v-if = "devStage == 'Dictionary'">
@@ -97,7 +95,6 @@
         <!--Translation End-->
         <!--All Words-->
         <div style="margin-top: 5px;">
-
           <a @click = "showStaticMessagesTable = true" class = "knocks_pointer" v-if="!showStaticMessagesTable">
             <p class = "grey-text knocks_text_ms">Show Messages Dictionary<span class = "knocks-chevron-down2"></span></p>
           </a>
@@ -180,332 +177,344 @@
         width="30%"
         >
         <span>Confirming this dialog will truncate all of <span class ="knocks_text_danger">Ballons, Reactions, Blobs, Comments</span> and
-          <span class = "knocks_text_danger">Knocks</span> tables.
-        Are you sure that you want to truncate them?</span>
-        <span slot="footer" class="dialog-footer">
-          <el-button @click="resetKnocksDialog = false">Cancel</el-button>
-          <el-button type="primary" @click="resetKnocks()">Confirm</el-button>
-        </span>
-        </el-dialog>
-        <br/><br/><hr/><br/>
-        <div class = "col s3">
-          <el-button type="danger" icon = " knocks_icon knocks-trash2" :loading = "resetKnocksLoading"
-          @click = "resetKnocksDialog=true">
-          Delete Users Data
-          </el-button>
-        </div>
-        <div class = "col ">
-          Truncate all the Users, which means deleting its childs too, this will truncate all of  <span class ="knocks_text_danger">Ballons, Reactions, Blobs, Comments, Knocks, Circles, Circle Members, Privacy Circle Sets, Privacy User Sets, Objects</span> and
-          <span class = "knocks_text_danger">Users</span> tables.
-        </div>
-        <el-dialog
-        title="Delete All Knocks Data ?"
-        :visible.sync="resetAllDialog"
-        width="30%"
-        >
-        <span>Confirming this dialog will truncate all of <span class ="knocks_text_danger">Ballons, Reactions, Blobs, Comments, Knocks, Circles, Circle Members, Privacy Circle Sets, Privacy User Sets, Objects</span> and
-          <span class = "knocks_text_danger">Users</span> tables.
-        Are you sure that you want to truncate them?</span>
-        <span slot="footer" class="dialog-footer">
-          <el-button @click="resetKnocksDialog = false">Cancel</el-button>
-          <el-button type="primary" @click="resetUsers()">Confirm</el-button>
-        </span>
-        </el-dialog>
-        <br/><br/><hr/><br/>
-        <div class = "col s3">
-          <el-button type="danger" icon = " knocks_icon knocks-trash2" :loading = "resetKnocksLoading"
-          @click = "reinstallDialog=true">
-          Rebound The Initial Data
-          </el-button>
-        </div>
-        <div class = "col ">
-          If you have a fresh install or migration for the Database, so this will rebound the initial data for the whole App
-          <span class ="knocks_text_danger">, You will need to reinsert the Static Messages manually from the database but still you cant if you dont have this kind of data</span>
-        </div>
-        <el-dialog
-        title="Delete All Knocks Data ?"
-        :visible.sync="reinstallDialog"
-        width="30%"
-        >
-        <span>Confirming this dialog will reinsert <span class ="knocks_text_danger">Langauges and Presets</span>
-        Are you sure that you already dont have them inserted?</span>
-        <span slot="footer" class="dialog-footer">
-          <el-button @click="reinstallDialog = false">Cancel</el-button>
-          <el-button type="primary" @click="reboundInitialData()">Confirm</el-button>
-        </span>
-        </el-dialog>
-        <div class = "col s12">
-          <div class="ui horizontal divider transparent">
-            Delete Circle Members
-          </div>
-        <knockselbutton
-        type = "danger"
-        submit_at = "dev/delete/allmems"
-        :submit_data = "{}"
-        success_at = "done"
-        placeholder = "Delete All Circle Members"
-        icon = "knocks-trash2"></knockselbutton>
-        <span class = "red-text knocks_fair_bounds">Clicking this will remove all circle members which means all friendship relations will be removed.s</span>
-
-        </div>
-
+        <span class = "knocks_text_danger">Knocks</span> tables.
+      Are you sure that you want to truncate them?</span>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="resetKnocksDialog = false">Cancel</el-button>
+        <el-button type="primary" @click="resetKnocks()">Confirm</el-button>
+      </span>
+      </el-dialog>
+      <br/><br/><hr/><br/>
+      <div class = "col s3">
+        <el-button type="danger" icon = " knocks_icon knocks-trash2" :loading = "resetKnocksLoading"
+        @click = "resetKnocksDialog=true">
+        Delete Users Data
+        </el-button>
       </div>
-    </transition>
-    <transition enter-active-class = "animated zoomIn" leave-active-class = "animated zoomOut">
-      <div v-if = "devStage == 'Components'" class = "knocks_fair_bounds">
-        <h3 class = "knocks_text_dark">Knocks Taps</h3>
-        <div class = "row">
-          <knockstaps :multiple = "knocksTapsDevMultiple" :define_with_index = "knocksTapsDevDefineIndex" v-model="knocksTapsDevModel"
-          :options = "knocksTapsDevOptions" :radio_unset = "knocksTapsDevRadioReset">
-          </knockstaps>
-          <div class = "col s12">
-            <button class = "btn btn-floating" style= "margin-right: 3px" @click = "knocksTapsDevOptions.push({icon : '' , label : '' , value : '' , static : false })">
-            <span class = "knocks-plus7"></span>
-            </button>
-            <span class="knocks_badge blue darken-1 knocks_fair_bounds white-text" v-for="(tag , index) in knocksTapsDevOptions" >
-              @{{tag.label}}
-              <a @click = "knocksTapsDevOptions.splice(index,1)"><span class = " knocks_side_padding knocks-x2 white-text"></span></a>
-            </span>
-          </div>
-        </div>
-        <div class = 'row'>The Model Value : <span style = "font-family : monospace">@{{knocksTapsDevModel}}</span></div>
-        <div class = "row">
-          <div class = 'col s6 l3'>Multiple
-            <el-switch
-            v-model="knocksTapsDevMultiple"
-            active-color="#13ce66"
-            inactive-color="#ff4949"
-            active-value="100"
-            inactive-value="0">
-            </el-switch>
-          </div>
-          <div class = 'col s6 l3'>
-            <div class = "col s6">Define Index</div>
-            <div class = "col s6">
-              <el-input-number v-model="knocksTapsDevDefineIndex" :min="0" :max="knocksTapsDevOptions.length+5"></el-input-number>
-            </div>
-          </div>
-        </div>
-        <div class = "row">
-          <div class = 'col s6 '>Radio Reset
-            <el-switch
-            v-model="knocksTapsDevRadioReset"
-            active-color="#13ce66"
-            inactive-color="#ff4949"
-            active-value="100"
-            inactive-value="0">
-            </el-switch>
-          </div>
-          <div class = 'col s6'>
-            <div class = 'col s6'> Is Required
-              <el-switch
-              v-model="knocksTapsDevIsRequired"
-              active-color="#13ce66"
-              inactive-color="#ff4949"
-              active-value="100"
-              inactive-value="0">
-              </el-switch>
-            </div>
-          </div>
-        </div>
-        <div class = "col s6 l3">
-          Options Icons
-          <div class = "" v-for = "(option , index) in knocksTapsDevOptions">
-            <el-input
-            placeholder="Your Icon"
-            suffix-icon = "knocks_icon knocks-puzzle-piece"
-            v-model="knocksTapsDevOptions[index].icon">
-            <span slot="append" class=" knocks_icon knocks-puzzle-piece"></span>
-            </el-input>
-          </div>
-        </div>
-        <div class = "col s6 l3">
-          Options Labels
-          <div class = "" v-for = "(option , index) in knocksTapsDevOptions">
-            <el-input
-            placeholder="Your Label"
-            suffix-icon = "knocks_icon knocks-puzzle-piece"
-            v-model="knocksTapsDevOptions[index].label">
-            <span slot="append" class=" knocks_icon knocks-puzzle-piece"></span>
-            </el-input>
-          </div>
-        </div>
-        <div class = "col s6 l3">
-          Options Values
-          <div class = "" v-for = "(option , index) in knocksTapsDevOptions">
-            <el-input
-            placeholder="Your Value"
-            suffix-icon = "knocks_icon knocks-puzzle-piece"
-            v-model="knocksTapsDevOptions[index].value">
-            <span slot="append" class=" knocks_icon knocks-puzzle-piece"></span>
-            </el-input>
-          </div>
-        </div>
-        <div class = "col s6 l3">
-          Options Static Messages
-          <div class = "row" v-for = "(option , index) in knocksTapsDevOptions">
-            <div class = "col s6">Static Label</div>
-            <div class = "col s6">
-              <el-switch
-              v-model="knocksTapsDevOptions[index].static"
-              active-text="Stable"
-              inactive-text="Not stable">
-              </el-switch>
-            </div>
-          </div>
-
-        </div>
-        <div class = "row">
-          <h3 class = "knocks_text_dark">Knocks Static Messages with Replacements</h3>
-          Replacement in Static Messages is now available, to enable it just set some target in your static messages, then enable the replacement option in your component and provid it with target and body.<br/>
-          EG: The next text is stored in the database as 'replace ** By Foo', in my case i need to give this text to invlolve it between the string, so i'll enable the replaceble option and setup my component like the following sample.
-          <span style = "font-family: monospace" class = "blue-text"> <br/>
-            < static_message <br/>
-            msg = "replace ** by Foo"  <br/>
-            replaceable <br/>
-            :replacements = "[ { target : '**' , body : 'Bar'  } ]" > <br/>
-            < /static_message> <br/>
-          </span>
-          The Result :
-          <static_message msg="replace ** by Foo" replaceable :replacements = "[ { target : '**' , body : 'Bar'} ]"></static_message>
-          <br/>
-          You can also set many replacments as much as you want, as you define your replacements as an array you can define any number of replacments you need, the next is the same like this but having 2 replacements.<br/>
-          The original message in the database will be 'replace ** by @@' <br/>
-          <span style = "font-family: monospace" class = "blue-text"> <br/>
-            < static_message <br/>
-            msg = "replace ** by @@"  <br/>
-            replaceable <br/>
-            :replacements = "[ { target : '**' , body : 'Bar'  } , { target : '@@' , body : 'Foo'} ]" > <br/>
-            < /static_message> <br/>
-          </span>
-          The Result :
-          <static_message msg="replace ** by @@" replaceable
-          :replacements = "[ { target : '**' , body : 'Bar'  } , { target : '@@' , body : 'Foo'} ]"></static_message>
-          <br/><br/><hr/><br/>
-          <div class = "row">
-            <h3 class = "knocks_text_dark">Knocks Inputs and Knocks Button</h3>
-            <knocksinput
-            el_follower
-            :mat_follower=  "false"
-            placeholder = "Nickname"
-            gid = "nickname"
-            icon = "knocks-face-sunglasses"
-            :is_required = "false"
-            :max_len = "15"
-            v-model = "nickname"
-            :scope = "[ 'test']"
-            ></knocksinput>
-            <knockselinput
-            el_follower
-            :mat_follower=  "false"
-            placeholder = "Nickname"
-            inner_placeholder
-            gid = "nicknameele"
-            icon = "knocks-face-sunglasses"
-            :is_required = "true"
-            :max_len = "15"
-            v-model = "nickname"
-
-            :scope = "[ 'test']"
-            ></knockselinput>
-            <knocksbutton
-            placeholder = "Test"
-            submit_at = "dev/test"
-            success_at = "done"
-            :error_at = []
-            reset_on_success
-            :submit_data = "{}"
-            icon = "knocks-chevron-thin-right right"
-            success_at = "done"
-            gid = "stage_one_next"
-            :scope = "['test']"
-            label_classes="knocks_text_sm"
-            :validation_error = "getTranslation('There\'s some feilds we need you to complete it.')">
-            </knocksbutton>
-            <br/>
-          </div>
-          <br/><br/><hr/><br/>
-          <div class = "row">
-            <h3 class = "knocks_text_dark">Knocks Cover Uploader</h3>
-            <knockscoveruploader
-            gid = "file"
-            :valid_ex="['image/png' , 'image/jpeg']"
-            :crop = "true"
-            v-model = "fileup"
-            success_at = "done"
-            success_msg = "done !"
-            accepts = "image/*"
-            :upload_data = "{ }"
-            :error_at = "[]"
-            callback_event = "update"
-            :callback_payloads = "{}"
-            ref = "ss"
-            :special_submit = "true"
-            :scope = "['cover_picture_handler']"
-            upload_at = "media/cover/upload">
-            </knockscoveruploader>
-          </div>
-        </div>
-        <br/>
-        <br/>
-        <br/>
-        <br/>
-        <hr>
-        <br/>
-        <br/>
-        <hr/>
-        <div class="row">
-          <el-tabs tab-position="left">
-          <el-tab-pane label="User Career">
-          <knocksusercareers></knocksusercareers>
-          </el-tab-pane>
-          <el-tab-pane label="User Education">
-          <knocksusereducation></knocksusereducation>
-          </el-tab-pane>
-          <el-tab-pane label="User High Education">
-          <knocksuserhigheducation></knocksuserhigheducation>
-          </el-tab-pane>
-          <el-tab-pane label="User Hobby">
-          <knocksuserhobby></knocksuserhobby>
-          </el-tab-pane>
-          <el-tab-pane label="User Sport">
-          <knocksusersport></knocksusersport>
-          </el-tab-pane>
-          </el-tabs>
-        </div>
-        <hr>
-        <hr/>
-        <div class="row knocks_fair_bounds">
-          <knocksuserabout :user = "1"></knocksuserabout>
-        </div>
-        <hr/>
-        <div class="row knocks_fair_bounds">
-          <knocksgroupcreation></knocksgroupcreation>
-        </div>
-        <hr/>
-        <div class = "row">
-          <h3>Knocks User</h3>
-          <knocksuser :user = "1" as_result></knocksuser>
-
-        </div>
-        <hr>
-        <div class="row">
-          <h3>Privacy Setter 2</h3>
-          <knocksprivacyadjustments></knocksprivacyadjustments>
-        </div>
-        <div class = "row">
-          <h3>Knocks Collapse</h3>
-          <knockscollapse title = "Hello" icon = "knocks-knocks">
-            <h3 slot = "content">Hello There! Hello There! Hello There! Hello There! Hello There! Hello There! Hello There! Hello There! Hello There! Hello There! Hello There! Hello There! Hello There! Hello There! Hello There! Hello There! Hello There! Hello There! Hello There! Hello There! Hello There! Hello There! v Hello There! Hello There! Hello There! v Hello There! Hello There! Hello There!</h3>
-          </knockscollapse>
-                    <knockscollapse title = "Hello" icon = "knocks-knocks">
-            <h3 slot = "content">Hello There! Hello There! Hello There! Hello There! Hello There! Hello There! Hello There! Hello There! Hello There! Hello There! Hello There! Hello There! Hello There! Hello There! Hello There! Hello There! Hello There! Hello There! Hello There! Hello There! Hello There! Hello There! v Hello There! Hello There! Hello There! v Hello There! Hello There! Hello There!</h3>
-          </knockscollapse>
-        </div>
-
-      </transition>
+      <div class = "col ">
+        Truncate all the Users, which means deleting its childs too, this will truncate all of  <span class ="knocks_text_danger">Ballons, Reactions, Blobs, Comments, Knocks, Circles, Circle Members, Privacy Circle Sets, Privacy User Sets, Objects</span> and
+        <span class = "knocks_text_danger">Users</span> tables.
+      </div>
+      <el-dialog
+      title="Delete All Knocks Data ?"
+      :visible.sync="resetAllDialog"
+      width="30%"
+      >
+      <span>Confirming this dialog will truncate all of <span class ="knocks_text_danger">Ballons, Reactions, Blobs, Comments, Knocks, Circles, Circle Members, Privacy Circle Sets, Privacy User Sets, Objects</span> and
+      <span class = "knocks_text_danger">Users</span> tables.
+    Are you sure that you want to truncate them?</span>
+    <span slot="footer" class="dialog-footer">
+      <el-button @click="resetKnocksDialog = false">Cancel</el-button>
+      <el-button type="primary" @click="resetUsers()">Confirm</el-button>
+    </span>
+    </el-dialog>
+    <br/><br/><hr/><br/>
+    <div class = "col s3">
+      <el-button type="danger" icon = " knocks_icon knocks-trash2" :loading = "resetKnocksLoading"
+      @click = "reinstallDialog=true">
+      Rebound The Initial Data
+      </el-button>
+    </div>
+    <div class = "col ">
+      If you have a fresh install or migration for the Database, so this will rebound the initial data for the whole App
+      <span class ="knocks_text_danger">, You will need to reinsert the Static Messages manually from the database but still you cant if you dont have this kind of data</span>
+    </div>
+    <el-dialog
+    title="Delete All Knocks Data ?"
+    :visible.sync="reinstallDialog"
+    width="30%"
+    >
+    <span>Confirming this dialog will reinsert <span class ="knocks_text_danger">Langauges and Presets</span>
+  Are you sure that you already dont have them inserted?</span>
+  <span slot="footer" class="dialog-footer">
+    <el-button @click="reinstallDialog = false">Cancel</el-button>
+    <el-button type="primary" @click="reboundInitialData()">Confirm</el-button>
+  </span>
+  </el-dialog>
+  <div class = "col s12">
+    <div class="ui horizontal divider transparent">
+      Delete Circle Members
+    </div>
+    <knockselbutton
+    type = "danger"
+    submit_at = "dev/delete/allmems"
+    :submit_data = "{}"
+    success_at = "done"
+    placeholder = "Delete All Circle Members"
+    icon = "knocks-trash2"></knockselbutton>
+    <span class = "red-text knocks_fair_bounds">Clicking this will remove all circle members which means all friendship relations will be removed.s</span>
+  </div>
+</div>
+</transition>
+<transition enter-active-class = "animated zoomIn" leave-active-class = "animated zoomOut">
+<div v-if = "devStage == 'Components'" class = "knocks_fair_bounds">
+  <h3 class = "knocks_text_dark">Knocks Taps</h3>
+  <div class = "row">
+    <knockstaps :multiple = "knocksTapsDevMultiple" :define_with_index = "knocksTapsDevDefineIndex" v-model="knocksTapsDevModel"
+    :options = "knocksTapsDevOptions" :radio_unset = "knocksTapsDevRadioReset">
+    </knockstaps>
+    <div class = "col s12">
+      <button class = "btn btn-floating" style= "margin-right: 3px" @click = "knocksTapsDevOptions.push({icon : '' , label : '' , value : '' , static : false })">
+      <span class = "knocks-plus7"></span>
+      </button>
+      <span class="knocks_badge blue darken-1 knocks_fair_bounds white-text" v-for="(tag , index) in knocksTapsDevOptions" >
+        @{{tag.label}}
+        <a @click = "knocksTapsDevOptions.splice(index,1)"><span class = " knocks_side_padding knocks-x2 white-text"></span></a>
+      </span>
     </div>
   </div>
+  <div class = 'row'>The Model Value : <span style = "font-family : monospace">@{{knocksTapsDevModel}}</span></div>
+  <div class = "row">
+    <div class = 'col s6 l3'>Multiple
+      <el-switch
+      v-model="knocksTapsDevMultiple"
+      active-color="#13ce66"
+      inactive-color="#ff4949"
+      active-value="100"
+      inactive-value="0">
+      </el-switch>
+    </div>
+    <div class = 'col s6 l3'>
+      <div class = "col s6">Define Index</div>
+      <div class = "col s6">
+        <el-input-number v-model="knocksTapsDevDefineIndex" :min="0" :max="knocksTapsDevOptions.length+5"></el-input-number>
+      </div>
+    </div>
+  </div>
+  <div class = "row">
+    <div class = 'col s6 '>Radio Reset
+      <el-switch
+      v-model="knocksTapsDevRadioReset"
+      active-color="#13ce66"
+      inactive-color="#ff4949"
+      active-value="100"
+      inactive-value="0">
+      </el-switch>
+    </div>
+    <div class = 'col s6'>
+      <div class = 'col s6'> Is Required
+        <el-switch
+        v-model="knocksTapsDevIsRequired"
+        active-color="#13ce66"
+        inactive-color="#ff4949"
+        active-value="100"
+        inactive-value="0">
+        </el-switch>
+      </div>
+    </div>
+  </div>
+  <div class = "col s6 l3">
+    Options Icons
+    <div class = "" v-for = "(option , index) in knocksTapsDevOptions">
+      <el-input
+      placeholder="Your Icon"
+      suffix-icon = "knocks_icon knocks-puzzle-piece"
+      v-model="knocksTapsDevOptions[index].icon">
+      <span slot="append" class=" knocks_icon knocks-puzzle-piece"></span>
+      </el-input>
+    </div>
+  </div>
+  <div class = "col s6 l3">
+    Options Labels
+    <div class = "" v-for = "(option , index) in knocksTapsDevOptions">
+      <el-input
+      placeholder="Your Label"
+      suffix-icon = "knocks_icon knocks-puzzle-piece"
+      v-model="knocksTapsDevOptions[index].label">
+      <span slot="append" class=" knocks_icon knocks-puzzle-piece"></span>
+      </el-input>
+    </div>
+  </div>
+  <div class = "col s6 l3">
+    Options Values
+    <div class = "" v-for = "(option , index) in knocksTapsDevOptions">
+      <el-input
+      placeholder="Your Value"
+      suffix-icon = "knocks_icon knocks-puzzle-piece"
+      v-model="knocksTapsDevOptions[index].value">
+      <span slot="append" class=" knocks_icon knocks-puzzle-piece"></span>
+      </el-input>
+    </div>
+  </div>
+  <div class = "col s6 l3">
+    Options Static Messages
+    <div class = "row" v-for = "(option , index) in knocksTapsDevOptions">
+      <div class = "col s6">Static Label</div>
+      <div class = "col s6">
+        <el-switch
+        v-model="knocksTapsDevOptions[index].static"
+        active-text="Stable"
+        inactive-text="Not stable">
+        </el-switch>
+      </div>
+    </div>
+  </div>
+  <div class = "row">
+    <h3 class = "knocks_text_dark">Knocks Static Messages with Replacements</h3>
+    Replacement in Static Messages is now available, to enable it just set some target in your static messages, then enable the replacement option in your component and provid it with target and body.<br/>
+    EG: The next text is stored in the database as 'replace ** By Foo', in my case i need to give this text to invlolve it between the string, so i'll enable the replaceble option and setup my component like the following sample.
+    <span style = "font-family: monospace" class = "blue-text"> <br/>
+      < static_message <br/>
+      msg = "replace ** by Foo"  <br/>
+      replaceable <br/>
+      :replacements = "[ { target : '**' , body : 'Bar'  } ]" > <br/>
+      < /static_message> <br/>
+    </span>
+    The Result :
+    <static_message msg="replace ** by Foo" replaceable :replacements = "[ { target : '**' , body : 'Bar'} ]"></static_message>
+    <br/>
+    You can also set many replacments as much as you want, as you define your replacements as an array you can define any number of replacments you need, the next is the same like this but having 2 replacements.<br/>
+    The original message in the database will be 'replace ** by @@' <br/>
+    <span style = "font-family: monospace" class = "blue-text"> <br/>
+      < static_message <br/>
+      msg = "replace ** by @@"  <br/>
+      replaceable <br/>
+      :replacements = "[ { target : '**' , body : 'Bar'  } , { target : '@@' , body : 'Foo'} ]" > <br/>
+      < /static_message> <br/>
+    </span>
+    The Result :
+    <static_message msg="replace ** by @@" replaceable
+    :replacements = "[ { target : '**' , body : 'Bar'  } , { target : '@@' , body : 'Foo'} ]"></static_message>
+    <br/><br/><hr/><br/>
+    <div class = "row">
+      <h3 class = "knocks_text_dark">Knocks Inputs and Knocks Button</h3>
+      <knocksinput
+      el_follower
+      :mat_follower=  "false"
+      placeholder = "Nickname"
+      gid = "nickname"
+      icon = "knocks-face-sunglasses"
+      :is_required = "false"
+      :max_len = "15"
+      v-model = "nickname"
+      :scope = "[ 'test']"
+      ></knocksinput>
+      <knockselinput
+      el_follower
+      :mat_follower=  "false"
+      placeholder = "Nickname"
+      inner_placeholder
+      gid = "nicknameele"
+      icon = "knocks-face-sunglasses"
+      :is_required = "true"
+      :max_len = "15"
+      v-model = "nickname"
+      :scope = "[ 'test']"
+      ></knockselinput>
+      <knockseldatepicker
+      :scope = "[ 'test']"
+      is_required
+      :quick = "[
+      {msg : 'Next Year' , margins : { count : 1 , unit : 'y' } } ,
+      {msg : 'Last Year' , margins : { count : -1 , unit : 'y' } } ,
+      {msg : 'Early 2017' , margins : { date : '2017-01-01' } } ,
+      {msg : '2017 +2 months' , margins : { from : '2017-01-01' , count : 2 , unit : 'month' } } ,
+      ]"
+      :margins = '{ max : { count : 3 , unit : "y" } , min : { count : -3 , unit : "y" } }'
+      placeholder = "Test date picker"
+      ></knockseldatepicker>
+      <knockselselect
+      icon = "knocks-globe"
+      allow_create
+      fill_from = "address/state/get"
+      :xdata ="{country : 'EG'}"
+      :feeds = "[ 'one' , { label : 'Two, Static Message' , icon : 'knocks-feather3' , value : 'two' , static : true } , 'three' ]" general_icon = "knocks-knocks"></knockselselect>
+      <knocksbutton
+      placeholder = "Test"
+      submit_at = "dev/test"
+      success_at = "done"
+      :error_at = []
+      reset_on_success
+      :submit_data = "{}"
+      icon = "knocks-chevron-thin-right right"
+      success_at = "done"
+      gid = "stage_one_next"
+      :scope = "['test']"
+      label_classes="knocks_text_sm"
+      :validation_error = "getTranslation('There\'s some feilds we need you to complete it.')">
+      </knocksbutton>
+      <br/>
+    </div>
+    <br/><br/><hr/><br/>
+    <div class = "row">
+      <h3 class = "knocks_text_dark">Knocks Cover Uploader</h3>
+      <knockscoveruploader
+      gid = "file"
+      :valid_ex="['image/png' , 'image/jpeg']"
+      :crop = "true"
+      v-model = "fileup"
+      success_at = "done"
+      success_msg = "done !"
+      accepts = "image/*"
+      :upload_data = "{ }"
+      :error_at = "[]"
+      callback_event = "update"
+      :callback_payloads = "{}"
+      ref = "ss"
+      :special_submit = "true"
+      :scope = "['cover_picture_handler']"
+      upload_at = "media/cover/upload">
+      </knockscoveruploader>
+    </div>
+  </div>
+  <br/>
+  <br/>
+  <br/>
+  <br/>
+  <hr>
+  <br/>
+  <br/>
+  <hr/>
+  <div class="row">
+    <el-tabs tab-position="left">
+    <el-tab-pane label="User Career">
+    <knocksusercareers></knocksusercareers>
+    </el-tab-pane>
+    <el-tab-pane label="User Education">
+    <knocksusereducation></knocksusereducation>
+    </el-tab-pane>
+    <el-tab-pane label="User High Education">
+    <knocksuserhigheducation></knocksuserhigheducation>
+    </el-tab-pane>
+    <el-tab-pane label="User Hobby">
+    <knocksuserhobby></knocksuserhobby>
+    </el-tab-pane>
+    <el-tab-pane label="User Sport">
+    <knocksusersport></knocksusersport>
+    </el-tab-pane>
+    </el-tabs>
+  </div>
+  <hr>
+  <hr/>
+  <div class="row knocks_fair_bounds">
+    <knocksuserabout :user = "1"></knocksuserabout>
+  </div>
+  <hr/>
+  <div class="row knocks_fair_bounds">
+    <knocksgroupcreation></knocksgroupcreation>
+  </div>
+  <hr/>
+  <div class = "row">
+    <h3>Knocks User</h3>
+    <knocksuser :user = "1" as_result></knocksuser>
+  </div>
+  <hr>
+  <div class="row">
+    <h3>Privacy Setter 2</h3>
+    <knocksprivacyadjustments></knocksprivacyadjustments>
+  </div>
+  <div class = "row">
+    <h3>Knocks Collapse</h3>
+    <knockscollapse title = "Hello" icon = "knocks-knocks">
+    <h3 slot = "content">Hello There! Hello There! Hello There! Hello There! Hello There! Hello There! Hello There! Hello There! Hello There! Hello There! Hello There! Hello There! Hello There! Hello There! Hello There! Hello There! Hello There! Hello There! Hello There! Hello There! Hello There! Hello There! v Hello There! Hello There! Hello There! v Hello There! Hello There! Hello There!</h3>
+    </knockscollapse>
+    <knockscollapse title = "Hello" icon = "knocks-knocks">
+    <h3 slot = "content">Hello There! Hello There! Hello There! Hello There! Hello There! Hello There! Hello There! Hello There! Hello There! Hello There! Hello There! Hello There! Hello There! Hello There! Hello There! Hello There! Hello There! Hello There! Hello There! Hello There! Hello There! Hello There! v Hello There! Hello There! Hello There! v Hello There! Hello There! Hello There!</h3>
+    </knockscollapse>
+  </div>
+</transition>
+</div>
+</div>
 </div>
 @endsection
 @section('tail')

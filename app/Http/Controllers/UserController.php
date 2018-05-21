@@ -467,6 +467,9 @@ class UserController extends Controller {
 		return 'done';
 	}
 
+	public function hasAddresses(Request $request) {
+		return array('has_address' => auth()->user()->addresses()->exists());
+	}
 	public function updateSettings(Request $request) {
 		$users = User::all();
 		foreach ($users as $user) {

@@ -12,6 +12,8 @@
         @keyup.enter = "submit()"
         @change="construct($event)"
         v-model = "elinput"
+        :prefix-icon="innerIcon+' '+labelClasses"
+        :clearable = "!unclearable"
        :id = "gid">
          <template :slot = "labelPosition" v-if = "!disable_placeholder && !inner_placeholder">
          <i v-if="!isLoading" class="material-icons prefix " :class = "iconClasses"></i>
@@ -339,6 +341,10 @@
         autocomplete_progress_message_classes : {
           type : String , 
           default : 'blue-text'
+        },
+        unclearable : {
+          type : Boolean , 
+          default : false
         }
 
     
@@ -372,6 +378,16 @@
         },
 
         computed :{
+          innerIcon(){
+            if (!this.inner_placeholder) return ''
+            var classes =  this.icon ;
+            if(!this.isFired) classes += ' '+this.icon_focus;
+            if(this.focus) classes += ' '+this.icon_focus;
+            if(this.isValid) classes += ' '+this.icon_success;
+            if(!this.isValid && this.isFired) classes += ' '+this.icon_error;
+            else classes += ' '+ this.icon_class;
+            return classes;
+          },
           labelPosition(){
             if(this.lang_alignment == 'right') return 'append';
             if(this.lang_alignment == 'left') return 'prepend';
@@ -502,6 +518,7 @@
               for(i = 0; i < payloads.scope.length; i++){
                 if(vm.scope.indexOf(payloads.scope[i]) != -1){
                  vm.elinput = payloads.value ;
+                 vm.$emit('input' , vm.elinput)
                  if(payloads.isFired != undefined){
                   vm.isFired = payloads.isFired
                  }else vm.isFired = true  
@@ -629,6 +646,7 @@
               return true;
             }else if (method == false && this.errorsStack.length == 0){
               this.errorsStack.push(errorNum);
+              this.$emit('error')
               return false;
             }else if(method == false && this.errorsStack.length != 0)
               return false;
@@ -652,8 +670,11 @@
                 vm.$emit('loading_done' , vm.isLoading);
                 if(response.data == vm.check_invalid_at){
                   vm.checkResult = false ;
+                  vm.$emit('live_error')
+                  vm.$emit('live_status' , { status : vm.checkResult , value : vm.elinput})
                 }else if (response.data == vm.check_valid_at){
                   vm.checkResult = true ;
+                  vm.$emit('live_status' , { status : vm.checkResult , value : vm.elinput})
                 }else vm.checkResult = false;
             });
           },

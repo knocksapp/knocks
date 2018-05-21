@@ -25,7 +25,7 @@ window.Countries = countries;
 
 import Croppie from 'croppie'
 import 'croppie/croppie.css'
-
+//require( 'semantic-ui/dist/semantic.min.js' )
 
 
 window.axios = require('axios');   //AXIOS >> AJAX XHR Performer.
@@ -353,6 +353,13 @@ Vue.component('knocksmediaobject', require('./components/knocksmediaobject.vue')
 Vue.component('knocksshowkeys', require('./components/knocksshowkeys.vue'));
 Vue.component('knocksrecordermpeg', require('./components/knocksrecordermpeg.vue'));
 Vue.component('knocksvoicecommands', require('./components/knocksvoicecommands.vue'));
+Vue.component('knocksquickaddress', require('./components/knocksquickaddress.vue'));
+Vue.component('knocksaddressviewer', require('./components/knocksaddressviewer.vue'));
+Vue.component('knockseldatepicker', require('./components/knockseldatepicker.vue'));
+Vue.component('knockselselect', require('./components/knockselselect.vue'));
+
+
+
 
 
 
@@ -789,8 +796,10 @@ Vue.component('knocksvoicecommands', require('./components/knocksvoicecommands.v
       this.ballons.push(payloads.ballon);
     });
 
-
-
+    $('.carousel.carousel-slider').carousel({
+    fullWidth: true,
+    indicators: true
+  });
 
 
 

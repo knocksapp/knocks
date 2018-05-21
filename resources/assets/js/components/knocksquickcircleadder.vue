@@ -18,6 +18,7 @@ has_slot
 :hide_errors = "hide_errors"
 :scope = "scope"
 v-model = "circleName"
+@live_status = "statusEmit($event)"
 @autocomplete = "emit($event)"
 >
 <knockselbutton
@@ -29,6 +30,7 @@ v-loading = "isLoading"
 submit_at = "create/circles"
 computed_response
 @knocks_submit_accepted = "refreshCircles($event)"
+
 :error_at = "[{ res : 'already_exists' , msg : 'You already have this circle!' }]"
 :success_msg= " 'Added to your Circles succesfully!'"
 :scope = "scope"
@@ -70,6 +72,10 @@ export default {
   		this.circlesResult = e;
   		App.$emit('KnocksContentChanged');
   	},
+    statusEmit(e){
+      if(this.circleName.length == 0 && e.value.length > 0) this.circleName = e.value
+      this.$emit('exist_status' , e)
+    },
   	refreshCircles(e){
   		this.circlesResult.push(e.response)
   		App.$emit('KnocksContentChanged');

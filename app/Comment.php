@@ -166,6 +166,17 @@ class Comment extends Model {
 		$this->user_id = auth()->user()->id;
 		$this->save();
 
+		//user wights
+		if ($this->type == 'knock') {
+			$pknock = Knock::find($object->post_id);
+			$owner = $pknock->user_id;
+			if (auth()->user()->isFriend($owner)) {
+				auth()->user()->updateFrindshipWeight($owner, 3);
+			}
+			$ownerob = User::find($owner);
+			$ownerob->weight += 3;
+			$ownerob->update();
+		}
 		//Add follower
 		if ($this->type == 'knock') {
 			$pknock = Knock::find($object->post_id);

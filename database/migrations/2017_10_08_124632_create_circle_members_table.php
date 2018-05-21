@@ -17,6 +17,7 @@ class CreateCircleMembersTable extends Migration {
 			$table->bigInteger('user_id')->unsigned(); //foreign key user
 			$table->bigInteger('owner_id')->unsigned(); //foreign key user
 			$table->bigInteger('circle_id')->unsigned(); //foreign key circle
+			$table->integer('weight')->nullable()->default(0);
 			$table->json('index')->nullable();
 		});
 		Schema::table('circle_members', function (Blueprint $table) {

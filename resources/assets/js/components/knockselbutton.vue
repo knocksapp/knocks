@@ -1,5 +1,9 @@
 <template>
-  <el-button class=" " v-loading = "isLoading" :disabled = "disabled" :size = "size" :round = "rounded"
+  <el-button class=" " 
+  v-loading = "isLoading" 
+  :disabled = "disabled" 
+  :circle = "circle"
+  :size = "size" :round = "rounded"
   :type = "type"
   :class = "[lang_alignment, button_classes]" @click = "construct()">
     <i :class = "[icon , {right: !disable_placeholder && align == 'right'} ,
@@ -136,6 +140,10 @@ export default {
       type : Boolean ,
       default : false
     },
+    circle : {
+      type : Boolean , 
+      default : false 
+    },
     computed_response : {
       type : Boolean ,
       default : false
@@ -191,6 +199,19 @@ export default {
            }
           });
 
+     App.$on('knocksButtonRemoteClick' , (payload)=>{
+      if(vm.scope == null || !vm.scope || payload.scope === undefined || payload.scope == null) return
+      let tar;
+        for(tar = 0 ; tar < payload.scope.length ; tar++){
+        if(vm.scope && payload.scope[tar])
+        if(vm.scope.indexOf(payload.scope[tar]) != -1){
+          console.log('matched remote click')
+          vm.construct()
+          return
+        }
+      }
+    });
+
     // $('#'+this.gid).hover(function(){
     //   $($(this).find('span')).addClass(vm.hover_class);
     //   $(this).addClass(vm.hover_class);
@@ -214,7 +235,7 @@ export default {
             this.submit();
            }
       }else{
-        Materialize.toast('<span class="knocks_text_danger">'+this.validation_error+'</span>');
+        this.elementCategoryNotify({ type : 'error' , msg : this.validation_error , title : 'Warining' });
         this.$emit('knocks_stack_failed');
         console.log(this.errorsStack);
       }

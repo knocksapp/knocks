@@ -67,13 +67,13 @@
         <div class = "col s12">
           <div class = "col s12 knocks_house_keeper">
             <center>
-          <knocksuseractions
-          
-          style = "margin-top : 3px;"
-         :user = "user"
-         extended
-         :start_as ="userObject" :extras="{hover_id : 'user_report_'+user}"></knocksuseractions></center>
-       </div>
+            <knocksuseractions
+            
+            style = "margin-top : 3px;"
+            :user = "user"
+            extended
+            :start_as ="userObject" :extras="{hover_id : 'user_report_'+user}"></knocksuseractions></center>
+          </div>
         </div>
       </div>
     </div>
@@ -109,10 +109,173 @@
       <slot name = "append"></slot>
     </div>
     <!--Chips Presentation Ends ========================================================================-->
-    <!--Label Presentation Begins ========================================================================-->
+    <!--Card Presentation Begins ========================================================================-->
+    <div class="ui special cards" v-if = "as_card && userObject != null">
+      <div class="card">
+        <div class="blurring dimmable image">
+          <div class="ui inverted dimmer">
+            <div class="content">
+              <div class="center">
+                <knocksuseractions
+                style = "margin-top : 3px;"
+                :user = "user"
+                class = "knocks_house_keeper"
+                extended
+                :start_as ="userObject" :extras="{hover_id : 'user_report_'+user}"></knocksuseractions>
+              </div>
+            </div>
+          </div>
+          <knocksimg :src = "asset('media/avatar/compressed/'+user)" :classes = "{'knocks_user_profile_scope' : thatsMe}" ></knocksimg>
+        </div>
+        <div class="content">
+          <a :class = "[name_class , 'header']" :href = "userUrl"  v-if="userObject && !hide_name"> {{ displayName }}</a><slot name = "append_to_display_name"></slot>
+          <a :class = "[username_class , 'header']" :href = "userUrl" v-if="userObject != null && show_username" style = "display:block"> {{'@'+userObject.username}} </a>
+          <p v-if = "!thatsMe && userObject != null && userObject.common_people !== undefined && userObject.common_people.length > 0">
+            <small>{{userObject.common_people.length}} <static_message msg = "Common People"></static_message></small>
+          </p>
+          <div class="meta">
+            <knockscollapse title = "More" icon = "knocks-circle5" regular_class = "grey-text">
+            <div slot = "content">
+              <hr class="uk-divider-icon">
+              <div class = "col s12" >
+                <span class = "knocks-user4"></span>
+                <span v-if ="userObject.first_name != null && userObject.first_name != undefined" >{{userObject.first_name}} </span>
+                <span v-if ="userObject.middle_name != null && userObject.middle_name != undefined" >{{userObject.middle_name}} </span>
+                <span v-if ="userObject.last_name != null && userObject.last != undefined" >{{userObject.last_name}} </span>
+              </div>
+              <knocksaddressviewer class = "col s12"
+              :address = "address"
+              v-for = "(address,index) in userObject.addresses"
+              :key = "index"
+              v-if = "userObject.addresses">
+              </knocksaddressviewer>
+              <div class = "col s12" v-if ="userObject.gender != null && userObject.gender != undefined && userObject.gender.toLowerCase() == 'male'" >
+                <span class = "knocks-male2"></span><span><static_message msg = "Male"></static_message></span>
+              </div>
+              <div class = "col s12" v-if ="userObject.gender != null && userObject.gender != undefined && userObject.gender.toLowerCase() == 'female'" >
+                <span class = "knocks-female2"></span><span><static_message msg = "Female"></static_message></span>
+              </div>
+              <div class = "col s12" v-if ="userObject.birthdate != null && userObject.birthdate != undefined" >
+                <span class = "knocks-birthday-cake"></span> <span> {{ birthDate(userObject.birthdate) }}</span>
+              </div>
+              <div class = "col s12" v-if ="userObject.email != null && userObject.email != undefined" >
+                <span class = "knocks-email3"></span> <span> {{ userObject.email }}</span>
+              </div>
+              <knockscollapse
+              title = "Common People"
+              regular_class = "grey-text"
+              v-if = "!thatsMe && userObject != null && userObject.common_people !== undefined && userObject.common_people.length > 0"
+              icon = "knocks-group2">
+              <div class= 'knocks_house_keeper' slot = "content">
+                <knocksshowkeys
+                :show_input = "userObject.common_people"
+                :as_label = "false" as_chip
+                list_classes="col s12 knocks_gray_border knocks_xs_padding   knocks_tinny_border_radius"></knocksshowkeys>
+              </div>
+              </knockscollapse>
+            </div>
+            </knockscollapse>
+          </div>
+        </div>
+        <div class="extra content">
+          <center>
+          <knocksuseractions
+          add_remove_only
+          style = "margin-top : 3px;"
+          :user = "user"
+          extended
+          :start_as ="userObject" :extras="{hover_id : 'user_report_'+user}"></knocksuseractions></center>
+        </div>
+      </div>
+    </div>
+    <!--Card Presentation Ends ==================================================================================-->
+    <!--Small Card Presentation Begins ==========================================================================-->
+    <div class="card small" v-if = "as_small_card && userObject != null" >
+      <div class="card-image waves-effect waves-block waves-light">
+        <knocksimg :src = "asset('media/avatar/compressed/'+user)" style ="top: -40px !important;" :classes = "[{'knocks_user_profile_scope' : thatsMe} , 'activator']" ></knocksimg>
+      </div>
+      <div class="card-content knocks_tinny_side_padding" style="max-height: unset !important;">
+        <span class="card-title activator grey-text text-darken-4" style="display: block !important; line-height: inherit !important; margin-bottom: 0px !important;">
+          <a :class = "[ 'knocks_text_xs knocks_text_anchor header']" :href = "userUrl"  v-if="userObject && !hide_name"> {{ displayName }}</a><slot name = "append_to_display_name"></slot>
+          <i class="knocks-circle5 right"></i>
+          <small
+          v-if = "!thatsMe && userObject != null && userObject.common_people !== undefined && userObject.common_people.length > 0"
+          class = 'grey-text knocks_text_xs knocks_house_keeper'
+          style="display : block">
+          <small>{{userObject.common_people.length}} <static_message msg = "Common People"></static_message></small>
+          </small>
+        </span>
+        <p>
+          <center>
+          <knocksuseractions
+          add_remove_only
+          style = "margin-top : 3px;"
+          :user = "user"
+          extended
+        :start_as ="userObject" :extras="{hover_id : 'user_report_'+user}"></knocksuseractions></center></p>
+      </div>
+      <div class="card-reveal knocks_house_keeper">
+        <img :src = "userObject.compressedCoverUrl" style = "position :absolute; z-index : -1;left: 0;" :class = "[{'knocks_user_cover_scope' : thatsMe} , 'col s12 knocks_house_keeper knocks_blured_bgimg_1']" >
+        <div class = "knocks_white_dark_blured_bg row ">
+          <span class="card-title grey-text text-darken-4">
+            <a :class = "[name_class , 'header']" :href = "userUrl"  v-if="userObject && !hide_name"> {{ displayName }}</a>
+          <i class="knocks-close right"></i></span>
+          <p>
+            <div class = "col s12" >
+              <span class = "knocks-user4"></span>
+              <span v-if ="userObject.first_name != null && userObject.first_name != undefined" >{{userObject.first_name}} </span>
+              <span v-if ="userObject.middle_name != null && userObject.middle_name != undefined" >{{userObject.middle_name}} </span>
+              <span v-if ="userObject.last_name != null && userObject.last != undefined" >{{userObject.last_name}} </span>
+            </div>
+            <knocksaddressviewer class = "col s12"
+            :address = "address"
+            v-for = "(address,index) in userObject.addresses"
+            :key = "index"
+            v-if = "userObject.addresses">
+            </knocksaddressviewer>
+            <div class = "col s12" v-if ="userObject.gender != null && userObject.gender != undefined && userObject.gender.toLowerCase() == 'male'" >
+              <span class = "knocks-male2"></span><span><static_message msg = "Male"></static_message></span>
+            </div>
+            <div class = "col s12" v-if ="userObject.gender != null && userObject.gender != undefined && userObject.gender.toLowerCase() == 'female'" >
+              <span class = "knocks-female2"></span><span><static_message msg = "Female"></static_message></span>
+            </div>
+            <div class = "col s12" v-if ="userObject.birthdate != null && userObject.birthdate != undefined" >
+              <span class = "knocks-birthday-cake"></span> <span> {{ birthDate(userObject.birthdate) }}</span>
+            </div>
+            <div class = "col s12" v-if ="userObject.email != null && userObject.email != undefined" >
+              <span class = "knocks-email3"></span> <span> {{ userObject.email }}</span>
+            </div>
+            <div class="col s12">
+              <knockscollapse
+              title = "Common People"
+              regular_class = "grey-text"
+              v-if = "!thatsMe && userObject != null && userObject.common_people !== undefined && userObject.common_people.length > 0"
+              icon = "knocks-group2">
+              <div class= 'knocks_house_keeper' slot = "content">
+                <knocksshowkeys
+                :show_input = "userObject.common_people"
+                :as_label = "false" as_chip
+                list_classes="col s12 knocks_gray_border knocks_xs_padding   knocks_tinny_border_radius"></knocksshowkeys>
+              </div>
+              </knockscollapse>
+            </div>
+            <div class= "col s12">
+              <center>
+              <hr class="uk-divider-icon"/>
+              <knocksuseractions
+              :user = "user"
+              extended
+              :start_as ="userObject" :extras="{hover_id : 'user_report_'+user}"></knocksuseractions></center>
+            </div>
+          </p>
+        </div>
+      </div>
+    </div>
+    <!--Small Card Presentation Ends ==========================================================================-->
+    <!--Label Presentation Begins =============================================================================-->
     <div class="ui image label"  contenteditable="false" v-if="as_label" :class = "label_classes">
       <knocksimg :src = "asset('media/avatar/compressed/'+user)" :classes = "{'knocks_user_profile_scope' : thatsMe}" ></knocksimg>
-       {{displayName}}
+      {{displayName}}
       <slot name = "append"></slot>
     </div>
     <!--Label Presentation Ends ========================================================================-->
@@ -131,19 +294,25 @@
         <div class = "col s12">
           <div class = "col s12 knocks_house_keeper" v-if = "!thatsMe">
             <center>
-          <knocksuseractions
-          class = "knocks_tinny_bounds knocks_tinny_border_radius grey lighten-3 knocks_gray_border"
-          style = "margin-top : 3px;"
-         :user = "user"
-         extended
-         :start_as ="userObject" :extras="{hover_id : 'user_report_'+user}"></knocksuseractions></center>
-       </div>
+            <knocksuseractions
+            class = "knocks_tinny_bounds knocks_tinny_border_radius grey lighten-3 knocks_gray_border"
+            style = "margin-top : 3px;"
+            :user = "user"
+            extended
+            :start_as ="userObject" :extras="{hover_id : 'user_report_'+user}"></knocksuseractions></center>
+          </div>
           <span class = "knocks-user14" v-if ="userObject.gender != null && userObject.gender != undefined && userObject.gender.toLowerCase() == 'female'" ></span>
           <span class = "knocks-user12" v-if ="userObject.gender != null && userObject.gender != undefined && userObject.gender.toLowerCase() == 'male'" ></span>
           <span class = "knocks-user-outline"  v-if ="userObject.gender == null || userObject.gender == undefined "></span>
           <static_message msg = "UserName : "></static_message>
           <span v-if ="userObject.username != null && userObject.username != undefined" >{{userObject.username}} </span>
         </div>
+        <knocksaddressviewer class = "col s12"
+        :address = "address"
+        v-for = "(address,index) in userObject.addresses"
+        :key = "index"
+        v-if = "userObject.addresses">
+        </knocksaddressviewer>
         <div class = "col s12" v-if ="userObject.gender != null && userObject.gender != undefined && userObject.gender.toLowerCase() == 'male'" >
           <span class = "knocks-male2"></span><span><static_message msg = "Male"></static_message></span>
         </div>
@@ -199,7 +368,6 @@
     <div v-if = "as_result && userObject != null">
       <div :class = "main_container">
         <knocksimg :src = "asset('media/avatar/compressed/'+user)" :classes = "[knocks_avatar_classes,{'knocks_user_profile_scope' : thatsMe}]"></knocksimg>
-
         <div class = "">
           <div  class="">
             <div class = "col" v-if = "!hide_text_info">
@@ -344,6 +512,14 @@ export default {
       type : Boolean ,
       default : false ,
     },
+    as_card : {
+      type : Boolean , 
+      default : false
+    },
+    as_small_card : {
+      type : Boolean , 
+      default : false
+    },
     no_rebound : {
       type : Boolean , 
       default : false
@@ -435,6 +611,8 @@ export default {
          this.as_name ,
          this.as_url ,
          this.as_label ,
+         this.as_card , 
+         this.as_small_card
        ] , i ;
        for (i = 0; i < arr.length; i++)
         if(arr[i])  return false;
@@ -475,12 +653,17 @@ export default {
       this.userObject.userUrl = this.userUrl;
       this.userObject.compressedAvatarUrl = this.asset('media/avatar/compressed/'+this.user);
       this.userObject.avatarUrl = this.asset('media/avatar/'+this.user);
+      this.userObject.coverUrl = this.asset('media/cover/'+this.user);
+      this.userObject.compressedCoverUrl = this.asset('media/cover/compressed/'+this.user);
       this.userObject.avatarClasses = this.knocks_avatar_classes;
       this.userObject.name = this.displayName ;
       this.userObject.fullName = this.fullName ;
       this.userObject.thatsMe = this.thatsMe ;
       this.$emit('input' , this.userObject);
       window.UsersObject[this.user] = this.userObject;
+      if(this.as_card){
+      }
+
     },
     asset(url){
       return LaravelOrgin + url ;

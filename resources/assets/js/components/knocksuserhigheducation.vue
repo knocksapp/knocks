@@ -1,84 +1,103 @@
-    <template>
-    <div class = "row">
-    <div class="col s12 l4">
-        <knockselinput
-        el_follower
-        :mat_follower=  "false"
-        placeholder = "Study at ?"
-                is_required
-        gid = "q"
-        :max_len = "100"
-        v-model = "study_at"
-        :scope = "[ 'higheducation_adder']"
-        ></knockselinput>
-    </div>
-    <div class="col s12 l4">
-                <knockselinput
-                el_follower
-                :mat_follower=  "false"
-                placeholder = "Study what ?"
-                gid = "q"
-                :max_len = "100"
-                :scope = "[ 'higheducation_adder']"
-                v-model = "study_what"
-                ></knockselinput>
-            </div>
-            <div class="col s12 l4">
-                <knockselinput
-                el_follower
-                :mat_follower=  "false"
-                placeholder = "Your Grade ?"
-                gid = "q"
-
-                :max_len = "100"
-                :scope = "[ 'higheducation_adder']"
-                v-model = "grade"
-                ></knockselinput>
-            </div>
-
-               <div class="col s12 l4">
-                  <span class="uk-badge knocks_fair_bounds  light-blue lighten-1" style="border-radius : 5px !important">
-           <static_message msg = "Since"></static_message>
-         </span>
-    <el-date-picker
-      v-model="study_since"
-      type="date"
-      placeholder="Study since ?"
+<template>
+<div :class = "[{'row' : !tiny } , {'row white knocks_gray_border knocks_tinny_border_radius ' : tiny}] ">
+  <knocksuser v-model = "authModel" class = "knocks_hidden" :user = 'auth'></knocksuser>
+  <div :class="[ { 'col s12 l4' : !tiny} , {'col s12 knocks_xs_padding' : tiny}]">
+    <p class = "knocks_text_ms center knocks_text_dark" v-if = "tiny">
+      <span class = "knocks-graduate"></span>
+      <static_message msg = "Add high education"></static_message>
+    </p>
+    <knockselinput
+    inner_placeholder
+    el_follower
+    :mat_follower=  "false"
+    placeholder = "Study at ?"
+    icon = "knocks-bank"
+    is_required
+    gid = "q"
+    :max_len = "100"
+    v-model = "study_at"
+    :scope = "[ 'higheducation_adder']"
+    ></knockselinput>
+  </div>
+  <div :class="[ { 'col s12 l4' : !tiny} , {'col s12 knocks_xs_padding' : tiny}]">
+    <knockselinput
+    inner_placeholder
+    el_follower
+    :mat_follower=  "false"
+    placeholder = "Study what ?"
+    icon = "knocks-book13"
+    gid = "q"
+    :max_len = "100"
+    :scope = "[ 'higheducation_adder']"
+    v-model = "study_what"
+    ></knockselinput>
+  </div>
+  <div :class="[ { 'col s12 l4' : !tiny} , {'col s12 knocks_xs_padding' : tiny}]">
+    <knockselinput
+    inner_placeholder
+    el_follower
+    :mat_follower=  "false"
+    placeholder = "Your Grade ?"
+    gid = "q"
+    icon = "knocks-certificate3"
+    :max_len = "100"
+    :scope = "[ 'higheducation_adder']"
+    v-model = "grade"
+    ></knockselinput>
+  </div>
+  <div :class="[ { 'col s12 l4' : !tiny} , {'col s12 knocks_xs_padding' : tiny}]">
+    <knockseldatepicker
+    v-if = "authModel != null"
+    :scope = "[ _uid + 'education_adder']"
+    icon = "knocks-calendar7"
+    is_required
+    :quick = "[
+    {msg : 'When i was 18' , margins : { count : 18 , unit : 'y' , from : authModel.birthdate } } ,
+    {msg : 'When i was 22' , margins : { count : 22 , unit : 'y' , from : authModel.birthdate } }
+    ]"
+    :margins = '{ max : { count : 0 , unit : "y" } , min : { from : authModel.birthdate , count : 3 , unit : "y" } }'
+    placeholder = "Study Since ?"
+    v-model = "study_since"></knockseldatepicker>
+  </div>
+  <div :class="[ { 'col s12 l4 block' : !tiny} , {'col s12 knocks_xs_padding' : tiny}]">
+    <knockseldatepicker
+    v-if = "authModel != null"
+    :quick = "[]"
+    icon = "knocks-calendar-check-o"
+    :scope = "[ _uid + 'education_adder']"
+    :margins = '{ max : { count : 0 , unit : "y" } , min : { date : study_since } }'
+    placeholder = "Study To ?"
+    v-model = "study_to"></knockseldatepicker>
+  </div>
+  <knockselbutton
+  placeholder = "Add"
+  type = "primary"
+  class = "right"
+  :error_at = []
+  :scope = "['higheducation_adder']"
+  validation_error = "You need to complete some fields"
+  reset_on_success
+  submit_at = "high_education"
+  computed_response
+  success_msg = "Added Successfully"
+  gid = "stage_one_net"
+  :submit_data = " {study_at : study_at , study_what : study_what, study_since : studySince, study_to : studyTo , grade : grade} "
+  :disabled = "!testDate"
+  @knocks_submit_accepted = "passToParent($event)">
   >
-    </el-date-picker>
+  </knockselbutton>
 </div>
-
-<div class="col s12 l4 block">
-    <span class="uk-badge knocks_fair_bounds  light-blue lighten-1" style="border-radius : 5px !important">
-<static_message msg = "To"></static_message>
-</span>
-    <el-date-picker
-    v-model="study_to"
-    type="date"
-    placeholder="Study to ?" >
-</el-date-picker>
 </div>
-    <knockselbutton
-    placeholder = "Done!"
-    :error_at = []
-    :scope = "['higheducation_adder']"
-    validation_error = "You need to complete some fields"
-    reset_on_success
-    submit_at = "high_education"
-    computed_response
-    success_msg = "Mabrok 3alek el Ta3lem"
-    gid = "stage_one_net"
-    :submit_data = " {study_at : study_at , study_what : study_what, study_since : studySince, study_to : studyTo , grade : grade} "
-    :disabled = "!testDate"
-        @knocks_submit_accepted = "passToParent($event)">
-    >
-    </knockselbutton>
-</div>
-     </div>
 </template>
 <script>
 export default {
   name: 'knockshigheducation',
+  props : {
+    tiny : {
+      type : Boolean , 
+      default : false
+    }
+  },
   methods:{
         passToParent(e){
             let ob = e.submit_data ;
@@ -121,7 +140,9 @@ export default {
         study_to : null,
         study_what : '',
         study_since : null,
-        grade : ''
+        grade : '',
+        auth : parseInt(UserId) , 
+        authModel : null 
       };
     },
     computed : {

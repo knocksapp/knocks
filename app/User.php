@@ -6,6 +6,7 @@ use App\Blob;
 use App\Circle;
 use App\Knock;
 use App\Language;
+use App\UserAddress;
 use DB;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -36,6 +37,55 @@ class User extends Authenticatable {
 	public function comments() {
 		return $this->hasMany('App\Comment', 'user_id');
 	}
+
+	public function addresses() {
+		return $this->hasMany('App\UserAddress', 'user_id');
+	}
+	public function enteryStatus() {
+		return array(
+			'address' => $this->addresses()->exists(),
+			'education' => $this->educations()->exists(),
+			'high_education' => $this->highEducations()->exists(),
+			'sport' => $this->sports()->exists(),
+			'hobby' => $this->hobbies()->exists(),
+			'career' => $this->careers()->exists(),
+		);
+	}
+	public function getAddresses($requester) {
+		$temp = $this->addresses()->get();
+		$arr = [];
+		foreach ($temp as $ad) {
+			$ob = obj::find($ad->object_id);
+			if ($ob->isAvailable($requester)) {
+				array_push($arr, array('state' => $ad->state, 'region' => $ad->region, 'country' => $ad->country, 'current' => $ad->current));
+			}
+		}
+		return $arr;
+	}
+
+	public function metualFriends($oth) {
+		$fr = User::find($oth);
+		if ($fr == null) {
+			return [];
+		}
+		$frmcm = $fr->friends();
+		$arr = [];
+		foreach ($frmcm as $f) {
+			if ($this->isFriend($f->user_id)) {
+				array_push($arr, $f->user_id);
+			}
+		}
+		return $arr;
+	}
+
+	public function friends() {
+		return $this->mainCircle()->circleMembers()->get();
+	}
+
+	public function userAddresses() {
+		return UserAddress::where('user_id', '=', $this->id);
+	}
+
 	public function answer() {
 		return $this->hasOne('App\Answer', 'user_id');
 	}
@@ -58,6 +108,18 @@ class User extends Authenticatable {
 
 	public function circleMember() {
 		return $this->belongsTo('App\Circle_member', 'user_id');
+	}
+
+	public function updateFrindshipWeight($fr, $weight) {
+		$getter = $this->mainCircle()->circleMembers()->where('user_id', '=', $fr);
+		if ($getter->exists()) {
+			$fs = $getter->first();
+			$fs->weight += $weight;
+			$fs->update();
+		} else {
+			return;
+		}
+
 	}
 
 	//Check if some user is a member in some owner circle
@@ -420,6 +482,8 @@ class User extends Authenticatable {
 			}
 
 		}
+		$resultObject['addresses'] = $this->getAddresses($requester);
+		$resultObject['common_people'] = $this->id != $requester ? $this->metualFriends($requester) : [];
 		$resultObject['profile_index'] = $this->currentProfilePicture();
 		$isFriend = $this->isFriend($requester);
 		$resultObject['is_friend'] = $isFriend;

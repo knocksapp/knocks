@@ -1,4 +1,4 @@
-<template v-if = "!hidden">
+<template v-if = "!hidden" :class = "[{'knocks_hidden' : hidden}]">
   <span :class = "[openTag , classes ,{'animated fadeInUp': !isLoading}]" :id="gid" :style = "styles" v-if = "msg == null && !hidden" >
       <knocksloaderbar v-if = "isLoading"></knocksloaderbar :class = "{'animated fadeOutUp': !isLoading}">
       {{restructed}}

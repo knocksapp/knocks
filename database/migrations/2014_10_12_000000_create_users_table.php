@@ -41,6 +41,7 @@ class CreateUsersTable extends Migration {
 			$table->timestamps();
 			$table->string('upload_tooken')->nullable();
 			$table->string('phone')->nullable();
+			$table->integer('weight')->default(0);
 		});
 	}
 

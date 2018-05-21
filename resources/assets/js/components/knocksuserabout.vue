@@ -1,5 +1,5 @@
 <template lang="html">
-<el-tabs @tab-click="handleClick" v-model="activeName" tab-position="left" class = "knocks_house_keeper">
+<el-tabs @tab-click="handleClick" v-model="activeName" tab-position="top"  class = "knocks_house_keeper" style = "margin-left : 10px !important;">
 <el-tab-pane name = "general">
 <span class ="knocks_text_anchor" slot="label">
   <i class="knocks-user"></i>

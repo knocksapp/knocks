@@ -16,7 +16,11 @@ export default {
       startTime: 'Hora Inicial',
       endDate: 'Fecha Final',
       endTime: 'Hora Final',
-      year: 'Año',
+      prevYear: 'Año Anterior',
+      nextYear: 'Próximo Año',
+      prevMonth: 'Mes Anterior',
+      nextMonth: 'Próximo Mes',
+      year: '',
       month1: 'enero',
       month2: 'febrero',
       month3: 'marzo',
@@ -77,6 +81,7 @@ export default {
       error: 'Entrada inválida'
     },
     upload: {
+      deleteTip: 'press delete to remove', // to be translated
       delete: 'Eliminar',
       preview: 'Vista Previa',
       continue: 'Continuar'

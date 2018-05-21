@@ -3,7 +3,8 @@
 
 
 @import "variables"; // Variables
-@import "~element-ui/lib/theme-default/index.css"; //ELEMENT UI
+//@import "~element-ui/lib/theme-default/index.css"; //ELEMENT UI
+@import "~element-ui/lib/theme-chalk/index.css"; //ELEMENT UI
 @import "~element-theme-chalk/src/common/var"; //ELEMENT UI
 @import "~materialize-css/sass/materialize"; //MATERIALIZE
 @import "~croppie/croppie.css"; //CROPPIE
@@ -53,6 +54,10 @@ footer{
 }
 body{
   height : auto;
+}
+button:focus {
+    outline: none;
+    background-color: unset;
 }
 .knocks_ofy{
   overflow-y: auto;
@@ -269,6 +274,12 @@ body{
 .knocks_gray_border{
   border: 1px solid $knocksPinkColor;
 }
+.knocks_baby_blue_border {
+  border : 1px solid $knocksBabyBlue;
+}
+.knocks_ocean_blue_border {
+  border : 1px solid $knocksOceanBlue;
+}
 .knocks_light_active_border{
   border : 1px solid $knocksLightActiveColor
 }
@@ -410,7 +421,35 @@ body{
     background-repeat: round;
 }
 .knocks_baby_blue{
-  background-color : #f0f9fd !important;
+  background-color : $knocksBabyBlue !important;
+}
+.knocks_blured_bgimg_1{
+  -webkit-filter: blur(1px);
+  -moz-filter: blur(1px);
+  -o-filter: blur(1px);
+  -ms-filter: blur(1px);
+  filter: blur(1px);
+}
+.knocks_blured_bgimg_2{
+  -webkit-filter: blur(2px);
+  -moz-filter: blur(2px);
+  -o-filter: blur(2px);
+  -ms-filter: blur(2px);
+  filter: blur(2px);
+}
+.knocks_blured_bgimg_3{
+  -webkit-filter: blur(3px);
+  -moz-filter: blur(3px);
+  -o-filter: blur(3px);
+  -ms-filter: blur(3px);
+  filter: blur(3px);
+}
+.knocks_blured_bgimg_4{
+  -webkit-filter: blur(4px);
+  -moz-filter: blur(4px);
+  -o-filter: blur(4px);
+  -ms-filter: blur(4px);
+  filter: blur(4px);
 }
 
 // KNOCKS COLOR KITS PRESETS ENDS ___________________________________________________________________
@@ -817,7 +856,7 @@ span.badge.new{
     border-radius: 25px ;
     //margin-top: -1.9% !important;
     //margin-left: -0.5% !important; 
-    background: linear-gradient(130deg, #18ab59, #ffffffbf, #18ab59);
+    background: linear-gradient(130deg, #18ab59, #ffffff, #18ab59);
     background-size: 200% 200%;
     -webkit-animation: Animation 3s ease infinite;
     -moz-animation: Animation 3s ease infinite;
@@ -831,6 +870,10 @@ span.badge.new{
 // ELEMENTUI PRESETS BEGINS ____________________________________________________________________
 
 // ~~~~   EL-SELECT BEGINS ~~~~ \\
+.el-popper[x-placement^=bottom] {
+    margin-top: 12px;
+    z-index: 199999999999999999999 !important;
+}
 .el-select-dropdown{
   z-index: 5510000001 !important;
 }
@@ -895,6 +938,10 @@ span.badge.new{
 .el-step__head.is-process, .el-step__head.is-wait {
     color: $knocksLightColor !important;
     border-color: $knocksLightColor !important;
+}
+.el-step__icon.is-icon{
+  background-color :  $knocksPrimaryColor ;
+  font-size : 250%;
 }
 // ~~~~   EL-PROGRESS BAR BEGINS ~~~~ \\
 .el-progress-bar__outer {
@@ -962,6 +1009,9 @@ span.badge.new{
 }
 // ~~~~   EL-POPOVER & EL-TOOLTIP   BEGINS ~~~~ \\
 .el-popover, .el-tooltip__popper{
+  z-index : 10000000000 !important;
+}
+.el-picker-panel{
   z-index : 10000000000 !important;
 }
 
@@ -1210,7 +1260,7 @@ span.badge.new{
 }
 #knocks_main_injectort{
   padding: 0.4rem;
-  border: 1px solid #81d4fa; 
+  border: 1px solid $knocksOceanBlue; 
   min-height : 600px;
   border-radius : 15px;
   min-height:-webkit-fill-available;
@@ -1970,11 +2020,26 @@ table.highlight > tbody > tr:hover {
 .knocks_fixed_width{
   width: 25% !important;
 }
+.knocks_white_light_blured_bg{
+  background-color :rgba(255,255,255,0.2) !important;
+}
+.knocks_white_blured_bg{
+  background-color :rgba(255,255,255,0.5) !important;
+}
+.knocks_white_dark_blured_bg{
+  background-color :rgba(255,255,255,0.8) !important;
+}
+.knocks_white_blured_bg_hover:hover{
+  background-color :rgba(255,255,255,0.5) !important;
+}
 .knocks_light_blured_bg{
-  background-color :rgba(0,0,0,0.2) !important;
+  background-color :rgba(255,255,255,0.2) !important;
 }
 .knocks_blured_bg{
   background-color :rgba(0,0,0,0.5) !important;
+}
+.knocks_dark_blured_bg{
+  background-color :rgba(0,0,0,0.9) !important;
 }
 .knocks_blured_bg_hover:hover{
   background-color :rgba(0,0,0,0.5) !important;
@@ -2062,7 +2127,7 @@ font-size: 70%;
     border-radius: 25px !important;
     //margin-top: -1.9% !important;
     //margin-left: -0.5% !important;
-    background: linear-gradient(130deg, #ff4949, #ffffffbf, #ff4949);
+    background: linear-gradient(130deg, #ff4949, #ffffff, #ff4949);
     background-size: 200% 200%;
     -webkit-animation: Animation 3s ease infinite;
     animation: Animation 3s ease infinite;

@@ -256,17 +256,15 @@ background-color: #ee6e73 !important;
                             <div class = "row animated zoomIn" :class = "{'knocks_hidden' :stageNumber != 2}">
 
                                 <div class="row">
-                                    <div class = "col">
-                                        <span class = "knocks-birthday-cake knocks_text_light"></span>
-                                        <span class = "knocks_text_light ">Birthdate</span>
-                                    </div>
-                                    <div class = "col ">
-                                        <el-date-picker
-                                        v-model="birthdate"
-                                        type="date"
-                                        @input = "birthdateIsFired = true"
-                                        placeholder="Pick a day">
-                                        </el-date-picker>
+
+                                    <div class = "col s12">
+                                        <knockseldatepicker
+                                          :default_time = "{ date : '1995-06-15' }"
+                                          :quick = "[]"
+                                          icon = "knocks-birthday-cake"
+                                          :margins = '{ max : { count : -5 , unit : "y" }  }'
+                                          placeholder = "Birthdate"
+                                          v-model = "birthdate"></knockseldatepicker>
                                         <transition enter-active-class = "animated shake" leave-active-class = "animated zoomOut">
                                           <p class = "knocks_text_danger" v-if = "!validDate && birthdateIsFired">
                                             <span class = "knocks-alert-circle"></span>

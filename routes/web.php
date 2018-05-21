@@ -193,6 +193,8 @@ Route::post('hobby/update', 'HobbyController@updateHobby');
 
 Route::post('hobby/delete', 'HobbyController@deleteHobby');
 
+Route::post('hobby/all', 'HobbyController@hobbies');
+
 //Sport
 
 Route::post('sport', 'SportController@createSport');
@@ -202,6 +204,8 @@ Route::post('sport/get', 'SportController@retriveSport');
 Route::post('sport/update', 'SportController@updateSport');
 
 Route::post('sport/delete', 'SportController@deleteSport');
+
+Route::post('sport/all', 'SportController@sports');
 
 Route::post('check_user_ingroup', 'GroupMemberController@checkUserInGroup');
 
@@ -234,6 +238,14 @@ Route::post('reply/replies', 'ReplyController@getReplies');
 Route::post('blob/qoute', 'BlobController@quote');
 
 Route::post('reply/create', 'ReplyController@create');
+
+//Addresses
+
+Route::post('address/state/get', 'UserAddressController@getStates');
+
+Route::post('address/region/get', 'UserAddressController@getRegions');
+
+Route::post('address/create', 'UserAddressController@create');
 
 //MultiMedia
 Route::post('blob/record', 'BlobController@createRecord');
@@ -307,6 +319,8 @@ Route::post('user/updatebio', 'UserController@updateUserbio');
 Route::post('user/updatephone', 'UserController@updateUserphone');
 
 Route::post('user/updategender', 'UserController@updateUsergender');
+
+Route::post('user/ask/first/address', 'UserController@hasAddresses');
 
 Route::post('hashtag/lazy', 'HashtagsController@lazy');
 

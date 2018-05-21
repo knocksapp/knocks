@@ -102,6 +102,24 @@
               </div>
             </transition>
             <transition enter-active-class = "animated bounceInLeft" leave-active-class = "animated bounceOutRight">
+              <div v-if = "currentKeyScope == 'mycircles'">
+                <knocksusercircles></knocksusercircles>
+              </div>
+            </transition>
+            <transition enter-active-class = "animated bounceInLeft" leave-active-class = "animated bounceOutRight">
+              <div  
+              :class = "[
+              { 'animated fadeIn' : currentKeyScope == 'createnewcircle' || currentCallBackScope == 'createnewcircle' },
+              { 'knocks_hidden' : !(currentKeyScope == 'createnewcircle' || currentCallBackScope == 'createnewcircle') }
+              ]">
+                <knocksquickcircleadder 
+                v-model="circleAdder" 
+                @exist_status = "handleCheckCircle($event)"  
+                :scope = "['knocks_kvc_qca']" 
+                @knocks_circle_added = "handleAddingCircle($event)"></knocksquickcircleadder>
+              </div>
+            </transition>
+            <transition enter-active-class = "animated bounceInLeft" leave-active-class = "animated bounceOutRight">
               <div v-if = "loading" class = "animated bounceInLeft">
                 <div class="ui active inline loader"></div>
                 <static_message msg = "Processing your voice.." classes = "blue-text text-lighten-3"></static_message>
@@ -301,6 +319,9 @@ export default {
       callbacks : {
         spell_knock : {
           agree : this.publishKnock , 
+        },
+        createnewcircle : {
+          agree : this.initNewCircle , 
         }
       }, 
       map : {
@@ -309,8 +330,12 @@ export default {
           callback : this.invokeDblCB
         },
         help : {
-          keywords : ['what' , 'is' , 'this' , 'knocks' , 'assistant'] , 
+          keywords : ['what' , 'is' , 'this' , 'knocks' , 'assistant' , 'who' , 'are' , 'you'] , 
           callback : this.showHelp
+        },
+        mycircles : {
+          keywords : ['show' , 'me' , 'my' , 'circles' ] , 
+          callback : this.showMyCircles
         },
         howtowrite : {
           keywords : ['how' , 'to' , 'write' , 'post' , 'knock'] , 
@@ -340,6 +365,10 @@ export default {
           keywords : ['stop' , 'it' , 'hold' , 'on'] ,
           callback : this.holdOn
         },
+        createnewcircle : {
+          keywords :  ['create' , 'new' , 'circle' , 'call'] , 
+          callback : this.createCircle
+        },
         knock : { 
           keywords : ['create' , 'new' , 'knock' , 'post'] ,
           callback : this.createKnock
@@ -363,7 +392,8 @@ export default {
       currentQuery : null , 
       redirectStopped : false ,
       hasRedirect : false , 
-      auth : parseInt(UserId)
+      auth : parseInt(UserId) , 
+      circleAdder : null , 
 
 
     }
@@ -417,6 +447,7 @@ export default {
   //Textrea Handler
   handleTAI(e){
     this.answerMessage = null
+    this.stopRecognition()
   },
 
 
@@ -732,6 +763,44 @@ export default {
     App.$emit('KnocksCollapseByGid' , { gid : 'knocks_kvc_clp_help' } )
     document.getElementById('knocks_kvc_clp_help').scrollIntoView();
   },
+  //Show My Circles
+  showMyCircles(){
+    this.answer("Here's your circles")  
+  },
+  //Create a new circle
+  createCircle(){
+    if (this.convertedText.toLowerCase().includes('circle its name is') || this.convertedText.toLowerCase().includes("circle it's name is")){
+      setTimeout(()=>{
+        App.$emit('knocks_input_update' , { scope : ['knocks_kvc_qca'] , 
+          value : this.convertedText.split(/(circle its name is)|(circle it's name)/)[this.convertedText.split(/(circle its name is)|(circle it's name)/).length-1] , isFired : true })
+       } , 300)
+    }else{
+      this.answer("Okay, begin with `create a new circle its name is` followed by your circle's name please.")
+    }
+  },
+  initNewCircle(){
+    this.countDown({
+      msgs : ["Alright, creating your new circle in 3" , '2..' , '1'] , 
+      callback : ()=>{
+        App.$emit('knocksButtonRemoteClick' , {scope : ['knocks_kvc_qca']})
+      }
+    })
+  },
+  handleAddingCircle(e){
+    this.answer("Created Your circle successfully!")
+    this.resetAll()
+    this.currentKeyScope = 'mycircles'
+  },
+  handleCheckCircle(e){
+    if(!e.status){
+      if(this.answerMessage != "You already have a circle with this name")
+      this.answer("You already have a circle with this name")
+    }else{
+      let tempAns = "Are you sure you want to create a circle called "+e.value
+      if(this.answerMessage != "Are you sure you want to create a circle called "+e.value)
+      this.answer(tempAns)
+    }
+  },
 
   //Assistance functions ==============================================>
   //Reseting
@@ -787,6 +856,7 @@ export default {
   answer(ans){
 
     if( window.speechSynthesis.paused) window.speechSynthesis.paused = false
+    if(this.answerMessage == ans) return
     this.answerMessage = null
     this.stopRecognition()
     this.answerMessage = ans;

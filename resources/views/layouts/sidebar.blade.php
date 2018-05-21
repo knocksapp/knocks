@@ -59,7 +59,7 @@
           class = "knocks_tinny_top_padding knocks_side_padding"
           name = "q"
           placeholder="Search"
-          @focus = "searchFocus()"
+          @focus = "sidebarFocus()"
           @blur = "searchBlur()"
           @input = "sidebarRunSearch()"
           id="sidebar_search_box"
@@ -71,7 +71,7 @@
         </form>
         <div style = "display : none" id = "sidebar_search_results">
           <div class = "row knocks_side_padding knocks_tinny_top_padding">
-            <el-button id ="sidebar_search_back" type="info" icon=" knocks_icon knocks-chevron-left2" class = ""></el-button>
+            <el-button  circle id ="sidebar_search_back" type="danger" icon=" knocks_icon knocks-chevron-left2" class = ""></el-button>
             <div class = "right">
               <el-select v-model="sideBarSearchLanguage" slot="prepend"  style = "width :110px !important">
               <el-option label = "English" value = "en"></el-option>

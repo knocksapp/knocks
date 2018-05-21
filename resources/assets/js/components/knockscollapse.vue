@@ -103,6 +103,10 @@ export default {
     gid : {
       type : String , 
       default : null
+    },
+    toggle_on_mount : {
+      type : Boolean , 
+      default : false 
     }
   },
   data () {
@@ -113,6 +117,9 @@ export default {
   },
   mounted(){
     const vm = this
+    if(this.toggle_on_mount){
+      this.toggleById()
+    }
     App.$on('KnocksCollapseToggle' , (payloads)=>{
       if(vm.scope == null || payloads.scope == undefined || payloads.scope == null) return
         console.log('col search')

@@ -1,5 +1,6 @@
 <template>
 <div v-if = "userObject != null">
+  <div v-if = "!add_remove_only">
   <el-popover
   ref="addtomypeople"
   placement="right"
@@ -50,9 +51,9 @@
   <div class = "row knocks_house_keeper" v-if = "bond == 'requester' && !show_accept_shortcut" style="display:block">
     
     <el-button-group>
-        <knockselbutton
+    <knockselbutton
     type = "danger"
-    placeholder = "Ignore"
+    placeholder = "Decline"
     submit_at = "request/ignore"
     success_at = "done"
     reset_on_success
@@ -84,11 +85,12 @@
     </el-button>
     </el-button-group>
   </div>
-  <div class="ui buttons white" v-if = "bond == 'friend' && extended">
+  <div class="ui buttons white" v-if = "bond == 'friend' && bond != 'me' && userObject.id != auth && extended">
     <knocksbutton 
     button_classes="ui red basic button"
     icon = "knocksapp-circle-minus left "
     disable_placeholder
+    leave_class = "animated jello"
     :gid = "'user_action_remove_'+user+'_rand'+_uid"
     success_at = "done"
     :error_at = "[{ res : 'invalid' , msg : 'Invalid Operation' }]"
@@ -102,10 +104,18 @@
     <button class="ui yellow basic button"><span class = "knocksapp-star"></span></button>
     </div>
       <div class="ui buttons white" v-if = "bond == 'me' && extended">
+    <a :href="asset( 'user/settings')" class="ui secondary basic button"><span class = "knocks-gear"></span> Settings</a>
+    </div>
+  </div>
+    <div v-if = "add_remove_only" class = "col">
+
     <knocksbutton 
-    button_classes="ui red basic button"
-    icon = "knocksapp-circle-minus left "
-    disable_placeholder
+    v-if = "bond == 'friend'"
+    button_classes="ui negative basic button"
+    icon = "knocksapp-circle-minus "
+    leave_class = ""
+    hover_class = ""
+    placeholder = "Remove"
     :gid = "'user_action_remove_'+user+'_rand'+_uid"
     success_at = "done"
     :error_at = "[{ res : 'invalid' , msg : 'Invalid Operation' }]"
@@ -114,9 +124,65 @@
     @knocks_submit_accepted = "unpairFriends()"
     :submit_data = '{user : user}'
     ></knocksbutton>
+    <div class = "ui two buttons" v-if = "bond == 'requester'">
+    <knocksbutton
+    v-if = "bond == 'requester'"
+    placeholder = "Decline"
+    submit_at = "request/ignore"
+    success_at = "done"
+    label_class = "center"
+    reset_on_success
+    leave_class = ""
+    hover_class = ""
+    button_classes = "ui negative basic button "
+    :error_at = "[{ res : 'invalid' , msg : 'You already have this circle!' }]"
+    :success_msg= " 'Done.'"
+    :scope = "['add_friend']"
+    @knocks_submit_accepted = "resetContentReject()"
+    validation_error = "There's some feilds we need you to complete it."
+    connection_error = "There's a problem in your connection, please try again."
+    :submit_data = "{ to : user }">
+    </knocksbutton>
+    <knocksbutton
+    type = "success"
+    v-if = "bond == 'requester'"
+    placeholder = "Accept"
+    leave_class = ""
+    hover_class = ""
+    label_class = "center"
+    submit_at = "request/accept"
+    success_at = "done"
+    button_classes = "ui positive basic button "
+    reset_on_success
+    :error_at = "[{ res : 'invalid' , msg : 'You already have this circle!' }]"
+    :success_msg= " 'Added to your Circles succesfully!'"
+    :scope = "['add_friend']"
+    @knocks_submit_accepted = "resetContent()"
+    validation_error = "There's some feilds we need you to complete it."
+    connection_error = "There's a problem in your connection, please try again."
+    :submit_data = "{ target : user, circles : attachedCircles }">
+    </knocksbutton>
+  </div>
 
-    <button class="ui blue basic button"><span class = "knocks-speech-bubble-1"></span></button>
-    <button class="ui yellow basic button"><span class = "knocksapp-star"></span></button>
+  <el-button
+  @click = "addToMyPeople()"
+  class = "ui primary basic button"
+  v-if="bond == 'other'"
+  :class = "{'knocks_hidden' : bond != 'other'}"
+  icon = " knocks-user-add-outline knocks_icon knocks_text_ms" >
+  Add To My People
+  </el-button>
+  <el-button
+  @click = "cancelRequest()"
+  v-if="bond == 'requested'"
+  class = "ui negative basic button"
+  icon = " knocks-cancel-circle knocks_icon">
+  Cancel Request
+  </el-button>
+
+  <a  v-if = "bond == 'me'" :href="asset('user/settings')" class="ui secondary basic button"><span class = "knocks-gear"></span> Settings</a>
+  
+
     </div>
   </div>
   </template>
@@ -142,6 +208,10 @@ export default {
       type : Boolean , 
       default : false ,
     },
+    add_remove_only : {
+      type : Boolean , 
+      default : false 
+    },
     extras : {
     type : Object , 
     default : null,
@@ -153,7 +223,8 @@ export default {
       userCirlces : [] ,
       checkedCircles : {},
       userShowKey : 3 ,
-      rand : Math.floor(Math.random() * 5000) + 1
+      rand : Math.floor(Math.random() * 5000) + 1 , 
+      auth  : parseInt(UserId)
 
     }
   },
@@ -311,6 +382,9 @@ export default {
         App.$emit('knocksTurnOnBallonTimer',(this.extras.hover_id));
       }else return;
     },
+    asset(url){
+      return window.Asset(url)
+    }
  
   }
 }

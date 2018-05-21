@@ -260,7 +260,9 @@ export default {
             this.emit();
            }
       }else{
+        if(this.materialize_feedback)
         Materialize.toast('<span class="knocks_text_danger">'+this.validation_error+'</span>');
+        else this.elementCategoryNotify({ type : 'error' , msg : this.validation_error , title : 'Warining' });
         this.$emit('knocks_stack_failed');
         //console.log(this.errorsStack);
       }
@@ -274,6 +276,13 @@ export default {
           networkErrors : this.networkHasErrors ,
           networkHasErrors :  this.networkErrors
         });
+    },
+    elementCategoryNotify(notificationObject) {
+      this.$notify({
+        title: notificationObject.title,
+        message: notificationObject.msg,
+        type: notificationObject.type
+      });
     },
     submit(){
       if(this.actualLoading) {console.log('prevent extra s'); return; }
@@ -310,6 +319,7 @@ export default {
         if(temp == vm.success_at && vm.success_at != null){
           if(vm.materialize_feedback && !vm.hide_success_msg)
              Materialize.toast(vm.success_msg, 3000, 'rounded');
+           else if(!vm.hide_success_msg) vm.elementCategoryNotify({ type : 'success' , msg : vm.success_msg , title : 'success' });
           if(vm.reset_on_success){
             App.$emit('knocks_input_reset' , vm.scope);
           }
@@ -324,8 +334,9 @@ export default {
             if(vm.error_at[i].res == temp){
               if(vm.materialize_feedback)
                 Materialize.toast('<span class="knocks_text_danger">'+vm.error_at[i].msg+'</span>', 3000, 'rounded');
+              else vm.elementCategoryNotify({ type : 'error' , msg : vm.error_at[i].msg , title : 'Warining' });
               return false;
-            }else Materialize.toast('<span class="knocks_text_danger">'+vm.error_at[i].msg+'</span>', 3000, 'rounded');
+            }
           }
         }
 
