@@ -303,6 +303,7 @@ export default {
   			}else{
   			   vm.userObject.requested = true;
   		     vm.updateClientData();
+           vm.$emit('add')
   			}
   		})
   	},

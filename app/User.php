@@ -63,6 +63,53 @@ class User extends Authenticatable {
 		return $arr;
 	}
 
+	public function getSuggestions() {
+		$arr = [];
+		$friends = $this->friendsByWeight()->get();
+		//get from common
+		foreach ($friends as $fr) {
+			if (count($arr) < 4) {
+				$arr = User::find($fr->user_id)->passFriends($this, $arr);
+			}
+		}
+
+		return $arr;
+	}
+
+	public function getSuggestionsAvoid($arr) {
+		$count = count($arr);
+		$friends = $this->friendsByWeight()->get();
+		//get from common
+		foreach ($friends as $fr) {
+			if (count($arr) < 4 + $count) {
+				$arr = User::find($fr->user_id)->passFriends($this, $arr);
+			}
+		}
+
+		return $arr;
+	}
+
+	public function passFriends($friend, $prev) {
+		$myFriends = $this->friendsByWeight()->get();
+		foreach ($myFriends as $f) {
+			$current = User::find($f->user_id);
+			if (
+				!$friend->isFriend($current->id)
+				&& !in_array($current->id, $prev)
+				&& $current->id != $friend->id
+				&& !$friend->hasSentRequest($current->id)
+				&& !$friend->hasFriendRequest($current->id)) {
+				array_push($prev, $current->id);
+				return $prev;
+			}
+		}
+		return $prev;
+	}
+
+	public function friendsByWeight() {
+		return $this->mainCircle()->circleMembers()->orderBy('weight', 'desc');
+	}
+
 	public function metualFriends($oth) {
 		$fr = User::find($oth);
 		if ($fr == null) {
@@ -494,8 +541,7 @@ class User extends Authenticatable {
 			$resultObject['status'] = $this->status;
 		} else {
 			$resultObject['requested'] = $this->hasFriendRequest($requester);
-			$resultObject['requester'] = $this->hasSentRequest($requester);
-		}
+			$resultObject['requester'] = $this->hasSentRequest($requester);}
 		$resultObject['kid'] = $this->isKid();
 		//Return the result
 		return $resultObject;
@@ -1072,8 +1118,20 @@ class User extends Authenticatable {
 		}
 		return false;
 	}
+	public function generateRandomString($length) {
+		$characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+		$charactersLength = strlen($characters);
+		$randomString = '';
+		for ($i = 0; $i < $length; $i++) {
+			$randomString .= $characters[rand(0, $charactersLength - 1)];
+		}
+		return $randomString;
+	}
 
 	public function pairAsFriend($friend) {
+		if ($this->isFriend($friend)) {
+			return;
+		}
 		$current = new Circle_member();
 		$current->initialize($this->id, $friend->mainCircle()->id, $friend->id);
 		$other = new Circle_member();

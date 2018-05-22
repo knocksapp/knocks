@@ -122,6 +122,39 @@ class DevController extends Controller {
 
 		return 'done';
 	}
+
+	public function addUsersPatch(Request $request) {
+		$usersCount = User::all()->count();
+		for ($i = 0; $i < 100; $i++) {
+			$user = new User();
+			$user->initialaize(
+				json_encode(array(
+					'first_name' => "Knocks " . $user->generateRandomString(3),
+					'last_name' => "User " . $user->generateRandomString(3),
+					'username' => "knockstestuser" . ($i + $usersCount),
+					'gender' => "male",
+					'middle_name' => "Test " . $user->generateRandomString(3),
+					'nickname' => "Knocks Random User " . $user->generateRandomString(5),
+					'birthdate' => "2017-01-01",
+					'email' => "test" . ($i + $usersCount) . "@knocks.com",
+					'password' => "testtest12",
+					'language' => "en",
+				))
+			);
+		}
+		$all = User::all();
+		$count = $all->count();
+		foreach ($all as $one) {
+			for ($j = 0; $j < 30; $j++) {
+				$c = User::find(rand(0, $count));
+				if ($c != null) {
+					$one->pairAsFriend($c);
+				}
+
+			}
+		}
+		return "done";
+	}
 }
 
 ?>

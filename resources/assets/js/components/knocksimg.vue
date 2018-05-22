@@ -1,5 +1,5 @@
 <template>
-	<img @load = "isLoading = false" v-loading = "isLoading" :class = "classes" :id = "gid" :src = "source" :alt = "alt" @error = "source = error_src"/>
+	<img @click = "$emit('clicked')" @load = "isLoading = false" v-loading = "isLoading" :class = "classes" :id = "gid" :src = "source" :alt = "alt" @error = "source = error_src"/>
 </template>
 
 <script>

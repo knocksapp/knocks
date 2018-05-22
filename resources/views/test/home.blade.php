@@ -232,6 +232,21 @@
   </span>
   </el-dialog>
   <div class = "col s12">
+      <knockselbutton
+  placeholder = "Add 100 Users"
+  type = "success"
+  :error_at = []
+  :scope = "['add_random_users']"
+  validation_error = "You need to complete some fields"
+  reset_on_success
+  submit_at = "dev/db/add/users"
+  success_at = "done"
+  :timeout = "36000"
+  success_msg = "Added 100 user Successfully"
+  :submit_data = " {} ">
+  </knockselbutton>
+  </div>
+  <div class = "col s12">
     <div class="ui horizontal divider transparent">
       Delete Circle Members
     </div>

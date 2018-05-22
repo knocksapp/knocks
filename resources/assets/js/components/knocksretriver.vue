@@ -108,6 +108,8 @@ export default {
   methods : {
   	retrive(){
       if(this.precondition != null && this.precondition == false) return;
+      this.isLoading = true
+      this.resultCollector()
   		const vm = this;
   		axios({
   			method : vm.method , 

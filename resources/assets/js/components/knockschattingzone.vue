@@ -49,8 +49,8 @@
     </h4>
     <knocksuser 
     @callback_click = "addConversation(friend.id)"
-    v-if="!isCurrent(friend.id)"
-    :user = "friend.id" v-for = "friend in friendsToChat.response" as_callback :key = "friend.id"></knocksuser>
+    v-if="!isCurrent(friend.id) && index < 10"
+    :user = "friend.id" v-for = "(friend , index) in friendsToChat.response" as_callback :key = "index"></knocksuser>
   </div>
   
 </div>

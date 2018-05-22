@@ -105,36 +105,50 @@
     <!--Chips Presentation Begins ========================================================================-->
     <div class="chip" :class="main_container" contenteditable="false" v-if="as_chip">
       <knocksimg :src = "asset('media/avatar/compressed/'+user)" :classes = "{'knocks_user_profile_scope' : thatsMe}" ></knocksimg>
-      <span :class = "name_class" :href = "userUrl"  v-if="userObject && !hide_text_info"  > {{displayName}} </span>
+      <span :class = "name_class" :href = "userUrl"  v-if="userObject && !hide_text_info"  >
+        <el-tooltip :content = "displayName" placement="bottom-start">
+        <span> {{handledDisplayName}} </span>
+        </el-tooltip>
+      </span>
       <slot name = "append"></slot>
     </div>
     <!--Chips Presentation Ends ========================================================================-->
     <!--Card Presentation Begins ========================================================================-->
-    <div class="ui special cards" v-if = "as_card && userObject != null">
+    <div class="ui special cards" v-if = "as_card" v-loading = "regularRetriver.loading" element-loading-spinner="el-icon-loading"
+      element-loading-background="rgba(0, 0, 0, 0.8)">
       <div class="card">
         <div class="blurring dimmable image">
           <div class="ui inverted dimmer">
-            <div class="content">
+            <div class="content" v-if = "userObject != null">
               <div class="center">
                 <knocksuseractions
                 style = "margin-top : 3px;"
                 :user = "user"
+                @add = "$emit('add')"
                 class = "knocks_house_keeper"
                 extended
                 :start_as ="userObject" :extras="{hover_id : 'user_report_'+user}"></knocksuseractions>
               </div>
             </div>
           </div>
-          <knocksimg :src = "asset('media/avatar/compressed/'+user)" :classes = "{'knocks_user_profile_scope' : thatsMe}" ></knocksimg>
+          <knocksimg
+          @clicked = "tinnyHeight = !tinnyHeight"
+          :class = "{ 'knocks_avatar_card_tinny_height' : tinnyHeight}"
+          v-if = "userObject != null" :src = "asset('media/avatar/compressed/'+user)" :classes = "{'knocks_user_profile_scope' : thatsMe}" ></knocksimg>
         </div>
-        <div class="content">
-          <a :class = "[name_class , 'header']" :href = "userUrl"  v-if="userObject && !hide_name"> {{ displayName }}</a><slot name = "append_to_display_name"></slot>
+        <div class="content" v-if = "userObject != null">
+          <a :class = "[name_class , 'header']" :href = "userUrl"  v-if="userObject && !hide_name">
+            <el-tooltip :content = "displayName" placement="bottom-start">
+            <span> {{handledDisplayName}} </span>
+            </el-tooltip>
+            
+          </a><slot name = "append_to_display_name"></slot>
           <a :class = "[username_class , 'header']" :href = "userUrl" v-if="userObject != null && show_username" style = "display:block"> {{'@'+userObject.username}} </a>
           <p v-if = "!thatsMe && userObject != null && userObject.common_people !== undefined && userObject.common_people.length > 0">
             <small>{{userObject.common_people.length}} <static_message msg = "Common People"></static_message></small>
           </p>
           <div class="meta">
-            <knockscollapse title = "More" icon = "knocks-circle5" regular_class = "grey-text">
+            <knockscollapse title = "More" icon = "knocks-circle5" regular_class = "grey-text" toggler_container = "knocks_house_keeper transparent row">
             <div slot = "content">
               <hr class="uk-divider-icon">
               <div class = "col s12" >
@@ -181,9 +195,11 @@
           <center>
           <knocksuseractions
           add_remove_only
+          v-if = "userObject != null"
           style = "margin-top : 3px;"
           :user = "user"
           extended
+          @add = "$emit('add')"
           :start_as ="userObject" :extras="{hover_id : 'user_report_'+user}"></knocksuseractions></center>
         </div>
       </div>
@@ -275,7 +291,9 @@
     <!--Label Presentation Begins =============================================================================-->
     <div class="ui image label"  contenteditable="false" v-if="as_label" :class = "label_classes">
       <knocksimg :src = "asset('media/avatar/compressed/'+user)" :classes = "{'knocks_user_profile_scope' : thatsMe}" ></knocksimg>
-      {{displayName}}
+      <el-tooltip :content = "displayName" placement="bottom-start">
+      <span> {{handledDisplayName}} </span>
+      </el-tooltip>
       <slot name = "append"></slot>
     </div>
     <!--Label Presentation Ends ========================================================================-->
@@ -543,6 +561,8 @@ export default {
       fullName : '' ,
       clashProp : false ,
       calcStatus : false ,
+      tinnyHeight : true ,
+      handledDisplayName : '' ,
     }
   },
   mounted(){
@@ -681,6 +701,7 @@ export default {
         }
       }
       this.displayName = temp.join(' ');
+      this.handledDisplayName = this.displayName.length > 15 ? this.displayName.substr(0,15)+'..' : this.displayName
     },
     getFullName(){
       if(!this.userObject) null;
@@ -753,4 +774,11 @@ export default {
 }
 </script>
 <style lang="css" scoped>
+.knocks_avatar_card_tinny_height{
+  height : 100px !important;
+  width : 100px !important;
+}
+.card.small {
+    height: 320px;
+}
 </style>

@@ -357,6 +357,7 @@ Vue.component('knocksquickaddress', require('./components/knocksquickaddress.vue
 Vue.component('knocksaddressviewer', require('./components/knocksaddressviewer.vue'));
 Vue.component('knockseldatepicker', require('./components/knockseldatepicker.vue'));
 Vue.component('knockselselect', require('./components/knockselselect.vue'));
+Vue.component('knocksusersuggestions', require('./components/knocksusersuggestions.vue'));
 
 
 

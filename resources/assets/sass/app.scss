@@ -879,12 +879,12 @@ span.badge.new{
 }
 // ~~~~   EL-SLIDER BEGINS ~~~~ \\
 .el-slider__bar{
-  background-color: $knocksActiveColor;
+  //background-color: $knocksActiveColor;
 }
 .el-slider__button , .el-slider__button:hover , .el-slider__button:focus{
-  background-color: $knocksActiveColor;
-  content: "\e901" !important;
-  font-family: Knocks !important;
+ // background-color: $knocksActiveColor;
+  //content: "\e901" !important;
+  //font-family: Knocks !important;
 }
 // ~~~~   EL-RADIO BUTTON BEGINS ~~~~ \\
 .el-radio-button__orig-radio:checked+.el-radio-button__inner{

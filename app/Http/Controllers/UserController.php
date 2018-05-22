@@ -176,6 +176,10 @@ class UserController extends Controller {
 		);
 		return 'done';
 	}
+
+	public function getSuggestions(Request $request) {
+		return auth()->user()->getSuggestionsAvoid($request->c);
+	}
 	public function initChat(Request $request) {
 		return Envelope::where('sender_id', '=', auth()->user()->id)
 			->orwhere('reciever_id', '=', auth()->user()->id)

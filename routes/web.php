@@ -41,6 +41,9 @@ Route::post('dev/trunc/knocks', 'DevController@resetKnocks');
 Route::post('dev/trunc/users', 'DevController@resetKnocks');
 Route::post('dev/db/reinstall', 'DevController@reinstall');
 
+//Add Random Users
+Route::post('dev/db/add/users', 'DevController@addUsersPatch');
+
 Route::post('dev/test', function () {return 'done';});
 
 //DEVELOPERS ROUTES ENDS /////////////////////////////////////////////////////////////
@@ -586,6 +589,8 @@ Route::group(['middleware' => 'auth'], function () {
 		//Friendship requests
 
 		Route::post('get/request', 'UserController@activeRequests');
+
+		Route::post('user/suggestions', 'UserController@getSuggestions');
 
 		Route::post('send/request', 'UserRequestController@sendGroup');
 
