@@ -63,6 +63,7 @@ window.Cropper = require('cropperjs');
 window.CurrentHref = window.location.href;
 window.ImageViewerStack = [] ;
 window.FontsAlignment = { left : 'titillium' , right : 'cairo' }
+window.UserMainCircle = window.sessionType == 'user' ? parseInt(document.querySelector('meta[name="main_circle"]').getAttribute('content')) : -1;
 
 //Packages Configration
 GoogleMapsLoader.KEY = 'AIzaSyAtO8ZPlOkAAlV6oxGu-dD_ghyk9obCOXk'; //Google maps api configuration >> Key.
@@ -358,8 +359,8 @@ Vue.component('knocksaddressviewer', require('./components/knocksaddressviewer.v
 Vue.component('knockseldatepicker', require('./components/knockseldatepicker.vue'));
 Vue.component('knockselselect', require('./components/knockselselect.vue'));
 Vue.component('knocksusersuggestions', require('./components/knocksusersuggestions.vue'));
-
-
+Vue.component('knocksusersettings', require('./components/knocksusersettings.vue'));
+Vue.component('knockswatchmywindow', require('./components/knockswatchmywindow.vue'));
 
 
 
@@ -449,9 +450,9 @@ Vue.component('knocksusersuggestions', require('./components/knocksusersuggestio
 
    //Knockstaps
    knocksTapsDevModel : null ,
-   knocksTapsDevOptions : [ { icon : 'knocks-male2' , label : 'Male' , static : true , value : 'male'} ,
-                            { icon : 'knocks-female2' , label : 'Female' , static : true , value : 'female'} ,
-                            { label : 'Other' , static : true , value : 'other'}
+   knocksTapsDevOptions : [ { icon : 'knocks-male2' , label : 'Male' , static : true , value : 'Male'} ,
+                            { icon : 'knocks-female2' , label : 'Female' , static : true , value : 'Female'} ,
+                            { label : 'Other' , static : true , value : 'Other'}
                           ],
     knocksTapsDevMultiple : true ,
     knocksTapsDevDefineIndex : 5 ,

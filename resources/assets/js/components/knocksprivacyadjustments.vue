@@ -110,26 +110,50 @@
       
     </div>
     <div :class = "[ { 'animated slideInUp' : taps == 'circles' } ,  { 'knocks_hidden' : taps != 'circles' || savingMode } , 'row']" style="max-height : 400px; overflow : auto">
-      <div v-for = "(circle , index) in allCircles" v-if = "allCircles != null" :key = "index" class = "row">
-        <knockscirclechip :circle = "circle" v-model = "circleObject[circle]" @input = "hashUsers($event)" no_rebound ></knockscirclechip>
+      <ul class ="uk-list uk-list-divider">
+      <li class = "" >
+        <div class="chip blue text-darken-3 col knocks_text_light knocks_text_bold knocks_text_ms">
+          <span class = "knocks-globe"></span>
+          <static_message msg = "Public"></static_message>
+        </div>
+        <knocksmultipleswitch
+        class = "right"
+        static_messages
+        v-model = "circleSwitch['-1']"
+        :options = "[
+        { msg : 'Valid' , icon : 'knocks-eye6 animated rubberBand' , classes : 'green-text' , value : signs.valid  } ,
+        { msg : 'Invalid' , icon : 'knocks-eye-off animated jello' , classes : 'orange-text' , value : signs.invalid  } ,
+        { msg : 'Invalid For All' , icon : 'knocks-eye-slash animated tada' , classes : ' red-text darken-4' , value : signs.invalidForAll  }
+        ]"
+        :startup_value = "signs.valid"></knocksmultipleswitch>
+      </li>
+      <li v-for = "(circle , index) in allCircles" v-if = "allCircles != null" :key = "index" class = "">
+        <knockscirclechip 
+        :circle = "circle" 
+        v-model = "circleObject[circle]" 
+        @input = "hashUsers($event)" 
+        @error = "allCircles.splice(index,1)"
+        class = "col" no_rebound ></knockscirclechip>
         <knocksmultipleswitch
         v-if = "couldBeMessured.indexOf(circle) != -1"
         class = "right"
         static_messages
         @input = "implementCircles()"
         v-model = "circleSwitch[circle]"
+        :recieve_scope = "[_uid + '_kpsj_'+circle]"
         :options = "[
-        { msg : 'Valid' , icon : 'knocks-eye6 animated rubberBand' , classes : 'green-text' , value : 1  } ,
-        { msg : 'Invalid' , icon : 'knocks-eye-off animated jello' , classes : 'orange-text' , value : 2  } ,
-        { msg : 'Invalid For All' , icon : 'knocks-eye-slash animated tada' , classes : ' red-text darken-4' , value : 3  }
+        { msg : 'Valid' , icon : 'knocks-eye6 animated rubberBand' , classes : 'green-text' , value : signs.valid  } ,
+        { msg : 'Invalid' , icon : 'knocks-eye-off animated jello' , classes : 'orange-text' , value : signs.invalid  } ,
+        { msg : 'Invalid For All' , icon : 'knocks-eye-slash animated tada' , classes : ' red-text darken-4' , value : signs.invalidForAll  }
         ]"
-        :startup_value = "1">
+        :startup_value = "signs.valid">
         </knocksmultipleswitch>
-      </div>
+      </li>
+    </ul>
     </div>
     <div :class = "[ { 'animated slideInUp' : taps == 'public'} ,  { 'knocks_hidden' : taps != 'public'} ]" >
       <ul class="collection">
-        <li class="collection-item" @click = "tipFired = true; changePublicValue('public')">
+        <li class="collection-item" @click = "tipFired = true; changePublicValue('public')" v-if = "!disable_quick_presets">
           <span class = "knocks-globe knocks_text_md blue-text text-darken-3"></span>
           <static_message msg = "Public" classes = "knocks_text_md"></static_message>
           <a @click = "tipFired = true; changePublicValue('public')" class = "right knocks_text_md">
@@ -140,7 +164,7 @@
             <static_message msg = "This will make your content visible for everyone expect people that you are blocking."></static_message>
           </p>
         </li>
-        <li class="collection-item" @click = "tipFired = true; changePublicValue('onlyforfriends')">
+        <li class="collection-item" @click = "tipFired = true; changePublicValue('onlyforfriends')"  v-if = "!disable_quick_presets">
           <span class = "knocks-group-1 knocks_text_md green-text "></span>
           <static_message msg = "Only For Friends" classes = "knocks_text_md"></static_message>
           <a @click = "tipFired = true; changePublicValue('onlyforfriends')" class = "right knocks_text_md">
@@ -151,7 +175,7 @@
             <static_message msg = "This will make your content only visible for your friends."></static_message>
           </p>
         </li>
-        <li class="collection-item" @click = "tipFired = true; changePublicValue('choosedefault')" v-if = 'userDefaultPreset.outcome != null'>
+        <li class="collection-item" @click = "tipFired = true; changePublicValue('choosedefault')" v-if = '!disable_quick_presets && userDefaultPreset.outcome != null'>
           <span class = "knocks-star3 knocks_text_md yellow-text text-darken-3 "></span>
           <static_message msg = "Use My Default Preset" classes = "knocks_text_md"></static_message> 
           <span class = " knocks_text_ms yellow-text text-darken-3 ">({{userDefaultPreset.name}})</span>
@@ -164,7 +188,7 @@
             ></static_message> ({{userDefaultPreset.name}}).
           </p>
         </li>
-        <li class="collection-item" @click = "tipFired = true; changePublicValue('userpresets')" v-loading = "userPresetsRetriver.loading" >
+        <li class="collection-item" @click = "tipFired = true; changePublicValue('userpresets')" v-if = "!disable_quick_presets" v-loading = "userPresetsRetriver.loading">
           <span class = "knocks-heart red-text knocks_text_md"></span>
           <static_message msg = "Choose From My Presets" classes = "knocks_text_md"></static_message>
           <a @click = "tipFired = true; changePublicValue('userpresets')" class = "right knocks_text_md">
@@ -291,6 +315,9 @@
     </div>
     </div>
   </div>
+    <span slot="footer" class="dialog-footer">
+      <slot name = "footer"></slot>
+    </span>
   </el-dialog>
 </div>
 </template>
@@ -311,6 +338,34 @@ export default {
     scope : {
       type : Array , 
       default : null ,
+    },
+    signs : {
+      type : Object , 
+      default : ()=>{
+        return {
+          valid : 1 , 
+          invalid : 2 , 
+          invalidForAll : 3 
+        }
+      }
+    },
+    keys : {
+      type : Object , 
+      default : ()=>{
+        return {
+          circle : 'circle_id' , 
+          user : 'user_id' , 
+          preset : 'preset_id'
+        }
+      }
+    },
+    disable_quick_presets : {
+      type : Boolean , 
+      default : false
+    },
+    init : {
+      type : Object , 
+      default : null
     }
   },
   data () {
@@ -343,11 +398,17 @@ export default {
 	    presetsRetriverFired : false ,
 	    userPresetsRetriver : { loading : false } ,
 	    tipFired : false ,
+      initCounts : 0
 
     }
   },
   mounted(){
+    if(!this.disable_quick_presets)
     this.changePublicValue('choosedefault');
+    else this.changePublicValue('custom')
+    if(this.init){
+      this.initComponent(this.init , true)
+    }
     const vm = this;
     App.$on('knocksPrivacyAdjustmentsTrigger' , (payloads)=>{
       if(vm.scope == null || payloads.scope === undefined || payloads.scope == null || payloads.scope.length == 0) return;
@@ -363,9 +424,13 @@ export default {
   },
   computed : {
   	circleSwitchStructure(){
-  		let i , arr = [];
+  		let i , arr = []; 
+      let temp
   		for (i in this.circleSwitch){
-  			arr.push({ circle_id : parseInt(i) , preset_id : this.circleSwitch[i] })
+        temp = {}
+        temp[this.keys.circle] = parseInt(i)
+        temp[this.keys.preset] = this.circleSwitch[i]
+  			arr.push(temp)
   		}
   		return arr;
   	},
@@ -393,6 +458,7 @@ export default {
   },
   methods : {
   	triggerModal(){
+      this.circlesRetriver.retrive()
   		this.centerDialogVisible = true;	
   		if(
   		     (	this.resultObject.user_privacy === undefined 
@@ -403,25 +469,45 @@ export default {
   			
   		  ){
   		  	App.$emit('knocksRetriver' , {scope : ['kpsd_presets']});
+          // App.$emit('knocksRetriver' , {scope : ['kps_circles']});
   		    App.$emit('knocks_change_taps_value' , {scope : ['kps_taps'] , index : 0})
   		}
       this.$emit('input' , this.resultObject);
 
   	},
   	boolToPreset(flag){
-  		return flag ? 1 : 2
+  		return flag ? this.signs.valid : this.signs.invalid
   	},
   	collectUsersExceptions(){
-  		let i , arr = [];
+  		let i , arr = []; 
+      let temp
   		for (i in this.usersSwitches){
-  			if(this.usersResult[i] != this.usersSwitches[i])
-  				arr.push({ user_id : parseInt(i) , preset_id : this.boolToPreset(this.usersSwitches[i]) })
+  			if(this.usersResult[i] != this.usersSwitches[i]){
+          temp = {}
+          temp[this.keys.user] = parseInt(i)
+          temp[this.keys.preset] = this.boolToPreset(this.usersSwitches[i])
+  				arr.push( temp )
+        }
   		}
   	   this.usersExceptions = arr ;
        this.$emit('input' , this.resultObject);
   	},
   	hashCircles(e){
-  		this.allCircles = e.response ;
+      if(this.allCircles == null) this.allCircles = []
+      let i 
+      for(i = 0; i < e.response.length; i++){
+        if(this.allCircles.indexOf(e.response[i]) == -1)
+          this.allCircles.push(e.response[i])
+      }
+      for(i = 0; i < this.allCircles.length; i++){
+        if(e.response.indexOf(this.allCircles[i]) == -1){
+          this.allCircles.splice(i , 1)
+        }
+      }
+      App.$emit('KnocksContentChanged')
+      if(this.init){
+        this.initComponent(this.init , false)
+      }
       this.$emit('input' , this.resultObject);
   	},
   	implementCircles(){
@@ -444,8 +530,8 @@ export default {
   	userState(preset){
   		let i , ifa = false , v = false ;
   		for(i = 0; i < preset.length ; i++){
-  			if(preset[i] == 3) ifa =  true
-  			if(preset[i] == 1) v =  true
+  			if(preset[i] == this.signs.invalidForAll) ifa =  true
+  			if(preset[i] == this.signs.valid) v =  true
   		}
   	    return ifa || !v ? false : true;
   	},
@@ -454,7 +540,6 @@ export default {
   		let i , j , current;
   			for(j = 0; j < obj.members.length; j++){
   				current = obj.members[j];
-  				console.log('c is '+current);
   				if(this.users.indexOf(current) == -1){
   					this.users.push(current)
   				}
@@ -471,7 +556,8 @@ export default {
   		if(this.publicValue == 'userpresets')
   			App.$emit('knocksRetriver' , {scope : ['kps_presets']});
       if (this.publicValue == 'custom') {
-        App.$emit('knocksRetriver' , {scope : ['kps_circles']});
+        // App.$emit('knocksRetriver' , {scope : ['kps_circles']});
+        this.circlesRetriver.retrive()
       }
       if(this.publicValue == 'custom'){
         App.$emit('knocks_change_taps_value' , {scope : ['kps_taps'] , index : 1})
@@ -480,6 +566,8 @@ export default {
         this.userPresetsRadioSetting = null ;
         this.userPresetsRadio = null ;
       }
+      if(this.publicValue != 'custom' && this.disable_quick_presets)
+        this.publicValue = 'custom'
       this.$emit('input' , this.resultObject);
 
 
@@ -494,6 +582,7 @@ export default {
   			this.circlesClickedOnce = true; 
         this.$emit('input' , this.resultObject);
   			//App.$emit('knocksRetriver' , {scope : ['kps_circles']});
+        this.circlesRetriver.retrive()
   		}else return;
   		
   	},
@@ -548,6 +637,31 @@ export default {
         this.setRadioPreset(this.userPresets[0].preset);
       }
       this.$emit('input' , this.resultObject);
+    },
+    initComponent(obj , kpsc){
+      if(this.initCounts >= 3) return
+        this.initCounts++
+      if(obj.tip !== undefined){
+        this.changePublicValue(obj.tip)
+      }else this.changePublicValue('custom')
+      if(kpsc)
+      // App.$emit('knocksRetriver' , {scope : ['kps_circles']}); 
+        this.circlesRetriver.retrive()
+      else{
+         if(obj.circle_privacy !== undefined){
+        let i 
+        for(i = 0; i < obj.circle_privacy.length; i++){
+          this.circleSwitch[obj.circle_privacy[i].circle_id] = this.signs.valid
+          App.$emit('knocksSwitchChange',{ focus : [this._uid + '_kpsj_'+obj.circle_privacy[i].circle_id] , value : obj.circle_privacy[i].preset });
+        }
+        this.changePublicValue('public')
+        this.changePublicValue('custom')
+      }
+      if(obj.user_privacy !== undefined){
+        let i 
+        this.usersExceptions = obj.user_privacy
+      }
+      }
     }
 
   }

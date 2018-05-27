@@ -82,6 +82,10 @@ Route::post('user/info', 'UserController@getInfo');
 
 Route::post('user/info/lazy', 'UserController@getInfoLazy');
 
+Route::post('user/update/name', 'UserController@updateName');
+
+Route::post('user/update/displayname', 'UserController@updateDisplayName');
+
 Route::post('user/posts', 'UserController@retrivePeopleKnocks');
 
 Route::post('user/posts/older', 'UserController@retriveOlderPeopleKnocks');
@@ -322,6 +326,12 @@ Route::post('user/updatebio', 'UserController@updateUserbio');
 Route::post('user/updatephone', 'UserController@updateUserphone');
 
 Route::post('user/updategender', 'UserController@updateUsergender');
+
+Route::post('user/attr/ps/update', 'UserController@updatePrivacy');
+
+Route::post('user/attr/delete', 'UserController@deleteAttr');
+
+Route::post('user/attr/update', 'UserController@updateAttr');
 
 Route::post('user/ask/first/address', 'UserController@hasAddresses');
 

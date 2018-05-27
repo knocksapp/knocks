@@ -9,7 +9,7 @@
   <el-button v-if = "show_toggler" type="primary" @click="outerVisible = true" class="btncreate knocks_fair_bounds knocks_color_kit" style="border-color : #691a40 !important"><i class="knocks-group2"></i> Create Group</el-button>
   <el-dialog
   :visible.sync="outerVisible"
-  width="30%"
+  width="80%"
   
   >
   

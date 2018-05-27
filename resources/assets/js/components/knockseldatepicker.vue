@@ -11,7 +11,7 @@
 	:class = "picker_classes"
 	v-model="datepicker"
 	:type="type"
-	format="yyyy/M/d"
+	format="d/M/yyyy"
 	@change = "emit($event)"
 	@input = "emit($event)"
 	@create= "watchMyDom()"
@@ -22,6 +22,7 @@
   :end-placeholder="end_placeholder"
 	:prefix-icon = 'innerIcon'
 	:default-time = "defaultTime"
+  :default-value = "defaultTime"
 	:placeholder="placeholder">
 	</el-date-picker>
 	<div class = "col s12" v-if = "isFired">
@@ -75,7 +76,7 @@ export default {
   		default : 'el-icon-date'
   	} , 
   	default_time : {
-  		type : Object , 
+  		type : [Object , String] , 
   		default : null
   	},
   	unlink_panels : {

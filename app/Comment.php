@@ -145,11 +145,15 @@ class Comment extends Model {
 
 			$circle_ps_object = $object->privacy_setting->circle_privacy;
 			foreach ($circle_ps_object as $ob) {
-				$circle_privacy = new Privacy_set_circle();
-				$circle_privacy->circle_id = $ob->circle_id;
-				$circle_privacy->preset_id = $ob->preset_id;
-				$circle_privacy->object_id = $parent_object->id;
-				$circle_privacy->save();
+				if ($ob->circle_id == -1) {
+					$parent_object->updatePublicPresetNum($ob->preset_id);
+				} else {
+					$circle_privacy = new Privacy_set_circle();
+					$circle_privacy->circle_id = $ob->circle_id;
+					$circle_privacy->preset_id = $ob->preset_id;
+					$circle_privacy->object_id = $parent_object->id;
+					$circle_privacy->save();
+				}
 			}
 		}
 		$keywords = User_keywords::where('user_id', '=', auth()->user()->id);

@@ -1,45 +1,53 @@
 <template>
 <div >
   <knockspopover v-if = "!as_list">
-<template slot = "container">
-<a :href="circle_url" data-position="bottom" >
-  <div class="chip ":class="chip_bg_color"v-if = "circleObject != null" >
-    <i v-if = "circleObject.icon != null && circleObject.icon.length > 0 && circleObject.icon != ''" :class="['knocks-'+icn.class , chip_text_color]" v-for = "icn in circleObject.icon"></i>
-    <span v-if="circleObject.icon == null || circleObject.icon =='' "  :class="['knocks_chip_icon' , chip_text_color]">{{circleObject.name[0].toUpperCase()}}</span>
-    <span :class="chip_text_color" v-if = "!only_icon">  {{circleObject.name}}</span>
-  </div></a>
-  </template>
-  <span slot = "content" class = "knocks_tooltip animated flipInX" v-if = "circleObject != null && popover">
-    <i :class="['knocks-'+icn.class , chip_text_color]" v-for = "icn in circleObject.icon"></i> 
-   {{circleObject.name}} <static_message msg="Circle"></static_message>
- </span>
-  </knockspopover>
-  <div v-if = "as_list" v-loading = "isLoading" >
-
-    <knockscollapse 
-                    regular_class = "blue-grey-text text-darken-3 knocks_text_ms"
-                toggler_container = " grey lighten-4 row knocks_gray_hover knocks_margin_keeper knocks_gray_border knocks_fair_padding"
-class = "blue-grey lighten-5 knocks_house_keeper"
-    title = "Show" active_title = "Hide" dual_title  v-if = "circleObject != null" :icon = "firstIcon()">
+  <template slot = "container">
+  <a :href="circle_url" data-position="bottom" >
+    <div class="chip ":class="chip_bg_color"v-if = "circleObject != null" >
+      <i v-if = "circleObject.icon != null && circleObject.icon.length > 0 && circleObject.icon != ''" :class="['knocks-'+icn.class , chip_text_color]" v-for = "icn in circleObject.icon"></i>
+      <span v-if="circleObject.icon == null || circleObject.icon =='' "  :class="['knocks_chip_icon' , chip_text_color]">{{circleObject.name[0].toUpperCase()}}</span>
+      <span :class="chip_text_color" v-if = "!only_icon">  {{circleObject.name}}</span>
+    </div></a>
+    </template>
+    <span slot = "content" class = "knocks_tooltip animated flipInX" v-if = "circleObject != null && popover">
+      <i :class="['knocks-'+icn.class , chip_text_color]" v-for = "icn in circleObject.icon"></i>
+      {{circleObject.name}} <static_message msg="Circle"></static_message>
+    </span>
+    </knockspopover>
+    <div v-if = "as_list" v-loading = "isLoading" >
+      <knockscollapse
+      :toggle_on_mount ="toggled"
+      regular_class = "blue-grey-text text-darken-3 knocks_text_ms"
+      toggler_container = " grey lighten-4 row knocks_gray_hover knocks_margin_keeper knocks_gray_border knocks_fair_padding"
+      class = "blue-grey lighten-5 knocks_house_keeper"
+      title = "Show" active_title = "Hide" dual_title  v-if = "circleObject != null" :icon = "firstIcon()">
       <div slot = "content">
-         <div class = "row knocks_fair_bounds">
-            <knockselinput
-    icon = "knocks-search-2"
-    autocomplete
-    :autocomplete_start="1"
-    show_autocomplete_progress
-    placeholder = "Search.."
-    inner_placeholder
-    v-model = "searchInput"
-    autocomplete_from = "user/search"
-    @autocomplete="handleSearch($event)" ></knockselinput>
-         </div>
-      <knocksshowkeys  v-if = "circleObject != null && searchInput.length == 0" :as_label = "false" as_result extended :show_input = "circleObject.members"></knocksshowkeys>
-      <knocksshowkeys  v-if = "circleObject != null && searchInput.length > 0" :as_label = "false" as_result extended :show_input = "searchResult"></knocksshowkeys>
+        <div class = "row knocks_fair_bounds">
+          <knockselinput
+          icon = "knocks-search-2"
+          autocomplete
+          :autocomplete_start="1"
+          show_autocomplete_progress
+          placeholder = "Search.."
+          inner_placeholder
+          v-model = "searchInput"
+          autocomplete_from = "user/search"
+          @autocomplete="handleSearch($event)" ></knockselinput>
+        </div>
+        <knocksshowkeys
+        :show_key = "show_key"
+        v-if = "circleObject != null && searchInput.length == 0" :as_label = "false"
+        as_result extended
+        :show_input = "circleObject.members"></knocksshowkeys>
+        <knocksshowkeys
+        :show_key = "show_key"
+        v-if = "circleObject != null && searchInput.length > 0"
+        :as_label = "false"
+        as_result extended :show_input = "searchResult"></knocksshowkeys>
       </div>
-    </knockscollapse>
+      </knockscollapse>
+    </div>
   </div>
-</div>
   </template>
 <script>
 export default {
@@ -80,7 +88,15 @@ export default {
     as_list : {
       type : Boolean , 
       default : false 
-    }
+    },
+    toggled : {
+      type : Boolean , 
+      default : false
+    },
+    show_key : {
+      type : Number , 
+      default : 3
+    },
   },
   data () {
     return {
@@ -161,7 +177,7 @@ export default {
         }).then( (response)=>{
           vm.isLoading = false
           vm.bindCircle(response.data)
-        }).catch((err)=>{ console.log(err); });
+        }).catch((err)=>{ console.log(err); vm.$emit('error' , err) });
       }
     },
     bindCircle(object){

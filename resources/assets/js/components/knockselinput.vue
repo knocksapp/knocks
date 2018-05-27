@@ -7,10 +7,12 @@
     
        <el-input  
         @focus="addFocus()"
+        :class = "[{'input-with-select':with_select}]"
         @blur="removeFocus()"
         :placeholder = "innerPlaceholder"
         @keyup.enter = "submit()"
         @change="construct($event)"
+        @input="construct($event)"
         v-model = "elinput"
         :prefix-icon="innerIcon+' '+labelClasses"
         :clearable = "!unclearable"
@@ -22,6 +24,9 @@
       </template>
       <template v-if = "has_slot" :slot = "notLabelPosition">
         <slot name = "aside" ></slot>
+      </template>
+      <template v-if = "has_slot" :slot = "labelPosition">
+        <slot name = "labelside" ></slot>
       </template>
       </el-input>
 
@@ -345,6 +350,10 @@
         unclearable : {
           type : Boolean , 
           default : false
+        },
+        with_select : {
+          type : Boolean ,
+          default : false ,
         }
 
     
@@ -597,7 +606,6 @@
             
           },
           submit(){
-            console.log('submig')
             if(this.unsubmitable) return;
             App.$emit('knocks_presubmit' , this.submitScope);
           },
@@ -733,5 +741,10 @@
         }
     }
 </script>
-
+<style>
+.input-with-select .el-input-group__prepend {
+    min-width : 110px;
+    background-color : white
+  }
+  </style>
 

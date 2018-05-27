@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Privacy_preset;
 use Illuminate\Database\Eloquent\Model;
 
 class obj extends Model {
@@ -118,6 +119,16 @@ class obj extends Model {
 	public function knockIndex() {
 		return json_decode($this->index);
 	}
+	public function index() {
+		return json_decode($this->index);
+	}
+	public function updatePublicPresetNum($num) {
+		$preset = Privacy_preset::find($num)->name;
+		$index = $this->index();
+		$index->public_preset = $preset;
+		$this->index = json_encode($index);
+		$this->update();
+	}
 
 	//Object methods
 
@@ -130,7 +141,8 @@ class obj extends Model {
 	}
 
 	public function isAvailable($requestMaker) {
-		if (!User::find($requestMaker)) {
+		$maker = User::find($requestMaker);
+		if (!$maker) {
 			return false;
 		}
 
@@ -142,6 +154,13 @@ class obj extends Model {
 			return true;
 		}
 
+		if (!$maker->isFriend($object_owner)) {
+			if (isset($this->index()->public_preset)) {
+				return $this->index()->public_preset == 'valid' ? true : false;
+			} else {
+				return true;
+			}
+		}
 		$preset_id_privacy_user = $this->privacySetUsers()->where('user_id', '=', $requestMaker)->first();
 
 		if (!($preset_id_privacy_user == null)) {

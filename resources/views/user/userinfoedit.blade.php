@@ -1,4 +1,7 @@
 @extends('layouts.user')
+@section('headers')
+<title>Settings</title>
+@endsection
 @section('content')
 
 <div>
@@ -10,8 +13,9 @@
 
 </div>
 <div >
-<knocksuserinfo>
-</knocksuserinfo>
+{{-- <knocksuserinfo>
+</knocksuserinfo> --}}
+<knocksusersettings></knocksusersettings>
 </div>
 
 @endsection

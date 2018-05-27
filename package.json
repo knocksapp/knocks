@@ -40,6 +40,8 @@
         "moment": "^2.22.1",
         "moment-js": "^1.1.15",
         "moment-timezone": "^0.5.17",
+        "node-sass": "^4.9.0",
+        "npm": "^6.0.1",
         "pnotify": "^3.2.1",
         "recorder-js": "^1.0.7",
         "semantic-ui": "^2.3.1",

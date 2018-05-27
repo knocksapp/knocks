@@ -42,11 +42,13 @@ float : {{  auth()->user()->userLanguageAlignment() }} ;
 @include('layouts.usernav')
 @include('layouts.rightnav')
 </div>
+@yield('headers')
 </head>
 <body>
 <main id = "knocks_main" style= "background-color: #eceff1">
 <div class = "knocks_full_wrapper"></div>
 <div id = "app"  class = "row" style="margin-bottom: 0px;">
+  <knocksgroupcreation></knocksgroupcreation>
 <!--Notification-->
 <div class = "knocks_balloons_container" >
   <knocksvoicecommands></knocksvoicecommands>

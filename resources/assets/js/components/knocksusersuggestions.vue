@@ -10,14 +10,16 @@
 			<p class = "center knocks_text_ms knocks_text_bold blue-grey-text text-darken-2">
 				<static_message msg = "People you may know"></static_message>
 			</p>
+			
 			<knocksuser 
 			:user = "user" 
-			v-if = "(index == currentFrame || index == (currentFrame -1)) && (!isSmallScreen || index % 2 == 0)"
+			v-if = "(index == currentFrame || (index == (currentFrame -1) && !isSmallScreen))"
 			:class = "[currentTransition , 'col l6 s12']"
 			@input = "handleUser($event , index)"
 			v-for = "(user , index) in currentSuggest" 
 			:key = "index" 
 			as_card></knocksuser>
+		 
 		</div>
 		<div class="row"  element-loading-text="Loading..." v-loading = "gripper.loading" element-loading-spinner="el-icon-loading">
 			<div class = "col s2">
@@ -77,7 +79,7 @@ export default {
   		
   	},
   	slide(direction){
-  		this.currentTransition = direction == 'right' ? 'animated slideInRight' : 'animated slideInLeft'
+  		this.currentTransition = direction == 'right' ?'animated slideInLeft' : 'animated slideInRight'  
   		let t = this.currentFrame
   		t = direction == 'right' ? t += this.step : t -= this.step
   		this.currentFrame = t > this.currentSuggest.length -1 ? this.currentSuggest.length -1  : t

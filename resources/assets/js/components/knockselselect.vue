@@ -33,8 +33,9 @@
       v-if ="isObect(item)" 
       :key="item.value"
       :label="labels[item.value]"
+      :disabled = "item.disabled"
       :value="item.value">
-      <div>
+      <div v-if = "!disable_custom_template">
       	 <span :class = "[ item.icon  , icon_classes]" v-if = "item.icon !== undefined"></span>
          <static_message 
          v-model = "labels[item.value]" 
@@ -49,9 +50,11 @@
       :label="item"
       :value="item">
       <div>
-      	 <span :class = "[ general_icon  , icon_classes]" v-if = "general_icon.length > 0"></span>
-         <static_message :class = "[label_classes]" v-if = "general_static" :msg = "item"></static_message>
-         <span :class = "[label_classes]" v-else>{{item}}</span>
+      	 <span v-if = "!disable_custom_template">
+            <span :class = "[ general_icon  , icon_classes]" v-if = "general_icon.length > 0"></span>
+            <static_message :class = "[label_classes]" v-if = "general_static && feeds && feeds.indexOf(item) != -1" :msg = "item"></static_message>
+            <span :class = "[label_classes]" v-else>{{item}}</span> 
+         </span>
       </div>
     </el-option>
   </el-select>
@@ -168,6 +171,10 @@ export default {
     	type : Boolean , 
     	default : false
     },
+    disable_custom_template : {
+      type : Boolean , 
+      default : false
+    },
     is_required : {
     	type : Boolean , 
     	default : false
@@ -199,7 +206,11 @@ export default {
   	input_class : {
   		type : [String , Array , Object] ,
   		default : 'col s12 knocks_house_keeper'
-  	}
+  	},
+    start_as : {
+      type : [String , Array] , 
+      default : null 
+    }
   },
   data () {
     return {
@@ -225,6 +236,12 @@ export default {
   },
   mounted(){
   	if(this.feeds) this.options = this.feeds
+    this.$emit('mount')
+
+   if(this.start_as){
+    this.elselect = this.start_as
+    this.emit(this.elselect)
+   } 
 
   	const vm = this
     setTimeout( ()=>{
@@ -274,6 +291,50 @@ export default {
 	    
 	   }
 	});
+
+  App.$on('knocks_input_update' , (payloads)=>{
+            if(payloads.scope != null){
+              let i;
+              if(vm.scope == null) return;
+              for(i = 0; i < payloads.scope.length; i++){
+                if(vm.scope.indexOf(payloads.scope[i]) != -1){
+                 vm.elselect = payloads.value ;
+                 vm.$emit('input' , vm.elselect)
+                 if(payloads.isFired != undefined){
+                  vm.isFired = payloads.isFired
+                 }else vm.isFired = true  
+                 return;
+                }
+              }
+              return;
+           }else if(scope == null && vm.scope == null){
+            vm.isFired = true;
+             vm.elselect = scope.value ;
+           }
+    });
+
+  App.$on('knocks_elselect_update_feeds' , (payloads)=>{
+            if(payloads.scope != null){
+              let i;
+              if(vm.scope == null || vm.feeds == null) return;
+              for(i = 0; i < payloads.scope.length; i++){
+                if(vm.scope.indexOf(payloads.scope[i]) != -1){
+                 let temp = vm.elselect
+                 vm.options = []
+                 setTimeout(()=>{
+                  vm.options = payloads.feeds
+                  vm.elselect = temp
+                  vm.emit(vm.elselect)
+                 },300)
+                 return;
+                }
+              }
+              return;
+           }else if(scope == null && vm.scope == null){
+            vm.isFired = true;
+             vm.elselect = scope.value ;
+           }
+    });
     
   },
   computed : {

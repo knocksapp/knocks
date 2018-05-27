@@ -216,6 +216,9 @@ button:focus {
 .knocks_mp_top_margin{
     margin-top: 7px !important;
 }
+.knocks_mp_bottom_margin{
+    margin-bottom: 7px !important;
+}
 .knocks_tinny_margin{
   margin : 2px;
 }
@@ -873,6 +876,9 @@ span.badge.new{
 .el-popper[x-placement^=bottom] {
     margin-top: 12px;
     z-index: 199999999999999999999 !important;
+}
+.el-dialog__body{
+  padding : 10px !important;
 }
 .el-select-dropdown{
   z-index: 5510000001 !important;

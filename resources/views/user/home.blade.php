@@ -21,7 +21,6 @@
           success_msg = "Done."
           gid = "knockknock"></knock>
         </div>
-        <knocksgroupcreation></knocksgroupcreation>
         {{--   <knockscircleseditor></knockscircleseditor> --}}
         <div id = "knocks_homepage_lower_area">
           <transition name="custom-classes-transition" enter-active-class="animated zoomIn" leave-active-class="animated zoomOut">
@@ -86,7 +85,7 @@
             </div>
           </transition>
         </div>
-        <el-carousel :interval="30000" arrow="always" height = "400px">
+      {{--   <el-carousel :interval="30000" arrow="always" height = "400px">
         <el-carousel-item>
         <knocksquickaddress show_title></knocksquickaddress>
         </el-carousel-item>
@@ -103,7 +102,7 @@
         <el-carousel-item>
         <knocksusercareers tiny></knocksusercareers>
         </el-carousel-item>
-        </el-carousel>
+        </el-carousel> --}}
 
 
         <knocksusersuggestions></knocksusersuggestions>

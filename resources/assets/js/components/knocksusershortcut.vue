@@ -680,6 +680,7 @@ export default {
       this.userObject.fullName = this.fullName ;
       this.userObject.thatsMe = this.thatsMe ;
       this.$emit('input' , this.userObject);
+      this.$emit('ready' , this.userObject);
       window.UsersObject[this.user] = this.userObject;
       if(this.as_card){
       }
@@ -689,16 +690,25 @@ export default {
       return LaravelOrgin + url ;
     },
     getDisplayName(){
-      if(!this.userObject) null;
-      if(this.userObject.display_name === undefined) null;
-      if(this.userObject.display_name.length == 0) return this.first_name;
+      if(!this.userObject) return;
+      if(this.userObject.display_name === undefined || this.userObject.display_name.length == 0){
+        this.displayName = this.first_name;
+        return
+      }
       let i, temp = [];
       for(i = 0; i < this.userObject.display_name.length; i++){
-        if(this.userObject[ this.userObject.display_name[i] ] !== undefined){
+        if(this.userObject[ this.userObject.display_name[i] ] !== undefined 
+          && this.userObject[ this.userObject.display_name[i] ] !== null
+          && this.userObject[ this.userObject.display_name[i] ].length > 0){
           if(this.userObject.display_name[i] == 'nickname' && this.userObject.display_name.length > 1)
             temp.push('('+this.userObject[this.userObject.display_name[i]] + ')')
          else temp.push(this.userObject[this.userObject.display_name[i]])
         }
+      }
+      if(temp.length == 0){
+        this.userObject.display_name = ['first_name' , 'last_name']
+        temp.push(this.userObject.first_name)
+        temp.push(this.userObject.last_name)
       }
       this.displayName = temp.join(' ');
       this.handledDisplayName = this.displayName.length > 15 ? this.displayName.substr(0,15)+'..' : this.displayName

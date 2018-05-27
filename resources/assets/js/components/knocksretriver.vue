@@ -168,10 +168,14 @@ export default {
   				recursion_time : this.recursion_time , 
   				recursion_precondition : this.recursion_precondition , 
 
-  			}
+  			},
+        retrive : this.remoteRetrive
   		}
   		this.$emit('input' , this.result); 
   	},
+    remoteRetrive(){
+      App.$emit('knocksRetriver' , {scope : this.scope});
+    },
     watchMyWindow(){
         const vm = this;
         $(document).ready(function(){

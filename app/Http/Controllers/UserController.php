@@ -494,4 +494,57 @@ class UserController extends Controller {
 		return 'done';
 	}
 
+	public function updateName(Request $req) {
+		$req->validate(['first_name' => 'required', 'last_name' => 'required']);
+		auth()->user()->first_name = $req->first_name;
+		auth()->user()->last_name = $req->last_name;
+		auth()->user()->middle_name = $req->middle_name;
+		auth()->user()->nickname = $req->nickname;
+		auth()->user()->update();
+		return 'done';
+	}
+
+	public function updateDisplayName(Request $req) {
+		$req->validate(['display_name' => 'required']);
+		$cog = auth()->user()->cog();
+		$cog->display_name = $req->display_name;
+		auth()->user()->configuration = json_encode($cog);
+		auth()->user()->update();
+		return 'done';
+	}
+
+	public function updatePrivacy(Request $req) {
+		$req->validate(['key' => 'required', 'circle_privacy' => 'required']);
+		$cog = auth()->user()->cog();
+
+		$pcs = $cog->privacy_circle_set;
+		$pus = $cog->privacy_user_set;
+		$key = $req->key;
+		$pcs->$key = $req->circle_privacy;
+		$pus->$key = $req->user_privacy;
+
+		$cog->privacy_circle_set = $pcs;
+		$cog->privacy_user_set = $pus;
+
+		auth()->user()->configuration = json_encode($cog);
+		auth()->user()->update();
+		return 'done';
+	}
+
+	public function deleteAttr(Request $req) {
+		$req->validate(['key' => 'required']);
+		$key = $req->key;
+		auth()->user()->$key = null;
+		auth()->user()->update();
+		return 'done';
+	}
+
+	public function updateAttr(Request $req) {
+		$req->validate(['key' => 'required']);
+		$key = $req->key;
+		auth()->user()->$key = $req->value;
+		auth()->user()->update();
+		return 'done';
+	}
+
 }

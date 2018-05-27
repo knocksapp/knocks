@@ -2,6 +2,7 @@
   <el-button class=" " 
   v-loading = "isLoading" 
   :disabled = "disabled" 
+  :plain = "plain"
   :circle = "circle"
   :size = "size" :round = "rounded"
   :type = "type"
@@ -141,6 +142,10 @@ export default {
       default : false
     },
     circle : {
+      type : Boolean , 
+      default : false 
+    },
+    plain : {
       type : Boolean , 
       default : false 
     },

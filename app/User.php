@@ -504,7 +504,6 @@ class User extends Authenticatable {
 								} elseif ($pus->preset == 'invalid_for_all') {
 									$resultObject[$prop] = 'INVALIDFORALL';
 								}
-
 							}
 						}
 					} else {
@@ -528,6 +527,11 @@ class User extends Authenticatable {
 				$resultObject[$prop] = null;
 			}
 
+		}
+		if (auth()->check()) {
+			if (auth()->user()->id == $requester && $requester == $this->id) {
+				$resultObject['cog'] = $this->cog();
+			}
 		}
 		$resultObject['addresses'] = $this->getAddresses($requester);
 		$resultObject['common_people'] = $this->id != $requester ? $this->metualFriends($requester) : [];
