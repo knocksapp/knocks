@@ -42,7 +42,6 @@
           </el-alert>
         </div>
         <br/>
-        <hr/>
         <!--Add Words End-->
         <!--Translation-->
         <div style="margin-top: 5px;">
@@ -91,7 +90,6 @@
           <br/>
         </div>
         <br/><br/>
-        <hr/>
         <!--Translation End-->
         <!--All Words-->
         <div style="margin-top: 5px;">
@@ -167,14 +165,14 @@
           Delete Knocks Data
           </el-button>
         </div>
-        <div class = "col ">
+        <p class = "col s12">
           Truncate all the Knocks, which means deleting its childs too, this will truncate all of <span class ="knocks_text_danger">Ballons, Reactions, Blobs, Comments</span> and
           <span class = "knocks_text_danger">Knocks</span> tables.
-        </div>
+        </p>
         <el-dialog
         title="Delete All Knocks Data ?"
         :visible.sync="resetKnocksDialog"
-        width="30%"
+        width="80%"
         >
         <span>Confirming this dialog will truncate all of <span class ="knocks_text_danger">Ballons, Reactions, Blobs, Comments</span> and
         <span class = "knocks_text_danger">Knocks</span> tables.
@@ -184,21 +182,24 @@
         <el-button type="primary" @click="resetKnocks()">Confirm</el-button>
       </span>
       </el-dialog>
-      <br/><br/><hr/><br/>
-      <div class = "col s3">
+      <br/><br/><br/>
+      <div class = "col s12">
+        <div class="ui horizontal divider transparent">
+          Delete Users Data
+        </div>
         <el-button type="danger" icon = " knocks_icon knocks-trash2" :loading = "resetKnocksLoading"
         @click = "resetKnocksDialog=true">
         Delete Users Data
         </el-button>
       </div>
-      <div class = "col ">
+      <p class = "col s12">
         Truncate all the Users, which means deleting its childs too, this will truncate all of  <span class ="knocks_text_danger">Ballons, Reactions, Blobs, Comments, Knocks, Circles, Circle Members, Privacy Circle Sets, Privacy User Sets, Objects</span> and
         <span class = "knocks_text_danger">Users</span> tables.
-      </div>
+      </p>
       <el-dialog
       title="Delete All Knocks Data ?"
       :visible.sync="resetAllDialog"
-      width="30%"
+      width="80%"
       >
       <span>Confirming this dialog will truncate all of <span class ="knocks_text_danger">Ballons, Reactions, Blobs, Comments, Knocks, Circles, Circle Members, Privacy Circle Sets, Privacy User Sets, Objects</span> and
       <span class = "knocks_text_danger">Users</span> tables.
@@ -208,21 +209,24 @@
       <el-button type="primary" @click="resetUsers()">Confirm</el-button>
     </span>
     </el-dialog>
-    <br/><br/><hr/><br/>
-    <div class = "col s3">
-      <el-button type="danger" icon = " knocks_icon knocks-trash2" :loading = "resetKnocksLoading"
+    <br/><br/><br/>
+    <div class = "col s12">
+      <div class="ui horizontal divider transparent">
+        Rebound The Initial Data
+      </div>
+      <el-button type="warning" icon = " knocks_icon knocks-lab4" :loading = "resetKnocksLoading"
       @click = "reinstallDialog=true">
       Rebound The Initial Data
       </el-button>
     </div>
-    <div class = "col ">
+    <p class = "col s12">
       If you have a fresh install or migration for the Database, so this will rebound the initial data for the whole App
       <span class ="knocks_text_danger">, You will need to reinsert the Static Messages manually from the database but still you cant if you dont have this kind of data</span>
-    </div>
+    </p>
     <el-dialog
     title="Delete All Knocks Data ?"
     :visible.sync="reinstallDialog"
-    width="30%"
+    width="80%"
     >
     <span>Confirming this dialog will reinsert <span class ="knocks_text_danger">Langauges and Presets</span>
   Are you sure that you already dont have them inserted?</span>
@@ -232,19 +236,24 @@
   </span>
   </el-dialog>
   <div class = "col s12">
-      <knockselbutton
-  placeholder = "Add 100 Users"
-  type = "success"
-  :error_at = []
-  :scope = "['add_random_users']"
-  validation_error = "You need to complete some fields"
-  reset_on_success
-  submit_at = "dev/db/add/users"
-  success_at = "done"
-  :timeout = "36000"
-  success_msg = "Added 100 user Successfully"
-  :submit_data = " {} ">
-  </knockselbutton>
+    <div class="ui horizontal divider transparent">
+      Add 100 Users
+    </div>
+    <knockselbutton
+    placeholder = "Add 100 Users"
+    type = "success"
+    :error_at = []
+    :scope = "['add_random_users']"
+    validation_error = "You need to complete some fields"
+    reset_on_success
+    submit_at = "dev/db/add/users"
+    success_at = "done"
+    :timeout = "60000"
+    icon = "knocks-plus"
+    success_msg = "Added 100 user Successfully"
+    :submit_data = " {} ">
+    </knockselbutton>
+    <p class = "col s12">Add 100 Users For Testing</p>
   </div>
   <div class = "col s12">
     <div class="ui horizontal divider transparent">
@@ -257,7 +266,7 @@
     success_at = "done"
     placeholder = "Delete All Circle Members"
     icon = "knocks-trash2"></knockselbutton>
-    <span class = "red-text knocks_fair_bounds">Clicking this will remove all circle members which means all friendship relations will be removed.s</span>
+    <p class = "red-text knocks_fair_bounds col s12">Clicking this will remove all circle members which means all friendship relations will be removed.</p>
   </div>
 </div>
 </transition>
@@ -390,7 +399,7 @@
     The Result :
     <static_message msg="replace ** by @@" replaceable
     :replacements = "[ { target : '**' , body : 'Bar'  } , { target : '@@' , body : 'Foo'} ]"></static_message>
-    <br/><br/><hr/><br/>
+    <br/><br/><br/>
     <div class = "row">
       <h3 class = "knocks_text_dark">Knocks Inputs and Knocks Button</h3>
       <knocksinput
@@ -450,7 +459,7 @@
       </knocksbutton>
       <br/>
     </div>
-    <br/><br/><hr/><br/>
+    <br/><br/><br/>
     <div class = "row">
       <h3 class = "knocks_text_dark">Knocks Cover Uploader</h3>
       <knockscoveruploader
@@ -479,7 +488,6 @@
   <hr>
   <br/>
   <br/>
-  <hr/>
   <div class="row">
     <el-tabs tab-position="left">
     <el-tab-pane label="User Career">
@@ -500,15 +508,12 @@
     </el-tabs>
   </div>
   <hr>
-  <hr/>
   <div class="row knocks_fair_bounds">
     <knocksuserabout :user = "1"></knocksuserabout>
   </div>
-  <hr/>
   <div class="row knocks_fair_bounds">
     <knocksgroupcreation></knocksgroupcreation>
   </div>
-  <hr/>
   <div class = "row">
     <h3>Knocks User</h3>
     <knocksuser :user = "1" as_result></knocksuser>

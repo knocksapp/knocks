@@ -289,13 +289,13 @@
     </div>
     <!--Small Card Presentation Ends ==========================================================================-->
     <!--Label Presentation Begins =============================================================================-->
-    <div class="ui image label"  contenteditable="false" v-if="as_label" :class = "label_classes">
+    <a class="ui image label"  contenteditable="false" v-if="as_label" :class = "label_classes" :href = "userUrl">
       <knocksimg :src = "asset('media/avatar/compressed/'+user)" :classes = "{'knocks_user_profile_scope' : thatsMe}" ></knocksimg>
       <el-tooltip :content = "displayName" placement="bottom-start">
       <span> {{handledDisplayName}} </span>
       </el-tooltip>
       <slot name = "append"></slot>
-    </div>
+    </a>
     <!--Label Presentation Ends ========================================================================-->
     <!--Report Presentation Begins =====================================================================-->
     <div  :class="main_container" contenteditable="false" v-if="as_report && userObject != null">
