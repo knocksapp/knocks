@@ -225,7 +225,7 @@ class DevController extends Controller {
 			'Alejandro',
 			'Carson',
 			'Jesse',
-			'1Tristan',
+			'Tristan',
 		];
 		for ($i = 0; $i < 100; $i++) {
 			$user = new User();
