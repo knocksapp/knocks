@@ -167,9 +167,9 @@ export default {
   				recursion : this.recursed , 
   				recursion_time : this.recursion_time , 
   				recursion_precondition : this.recursion_precondition , 
-
   			},
-        retrive : this.remoteRetrive
+        scopeRetrive : this.remoteRetrive , 
+        retrive : this.retrive
   		}
   		this.$emit('input' , this.result); 
   	},

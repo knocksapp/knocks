@@ -28,6 +28,7 @@
 							inner_placeholder
 							placeholder = "First Name"
 							icon = "knocks-grinning-face knocks_text_md"
+							@control = "testCont($event)"
 							is_required
 							:start_as = "authModel.first_name"
 							:max_len = "15"
@@ -684,7 +685,7 @@
 				<div class = "col s12 knocks_house_keeper">
 					<div class = "col s12">
 						<div class="input-field col s12">
-							<textarea :id="'knocks_settings_bio_'+_uid" class="materialize-textarea" v-model = "input.bio"  ></textarea>
+							<textarea :id="'knocks_settings_bio_'+_uid" class="materialize-textarea knocks_input_ps knocks_textarea_ps" v-model = "input.bio"  ></textarea>
 							<label :for="'knocks_settings_bio_'+_uid" :id = "'knocks_settings_bio_label_'+_uid">
 								<span class = "knocks-feather2"></span>
 								<static_message msg = "Biography"></static_message>
@@ -915,6 +916,9 @@ export default {
         		return {key :  phone.substr(0 , this.countries[i].phone.length + 1) , phone : phone.substr(this.countries[i].phone.length + 1)}
         }
         return {key : null , phone : null}
+    },
+    testCont(con){
+    	window.ContIn = con
     }
   }
 }

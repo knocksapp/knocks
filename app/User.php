@@ -504,18 +504,18 @@ class User extends Authenticatable {
 								} elseif ($pus->preset == 'invalid_for_all') {
 									$resultObject[$prop] = 'INVALIDFORALL';
 								}
+
 							}
 						}
 					} else {
-						if (!(isset($resultObject[$prop]))) {
-							// array_push($public, $prop); //OPT TEST
-							if ($pus->preset == 'valid') {
-								$resultObject[$prop] = $this->$prop;
-							} else {
-								$resultObject[$prop] = 'INVALID';
-							}
 
+						// array_push($public, $prop); //OPT TEST
+						if ($pus->preset == 'valid') {
+							$resultObject[$prop] = $this->$prop;
+						} else {
+							$resultObject[$prop] = 'INVALID';
 						}
+
 					}
 				}
 			}
