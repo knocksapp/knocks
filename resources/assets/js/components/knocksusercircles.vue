@@ -20,7 +20,7 @@
     <div class = "row">
       <ul class= "uk-list uk-list-divider">
         <li v-for="(circle,index) in circles" class="knocks_text_dark knocks_fair_bounds knocks_blue_gray_hover knocks_tinny_border_radius" v-if = "index < userShowKey" v-loading = "circlesListLoaders[index]">
-          <knockscirclechip :circle = "circle" v-model = "circlesModels[index]"></knockscirclechip>
+          <knockscirclechip :circle = "circle" class = "col" v-model = "circlesModels[index]"></knockscirclechip>
           <el-button type="button" class = "right  uk-button-small uk-button uk-button-default knocks_borderless" v-if = "circle != mainCircle">
           <span class = "knocks-more-vertical"></span>
           </el-button>

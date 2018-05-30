@@ -16,7 +16,7 @@
         v-model = "elinput"
         :prefix-icon="innerIcon+' '+labelClasses"
         :clearable = "!unclearable"
-       :id = "gid">
+       :id = "'knocks_input_'+_uid">
          <template :slot = "labelPosition" v-if = "!disable_placeholder && !inner_placeholder">
          <i v-if="!isLoading" class="material-icons prefix " :class = "iconClasses"></i>
         <static_message :msgid="place_holder" :class="labelClasses" v-if = "placeholder == null && !disable_placeholder"></static_message>
@@ -382,6 +382,15 @@
             elinput : '' ,
             innerPlaceholder : '' ,
             autoCompleteLoading : false ,
+            domObject : $('#knocks_input_'+this._uid+'>input') , 
+            controllers : {
+              update : this.remoteUpdate , 
+              reset : this.remoteReset , 
+              focus : $('#knocks_input_'+this._uid+'>input').focus() , 
+              blur : $('#knocks_input_'+this._uid+'>input').blur() , 
+              submit : this.submit , 
+              domObject : $('#knocks_input_'+this._uid+'>input')
+            }
 
           }
         },
@@ -484,13 +493,6 @@
           $('.el-input__inner').keyup(function(){
             $(this).css({ 'text-align' : window.TextAlignWeight($(this).val()).max  , 'font-family' : FontsAlignment[window.TextAlignWeight($(this).val()).max]})
           })
-
-          // App.$on('errorsMessageBusLoaded' , function(errorsMessageBus){
-          //   vm.bindErrorBus(errorsMessageBus);
-          // });
-          // if (window.ErrorMessageBus.length > 0){
-          //   this.bindErrorBus(window.ErrorMessageBus);
-          // }
           if(this.start_as != null){
             this.elinput = this.start_as;
             this.$emit('input' , this.elinput);
@@ -502,6 +504,8 @@
           this.bindErrorBus();
           if(!this.unsubmitable)
             this.submitScope = this.submit_scope == null ? this.scope : this.submit_scope;
+
+          this.$emit('control' , this.controllers)
 
           App.$on('knocks_submit' , (scope)=>{
             if(scope != null){
@@ -540,7 +544,7 @@
              vm.input = scope.value ;
            }
           });
-          $('#'+this.gid+'>input').keyup(function(e){
+          $('#knocks_input_'+this._uid+'>input').keyup(function(e){
             if(e.which == 13)
               vm.submit();
           })
@@ -591,6 +595,14 @@
           // ] ;
         },
         methods : {
+          remoteUpdate(){
+            this.elinput = arguments[0] 
+            this.$emit('input' , this.elinput)
+          },
+          remoteReset(){
+            this.elinput = null 
+            this.$emit('input' , this.elinput)
+          },
           removeFocus(){
             //this.knocks_focus = 'knocks_input_ps';
             //this.spanClass = 'knocks_text_dark';

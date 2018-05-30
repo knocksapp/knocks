@@ -232,6 +232,10 @@ export default {
     	erros : [] , 
     	avoidClash : false ,
     	labels : {} , 
+      controllers : {
+              update : this.remoteUpdate , 
+              reset : this.remoteReset , 
+            }
     }
   },
   mounted(){
@@ -335,6 +339,8 @@ export default {
              vm.elselect = scope.value ;
            }
     });
+
+    this.$emit('control' , this.controllers)
     
   },
   computed : {
@@ -370,6 +376,14 @@ export default {
   	isObect(item){
   		return typeof item == 'object' ? true : false
   	} ,
+    remoteUpdate(){
+      this.elselect = arguments[0] 
+      this.$emit('input' , this.elinput)
+    },
+    remoteReset(){
+      this.elselect = null 
+      this.$emit('input' , this.elinput)
+    },
   	handleFeeds(e){
   		let i , j 
   		this.options = []

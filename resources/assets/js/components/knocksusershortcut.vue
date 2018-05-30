@@ -19,8 +19,8 @@
   url = "user/info"></knocksretriver>
   <!-- Regular Retriver Ends ============================================================================-->
   <div v-if = "regularRetriver != null || lazyRetriver != null" >
-    <knocksloaderbar class = "col s12 animated fadeIn" v-if = "regularRetriver.loading"></knocksloaderbar>
-    <knocksloaderbar class = "col s10 animated fadeIn" v-if = "regularRetriver.loading"></knocksloaderbar>
+    <knocksloaderbar class = "col s12 animated pulse infinite" prog = "pink lighten-3" bg = "grey lighten-2" v-if = "regularRetriver.loading"></knocksloaderbar>
+    <knocksloaderbar class = "col s10 animated pulse infinite" prog = "pink lighten-3" bg = "grey lighten-2" v-if = "regularRetriver.loading"></knocksloaderbar>
     <!-- Popover Begins =================================================================================-->
     <el-popover
     v-if = "!hide_popover && userObject != null"
@@ -83,7 +83,7 @@
     <div v-if = "onDefaultView && userObject != null" :class = "[main_container]">
       <div v-if = "!hide_popover">
         <knocksimg  v-popover:userpopover
-        :src = "asset('media/avatar/compressed/'+user)" :classes = "[knocks_avatar_classes, {'knocks_user_profile_scope' : thatsMe}]" v-if = "!hide_image">
+        :src = "asset('media/avatar/compressed/'+user)" :classes = "[knocks_avatar_classes, 'animated zoomInDown' , {'knocks_user_profile_scope' : thatsMe}]" v-if = "!hide_image">
         </knocksimg>
         <div :class = "name_container_class" class="" v-if ="!hide_text_info">
           <a :class = "name_class" :href = "userUrl" v-popover:userpopover v-if="userObject && !hide_name"> {{ displayName }}</a>
@@ -93,7 +93,7 @@
         </div>
       </div>
       <div v-else>
-        <knocksimg :src = "asset('media/avatar/compressed/'+user)" :classes = "[knocks_avatar_classes, {'knocks_user_profile_scope' : thatsMe}]" v-if = "!hide_image">
+        <knocksimg :src = "asset('media/avatar/compressed/'+user)" :classes = "[knocks_avatar_classes, 'animated zoomInDown' , {'knocks_user_profile_scope' : thatsMe}]" v-if = "!hide_image">
         </knocksimg>
         <div :class = "name_container_class" class="" v-if ="!hide_text_info">
           <a :class = "name_class" :href = "userUrl"  v-if="userObject && !hide_name"> {{ displayName }}</a><slot name = "append_to_display_name"></slot><br/>
@@ -289,13 +289,13 @@
     </div>
     <!--Small Card Presentation Ends ==========================================================================-->
     <!--Label Presentation Begins =============================================================================-->
-    <div class="ui image label"  contenteditable="false" v-if="as_label" :class = "label_classes">
+    <a class="ui image label"  contenteditable="false" v-if="as_label" :class = "label_classes" :href = "userUrl">
       <knocksimg :src = "asset('media/avatar/compressed/'+user)" :classes = "{'knocks_user_profile_scope' : thatsMe}" ></knocksimg>
       <el-tooltip :content = "displayName" placement="bottom-start">
       <span> {{handledDisplayName}} </span>
       </el-tooltip>
       <slot name = "append"></slot>
-    </div>
+    </a>
     <!--Label Presentation Ends ========================================================================-->
     <!--Report Presentation Begins =====================================================================-->
     <div  :class="main_container" contenteditable="false" v-if="as_report && userObject != null">
@@ -385,7 +385,7 @@
     <!--Result Presentation Begins ===================================================================-->
     <div v-if = "as_result && userObject != null">
       <div :class = "main_container">
-        <knocksimg :src = "asset('media/avatar/compressed/'+user)" :classes = "[knocks_avatar_classes,{'knocks_user_profile_scope' : thatsMe}]"></knocksimg>
+        <knocksimg :src = "asset('media/avatar/compressed/'+user)" :classes = "[knocks_avatar_classes, 'animated zoomInDown' ,{'knocks_user_profile_scope' : thatsMe}]"></knocksimg>
         <div class = "">
           <div  class="">
             <div class = "col" v-if = "!hide_text_info">
@@ -411,7 +411,7 @@
     <!--CallBack Presentation Begins ===================================================================-->
     <div v-if = "as_callback && userObject != null" class = "row knocks_house_keeper" :class = "[callback_container]">
       <a @click = "emitClick()" :class = "[main_container]">
-        <knocksimg :src = "asset('media/avatar/compressed/'+user)" :classes = "[knocks_avatar_classes,{'knocks_user_profile_scope' : thatsMe}]"></knocksimg>
+        <knocksimg :src = "asset('media/avatar/compressed/'+user)" :classes = "[knocks_avatar_classes, 'animated zoomInDown' ,{'knocks_user_profile_scope' : thatsMe}]"></knocksimg>
         <span :class ="[name_class]" >{{ displayName }}</span>
         <slot name = "append"></slot>
         <span v-if = "userObject.chatStatus && !clashProp" class="right uk-badge" :class = "[{'red' : !calcStatus} , {'green' : calcStatus}]">{{userObject.chatStatus}}
@@ -449,7 +449,7 @@ export default {
     },
     main_container : {
        type : String ,
-       default : 'row'
+       default : 'row animated fadeIn'
     },
     name_class : {
       type : String ,

@@ -36,6 +36,7 @@
 							inner_placeholder
 							placeholder = "First Name"
 							icon = "knocks-grinning-face knocks_text_md"
+							@control = "testCont($event)"
 							is_required
 							:start_as = "authModel.first_name"
 							:max_len = "15"
@@ -692,14 +693,14 @@
 				<div class = "col s12 knocks_house_keeper">
 					<div class = "col s12">
 						<div class="input-field col s12">
-							<textarea :id="'knocks_settings_bio_'+_uid" class="materialize-textarea" v-model = "input.bio"  ></textarea>
+							<textarea :id="'knocks_settings_bio_'+_uid" class="materialize-textarea knocks_input_ps knocks_textarea_ps" v-model = "input.bio"  ></textarea>
 							<label :for="'knocks_settings_bio_'+_uid" :id = "'knocks_settings_bio_label_'+_uid">
 								<span class = "knocks-feather2"></span>
 								<static_message msg = "Biography"></static_message>
 							</label>
 						</div>
 					</div>
-							<div class = "col s12 knocks_mp_bottom_margin knocks_mp_top_margin">
+					<div class = "col s12 knocks_mp_bottom_margin knocks_mp_top_margin">
 						<div class = "col s6 knocks_house_keeper">
 							<div class="col knocks_house_keeper">
 								<knocksprivacyadjustments
@@ -762,6 +763,75 @@
 							></knockselbutton>
 						</div>
 					</div>
+				</div>
+			</div>
+			<div class = "col s12 knocks_tinny_border_radius blue-grey lighten-5 knocks_gray_border knocks_mp_top_margin" v-if = "authModel != null">
+				<p class = "knocks_text_md blue-grey-text text-darken-3 ">
+					<span class = "knocksapp-picture2"></span>
+					<static_message msg = "Profile Picture"></static_message>
+				</p>
+				<div class = "col s12 knocks_house_keeper">
+					<knocksimg :src = "asset('media/avatar/'+auth)" @clicked = "input.ppdialog = true"
+					:classes = "['knocks_user_profile_scope col knocks_bold_white_border z-depth-3 knocks_house_keeper knocks_tinny_border_radius l6 s12']"></knocksimg>
+					<p class = "col s12">
+						<static_message msg = "Update your profile picture"></static_message>
+					</p>
+					<el-dialog
+					:visible.sync="input.ppdialog"
+					width="90%">
+					<center>
+					<div class="col s12 l6">
+						<knockscroppie
+						gid = "knocks_profile_picture_uploader"
+						success_at = "done"
+						success_msg = "Updated Your profile picture succecfully!"
+						:upload_data = "{ }"
+						:error_at = "[]"
+						callback_event = "update"
+						:callback_payloads = "{}"
+						ref = "ss"
+						:special_submit = "true"
+						:scope = "['profile_picture_handler']"
+						upload_at = "media/avatar/upload"
+						></knockscroppie>
+					</div>
+					</center>
+					</el-dialog>
+				</div>
+			</div>
+			<div class = "col s12 knocks_tinny_border_radius blue-grey lighten-5 knocks_gray_border knocks_mp_top_margin" v-if = "authModel != null">
+				<p class = "knocks_text_md blue-grey-text text-darken-3 ">
+					<span class = "knocks-image7"></span>
+					<static_message msg = "Cover Picture"></static_message>
+				</p>
+				<div class = "col s12 knocks_house_keeper">
+					<knocksimg :src = "asset('media/cover/'+auth)" @clicked = "input.coverdialog = true"
+					:classes = "['knocks_user_cover_scope col knocks_bold_white_border z-depth-3 knocks_house_keeper knocks_tinny_border_radius s12']"></knocksimg>
+					<p class = "col s12">
+						<static_message msg = "Update your Cover picture"></static_message>
+					</p>
+					<el-dialog
+					:visible.sync="input.coverdialog"
+					width="90%">
+					<center>
+					<div class="col s12">
+						<knockscroppie
+						gid = "knocks_cover_picture_uploader"
+						success_at = "done"
+						success_msg = "Updated Your cover picture succecfully!"
+						:upload_data = "{ }"
+						:error_at = "[]"
+						callback_event = "update"
+						:callback_payloads = "{}"
+						ref = "ss"
+						:special_submit = "true"
+						:scope = "['cover_picture_handler']"
+						upload_at = "media/cover/upload"
+						:aspect_ratio = "78/205"
+						></knockscroppie>
+					</div>
+					</center>
+					</el-dialog>
 				</div>
 			</div>
 		</div>
@@ -877,6 +947,8 @@ export default {
     		phonekps : null ,
     		bio : '' ,
     		biokps : null ,
+    		ppdialog : false ,
+    		coverdialog : false ,
 
     	}
 
@@ -975,6 +1047,12 @@ export default {
         		return {key :  phone.substr(0 , this.countries[i].phone.length + 1) , phone : phone.substr(this.countries[i].phone.length + 1)}
         }
         return {key : null , phone : null}
+    },
+    testCont(con){
+    	window.ContIn = con
+    },
+    asset(url){
+    	return Asset(url)
     }
   }
 }
