@@ -11,7 +11,8 @@
           <span :class = "[icon]"></span>
             <static_message :msg = "title"></static_message>
           <p v-if = "comment" :class = "comment_class">
-          <br><static_message :msg = "comment"></static_message>
+          <br><static_message :msg = "comment" v-if ="!unstatic_comment"></static_message>
+          <span v-if = "unstatic_comment" >{{comment}}</span>
         </p>
         </div>
       </el-tooltip>
@@ -107,6 +108,10 @@ export default {
     toggle_on_mount : {
       type : Boolean , 
       default : false 
+    },
+    unstatic_comment : {
+      type : Boolean ,
+      default : false
     }
   },
   data () {

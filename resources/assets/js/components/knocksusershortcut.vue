@@ -414,7 +414,9 @@
         <knocksimg :src = "asset('media/avatar/compressed/'+user)" :classes = "[knocks_avatar_classes, 'animated zoomInDown' ,{'knocks_user_profile_scope' : thatsMe}]"></knocksimg>
         <span :class ="[name_class]" >{{ displayName }}</span>
         <slot name = "append"></slot>
-        <span v-if = "userObject.chatStatus && !clashProp" class="right uk-badge" :class = "[{'red' : !calcStatus} , {'green' : calcStatus}]">{{userObject.chatStatus}}
+        <span v-if = "userObject.chatStatus && !clashProp" 
+        style = "margin-top : 8px !important; margin-right : 3px !important"
+        class="right uk-badge" :class = "[{'red' : !calcStatus} , {'green' : calcStatus}]">{{userObject.chatStatus}}
         </span>
         <slot name = "preppend"></slot>
       </a>

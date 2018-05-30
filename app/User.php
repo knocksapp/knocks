@@ -3,7 +3,9 @@
 namespace App;
 
 use App\Blob;
+use App\Career;
 use App\Circle;
+
 use App\Knock;
 use App\Language;
 use App\UserAddress;
@@ -12,8 +14,13 @@ use App\user_blocks;
 
 use App\Education;
 use App\Hobby;
+use App\Knock;
+use App\Language;
 use App\Sport;
-use App\Career;
+
+
+
+
 
 use DB;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -95,239 +102,239 @@ class User extends Authenticatable {
 			}
 		}
 		//for address
-		$valAddress= User::find(auth()->user()->id)->enteryStatus()['address'];
-		if($valAddress){
-			$userAddress = UserAddress::where('user_id','=',auth()->user()->id)->get();
+		$valAddress = User::find(auth()->user()->id)->enteryStatus()['address'];
+		if ($valAddress) {
+			$userAddress = UserAddress::where('user_id', '=', auth()->user()->id)->get();
 			foreach ($userAddress as $userAd) {
-				$suggUserAddress= UserAddress::where(function($query) use ($userAd){
-					 $query->where('country','=', $userAd->country);
-					 $query->where('country','!=', NULL);
+				$suggUserAddress = UserAddress::where(function ($query) use ($userAd) {
+					$query->where('country', '=', $userAd->country);
+					$query->where('country', '!=', NULL);
 				})
-	            ->orwhere(function($query) use ($userAd){
-					 $query->where('state','=', $userAd->state);
-					 $query->where('state','!=', NULL);
-				})
-	            ->orwhere(function($query) use ($userAd){
-					 $query->where('region','=', $userAd->region);
-					 $query->where('region','!=', NULL);
-				})
-				->get()->pluck('user_id');
-				for ( $i = 0; $i < count($suggUserAddress); $i++ ){
-           	    if(count($arr) < 4 + $count){
-         if (
-				!$this->isFriend($suggUserAddress[$i])
-				&& !in_array($suggUserAddress[$i], $arr)
-				&& $suggUserAddress[$i] != $this->id
-				&& !$this->hasSentRequest($suggUserAddress[$i])
-				&& !$this->hasFriendRequest($suggUserAddress[$i])){
-           	   	if(!in_array($suggUserAddress[$i],$arr) && $suggUserAddress[$i] != $this->id){
-           	   		array_push($arr, $suggUserAddress[$i]);
-           	   	}
-           	   }
-           	   }else{
-           	   	 return $arr;
-           	   }
-           	  
-           }
-			}
-          
-		}
-      
-		//for education
-$valEdu= User::find(auth()->user()->id)->enteryStatus()['education'];
-		if($valEdu){
-			$userEdu = Education::where('user_id','=',auth()->user()->id)->get();
-			foreach ($userEdu as $userEd) {
-				$suggUserEdu= Education::where(function($query) use ($userEd){
-					 $query->where('study_at','=', $userEd->study_at);
-					 $query->where('study_at','!=', NULL);
-				})
-	            ->orwhere(function($query) use ($userEd){
-					 $query->where('study_what','=', $userEd->study_what);
-					 $query->where('study_what','!=', NULL);
-				})
-				->get()->pluck('user_id');
-				for ( $i = 0; $i < count($suggUserEdu); $i++ ){
-           	    if(count($arr) < 4 + $count){
-         if (
-				!$this->isFriend($suggUserEdu[$i])
-				&& !in_array($suggUserEdu[$i], $arr)
-				&& $suggUserEdu[$i] != $this->id
-				&& !$this->hasSentRequest($suggUserEdu[$i])
-				&& !$this->hasFriendRequest($suggUserEdu[$i])){
-           	   	if(!in_array($suggUserEdu[$i],$arr) && $suggUserEdu[$i] != $this->id){
-           	   		array_push($arr, $suggUserEdu[$i]);
-           	   	}
-           	   }
-           	   }else{
-           	   	 return $arr;
-           	   }
-           	  
-           }
-			}
-          
-		}
-      //for HighEducation
+					->orwhere(function ($query) use ($userAd) {
+						$query->where('state', '=', $userAd->state);
+						$query->where('state', '!=', NULL);
+					})
+					->orwhere(function ($query) use ($userAd) {
+						$query->where('region', '=', $userAd->region);
+						$query->where('region', '!=', NULL);
+					})
+					->get()->pluck('user_id');
+				for ($i = 0; $i < count($suggUserAddress); $i++) {
+					if (count($arr) < 4 + $count) {
+						if (
+							!$this->isFriend($suggUserAddress[$i])
+							&& !in_array($suggUserAddress[$i], $arr)
+							&& $suggUserAddress[$i] != $this->id
+							&& !$this->hasSentRequest($suggUserAddress[$i])
+							&& !$this->hasFriendRequest($suggUserAddress[$i])) {
+							if (!in_array($suggUserAddress[$i], $arr) && $suggUserAddress[$i] != $this->id) {
+								array_push($arr, $suggUserAddress[$i]);
+							}
+						}
+					} else {
+						return $arr;
+					}
 
-		$valHedu= User::find(auth()->user()->id)->enteryStatus()['high_education'];
-		if($valHedu){
-			$userHedu = High_education::where('user_id','=',auth()->user()->id)->get();
-			foreach ($userHedu as $userHed) {
-				$suggUserHedu= High_education::where(function($query) use ($userHed){
-					 $query->where('study_at','=', $userHed->study_at);
-					 $query->where('study_at','!=', NULL);
-				})
-	            ->orwhere(function($query) use ($userHed){
-					 $query->where('study_what','=', $userHed->study_what);
-					 $query->where('study_what','!=', NULL);
-				})
-				->get()->pluck('user_id');
-				for ( $i = 0; $i < count($suggUserHedu); $i++ ){
-           	    if(count($arr) < 4 + $count){
-         if (
-				!$this->isFriend($suggUserHedu[$i])
-				&& !in_array($suggUserHedu[$i], $arr)
-				&& $suggUserHedu[$i] != $this->id
-				&& !$this->hasSentRequest($suggUserHedu[$i])
-				&& !$this->hasFriendRequest($suggUserHedu[$i])){
-           	   	if(!in_array($suggUserHedu[$i],$arr) && $suggUserHedu[$i] != $this->id){
-           	   		array_push($arr, $suggUserHedu[$i]);
-           	   	}
-           	   }
-           	   }else{
-           	   	 return $arr;
-           	   }
-           	  
-           }
+				}
 			}
-          
+
+		}
+
+		//for education
+		$valEdu = User::find(auth()->user()->id)->enteryStatus()['education'];
+		if ($valEdu) {
+			$userEdu = Education::where('user_id', '=', auth()->user()->id)->get();
+			foreach ($userEdu as $userEd) {
+				$suggUserEdu = Education::where(function ($query) use ($userEd) {
+					$query->where('study_at', '=', $userEd->study_at);
+					$query->where('study_at', '!=', NULL);
+				})
+					->orwhere(function ($query) use ($userEd) {
+						$query->where('study_what', '=', $userEd->study_what);
+						$query->where('study_what', '!=', NULL);
+					})
+					->get()->pluck('user_id');
+				for ($i = 0; $i < count($suggUserEdu); $i++) {
+					if (count($arr) < 4 + $count) {
+						if (
+							!$this->isFriend($suggUserEdu[$i])
+							&& !in_array($suggUserEdu[$i], $arr)
+							&& $suggUserEdu[$i] != $this->id
+							&& !$this->hasSentRequest($suggUserEdu[$i])
+							&& !$this->hasFriendRequest($suggUserEdu[$i])) {
+							if (!in_array($suggUserEdu[$i], $arr) && $suggUserEdu[$i] != $this->id) {
+								array_push($arr, $suggUserEdu[$i]);
+							}
+						}
+					} else {
+						return $arr;
+					}
+
+				}
+			}
+
+		}
+		//for HighEducation
+
+		$valHedu = User::find(auth()->user()->id)->enteryStatus()['high_education'];
+		if ($valHedu) {
+			$userHedu = High_education::where('user_id', '=', auth()->user()->id)->get();
+			foreach ($userHedu as $userHed) {
+				$suggUserHedu = High_education::where(function ($query) use ($userHed) {
+					$query->where('study_at', '=', $userHed->study_at);
+					$query->where('study_at', '!=', NULL);
+				})
+					->orwhere(function ($query) use ($userHed) {
+						$query->where('study_what', '=', $userHed->study_what);
+						$query->where('study_what', '!=', NULL);
+					})
+					->get()->pluck('user_id');
+				for ($i = 0; $i < count($suggUserHedu); $i++) {
+					if (count($arr) < 4 + $count) {
+						if (
+							!$this->isFriend($suggUserHedu[$i])
+							&& !in_array($suggUserHedu[$i], $arr)
+							&& $suggUserHedu[$i] != $this->id
+							&& !$this->hasSentRequest($suggUserHedu[$i])
+							&& !$this->hasFriendRequest($suggUserHedu[$i])) {
+							if (!in_array($suggUserHedu[$i], $arr) && $suggUserHedu[$i] != $this->id) {
+								array_push($arr, $suggUserHedu[$i]);
+							}
+						}
+					} else {
+						return $arr;
+					}
+
+				}
+			}
+
 		}
 
 		// for Hobby
-$valHobby= User::find(auth()->user()->id)->enteryStatus()['hobby'];
-		if($valHobby){
-			$userHobby = Hobby::where('user_id','=',auth()->user()->id)->get();
+		$valHobby = User::find(auth()->user()->id)->enteryStatus()['hobby'];
+		if ($valHobby) {
+			$userHobby = Hobby::where('user_id', '=', auth()->user()->id)->get();
 			foreach ($userHobby as $userHob) {
-				$suggUserHob= Hobby::where(function($query) use ($userHob){
-					 $query->where('name','=', $userHob->name);
-					 $query->where('name','!=', NULL);
+				$suggUserHob = Hobby::where(function ($query) use ($userHob) {
+					$query->where('name', '=', $userHob->name);
+					$query->where('name', '!=', NULL);
 				})
-				->get()->pluck('user_id');
-				for ( $i = 0; $i < count($suggUserHob); $i++ ){
-           	    if(count($arr) < 4 + $count){
-         if (
-				!$this->isFriend($suggUserHob[$i])
-				&& !in_array($suggUserHob[$i], $arr)
-				&& $suggUserHob[$i] != $this->id
-				&& !$this->hasSentRequest($suggUserHob[$i])
-				&& !$this->hasFriendRequest($suggUserHob[$i])){
-           	   	if(!in_array($suggUserHob[$i],$arr) && $suggUserHob[$i] != $this->id){
-           	   		array_push($arr, $suggUserHob[$i]);
-           	   	}
-           	   }
-           	   }else{
-           	   	 return $arr;
-           	   }
-           	  
-           }
+					->get()->pluck('user_id');
+				for ($i = 0; $i < count($suggUserHob); $i++) {
+					if (count($arr) < 4 + $count) {
+						if (
+							!$this->isFriend($suggUserHob[$i])
+							&& !in_array($suggUserHob[$i], $arr)
+							&& $suggUserHob[$i] != $this->id
+							&& !$this->hasSentRequest($suggUserHob[$i])
+							&& !$this->hasFriendRequest($suggUserHob[$i])) {
+							if (!in_array($suggUserHob[$i], $arr) && $suggUserHob[$i] != $this->id) {
+								array_push($arr, $suggUserHob[$i]);
+							}
+						}
+					} else {
+						return $arr;
+					}
+
+				}
 			}
-          
+
 		}
-			// for Sport
-$valSport= User::find(auth()->user()->id)->enteryStatus()['sport'];
-		if($valSport){
-			$userSport = Sport::where('user_id','=',auth()->user()->id)->get();
+		// for Sport
+		$valSport = User::find(auth()->user()->id)->enteryStatus()['sport'];
+		if ($valSport) {
+			$userSport = Sport::where('user_id', '=', auth()->user()->id)->get();
 			foreach ($userSport as $userSpr) {
-				$suggUserSpr= Sport::where(function($query) use ($userSpr){
-					 $query->where('name','=', $userSpr->name);
-					 $query->where('name','!=', NULL);
+				$suggUserSpr = Sport::where(function ($query) use ($userSpr) {
+					$query->where('name', '=', $userSpr->name);
+					$query->where('name', '!=', NULL);
 				})
-				->get()->pluck('user_id');
-				for ( $i = 0; $i < count($suggUserSpr); $i++ ){
-           	    if(count($arr) < 4 + $count){
-         if (
-				!$this->isFriend($suggUserSpr[$i])
-				&& !in_array($suggUserSpr[$i], $arr)
-				&& $suggUserSpr[$i] != $this->id
-				&& !$this->hasSentRequest($suggUserSpr[$i])
-				&& !$this->hasFriendRequest($suggUserSpr[$i])){
-           	   	if(!in_array($suggUserSpr[$i],$arr) && $suggUserSpr[$i] != $this->id){
-           	   		array_push($arr, $suggUserSpr[$i]);
-           	   	}
-           	   }
-           	   }else{
-           	   	 return $arr;
-           	   }
-           	  
-           }
+					->get()->pluck('user_id');
+				for ($i = 0; $i < count($suggUserSpr); $i++) {
+					if (count($arr) < 4 + $count) {
+						if (
+							!$this->isFriend($suggUserSpr[$i])
+							&& !in_array($suggUserSpr[$i], $arr)
+							&& $suggUserSpr[$i] != $this->id
+							&& !$this->hasSentRequest($suggUserSpr[$i])
+							&& !$this->hasFriendRequest($suggUserSpr[$i])) {
+							if (!in_array($suggUserSpr[$i], $arr) && $suggUserSpr[$i] != $this->id) {
+								array_push($arr, $suggUserSpr[$i]);
+							}
+						}
+					} else {
+						return $arr;
+					}
+
+				}
 			}
-          
+
 		}
-        //for Career
-        	// for Sport
-$valSport= User::find(auth()->user()->id)->enteryStatus()['sport'];
-		if($valSport){
-			$userSport = Sport::where('user_id','=',auth()->user()->id)->get();
+		//for Career
+		// for Sport
+		$valSport = User::find(auth()->user()->id)->enteryStatus()['sport'];
+		if ($valSport) {
+			$userSport = Sport::where('user_id', '=', auth()->user()->id)->get();
 			foreach ($userSport as $userSpr) {
-				$suggUserSpr= Sport::where(function($query) use ($userSpr){
-					 $query->where('name','=', $userSpr->name);
-					 $query->where('name','!=', NULL);
+				$suggUserSpr = Sport::where(function ($query) use ($userSpr) {
+					$query->where('name', '=', $userSpr->name);
+					$query->where('name', '!=', NULL);
 				})
-				->get()->pluck('user_id');
-				for ( $i = 0; $i < count($suggUserSpr); $i++ ){
-           	    if(count($arr) < 4 + $count){
-         if (
-				!$this->isFriend($suggUserSpr[$i])
-				&& !in_array($suggUserSpr[$i], $arr)
-				&& $suggUserSpr[$i] != $this->id
-				&& !$this->hasSentRequest($suggUserSpr[$i])
-				&& !$this->hasFriendRequest($suggUserSpr[$i])){
-           	   	if(!in_array($suggUserSpr[$i],$arr) && $suggUserSpr[$i] != $this->id){
-           	   		array_push($arr, $suggUserSpr[$i]);
-           	   	}
-           	   }
-           	   }else{
-           	   	 return $arr;
-           	   }
-           	  
-           }
+					->get()->pluck('user_id');
+				for ($i = 0; $i < count($suggUserSpr); $i++) {
+					if (count($arr) < 4 + $count) {
+						if (
+							!$this->isFriend($suggUserSpr[$i])
+							&& !in_array($suggUserSpr[$i], $arr)
+							&& $suggUserSpr[$i] != $this->id
+							&& !$this->hasSentRequest($suggUserSpr[$i])
+							&& !$this->hasFriendRequest($suggUserSpr[$i])) {
+							if (!in_array($suggUserSpr[$i], $arr) && $suggUserSpr[$i] != $this->id) {
+								array_push($arr, $suggUserSpr[$i]);
+							}
+						}
+					} else {
+						return $arr;
+					}
+
+				}
 			}
-          
+
 		}
-   
+
 		// for Career
-$valCareer= User::find(auth()->user()->id)->enteryStatus()['career'];
-		if($valCareer){
-			$userCareer = Career::where('user_id','=',auth()->user()->id)->get();
+		$valCareer = User::find(auth()->user()->id)->enteryStatus()['career'];
+		if ($valCareer) {
+			$userCareer = Career::where('user_id', '=', auth()->user()->id)->get();
 			foreach ($userCareer as $userCrr) {
-				$suggUserCar= Career::where(function($query) use ($userCrr){
-					 $query->where('works_at','=', $userCrr->works_at);
-					 $query->where('works_at','!=', NULL);
+				$suggUserCar = Career::where(function ($query) use ($userCrr) {
+					$query->where('works_at', '=', $userCrr->works_at);
+					$query->where('works_at', '!=', NULL);
 				})
-				->orwhere(function($query) use ($userCrr){
-					 $query->where('works_what','=', $userCrr->works_what);
-					 $query->where('works_what','!=', NULL);
-				})
-				->get()->pluck('user_id');
-				for ( $i = 0; $i < count($suggUserCar); $i++ ){
-           	    if(count($arr) < 4 + $count){
-         if (
-				!$this->isFriend($suggUserCar[$i])
-				&& !in_array($suggUserCar[$i], $arr)
-				&& $suggUserCar[$i] != $this->id
-				&& !$this->hasSentRequest($suggUserCar[$i])
-				&& !$this->hasFriendRequest($suggUserCar[$i])){
-           	   	if(!in_array($suggUserCar[$i],$arr) && $suggUserCar[$i] != $this->id){
-           	   		array_push($arr, $suggUserCar[$i]);
-           	   	}
-           	   }
-           	   }else{
-           	   	 return $arr;
-           	   }
-           	  
-           }
+					->orwhere(function ($query) use ($userCrr) {
+						$query->where('works_what', '=', $userCrr->works_what);
+						$query->where('works_what', '!=', NULL);
+					})
+					->get()->pluck('user_id');
+				for ($i = 0; $i < count($suggUserCar); $i++) {
+					if (count($arr) < 4 + $count) {
+						if (
+							!$this->isFriend($suggUserCar[$i])
+							&& !in_array($suggUserCar[$i], $arr)
+							&& $suggUserCar[$i] != $this->id
+							&& !$this->hasSentRequest($suggUserCar[$i])
+							&& !$this->hasFriendRequest($suggUserCar[$i])) {
+							if (!in_array($suggUserCar[$i], $arr) && $suggUserCar[$i] != $this->id) {
+								array_push($arr, $suggUserCar[$i]);
+							}
+						}
+					} else {
+						return $arr;
+					}
+
+				}
 			}
-          
+
 		}
 
 		return $arr;

@@ -1,7 +1,7 @@
 <template>
 <div>
   <transition enter-active-class = "animated slideInUp" leave-active-class = "animated slideOutDown">
-      <knocksmessagesender 
+     <!--  <knocksmessagesender 
       id = "knocks_rightbar_message_sender"
       v-if = "hasConversation"
       style = "position: fixed; bottom: 2px;width: 100%;z-index : 1" 
@@ -16,7 +16,7 @@
       success_at = "done"
       success_msg = "yess"
       toggle_parent_type = "comment"
-      :gid = "'knocks_conversation_'+activeChat"></knocksmessagesender>
+      :gid = "'knocks_conversation_'+activeChat"></knocksmessagesender> -->
   </transition>
     <br class = "hide-on-med-and-up">
   <knocksretriver
@@ -48,6 +48,7 @@
     <static_message msg = "Friends To Chat"></static_message>
     </h4>
     <knocksuser 
+    class = "knocks_gray_hover row knocks_tinny_margin knocks_standard_border_radius"
     @callback_click = "addConversation(friend.id)"
     v-if="!isCurrent(friend.id) && index < 10"
     :user = "friend.id" v-for = "(friend , index) in friendsToChat.response" as_callback :key = "index"></knocksuser>

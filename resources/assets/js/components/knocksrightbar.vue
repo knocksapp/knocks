@@ -62,12 +62,18 @@
 					<static_message msg = "Loading .. " class = "pulse animated infinite"></static_message>
 				</div>
 				<div class = "row">
-						<center v-if = "noOlderBallonsAvailable">
+						<center v-if = "noOlderBallonsAvailable && regBallons.length > 0">
 						<span  class = "grey-text text-darken-2 knocks_text_ms centered">
 						<span class = "knocksapp-spook animated jello"></span>
 						<static_message msg = "You have no older ballons."></static_message>
 					</span>
 					</center>
+          <center v-if = "noOlderBallonsAvailable && regBallons.length == 0">
+            <span  class = "grey-text text-darken-2 knocks_text_ms centered">
+            <span class = "knocksapp-spook animated jello"></span>
+            <static_message msg = "You have no ballons."></static_message>
+          </span>
+          </center>
 					<button  
 					style="margin-bottom : 40px;"
 					class="fluid ui button" v-if = "!noOlderBallonsAvailable && regBallons.length <= showKeyBallon" @click = "askForMoreBallons('r')" v-loading = "ballonsBatchRetriver.loading">
@@ -101,12 +107,18 @@
 					<static_message msg = "Loading .. " class = "pulse animated infinite"></static_message>
 				</div>
 				<div class = "row">
-					<center v-if = "noOlderBallonsAvailableFr">
+					<center v-if = "noOlderBallonsAvailableFr && frBallons.length == 0">
 						<span  class = "grey-text text-darken-2 knocks_text_ms centered">
 						<span class = "knocksapp-spook animated jello"></span>
-						<static_message msg = "You have no older friendship requests."></static_message>
+						<static_message msg = "You have no friendship requests."></static_message>
 					</span>
 					</center>
+          <center v-if = "noOlderBallonsAvailableFr && frBallons.length > 0">
+            <span  class = "grey-text text-darken-2 knocks_text_ms centered">
+            <span class = "knocksapp-spook animated jello"></span>
+            <static_message msg = "You have no friendship requests."></static_message>
+          </span>
+          </center>
 					<button  
 					v-if = "!noOlderBallonsAvailableFr && frBallons.length <= showKeyFrBallon" 
 					class="fluid ui button" @click = "askForMoreBallons('f')" v-loading = "ballonsBatchRetriverFr.loading">
@@ -270,10 +282,10 @@ export default {
 },
 askForMoreBallons(category){
 	if(category == 'r'){
-	App.$emit('knocksRetriver' , { scope : ['knocks_rightbar_ballons_retriver'] })
+this.ballonsBatchRetriver.retrive()
      }
     if(category == 'f'){
-   	App.$emit('knocksRetriver' , { scope : ['knocks_rightbar_ballons_retriver_fr'] })
+   	this.ballonsBatchRetriverFr.retrive()
    }
   }
 }

@@ -106,6 +106,96 @@
 
 
         <knocksusersuggestions></knocksusersuggestions>
+
+
+          <div class="white knocks_fair_bounds knocks_ocean_blue_border knocks_tinny_border_radius hide-on-large-only">
+            <knockscollapse
+            icon = "knocks-map7"
+            regular_class = "blue-grey-text text-darken-3 knocks_text_ms"
+            toggler_container = " grey lighten-4 row knocks_gray_hover knocks_margin_keeper knocks_gray_border knocks_fair_padding"
+            title = "Add an address"
+            icon = "knocks-maps"
+            @if(auth()->check() && !auth()->user()->addresses()->exists())
+            toggle_on_mount
+            @endif
+            >
+            <div slot = "content" >
+              <knocksquickaddress tiny main_container = "white knocks_gray_border row knocks_fair_bounds"></knocksquickaddress>
+            </div>
+            </knockscollapse>
+            <knockscollapse
+            icon = "knocks-graduate"
+            regular_class = "blue-grey-text text-darken-3 knocks_text_ms"
+            toggler_container = " grey lighten-4 row knocks_gray_hover knocks_margin_keeper knocks_gray_border knocks_fair_padding"
+            title = "Add a career"
+            icon = "knocks-suitcase3"
+            @if(auth()->check() && !auth()->user()->enteryStatus()['career'])
+            toggle_on_mount
+            @endif
+            >
+            <div slot = "content" >
+              <knocksusercareers tiny></knocksusercareers>
+            </div>
+            </knockscollapse>
+            <knockscollapse
+            icon = "knocks-home7"
+            regular_class = "blue-grey-text text-darken-3 knocks_text_ms"
+            toggler_container = " grey lighten-4 row knocks_gray_hover knocks_margin_keeper knocks_gray_border knocks_fair_padding"
+            title = "Add an Education"
+            icon = "knocks-maps"
+            @if(auth()->check() && !auth()->user()->enteryStatus()['education'])
+            toggle_on_mount
+            @endif
+            >
+            <div slot = "content" >
+              <knocksusereducation tiny></knocksusereducation>
+            </div>
+            </knockscollapse>
+            <knockscollapse
+            icon = "knocks-graduate"
+            regular_class = "blue-grey-text text-darken-3 knocks_text_ms"
+            toggler_container = " grey lighten-4 row knocks_gray_hover knocks_margin_keeper knocks_gray_border knocks_fair_padding"
+            title = "Add High Education"
+            icon = "knocks-maps"
+            @if(auth()->check() && !auth()->user()->enteryStatus()['high_education'])
+            toggle_on_mount
+            @endif
+            >
+            <div slot = "content" >
+              <knocksuserhigheducation tiny></knocksuserhigheducation>
+            </div>
+            </knockscollapse>
+            <knockscollapse
+            icon = "knocks-puzzle"
+            regular_class = "blue-grey-text text-darken-3 knocks_text_ms"
+            toggler_container = " grey lighten-4 row knocks_gray_hover knocks_margin_keeper knocks_gray_border knocks_fair_padding"
+            title = "Add a hobby"
+            icon = "knocks-maps"
+            @if(auth()->check() && !auth()->user()->enteryStatus()['hobby'])
+            toggle_on_mount
+            @endif
+            >
+            <div slot = "content" >
+              <knocksuserhobby tiny></knocksuserhobby>
+            </div>
+            </knockscollapse>
+            <knockscollapse
+            icon = "knocks-graduate"
+            regular_class = "blue-grey-text text-darken-3 knocks_text_ms"
+            toggler_container = " grey lighten-4 row knocks_gray_hover knocks_margin_keeper knocks_gray_border knocks_fair_padding"
+            title = "Add a sport"
+            icon = "knocks-checkered-flag2"
+            @if(auth()->check() && !auth()->user()->enteryStatus()['sport'])
+            toggle_on_mount
+            @endif
+            >
+            <div slot = "content" >
+              <knocksusersport tiny></knocksusersport>
+            </div>
+            </knockscollapse>
+          </div>
+
+
         <knocksknockinjector :current_user = "{{auth()->user()->id}}" show_appendex></knocksknockinjector>
       </div>
       <div class = "col l4 show-on-large hide-on-med-and-down"
