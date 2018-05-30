@@ -7,6 +7,19 @@
 </span>
 <knocksuser main_container = "row knocks_house_keeper" v-model = "userObject" :user="user" as_report></knocksuser>
 <knocksusergenralinfo :user ="user"></knocksusergenralinfo>
+<knockscollapse
+title = "Common People"
+:comment = "String(userObject.common_people.length)"
+unstatic_comment
+regular_class = "grey-text"
+v-if = "!thatsMe && userObject != null && userObject.common_people !== undefined && userObject.common_people.length > 0"
+icon = "knocks-group2">
+<div class= 'knocks_house_keeper' slot = "content">
+  <knocksshowkeys
+  :show_input = "userObject.common_people"
+  list_classes="col s12 knocks_gray_border knocks_xs_padding grey lighten-4 uk-list uk-list-divider knocks_tinny_border_radius"></knocksshowkeys>
+</div>
+</knockscollapse>
 </el-tab-pane>
 <el-tab-pane name = "career" v-loading = "careerIsLoading">
 <span class ="knocks_text_anchor" slot="label">
@@ -73,8 +86,6 @@
 </div>
 </div>
 </el-tab-pane>
-
-
 <el-tab-pane name = "education" v-loading = "educationIsLoading">
 <span class ="knocks_text_anchor" slot="label">
   <i class="knocks-home7"></i>

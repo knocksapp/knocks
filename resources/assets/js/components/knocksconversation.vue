@@ -6,10 +6,11 @@
   v-model = "chattingUser"
   @callback_click = "emitRestoreHead()"
   :class = "{'knocks_hidden' : active}"
-  class = "animated slideInUp">
+  class = "animated slideInUp col s10">
   </knocksuser>
-  <a @click = "emitCloseHead()"  class = "right  col"   :class = "{'knocks_hidden' : active}">
-    <span class = "knocks-close"></span>
+  <a @click = "emitCloseHead()"  class = "right  col" style = "margin-top : 8px !important; margin-right : 3px !important"
+    :class = "{'knocks_hidden' : active}">
+    <span class = "knocksapp-circle-cancel red-text knocks_text_md"></span>
   </a>
   <hr :class = "{'knocks_hidden' : active}"/> 
   <knocksretriver
@@ -20,8 +21,8 @@
   ></knocksretriver>
   <div :class = "[{'knocks_hidden' :  !active} , 'animated fadeIn']" class = "inherited_height row">
     <div class = "knocks_gray_border grey  row knocks_house_keeper lighten-4 " v-if = "chattingUser != null" style=" height : 10%">
-      <div class = "col s12 knocks_house_keeper "><a @click = "emitClick()" class = " knocks_side_padding col knocks_tinny_top_margin">
-        <span class = "knocks-chevron-left knocks_text_md "></span>
+      <div class = "col s12 knocks_house_keeper "><a @click = "emitClick()" class = " knocks_side_padding col"  style = "margin-top : 8px !important;">
+        <span class = "knocksapp-circle-chevron-left knocks_text_md knocks_text_dark "></span>
       </a>
       <div class = "col">
         <knocksimg :src = "chattingUser.compressedAvatarUrl" :classes = "chattingUser.avatarClasses"></knocksimg>
@@ -34,11 +35,7 @@
     </div>
     <div class = "row knocks_house_keeper">
       <div class = "col s12" :id = "'knocks_chatting_container_'+to"  style="min-height : 50vh; overflow-y : auto">
-       hhhhh<br/>hhhhh<br/>hhhhh<br/>hhhhh<br/>hhhhh<br/>hhhhh<br/>hhhhh<br/>hhhhh<br/>hhhhh<br/>hhhhh<br/>hhhhh<br/>hhhhh<br/>hhhhh<br/>
-       hhhhh<br/>hhhhh<br/>hhhhh<br/>hhhhh<br/>hhhhh<br/>hhhhh<br/>hhhhh<br/>hhhhh<br/>hhhhh<br/>hhhhh<br/>hhhhh<br/>hhhhh<br/>hhhhh<br/>
-       hhhhh<br/>hhhhh<br/>hhhhh<br/>hhhhh<br/>hhhhh<br/>hhhhh<br/>hhhhh<br/>hhhhh<br/>hhhhh<br/>hhhhh<br/>hhhhh<br/>hhhhh<br/>hhhhh<br/>
-       hhhhh<br/>hhhhh<br/>hhhhh<br/>hhhhh<br/>hhhhh<br/>hhhhh<br/>hhhhh<br/>hhhhh<br/>hhhhh<br/>hhhhh<br/>hhhhh<br/>hhhhh<br/>hhhhh<br/>
-       hhhhh<br/>hhhhh<br/>hhhhh<br/>hhhhh<br/>hhhhh<br/>hhhhh<br/>hhhhh<br/>hhhhh<br/>hhhhh<br/>hhhhh<br/>hhhhh<br/>hhhhh<br/>hhhhh<br/>
+      <h3 class = "grey-text text-lighten-1 center"><static_message msg = "Chatting is coming soon!"></static_message></h3>
       </div>
       <div class = "row">
       
