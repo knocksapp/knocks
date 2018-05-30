@@ -266,7 +266,14 @@ class UserController extends Controller {
 	}
 	public function globalUserSearch(Request $request) {
 		$user = new User();
-		return $user->soundsLikeID($request->q);
+		$users = $user->soundsLikeID($request->q);
+		$temp = [];
+		for($i = 0; $i < count($users); $i++){
+			if(auth()->user()->hasNoBlocks($users[$i])){
+				array_push($temp , $users[$i]);
+			}
+		}
+		return $temp;
 	}
 	public function mainSearch(Request $request) {
 		$result = array();

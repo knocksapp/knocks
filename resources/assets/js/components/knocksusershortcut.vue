@@ -68,7 +68,7 @@
           <div class = "col s12 knocks_house_keeper">
             <center>
             <knocksuseractions
-            
+
             style = "margin-top : 3px;"
             :user = "user"
             extended
@@ -141,7 +141,7 @@
             <el-tooltip :content = "displayName" placement="bottom-start">
             <span> {{handledDisplayName}} </span>
             </el-tooltip>
-            
+
           </a><slot name = "append_to_display_name"></slot>
           <a :class = "[username_class , 'header']" :href = "userUrl" v-if="userObject != null && show_username" style = "display:block"> {{'@'+userObject.username}} </a>
           <p v-if = "!thatsMe && userObject != null && userObject.common_people !== undefined && userObject.common_people.length > 0">
@@ -401,6 +401,7 @@
               :start_as = "userObject"
               :show_accept_shortcut = "show_accept_shortcut">
               </knocksuseractions>
+              <knocksblockuser :blocked_user_id = "user" v-if = "blocker" as_result></knocksblockuser>
             </div>
           </div>
         </div>
@@ -504,6 +505,10 @@ export default {
       type : Boolean ,
       default : false ,
     },
+    blocker : {
+      type : Boolean ,
+      default : false ,
+    },
     as_chip : {
       type : Boolean ,
       default : false
@@ -533,19 +538,19 @@ export default {
       default : false ,
     },
     as_card : {
-      type : Boolean , 
+      type : Boolean ,
       default : false
     },
     as_small_card : {
-      type : Boolean , 
+      type : Boolean ,
       default : false
     },
     no_rebound : {
-      type : Boolean , 
+      type : Boolean ,
       default : false
     },
     extended : {
-      type : Boolean , 
+      type : Boolean ,
       default : false
     },
     extras : {
@@ -633,7 +638,7 @@ export default {
          this.as_name ,
          this.as_url ,
          this.as_label ,
-         this.as_card , 
+         this.as_card ,
          this.as_small_card
        ] , i ;
        for (i = 0; i < arr.length; i++)
@@ -699,7 +704,7 @@ export default {
       }
       let i, temp = [];
       for(i = 0; i < this.userObject.display_name.length; i++){
-        if(this.userObject[ this.userObject.display_name[i] ] !== undefined 
+        if(this.userObject[ this.userObject.display_name[i] ] !== undefined
           && this.userObject[ this.userObject.display_name[i] ] !== null
           && this.userObject[ this.userObject.display_name[i] ].length > 0){
           if(this.userObject.display_name[i] == 'nickname' && this.userObject.display_name.length > 1)

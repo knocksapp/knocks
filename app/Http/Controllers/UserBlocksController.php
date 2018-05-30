@@ -4,37 +4,44 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\User;
+use App\user_blocks;
+use App\Circle_member;
 
 class UserBlocksController extends Controller
 {
   public function blockUser(Request $request) {
+     $authMembers = Circle_member::where('owner_id', '=', auth()->user()->id)->where('user_id', '=', $request->blocked_user_id);
+    if ($authMembers->exists()) {
+      foreach ($authMembers->get() as $member) {
+        $member->delete();
+      }}
+    $user = user_blocks::where('user_id' , '=' ,auth()->user()->id)->where('blocked_user_id','=',$request->blocked_user_id);
+      if($user->exists()) return 'invalid';
 
-    $user = UserBlocksController::where('user_id' , '=' ,auth()->user()->id);
-      if(!$user->exists()) return 'invalid';
-    $user->initialaize(
+      $blockuser = new user_blocks();
+    $blockuser->initialize(
 
-        auth()->user()->id => $request->user_id,
-        'blocked_user_id' => $request->blocked_user_id,
-
-    json_encode(array($request->index))
+         $request->blocked_user_id
     );
     return 'done';
   }
 
+  public function unblockUser(Request $request){
+        user_blocks::where('blocked_user_id','=',$request->blocked_user_id)->delete();
+        return 'done';
+    }
+
+    public function isBlocked(Request $request){
+      $mem = user_blocks::
+      where('user_id' , '=' , auth()->user()->id)
+      ->where('blocked_user_id','=',$request->blocked_user_id);
+
+      return $mem->exists() ? 'true' : 'false';
+    }
+
   public function retriveBlockedUser(Request $request){
-      $user = UserBlocksController::find($request->user);
-     if(!$user) return 'invalid' ;
-     $blocks = $user->user_blocks()->get();
-     $array = [];
-     foreach($blocks as $block){
-        array_push($array, $block);
-     }
-     return $array ;
+    $all = user_blocks::
+        where('user_id' , '=' , auth()->user()->id)->get()->pluck('blocked_user_id');
+    return $all;
   }
-  // public function retriveUserAddresses(Request $request){
-  //
-  //   $alls = UserAddresses::where('user_id','=',$request->user_id)->get();
-  //   return $alls->first();
-  //
-  // }
 }
