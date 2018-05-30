@@ -1,5 +1,13 @@
 <template>
 <div>
+	<knocksretriver
+  v-model=  "block_user_id"
+  url = "userblock/retriveblockeduser"
+  @success="getUsersName()"
+  :xdata = "{  }"
+  :scope = "['user_filter']"
+  >
+  </knocksretriver>
 	<!--Hiddens-->
 	<div class="knocks_hidden">
 		<knockswatchmywindow v-model = "myWindow"></knockswatchmywindow>
@@ -80,7 +88,7 @@
 						:scope = "[ 'name'+_uid]"></knockselinput>
 					</div>
 				</div>
-				
+
 				<div class = "col s12 l8">
 					<knockselbutton
 					submit_at = "user/update/name"
@@ -795,7 +803,7 @@
 			<static_message msg = "Privacy"></static_message>
 		</span>
 		<div v-if = "seenOnce.privacy">
-			
+
 		</div>
 		</el-tab-pane>
 		<el-tab-pane name = "blocking">
@@ -804,8 +812,19 @@
 			<static_message msg = "Blocking"></static_message>
 		</span>
 		<div v-if = "seenOnce.blocking">
-			
+      <knocksblockuserlist ></knocksblockuserlist>
+			<div>
+				<h4 class="ui horizontal divider header transparent">
+<i class="knocks-eye-blocked"></i>
+<static_message msg = "Blocked Users" classes = "knocks_text_sm"  ></static_message>
+
+</h4>
+			</div>
+			<knocksshowkeys show_scope = "user" :show_input = "blockedUserIds" as_result blocker :as_label = "false"></knocksshowkeys>
+
+
 		</div>
+
 		</el-tab-pane>
 		</el-tabs>
 	</div>
@@ -819,39 +838,41 @@ export default {
 
   data () {
     return {
-    	myWindow : '' , 
+    	myWindow : '' ,
     	messages : {
     		country_code : ''
-    	} , 
-    	auth : parseInt(window.UserId) , 
+    	} ,
+			blockedUserIds : [] ,
+			block_user_id : '',
+    	auth : parseInt(window.UserId) ,
     	mainCircle : window.UserMainCircle ,
     	authModel : null ,
     	tabs : 'general' ,
-    	countries : window.Countries.countries , 
+    	countries : window.Countries.countries ,
     	seenOnce : {
-    		general : true , 
-    		myPeople : false , 
-    		myCircles : false , 
-    		myGroups : false , 
-    		privacy : false , 
-    		blocking : false , 
+    		general : true ,
+    		myPeople : false ,
+    		myCircles : false ,
+    		myGroups : false ,
+    		privacy : false ,
+    		blocking : false ,
     	},
     	input : {
     		first_name : '' ,
-    		middle_name : '' , 
+    		middle_name : '' ,
     		last_name : '' ,
-    		nickname : '' , 
+    		nickname : '' ,
     		display_name : [] ,
     		birthdate : null ,
-    		gender : '' , 
-    		genderkps : null , 
+    		gender : '' ,
+    		genderkps : null ,
     		orientation : '',
     		orientationkps : null ,
-    		religon : '' , 
+    		religon : '' ,
     		religonkps : null ,
     		marital_status : '' ,
     		marital_statuskps : null ,
-    		phone : '' , 
+    		phone : '' ,
     		phonekey : '' ,
     		phonekps : null ,
     		bio : '' ,
@@ -861,11 +882,45 @@ export default {
 
     }
   },
+	mounted(){
+		const vm = this
+		App.$on('knocksUserUnblocked', (payloads)=>{
+
+				let ind = vm.blockedUserIds.indexOf(payloads.user)
+				if(ind != -1){
+					let temp = this.blockedUserIds
+					this.blockedUserIds = []
+					setTimeout(()=>{
+						temp.splice(ind , 1)
+						App.$emit('KnocksContentChanged')
+						this.blockedUserIds = temp
+
+					},300)
+
+			}
+		})
+
+		App.$on('knocksUserBlocked', (payloads)=>{
+
+				let ind = vm.blockedUserIds.indexOf(payloads.user)
+				if(ind == -1){
+					let temp = this.blockedUserIds
+					this.blockedUserIds = []
+					setTimeout(()=>{
+						temp.push(payloads.user)
+						App.$emit('KnocksContentChanged')
+						this.blockedUserIds = temp
+
+					},300)
+
+			}
+		})
+	},
   computed : {
   	displayNameFeeds(){
   		return [
 				{ value : 'first_name' , label : 'First Name' , icon : 'knocks-grinning-face' } ,
-				{ value : 'middle_name' , label : 'Middle Name' , icon : 'knocks-face-moustache3' , 
+				{ value : 'middle_name' , label : 'Middle Name' , icon : 'knocks-face-moustache3' ,
 				disabled : !this.authModel.middle_name || this.authModel.middle_name.length == 0 } ,
 				{ value : 'last_name' , label : 'Last Name' , icon : 'knocks-face-moustache '} ,
 				{ value : 'nickname' , label : 'Nickname' , icon : 'knocks-face-sunglasses' ,
@@ -901,15 +956,20 @@ export default {
     	App.$emit('knocksUserKeyUpdate' , { user : this.auth , patch : patch })
     },
     updatePCS(pcs){
-    	let i 
+    	let i
     	for(i = 0; i < pcs.length; i++){
     		pcs[i].circle_id = pcs[i].circle
     	}
     	return pcs
     },
+		getUsersName(){
+
+		 this.blockedUserIds = this.block_user_id.response;
+		 App.$emit('KnocksContentChanged')
+		},
     splitPhone(phone){
     	if(!phone) return {key : null , phone : null}
-    	let i 
+    	let i
         for(i in this.countries){
         	if(phone.indexOf(this.countries[i].phone) == 1)
         		return {key :  phone.substr(0 , this.countries[i].phone.length + 1) , phone : phone.substr(this.countries[i].phone.length + 1)}

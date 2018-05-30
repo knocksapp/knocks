@@ -7,6 +7,7 @@ use App\Circle;
 use App\Knock;
 use App\Language;
 use App\UserAddress;
+use App\user_blocks;
 use DB;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -123,6 +124,18 @@ class User extends Authenticatable {
 			}
 		}
 		return $arr;
+	}
+
+	public function isBlockedBy($user){
+		return user_blocks::where('user_id' , '=' , $user)->where('blocked_user_id' , '=' , $this->id)->exists();
+	}
+
+	public function isBlocking($user){
+		return user_blocks::where('user_id' , '=' , $this->id)->where('blocked_user_id' , '=' , $user)->exists();
+	}
+
+	public function hasNoBlocks($user){
+		return !$this->isBlockedBy($user) && !$this->isBlocking($user);
 	}
 
 	public function friends() {

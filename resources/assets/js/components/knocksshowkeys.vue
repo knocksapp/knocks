@@ -14,6 +14,8 @@
       :as_chip = "as_chip"
       :extended = "extended"
       :as_result = "as_result"
+			:blocker = "blocker"
+			:show_accept_shortcut = "show_accept_shortcut"
 			  ></knocksuser>
       <knocksgroupshortcut as_chip :group_id = "item" v-if = "index < showKey && show_scope == 'group'"></knocksgroupshortcut>
 		</li>
@@ -42,47 +44,55 @@ export default {
   name: 'knocksshowkeys',
   props : {
   	show_key : {
-  		type : Number , 
+  		type : Number ,
   		default : 3 ,
   	},
   	show_scope : {
-  		type : String , 
+  		type : String ,
   		default : 'user'
   	},
   	show_input : {
-  		type : Array , 
+  		type : Array ,
   		default : null ,
   	},
   	list_classes : {
-  		type : String , 
+  		type : String ,
   		default : 'uk-list uk-list-striped knocks_gray_border knocks_tinny_border_radius'
   	},
+		show_accept_shortcut: {
+      type : Boolean ,
+      default : false
+    },
     as_result : {
-      type : Boolean , 
+      type : Boolean ,
       default : false
     },
     as_label : {
       type : Boolean ,
-      default : true , 
+      default : true ,
+    },
+		blocker : {
+      type : Boolean ,
+      default : false
     },
     as_chip : {
-      type : Boolean , 
+      type : Boolean ,
       default : false
     },
     extended : {
-      type : Boolean , 
+      type : Boolean ,
       default : false
     },
     empty_message : {
-      type : String , 
+      type : String ,
       default : 'Empty..'
     },
     empty_icon : {
-      type : String , 
+      type : String ,
       default : 'knocksapp-prick2'
     },
     empty_classes : {
-      type : String , 
+      type : String ,
       default : 'grey-text text-darekn-1 knocks_text_md center'
     }
   },
@@ -93,11 +103,14 @@ export default {
   },
   mounted(){
   	this.showKey = this.show_key
+		const vm = this
+		//Events
+	
   },
   computed : {
     showKeyMin(){
       return Math.min(this.showKey , this.show_input.length)
-    }
+    },
   },
   methods : {
 
