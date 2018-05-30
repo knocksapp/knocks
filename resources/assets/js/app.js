@@ -361,9 +361,8 @@ Vue.component('knockselselect', require('./components/knockselselect.vue'));
 Vue.component('knocksusersuggestions', require('./components/knocksusersuggestions.vue'));
 Vue.component('knocksusersettings', require('./components/knocksusersettings.vue'));
 Vue.component('knockswatchmywindow', require('./components/knockswatchmywindow.vue'));
-
-
-
+Vue.component('knocksblockuser', require('./components/knocksblockuser.vue'));
+Vue.component('knocksblockuserlist', require('./components/knocksblockuserlist.vue'));
 
 
  window.App = new Vue();
@@ -635,7 +634,7 @@ Vue.component('knockswatchmywindow', require('./components/knockswatchmywindow.v
 
 
      //Get User Browser
-    
+
 
      if(typeof InstallTrigger !== 'undefined')
       Window.UserNavigator = 'firefox' ;
@@ -655,7 +654,7 @@ Vue.component('knockswatchmywindow', require('./components/knockswatchmywindow.v
       })
       $('.knocks_input_watch_align').keyup(function(){
         $(this).css({ 'text-align' : window.TextAlignWeight($(this).val()).max  , 'font-family' : FontsAlignment[window.TextAlignWeight($(this).val()).max]})
-      })         
+      })
       $('.el-input__inner').change(function(){
         $(this).css({ 'text-align' : window.TextAlignWeight($(this).val()).max  , 'font-family' : FontsAlignment[window.TextAlignWeight($(this).val()).max]})
       })
@@ -700,7 +699,7 @@ Vue.component('knockswatchmywindow', require('./components/knockswatchmywindow.v
       })
       $('.knocks_input_watch_align').keyup(function(){
         $(this).css({ 'text-align' : window.TextAlignWeight($(this).val()).max  , 'font-family' : FontsAlignment[window.TextAlignWeight($(this).val()).max]})
-      })         
+      })
       $('.el-input__inner').change(function(){
         $(this).css({ 'text-align' : window.TextAlignWeight($(this).val()).max  , 'font-family' : FontsAlignment[window.TextAlignWeight($(this).val()).max]})
       })
@@ -1267,7 +1266,7 @@ Vue.component('knockswatchmywindow', require('./components/knockswatchmywindow.v
       }
       }).catch(()=>{ vm.balloonsLooper = false ; });
       }, 500);
-     
+
     } ,
     updatePoped(){
       var i ;
@@ -1460,7 +1459,7 @@ window.NavInstance = new Vue({
   showSidebarGroupKey : 3 ,
   showSidebarKnockKey : 3 ,
   showSidebarUserKey : 3 ,
-  sidebarXHRCancelToken : null , 
+  sidebarXHRCancelToken : null ,
   sidebarXHRSource : null ,
 
   showRightSideBar : true ,

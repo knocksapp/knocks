@@ -353,6 +353,19 @@ Route::post('userbio/delete', 'UserController@deleteUserbio');
 
 Route::post('userphone/delete', 'UserController@deleteUserphone');
 
+//user block
+
+Route::post('userblock/addblockeduser', 'UserBlocksController@blockUser');
+
+Route::post('userblock/retriveblockeduser', 'UserBlocksController@retriveBlockedUser');
+
+Route::post('userblock/isblockeduser', 'UserBlocksController@isBlocked');
+
+//unblock user
+
+Route::post('userblock/unblockuser', 'UserBlocksController@unblockUser');
+
+
 // Route::get('add_notification' , function(){
 //   $not = new App\Ballon();
 //   $not->initialize( json_encode(
