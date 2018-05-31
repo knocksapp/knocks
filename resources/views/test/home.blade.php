@@ -239,6 +239,9 @@
     <div class="ui horizontal divider transparent">
       Add 100 Users
     </div>
+    <div class = "row">
+       <el-input-number v-model="usersCount"  :min="1" :max="200"></el-input-number>
+    </div>
     <knockselbutton
     placeholder = "Add 100 Users"
     type = "success"
@@ -251,9 +254,55 @@
     :timeout = "60000"
     icon = "knocks-plus"
     success_msg = "Added 100 user Successfully"
+    :submit_data = " {count : usersCount} ">
+    </knockselbutton>
+    <p class = "col s12">Add 100 Users For Testing, Every user has a real understandable name, and friendship relations out of the box.</p>
+  </div>
+
+    <div class = "col s12">
+    <div class="ui horizontal divider transparent">
+      Add Random Entery
+    </div>
+    <knockselbutton
+    placeholder = "Add Random Entery"
+    type = "success"
+    :error_at = []
+    :scope = "['add_random_users']"
+    validation_error = "You need to complete some fields"
+    reset_on_success
+    submit_at = "dev/db/entry/users"
+    success_at = "done"
+    :timeout = "600000"
+    icon = "knocks-plus"
+    success_msg = "Added Random Entery Successfully"
     :submit_data = " {} ">
     </knockselbutton>
-    <p class = "col s12">Add 100 Users For Testing</p>
+    <p class = "col s12">Add 100 Users For Testing, Every user has a real understandable name, and friendship relations out of the box.</p>
+  </div>
+
+  <div class = "col s12">
+    <div class="ui horizontal divider transparent">
+      Check Membership Dublications
+    </div>
+    <knockselbutton
+    placeholder = "Check Membership Dublications"
+    type = "warning"
+    :error_at = []
+    :scope = "['add_random_users']"
+    validation_error = "You need to complete some fields"
+    reset_on_success
+    submit_at = "dev/db/chck/members"
+    computed_response
+    :timeout = "60000"
+    icon = "knocksapp-enhance"
+    success_msg = "Check Your Dev Tools For Statics"
+    :submit_data = " {} ">
+    </knockselbutton>
+    <p class = "col s12">It makes sure that friends are only recorded once at Main Circles, after finishing check your dev tools
+      on <code class = "knocks_text_pink">dev/db/chck/members</code> route and check the response object.<br/>
+      Normally you should find an object <code class = "knocks_text_pink">{ found : X , removed : Y }</code> ,make sure that both numbers are the same.<br/>
+      Otherwise, that means that there are still dublicated Memberships, which means you will need to run it again.
+    </p>
   </div>
   <div class = "col s12">
     <div class="ui horizontal divider transparent">
@@ -267,6 +316,28 @@
     placeholder = "Delete All Circle Members"
     icon = "knocks-trash2"></knockselbutton>
     <p class = "red-text knocks_fair_bounds col s12">Clicking this will remove all circle members which means all friendship relations will be removed.</p>
+  </div>
+    <div class = "col s12">
+    <div class="ui horizontal divider transparent">
+      Read Me
+    </div>
+    <p class = "col s12">
+      If you have a fresh install `Just Migrated Your DB`, Then you need to Follow These Instructions
+      <ul class = "uk-list uk-list-divider">
+          <li>
+            <span class = "knocks-lab4 knocks_icon_border"></span>
+            Rebound The Initial Data
+         </li>
+         <li>
+            <span class = "knocks-plus knocks_icon_border"></span>
+            Add Users For Testing
+         </li>
+         <li>
+            <span class = "knocksapp-enhance knocks_icon_border"></span>
+            Remove Membership Dublications, incase you've added Users
+         </li>
+      </ul>
+    </p>
   </div>
 </div>
 </transition>

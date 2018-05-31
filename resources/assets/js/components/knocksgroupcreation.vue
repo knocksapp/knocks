@@ -2,7 +2,7 @@
 <div>
   <knocksretriver
   v-model=  "allcircles"
-  url = "get_all_circles" 
+  url = "get_all_circles"
   >
   </knocksretriver>
   
@@ -22,7 +22,7 @@
       <el-carousel-item v-for="(circle,index) in allcircles.response" :key="index" style="background-color : rgb(245,245,245) !important; border-radius : 35px !important; border: 1px solid #e7e7e7">
       <h3 class="animated fadeIn center knocks_text_dark" ><a @click="pushMembers(allcircles.response[index].id,allcircles.response[index].circle_name)" class="knocks_text_dark">
         <i v-for = "ic in JSON.parse(allcircles.response[index].thumbnail) " :class = "'knocks-'+ic.class" ></i>
-       {{allcircles.response[index].circle_name}}</a></h3>
+      {{allcircles.response[index].circle_name}}</a></h3>
       
       </el-carousel-item>
       </el-carousel>
@@ -44,75 +44,79 @@
       v-model = "group_category"
       ></knocksinput>
       <transition enter-active-class="animated fadeIn" leave-active-class="animated fadeOut" >
-      <div class="row" v-if = "flag == true">
-        <h3  class="animated bounceIn knocks_text_dark">Members of {{circle_name}} :</h3>
- 
-        <div v-for="(user,index) in circle_members">
-          <knocksuser class="animated bounceIn col knocks_fair_bounds" :user="user" :as_chip="true">
-          <a slot="append" @click="removeMember(index)"><i class="red-text knocks-close"></i></a>
-          </knocksuser>
+        <div class="row" v-if = "flag == true">
+          <h3  class="animated bounceIn knocks_text_dark">Members of {{circle_name}} :</h3>
+          <div class = "row" v-if = "circle_members.length > 0">      
+          <div v-for="(user,index) in circle_members">
+            <knocksuser class="animated bounceIn col knocks_fair_bounds" v-if = "index < showKey" :user="user" :as_chip="true">
+            <a slot="append" @click="removeMember(index)"><i class="red-text knocks-close"></i></a>
+            </knocksuser>
+          </div>
+          </div>
+          <div class = "row">
+            <p class = "grey-text text-lighten-22">{{showKeyMin+'/'+circle_members.length}}</p>
+            <a :class ="[{'knocks_hidden':!(circle_members.length > showKey)}]" @click = "showKey += 5; refreshContent()">
+              <static_message msg = "See More"></static_message>
+            </a>
+            <a :class ="[{'knocks_hidden':!(showKey > 5 && circle_members.length > 5)}]" class = "right" @click = "showKey -= 5; refreshContent()">
+              <static_message msg = "See Less"></static_message>
+            </a>
+          </div>
         </div>
-             </div>
-             
-         </transition>
-         
-         <transition enter-active-class="animated fadeIn" leave-active-class="animated fadeOut" >
-             <div class="row" v-if = "flag2 == true">
-              <hr>
-
-        <h3  class="animated bounceIn knocks_text_dark">Other Members :</h3>
- 
-        <div v-for="(user,index) in retrivedFriends">
-          <knocksuser class="animated bounceIn col knocks_fair_bounds" :user="user" :as_chip="true">
-          <a slot="append" @click="removeMemberss(index)"><i class="red-text knocks-close"></i></a>
-          </knocksuser>
+        
+      </transition>
+      
+      <transition enter-active-class="animated fadeIn" leave-active-class="animated fadeOut" >
+        <div class="row" v-if = "flag2 == true">
+          <hr>
+          <h3  class="animated bounceIn knocks_text_dark">Other Members :</h3>
+          
+          <div v-for="(user,index) in retrivedFriends">
+            <knocksuser class="animated bounceIn col knocks_fair_bounds" :user="user" :as_chip="true">
+            <a slot="append" @click="removeMemberss(index)"><i class="red-text knocks-close"></i></a>
+            </knocksuser>
+          </div>
         </div>
-
-             </div>
-         </transition>
-
-             <transition  enter-active-class="animated fadeIn" leave-active-class="animated fadeOut">
-
-             <div class="row" v-if = "flag1 == true">
-              <hr>
-        <h3  class="animated bounceIn knocks_text_dark">Suggestions :</h3>
-                
-        <div v-for="(user,index) in search_members">
-          <knocksuser class="animated bounceIn col knocks_fair_bounds" :user="user" :as_chip="true" v-if = "thatsMe(user)">
-          <a slot="append" @click="addToMembers(index)"><i class="green-text knocks-plus5"></i></a>
-          </knocksuser>
+      </transition>
+      <transition  enter-active-class="animated fadeIn" leave-active-class="animated fadeOut">
+        <div class="row" v-if = "flag1 == true">
+          <hr>
+          <h3  class="animated bounceIn knocks_text_dark">Suggestions :</h3>
+          
+          <div v-for="(user,index) in search_members">
+            <knocksuser class="animated bounceIn col knocks_fair_bounds" :user="user" :as_chip="true" v-if = "!thatsMe(user)">
+            <a slot="append" @click="addToMembers(index)"><i class="green-text knocks-plus5"></i></a>
+            </knocksuser>
+          </div>
+          
         </div>
-      </div>
-    </transition>
-
-              <knocksinput el_follower :mat_follower =  "false"
-            placeholder = "Search Name"
-            gid = "search"
-            @change = "searchFriends()"
-            icon = "knocks-search"
-            :scope = "['CreateGroup']"
-            v-model = "search"
-            ></knocksinput>
-
+      </transition>
+      <knocksinput el_follower :mat_follower =  "false"
+      placeholder = "Search Name"
+      gid = "search"
+      @input = "searchFriends()"
+      icon = "knocks-search"
+      :scope = "['CreateGroup']"
+      v-model = "search"
+      ></knocksinput>
       <div class="col s12 knocks_house_keeper">
         <h4 style="margin-top: 25px" class="row knocks_text_dark"><i class="knocks-lock7"></i> Group Privacy</h4>
-            <knockstaps :multiple = "false"
-    anchor_active_class = "knocks_anchor_color_kit_dark knocks_theme_border"
-    anchor_regular_class = "knocks_anchor_color_kit_light "
-    anchor_class = "btn knocks_theme_border knocks_noshadow_ps"
-    :scope = "['group_create_taps ']"
-    v-model="radio4" hide_labels_on_small
-
-    :options = "[
-    { icon : 'knocks-globe2' , label : 'Public' , static : true , value : 'public' } ,
-    { icon : 'knocks-lock7' , label : 'Closed' , static : true , value : 'closed' } ,
-    { icon : 'knocks-eye-off' , label : 'Secret' , static : true , value : 'secret' } ,
-    
-    ]" ></knockstaps>
-    <p v-for = "tv in tapsvalues" :class = "[{'knocks_hidden' : radio4 != tv.value}]">
-      <span :class = "tv.icon"></span>
-      <static_message :msg = "tv.label"></static_message>
-    </p>
+        <knockstaps :multiple = "false"
+        anchor_active_class = "knocks_anchor_color_kit_dark knocks_theme_border"
+        anchor_regular_class = "knocks_anchor_color_kit_light "
+        anchor_class = "btn knocks_theme_border knocks_noshadow_ps"
+        :scope = "['group_create_taps ']"
+        v-model="radio4" hide_labels_on_small
+        :options = "[
+        { icon : 'knocks-globe2' , label : 'Public' , static : true , value : 'public' } ,
+        { icon : 'knocks-lock7' , label : 'Closed' , static : true , value : 'closed' } ,
+        { icon : 'knocks-eye-off' , label : 'Secret' , static : true , value : 'secret' } ,
+        
+        ]" ></knockstaps>
+        <p v-for = "tv in tapsvalues" :class = "[{'knocks_hidden' : radio4 != tv.value}]">
+          <span :class = "tv.icon"></span>
+          <static_message :msg = "tv.label"></static_message>
+        </p>
       </div>
     </div>
   </div>
@@ -136,7 +140,6 @@
     :submit_data = " {name : group_name , category : group_category, preset : radio4 , normal_members : retrivedFriends, circle_members : circle_members} "
     >
     </knockselbutton>
-
   </span>
   </el-dialog>
 </div>
@@ -161,6 +164,7 @@ export default {
           state2: '',
           group_name:'',
           people : '',
+          showKey : 5 ,
           allcircles: Object,
           circle_id : '',
           allusers : null,
@@ -191,6 +195,11 @@ export default {
  
     
   },
+  computed : {
+    showKeyMin(){
+      return Math.min(this.showKey , this.circle_members.length)
+    },
+  },
   methods:{
     thatsMe(id){
       return id == UserId ? true : false ;
@@ -207,7 +216,7 @@ export default {
       vm.circle_members = [];
       vm.circle_id = circle_id;
        axios({
-           url : 'get_circle_members',
+           url : LaravelOrgin+'get_circle_members',
            method : 'post',
            data :{circle_id : vm.circle_id}
        }).then((response)=>{
@@ -348,6 +357,9 @@ export default {
       },
       handleSelect(item) {
         console.log(item);
+      },
+      refreshContent(){
+        App.$emit('KnocksContentChanged')
       }
 
   }

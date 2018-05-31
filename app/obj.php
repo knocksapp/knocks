@@ -141,6 +141,10 @@ class obj extends Model {
 	}
 
 	public function isAvailable($requestMaker) {
+
+		if (auth()->check() && !auth()->user()->hasNoBlocks($requestMaker)) {
+			return 'invalid';
+		}
 		$maker = User::find($requestMaker);
 		if (!$maker) {
 			return false;

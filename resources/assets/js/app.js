@@ -449,6 +449,7 @@ Vue.component('knocksblockuserlist', require('./components/knocksblockuserlist.v
 
    //Knockstaps
    knocksTapsDevModel : null ,
+   usersCount : 100 ,
    knocksTapsDevOptions : [ { icon : 'knocks-male2' , label : 'Male' , static : true , value : 'Male'} ,
                             { icon : 'knocks-female2' , label : 'Female' , static : true , value : 'Female'} ,
                             { label : 'Other' , static : true , value : 'Other'}

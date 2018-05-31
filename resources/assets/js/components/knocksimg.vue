@@ -1,5 +1,9 @@
 <template>
-	<img @click = "$emit('clicked')" @load = "isLoading = false" v-loading = "isLoading" :class = "classes" :id = "gid" :src = "source" :alt = "alt" @error = "source = error_src"/>
+	<img @click = "$emit('clicked')" @load = "isLoading = false"
+   v-loading = "isLoading" 
+    element-loading-spinner="el-icon-loading"
+    style="min-height : 10px" 
+    element-loading-background="rgba(0, 0, 0, 0.8)" :class = "classes" :id = "gid" :src = "source" :alt = "alt" @error = "source = error_src"/>
 </template>
 
 <script>

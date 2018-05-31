@@ -20,7 +20,7 @@
         </div>
       </div>
 
-        <knocksshowkeys show_scope = "user" :show_input = "userIds" as_result blocker :as_label = "false"></knocksshowkeys>
+        <knocksshowkeys show_scope = "block" :show_input = "userIds" as_result blocker :as_label = "false"></knocksshowkeys>
 
     </div>
   </div>

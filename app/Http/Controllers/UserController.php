@@ -268,9 +268,9 @@ class UserController extends Controller {
 		$user = new User();
 		$users = $user->soundsLikeID($request->q);
 		$temp = [];
-		for($i = 0; $i < count($users); $i++){
-			if(auth()->user()->hasNoBlocks($users[$i])){
-				array_push($temp , $users[$i]);
+		for ($i = 0; $i < count($users); $i++) {
+			if (auth()->user()->hasNoBlocks($users[$i])) {
+				array_push($temp, $users[$i]);
 			}
 		}
 		return $temp;
@@ -341,12 +341,18 @@ class UserController extends Controller {
 		if (!$user->exists()) {
 			return view('guest.lost');
 		}
+		if (auth()->check() && !$user->first()->hasNoBlocks(auth()->user()->id)) {
+			return view('guest.lost');
+		}
 		$c = $user->get()->first();
 		return view('user.profile', ['user' => $c]);
 	}
 	public function routeToProfileById(Request $request, $user) {
 		$user = User::find($user);
 		if ($user == null) {
+			return view('guest.lost');
+		}
+		if (auth()->check() && !$user->hasNoBlocks(auth()->user()->id)) {
 			return view('guest.lost');
 		}
 		$c = $user;

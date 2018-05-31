@@ -15,7 +15,11 @@
 <div >
 {{-- <knocksuserinfo>
 </knocksuserinfo> --}}
-<knocksusersettings></knocksusersettings>
+<knocksusersettings
+@if(isset($_GET['t']))
+init_tab = "<?=$_GET['t']?>"
+@endif
+></knocksusersettings>
 </div>
 
 @endsection
