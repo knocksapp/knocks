@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Ballon;
+use App\obj;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 
@@ -46,7 +47,16 @@ class BallonController extends Controller {
 
 		}
 
-		return $ballons;
+		$arr = [];
+
+		foreach ($ballons as $b) {
+			if (obj::find($b->object_id)->isAvailable(auth()->user()->id)) {
+				array_push($arr, $b);
+			}
+
+		}
+
+		return $arr;
 	}
 	public function getAllUserNotificationFr(Request $request) {
 		$ballons = array();
@@ -76,8 +86,16 @@ class BallonController extends Controller {
 			}
 
 		}
+		$arr = [];
 
-		return $ballons;
+		foreach ($ballons as $b) {
+			if (obj::find($b->object_id)->isAvailable(auth()->user()->id)) {
+				array_push($arr, $b);
+			}
+
+		}
+
+		return $arr;
 	}
 	public function setToPoped(Request $request) {
 		$obj = $request->obj;

@@ -24,15 +24,64 @@
           <span class = "knocks-settings5 "></span>
           <static_message msg=  "Your Profile Settings."></static_message>
         </span>
-        <a href = "{{asset('user/settings')}}" style="position: absolute; margin-top : 10px !important; margin-left : 10px; " v-if = "lowerTrigger != 'cover_uploader'" >
+        <a class = "knocks_text_pink" href = "{{asset('user/settings')}}" style="position: absolute; margin-top : 10px !important; margin-left : 10px; " v-if = "lowerTrigger != 'cover_uploader'" >
           <span class = "knocks-settings5 knocks_text_md knocks_blured_bg knocks_tinny_border_radius white-text" style="padding : 5px !important"></span></a>
+          </el-tooltip>
+          <el-tooltip  placement="bottom" effect="light">
+          <span slot = "content">
+            <span class = "knocks-settings5 "></span>
+            <static_message msg=  "Your Profile Settings."></static_message>
+          </span>
+          <el-dropdown style="position: absolute; margin-top : 5px !important; margin-left : 42px; ">
+          <el-button class = " knocks_text_md knocks_blured_bg knocks_tinny_border_radius white-text knocks_borderless knocks_xs_padding" >
+          <i class="el-icon-arrow-down el-icon--right"></i>
+          </el-button>
+          <el-dropdown-menu slot="dropdown">
+          <el-dropdown-item>
+            <a class = "knocks_text_pink" href = "{{asset('user/settings?t=general')}}">
+              <span class = "knocks_icon_border knocksapp-disguise"></span>
+              <static_message msg="General"></static_message>
+            </a>
+          </el-dropdown-item>
+          <el-dropdown-item>
+            <a class = "knocks_text_pink" href = "{{asset('user/settings?t=myPeople')}}">
+              <span class = "knocks_icon_border knocks-planet"></span>
+              <static_message msg="My People"></static_message>
+            </a>
+          </el-dropdown-item>
+          <el-dropdown-item>
+            <a class = "knocks_text_pink" href = "{{asset('user/settings?t=myCircles')}}">
+              <span class = "knocks_icon_border knocks-atom2"></span>
+              <static_message msg="My Circles"></static_message>
+            </a>
+          </el-dropdown-item>
+          <el-dropdown-item>
+            <a class = "knocks_text_pink" href = "{{asset('user/settings?t=myGroups')}}">
+              <span class = "knocks_icon_border knocks-group-1"></span>
+              <static_message msg="My Groups"></static_message>
+            </a>
+          </el-dropdown-item>
+          <el-dropdown-item>
+            <a class = "knocks_text_pink" href = "{{asset('user/settings?t=privacy')}}">
+              <span class = "knocks_icon_border knocksapp-lock2"></span>
+              <static_message msg="Privacy"></static_message>
+            </a>
+          </el-dropdown-item>
+          <el-dropdown-item>
+            <a class = "knocks_text_pink" href = "{{asset('user/settings?t=blocking')}}">
+              <span class = "knocks_icon_border knocks-eye-blocked"></span>
+              <static_message msg="Blocking"></static_message>
+            </a>
+          </el-dropdown-item>
+          </el-dropdown-menu>
+          </el-dropdown>
           </el-tooltip>
           <el-tooltip  placement="bottom" effect="light" v-if = "lowerTrigger != 'cover_uploader'">
           <span slot = "content">
             <span class = "knocksapp-edit  "></span>
             <static_message msg=  "Change Your Cover Photo."></static_message>
           </span>
-          <a @click = "setCoverTrigger(true)" style="position: absolute; margin-top : 10px !important; margin-left : 50px; "  v-if = "lowerTrigger != 'cover_uploader'" >
+          <a @click = "setCoverTrigger(true)" style="position: absolute; margin-top : 10px !important; margin-left : 80px; "  v-if = "lowerTrigger != 'cover_uploader'" >
             <span class = "knocksapp-edit knocks_text_md knocks_blured_bg knocks_tinny_border_radius white-text" style="padding : 5px !important"></span></a>
             </el-tooltip>
             <knocksimageviewer gid ="profile_image_viewer"
@@ -79,7 +128,7 @@
             </transition>
             @endif
             @if($user->id != auth()->user()->id)
-             <knocksimageviewer gid ="profile_image_viewer"
+            <knocksimageviewer gid ="profile_image_viewer"
             :sources = "{{ $user->coverPictures() }}"
             v-if = "profileModel != null"
             unquoted
@@ -115,19 +164,19 @@
               </div>
               @endif
               @if($user->id != auth()->user()->id)
-               <knocksimageviewer gid ="profile_image_viewer"
-                :sources = "{{ $user->profilePictures() }}"
-                v-if = "profileModel != null"
-                unquoted
-                :scope = "['profile_picture_handler']"
-                :object_id = "{{$user->profilePictureBlob()['object_id']}}"
-                :user_id = "{{auth()->user()->id}}"
-                :owner_object = "profileModel"
-                entrance = "custom"
-                :knock_id =  "{{$user->profilePictureBlob()['object_id']}}"
-                :owner_id = "{{$user->id}}">
-                <knocksimg slot = "entrance" class = "knocks_profile_avatar z-depth-1 knocks_user_profile_scope" src = "{{asset('media/avatar/'.$user->id)}}"></knocksimg>
-                </knocksimageviewer>
+              <knocksimageviewer gid ="profile_image_viewer"
+              :sources = "{{ $user->profilePictures() }}"
+              v-if = "profileModel != null"
+              unquoted
+              :scope = "['profile_picture_handler']"
+              :object_id = "{{$user->profilePictureBlob()['object_id']}}"
+              :user_id = "{{auth()->user()->id}}"
+              :owner_object = "profileModel"
+              entrance = "custom"
+              :knock_id =  "{{$user->profilePictureBlob()['object_id']}}"
+              :owner_id = "{{$user->id}}">
+              <knocksimg slot = "entrance" class = "knocks_profile_avatar z-depth-1 knocks_user_profile_scope" src = "{{asset('media/avatar/'.$user->id)}}"></knocksimg>
+              </knocksimageviewer>
               @endif
             </a>
           </div>
@@ -144,28 +193,27 @@
             </h4>
           </div>
         </div>
-
         <div class = "row knocks_house_keeper white knocks_standard_border_radius" style="border : 1px solid #cfd8dc">
           <knocksuserabout :user = "{{$user->id}}"></knocksuserabout>
-                  @if($user->id == auth()->user()->id)
+          @if($user->id == auth()->user()->id)
           <div class = "row">
             <h4 class="ui horizontal divider header transparent">
-          <span class="knocks-centralized-structure"></span>
-          <static_message msg = "My People"></static_message>
-          </h4>
+            <span class="knocks-centralized-structure"></span>
+            <static_message msg = "My People"></static_message>
+            </h4>
             <knockscirclechip :circle = "{{$user->mainCircle()->id}}" as_list></knockscirclechip>
           </div>
           <div class="row"> <h4 class="ui horizontal divider header transparent">
-          <span class="knocks-atom2"></span>
-          <static_message msg = "My Circles"></static_message>
-          </h4>
-                          <knockscollapse icon = 'knocks-atom2' title = "Show" active_title = "hide" dual_title
-                regular_class = "blue-grey-text text-darken-3 knocks_text_ms"
-                toggler_container = " grey lighten-4 row knocks_gray_hover knocks_margin_keeper knocks_gray_border knocks_fair_padding">
-                  <div slot = "content" class = "blue-grey lighten-5 knocks_house_keeper">
-                   <knocksusercircles></knocksusercircles>
-                </div>
-                </knockscollapse>
+            <span class="knocks-atom2"></span>
+            <static_message msg = "My Circles"></static_message>
+            </h4>
+            <knockscollapse icon = 'knocks-atom2' title = "Show" active_title = "hide" dual_title
+            regular_class = "blue-grey-text text-darken-3 knocks_text_ms"
+            toggler_container = " grey lighten-4 row knocks_gray_hover knocks_margin_keeper knocks_gray_border knocks_fair_padding">
+            <div slot = "content" class = "blue-grey lighten-5 knocks_house_keeper">
+              <knocksusercircles></knocksusercircles>
+            </div>
+            </knockscollapse>
           </div>
           @endif
           <h4 class="ui horizontal divider header transparent">
@@ -238,7 +286,6 @@
             </div>
           </transition>
           <div class = "row">
-
             <knock
             :scope= "['knock_at_profile']"
             :error_at="[]"

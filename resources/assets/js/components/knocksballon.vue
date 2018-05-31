@@ -1,7 +1,7 @@
 <template>
 <transition enter-active-class = "animated bounceInRight" :leave-active-class = "leaveActiveClass" v-if = "constrains.category != 'hidden'">
   <div :class = "container_class"
-    v-if="!closed || keep_showing"
+    v-if="(!closed || keep_showing) && isValid "
     :id = "gid"
     style=""
     @mouseover = "hoverAct()"
@@ -21,7 +21,7 @@
     </div>
     <!--Friend Requests-->
     <div v-if = "constrains.index.category == 'friend_request'" class = "knocks_fair_bounds" >
-      <knocksuser :user=  "constrains.index.sender_id" v-model = "domainUser" :show_username = "false" @input = "notifyMe()"
+      <knocksuser @blocked = "isValid = false" :user=  "constrains.index.sender_id" v-model = "domainUser" :show_username = "false" @input = "notifyMe()"
       image_container_class = "knocks_inline" main_container = "row knocks_house_keeper" name_container_class = " knocks_inline" :extras="{hover_id : gid}">
       </knocksuser>
       <static_message  style = "padding : 3px;" classes = "knocks_text_ms knocks_text_dark" v-if="domainUser != null" msg = "** sent you a friendship request."
@@ -49,7 +49,7 @@
     
     <!--Friend Request Acceptance -->
     <div  v-if = "constrains.index.category == 'friend_request_accepted'" class = "knocks_fair_bounds">
-      <knocksuser no_rebound :user=  "constrains.index.sender_id" v-model = "domainUser" :show_username = "false"
+      <knocksuser @blocked = "isValid = false" no_rebound :user=  "constrains.index.sender_id" v-model = "domainUser" :show_username = "false"
       image_container_class = "knocks_inline" main_container = "row knocks_house_keeper" name_container_class = " knocks_inline" :extras="{hover_id : gid}">
       </knocksuser>
       <div class = "knocks_fair_bounds">
@@ -67,7 +67,7 @@
     <div v-if = "constrains.index.category == 'comment'">
       <div v-if = "constrains.index.object_type == 'knock'">
       <div class = "knocks_fair_bounds">
-        <knocksuser  :user=  "constrains.index.sender_id" v-model = "domainUser" :show_username = "false"
+        <knocksuser @blocked = "isValid = false"  :user=  "constrains.index.sender_id" v-model = "domainUser" :show_username = "false"
         image_container_class = "knocks_inline" main_container = "row knocks_house_keeper" name_container_class = " knocks_inline" :extras="{hover_id : gid}">
         </knocksuser>
         <div class = "row" v-if = "constrains.index.commenters.length > 1">
@@ -105,7 +105,7 @@
     <!--Replies-->
     <div v-if = "constrains.index.category == 'reply'">
       <div class = "knocks_fair_bounds">
-        <knocksuser  :user=  "constrains.index.sender_id" v-model = "domainUser" :show_username = "false"
+        <knocksuser @blocked = "isValid = false"  :user=  "constrains.index.sender_id" v-model = "domainUser" :show_username = "false"
         image_container_class = "knocks_inline" main_container = "row knocks_house_keeper" name_container_class = " knocks_inline" :extras="{hover_id : gid}">
         </knocksuser>
        <a :href = "asset('rply/'+constrains.index.reply)" target="_blank" v-if = "constrains.index.repliers.length == 1">
@@ -142,7 +142,7 @@
     </div>
     <div v-if = "constrains.index.category == 'reaction'">  
       <div class = "knocks_fair_bounds">
-        <knocksuser  :user=  "constrains.index.sender_id" v-model = "domainUser" :show_username = "false"
+        <knocksuser @blocked = "isValid = false"  :user=  "constrains.index.sender_id" v-model = "domainUser" :show_username = "false"
         image_container_class = "knocks_inline" main_container = "row knocks_house_keeper" name_container_class = " knocks_inline" :extras="{hover_id : gid}">
         </knocksuser>
         <div v-if = "constrains.index.object_type =='knock'">
@@ -293,6 +293,7 @@ export default {
       time : null , 
       times : null ,
       sm : { fr : '' },
+      isValid : true ,
       reactions : {
        'like' :  "knocks-thumb-up2 knocks_circular_border knocks_xs_padding knocks_text_ms pink white-text darken-1" ,
        'dislike' : "knocks-thumb-down2 knocks_circular_border knocks_xs_padding knocks_text_ms pink lighten-5s",

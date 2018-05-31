@@ -5,23 +5,13 @@ namespace App;
 use App\Blob;
 use App\Career;
 use App\Circle;
-
-use App\Knock;
-use App\Language;
-use App\UserAddress;
-
-use App\user_blocks;
-
 use App\Education;
 use App\Hobby;
 use App\Knock;
 use App\Language;
 use App\Sport;
-
-
-
-
-
+use App\UserAddress;
+use App\user_blocks;
 use DB;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -376,15 +366,15 @@ class User extends Authenticatable {
 		return $arr;
 	}
 
-	public function isBlockedBy($user){
-		return user_blocks::where('user_id' , '=' , $user)->where('blocked_user_id' , '=' , $this->id)->exists();
+	public function isBlockedBy($user) {
+		return user_blocks::where('user_id', '=', $user)->where('blocked_user_id', '=', $this->id)->exists();
 	}
 
-	public function isBlocking($user){
-		return user_blocks::where('user_id' , '=' , $this->id)->where('blocked_user_id' , '=' , $user)->exists();
+	public function isBlocking($user) {
+		return user_blocks::where('user_id', '=', $this->id)->where('blocked_user_id', '=', $user)->exists();
 	}
 
-	public function hasNoBlocks($user){
+	public function hasNoBlocks($user) {
 		return !$this->isBlockedBy($user) && !$this->isBlocking($user);
 	}
 
@@ -559,6 +549,9 @@ class User extends Authenticatable {
 	//User methods
 
 	public function initialaize($object) {
+		if (auth()->check()) {
+			auth()->logout();
+		}
 		$object = json_decode($object);
 
 		if (isset($object->middle_name)) {
@@ -682,14 +675,16 @@ class User extends Authenticatable {
 			'first_name' => $this->first_name,
 			'last_name' => $this->last_name,
 			'middle_name' => $this->middle_name,
-			'user_name' => $this->username,
+			'username' => $this->username,
 			'display_name' => $this->cog()->display_name,
 		);
 	}
 
 	public function retriveForUser($requester) {
 		//Get the configuration
-
+		if (auth()->check() && !$this->hasNoBlocks($requester)) {
+			return 'invalid';
+		}
 		$cog = json_decode($this->configuration);
 		$privacyUserSet = $cog->privacy_user_set;
 		$privacyCircleSet = $cog->privacy_circle_set;
@@ -1237,6 +1232,12 @@ class User extends Authenticatable {
 		return $current - $year;
 
 	}
+	public function birthYear() {
+		if ($this->birthdate == null) {
+			return 0;
+		}
+		return (int) substr($this->birthdate, 0, 4);
+	}
 	public function isKid() {
 		return $this->age() < 12 ? true : false;
 	}
@@ -1396,7 +1397,7 @@ class User extends Authenticatable {
 	}
 
 	public function pairAsFriend($friend) {
-		if ($this->isFriend($friend)) {
+		if ($this->isFriend($friend->id)) {
 			return;
 		}
 		$current = new Circle_member();

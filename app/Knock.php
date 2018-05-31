@@ -3,6 +3,7 @@
 namespace App;
 
 use App\Blob;
+use App\Group;
 use App\hashtags;
 use App\ignore_object;
 use App\obj;
@@ -61,6 +62,37 @@ class Knock extends Model {
 
 	public function isIgnored($user) {
 		return ignore_object::where('object_id', '=', $this->object_id)->where('user_id', '=', $user)->exists();
+	}
+
+	public function view($requester) {
+		if ($this->type == 'group') {
+			$group = Group::find($this->at);
+			if ($group->preset !== 'public') {
+				$isMemberIn = $group->groupMembers()->where('user_id', '=', $requester)->exists();
+				if (!$isMemberIn) {
+					return 'invalid';
+				}
+			}
+		}
+		$reqObject = obj::find($this->object_id);
+		if (!$reqObject->isAvailable($requester)) {
+			return 'invalid';
+		}
+		if ($this->isIgnored($requester)) {
+			return 'invalid';
+		}
+
+		//Passes
+		$resultObject = $this;
+		$exeptions = $reqObject->privacySetUsers();
+		if ($exeptions->count() == 0) {
+			$exeptions = false;
+		} else {
+			$exeptions = true;
+		}
+		$resultObject['sdate'] = new Carbon();
+
+		return $resultObject;
 	}
 
 	public function comments() {

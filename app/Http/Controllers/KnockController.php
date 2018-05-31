@@ -7,7 +7,6 @@ use App\Knock;
 use App\obj;
 use App\Reply;
 use App\User;
-use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class KnockController extends Controller {
@@ -36,33 +35,7 @@ class KnockController extends Controller {
 		]);
 
 		$knock = Knock::find($request->knock);
-		$reqObject = obj::find($knock->object_id);
-		if ($reqObject->isAvailable(auth()->user()->id) && $knock->isIgnored(auth()->user()->id) == false) {
-			if ($reqObject->user_id == auth()->user()->id) {
-				$resultObject = $knock;
-				$resultObject['sdate'] = new Carbon();
-				//$resultObject['comments'] = $knock->comments()->pluck('id');
-				$exeptions = $reqObject->privacySetUsers();
-				if ($exeptions->count() == 0) {
-					$exeptions = false;
-				} else {
-					$exeptions = true;
-				}
-
-				$resultObject['exceptions'] = $exeptions;
-
-				return $resultObject;
-			} else {
-				$resultObject = $knock;
-				$resultObject['sdate'] = new Carbon();
-				//$resultObject['comments'] = $knock->comments()->pluck('id');
-				$resultObject['exceptions'] = false;
-				return $resultObject;
-			}
-		} else {
-			return 'invalid';
-		}
-
+		return $knock->view(auth()->user()->id);
 	}
 
 	public function retriveOlder(Request $request) {
@@ -72,34 +45,7 @@ class KnockController extends Controller {
 		]);
 
 		$knock = Knock::find($request->knock);
-		$reqObject = obj::find($knock->object_id);
-		if ($reqObject->isAvailable(auth()->user()->id)) {
-			if ($reqObject->user_id == auth()->user()->id) {
-				$resultObject = $knock;
-
-				//$resultObject['comments'] = $knock->comments()->pluck('id');
-				$exeptions = $reqObject->privacySetUsers();
-				if ($exeptions->count() == 0) {
-					$exeptions = false;
-				} else {
-					$exeptions = true;
-				}
-
-				$resultObject['exceptions'] = $exeptions;
-
-				return $resultObject;
-			} else {
-				$resultObject = $knock;
-				$resultObject['seens'] = $knock->hasSeen(auth()->user()->id);
-				//$resultObject['comments'] = $knock->comments()->pluck('id');
-				$resultObject['exceptions'] = false;
-
-				return $resultObject;
-			}
-		} else {
-			return 'invalid';
-		}
-
+		return $knock->view();
 	}
 
 	public function getComments(Request $request) {

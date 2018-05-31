@@ -82,7 +82,7 @@ export default {
       default : null,
     } ,
     success_msg : {
-      type : String ,
+      type : [String , Array , Object ,Number ] ,
       default : ''
     },
     error_at : {

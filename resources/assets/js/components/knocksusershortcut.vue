@@ -19,7 +19,7 @@
   url = "user/info"></knocksretriver>
   <!-- Regular Retriver Ends ============================================================================-->
   <div v-if = "regularRetriver != null || lazyRetriver != null" >
-    <knocksloaderbar class = "col s12 animated pulse infinite" prog = "pink lighten-3" bg = "grey lighten-2" v-if = "regularRetriver.loading"></knocksloaderbar>
+    <knocksloaderbar class = "col s12 animated pulse infinite" prog = "pink lighten-3" bg = "grey lighten-2" v-if = "regularRetriver.loading && !onSmallView"></knocksloaderbar>
     <knocksloaderbar class = "col s10 animated pulse infinite" prog = "pink lighten-3" bg = "grey lighten-2" v-if = "regularRetriver.loading"></knocksloaderbar>
     <!-- Popover Begins =================================================================================-->
     <el-popover
@@ -103,11 +103,20 @@
     </div>
     <!--Default Presentation Ends ========================================================================-->
     <!--Chips Presentation Begins ========================================================================-->
-    <div class="chip" :class="main_container" contenteditable="false" v-if="as_chip">
+    <div class="chip" :class="main_container" contenteditable="false" v-if="as_chip && userObject != null">
       <knocksimg :src = "asset('media/avatar/compressed/'+user)" :classes = "{'knocks_user_profile_scope' : thatsMe}" ></knocksimg>
       <span :class = "name_class" :href = "userUrl"  v-if="userObject && !hide_text_info"  >
-        <el-tooltip :content = "displayName" placement="bottom-start">
-        <span> {{handledDisplayName}} </span>
+        <el-tooltip placement="bottom-start">
+         <span slot = "content">
+         {{displayName}}
+         <p class = " " >
+          <a :href = "userUrl" target="_blank" class = "knocks_text_pink" ><span class = "knocksapp-share4"></span></a>
+          <a :href = "userUrl"  class = "knocks_text_pink" ><static_message msg = "Visit"></static_message></a>
+        </p>
+       </span>
+        <span> 
+          {{handledDisplayName}}
+         </span>
         </el-tooltip>
       </span>
       <slot name = "append"></slot>
@@ -644,7 +653,18 @@ export default {
        for (i = 0; i < arr.length; i++)
         if(arr[i])  return false;
         return true;
-    }
+    },
+    onSmallView(){
+       let arr = [
+         this.as_chip ,
+         this.as_name ,
+         this.as_url ,
+         this.as_label ,
+       ] , i ;
+       for (i = 0; i < arr.length; i++)
+        if(arr[i])  return true;
+        return false;
+    },
   },
   methods : {
     isKnown(){
@@ -671,6 +691,11 @@ export default {
       return true ;
     },
     initialize(remoteObject){
+      if(remoteObject == 'invalid'){
+        this.userObject = null
+        this.$emit('blocked')
+        return
+      }
       this.userObject = null ;
       this.userObject = remoteObject;
       this.getDisplayName();

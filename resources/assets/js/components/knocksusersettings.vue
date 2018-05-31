@@ -778,9 +778,9 @@
 					</p>
 					<el-dialog
 					:visible.sync="input.ppdialog"
-					width="90%">
+					width="99%" class = "knocks_house_keeper">
 					<center>
-					<div class="col s12 l6">
+					<div class="col s12 l6 knocks_house_keeper">
 						<knockscroppie
 						gid = "knocks_profile_picture_uploader"
 						success_at = "done"
@@ -811,10 +811,10 @@
 						<static_message msg = "Update your Cover picture"></static_message>
 					</p>
 					<el-dialog
-					:visible.sync="input.coverdialog"
-					width="90%">
+					:visible.sync="input.coverdialog" class = "knocks_house_keeper"
+					width="99%">
 					<center>
-					<div class="col s12">
+					<div class="col s12 knocks_house_keeper">
 						<knockscroppie
 						gid = "knocks_cover_picture_uploader"
 						success_at = "done"
@@ -890,7 +890,7 @@
 
 </h4>
 			</div>
-			<knocksshowkeys show_scope = "user" :show_input = "blockedUserIds" as_result blocker :as_label = "false"></knocksshowkeys>
+			<knocksshowkeys show_scope = "block" :show_input = "blockedUserIds" as_result blocker :as_label = "false"></knocksshowkeys>
 
 
 		</div>
@@ -905,7 +905,12 @@
 export default {
 
   name: 'knocksusersettings',
-
+  props : {
+  	init_tab : {
+  		type : String , 
+  		default : null
+  	}
+  },
   data () {
     return {
     	myWindow : '' ,
@@ -920,7 +925,7 @@ export default {
     	tabs : 'general' ,
     	countries : window.Countries.countries ,
     	seenOnce : {
-    		general : true ,
+    		general : false ,
     		myPeople : false ,
     		myCircles : false ,
     		myGroups : false ,
@@ -955,6 +960,13 @@ export default {
     }
   },
 	mounted(){
+
+		if(this.init_tab){
+			this.tabs = this.init_tab
+			this.seenOnce[this.init_tab] = true
+		}else{
+			this.seenOnce['general'] = true
+		}
 		const vm = this
 		App.$on('knocksUserUnblocked', (payloads)=>{
 

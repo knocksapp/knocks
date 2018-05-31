@@ -13,7 +13,7 @@ class UserAddress extends Model {
 		$parentObject->initialize('address');
 		$object = json_decode($object);
 		$this->object_id = $parentObject->id;
-		$this->user_id = auth()->user()->id;
+		$this->user_id = isset($object->user) ? $object->user : auth()->user()->id;
 		$this->country = $object->country;
 		$this->region = $object->region;
 		$this->state = $object->state;

@@ -40,9 +40,11 @@ Route::post('dev/delete/allmems', 'DevController@removeAllFriends');
 Route::post('dev/trunc/knocks', 'DevController@resetKnocks');
 Route::post('dev/trunc/users', 'DevController@resetKnocks');
 Route::post('dev/db/reinstall', 'DevController@reinstall');
+Route::post('dev/db/chck/members', 'DevController@watchMembershipDublications');
 
 //Add Random Users
 Route::post('dev/db/add/users', 'DevController@addUsersPatch');
+Route::post('dev/db/entry/users', 'DevController@addRandomEntry');
 
 Route::post('dev/test', function () {return 'done';});
 
@@ -364,7 +366,6 @@ Route::post('userblock/isblockeduser', 'UserBlocksController@isBlocked');
 //unblock user
 
 Route::post('userblock/unblockuser', 'UserBlocksController@unblockUser');
-
 
 // Route::get('add_notification' , function(){
 //   $not = new App\Ballon();

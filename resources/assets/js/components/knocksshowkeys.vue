@@ -17,6 +17,7 @@
 			:blocker = "blocker"
 			:show_accept_shortcut = "show_accept_shortcut"
 			  ></knocksuser>
+        <knocksblockuser :blocked_user_id = "item" v-if = "index < showKey && show_scope == 'block'"></knocksblockuser>
       <knocksgroupshortcut as_chip :group_id = "item" v-if = "index < showKey && show_scope == 'group'"></knocksgroupshortcut>
 		</li>
 	</ul>
