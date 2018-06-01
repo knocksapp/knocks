@@ -534,6 +534,11 @@ export default {
       },
       deleteAddresses(index){
         this.userObject.addresses.splice(index,1);
+        let temp = this.userObject.addresses;
+        this.userObject.addresses = [];
+        setTimeout(()=>{
+          this.userObject.addresses = temp;
+        },500);
       },
       deleteCareer(index){
         this.career.splice(index,1);
