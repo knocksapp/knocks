@@ -3,11 +3,13 @@
 	<div >
 		 <el-tooltip class="item" effect="light" content="Delete" placement="bottom">
     		<knockselbutton
+				circle
+
     		      icon = "knocks-trash-can3 knocks_text_md"
               class = "right knocks_tinny_margin"
               size = "mini"
               disable_placeholder
-              type=""
+              type="danger"
               button_classes = "knocks_rounded_border"
               :submit_flag = "false"
               @knocks_button_clicked="centerDialogVisible = true"

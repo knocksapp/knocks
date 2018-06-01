@@ -1,7 +1,7 @@
 <template>
   <button class=" " :id = "gid" @mouseover = "isHovered = true; emit()" @mouseleave = "isHovered = false; emit()"
   :class = "buttonClasses" @click = "construct()" :disabled = "isLoading || disabled">
-    <i class="material-icons" :class = "[icon , {right: !disable_placeholder && align == 'right'} , 
+    <i class="material-icons" :class = "[icon , {right: !disable_placeholder && align == 'right'} ,
     {left: !disable_placeholder && align == 'left'} , {center : disable_placeholder}]" v-if="!isLoading"></i>
     <knocksloader size = "small" v-if="isLoading"></knocksloader>
         <static_message :msgid="place_holder" :class="label_classes" v-if = "placeholder == null && !disable_placeholder">
@@ -19,8 +19,8 @@ export default {
       default : ''
     } ,
     gid : {
-      type :String , 
-      required : true 
+      type :String ,
+      required : true
     },
 
     align : {
@@ -28,7 +28,7 @@ export default {
       default : 'left'
     } ,
     button_classes : {
-      type : String , 
+      type : String ,
       default : 'waves-effect waves-light btn knocks_btn knocks_color_kit knocks_text_md'
     },
     place_holder : {
@@ -36,11 +36,11 @@ export default {
       default : null ,
     } ,
     placeholder : {
-      type : String , 
+      type : String ,
       default : null ,
     },
     disable_placeholder : {
-      type : Boolean , 
+      type : Boolean ,
       default : false ,
     },
     label_classes : {
@@ -86,7 +86,7 @@ export default {
     scope : {
       type : Array ,
       default : null
-    } , 
+    } ,
     reset_on_success : {
       type : Boolean ,
       default : false ,
@@ -96,15 +96,15 @@ export default {
       default : false ,
     },
     submit_on : {
-      type : Array , 
-      default : null 
+      type : Array ,
+      default : null
     },
     hover_class : {
       type : String ,
       default : 'animated rubberBand'
     },
     leave_class : {
-      type : String , 
+      type : String ,
       default : 'animated bounce'
     },
     validation_error : {
@@ -116,28 +116,28 @@ export default {
       default : ''
     },
     validate : {
-      type : Boolean , 
-      default : true 
+      type : Boolean ,
+      default : true
     },
     materialize_feedback : {
-      type : Boolean , 
-      default : true 
+      type : Boolean ,
+      default : true
     },
     computed_response : {
-      type : Boolean , 
+      type : Boolean ,
       default : false
     },
     precondition : {
-      type : Boolean , 
+      type : Boolean ,
       default : null
     },
     disabled : {
-      type : Boolean , 
+      type : Boolean ,
       default : false ,
     },
     hide_success_msg : {
-      type : Boolean , 
-      default : false 
+      type : Boolean ,
+      default : false
     }
 
 
@@ -148,9 +148,9 @@ export default {
       errorsStack : [],
       isLoading : false ,
       isHovered : false ,
-      response : null , 
-      networkHasErrors : false , 
-      networkErrors : null , 
+      response : null ,
+      networkHasErrors : false ,
+      networkErrors : null ,
       actualLoading : false ,
     }
   },
@@ -268,11 +268,11 @@ export default {
       }
     },
     emit(){
-      this.$emit('input' , 
-        { 
-          isLoading : this.isLoading , 
-          isHovered : this.isHovered , 
-          response  : this.response , 
+      this.$emit('input' ,
+        {
+          isLoading : this.isLoading ,
+          isHovered : this.isHovered ,
+          response  : this.response ,
           networkErrors : this.networkHasErrors ,
           networkHasErrors :  this.networkErrors
         });
@@ -283,6 +283,15 @@ export default {
         message: notificationObject.msg,
         type: notificationObject.type
       });
+    },
+    isAnError(res){
+      if(this.error_at == null) return false ;
+      let err ;
+      for(err in this.error_at){
+        if(this.error_at[err].res == res)
+          return true;
+      }
+      return false ;
     },
     submit(){
       if(this.actualLoading) {console.log('prevent extra s'); return; }
@@ -316,14 +325,14 @@ export default {
         var temp = response.data;
         vm.networkHasErrors = false ;
         vm.networkErrors = null ;
-        if(temp == vm.success_at && vm.success_at != null){
+        if((temp == vm.success_at && vm.success_at != null) || vm.computed_response && !vm.isAnError(temp) ){
           if(vm.materialize_feedback && !vm.hide_success_msg)
              Materialize.toast(vm.success_msg, 3000, 'rounded');
            else if(!vm.hide_success_msg) vm.elementCategoryNotify({ type : 'success' , msg : vm.success_msg , title : 'success' });
           if(vm.reset_on_success){
             App.$emit('knocks_input_reset' , vm.scope);
           }
-          vm.$emit('knocks_submit_accepted');
+          vm.$emit('knocks_submit_accepted' , {submit_data : vm.submit_data , response : temp});
           vm.actualLoading = vm.isLoading = false
           return true;
         }else{

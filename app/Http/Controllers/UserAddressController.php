@@ -44,6 +44,12 @@ class UserAddressController extends Controller {
 		}
 		$address = new UserAddress();
 		$address->init(json_encode($request->object));
+		return $address->id;
+	}
+
+	public function deleteAddresses(Request $request) {
+		UserAddress::where('id', '=', $request->addresses_id)->delete();
 		return 'done';
 	}
+
 }

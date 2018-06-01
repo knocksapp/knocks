@@ -33,13 +33,13 @@ icon = "knocks-group2">
  <!--  -->
 <el-collapse accordion>
 <el-collapse-item v-for="(com,index) in career" :key = "index"  :name="'career_'+index" v-if="career[index] != null && inCareerRange(index)" >
-  <knocksusercareeredit
+  <!-- <knocksusercareeredit
   :careerObject="com"
   v-if = "thatsMe"
   class="col right"
   @knocks_career_updated ="updateCareer($event , index)"
   >
-</knocksusercareeredit>
+</knocksusercareeredit> -->
 <knocksuseraboutdelete
   :about_object="com"
   @knocks_about_deleted ="deleteCareer(index)"
@@ -97,13 +97,13 @@ icon = "knocks-group2">
 </center>
 <el-collapse accordion>
 <el-collapse-item   v-if = "education[index] != null && inEducationRange(index)" v-for="(com,index) in education" :key = "index" :name="'education_'+index" >
-  <knocksusereducationedit
+  <!-- <knocksusereducationedit
   :educationObject="com"
   class="col right"
   v-if = "thatsMe"
  @knocks_education_updated = "updateEducationList($event , index)"
   >
-</knocksusereducationedit>
+</knocksusereducationedit> -->
 <knocksuseraboutdelete
   :about_object="com"
   @knocks_about_deleted ="deleteEducation(index)"
@@ -161,13 +161,13 @@ icon = "knocks-group2">
 </center>
 <el-collapse accordion>
 <el-collapse-item v-if = "high_education[index] != null && inHighEducationRange(index)" v-for="(com,index) in high_education" :key = "index" :name="'high_education_'+index">
-  <knocksuseraboutedit
+  <!-- <knocksuseraboutedit
    class = "col right"
    v-if = "thatsMe"
   :highEducationObject="com"
    @knocks_high_education_updated = "updateHighEducationList($event , index)"
   >
-</knocksuseraboutedit>
+</knocksuseraboutedit> -->
 <knocksuseraboutdelete
   :about_object="com"
   @knocks_about_deleted ="deleteHighEducation(index)"
@@ -223,13 +223,13 @@ icon = "knocks-group2">
 </center>
 <el-collapse accordion>
 <el-collapse-item v-for="(com,index) in hobby "v-if = "hobby[index] != null && inHobbyRange(index)" :key = "index" :name="'hobby_'+index">
-  <knocksuserhobbyedit
+  <!-- <knocksuserhobbyedit
   :hobbyObject="com"
   class="col right"
   @knocks_hobby_updated ="updateHobby($event , index)"
   v-if = "thatsMe"
   >
-</knocksuserhobbyedit>
+</knocksuserhobbyedit> -->
 <knocksuseraboutdelete
   :about_object="com"
   @knocks_about_deleted ="deleteHobby(index)"
@@ -282,13 +282,13 @@ icon = "knocks-group2">
 </center>
 <el-collapse accordion>
 <el-collapse-item  v-if = "sport[index] != null && inSportRange(index)" v-for="(com,index) in sport" :key = "index" :name="'sport_'+index">
-  <knocksusersportedit
+  <!-- <knocksusersportedit
   :sportObject="com"
   class = "col right"
   @knocks_sport_updated ="updateSport($event , index)"
   v-if = "thatsMe"
   >
-</knocksusersportedit>
+</knocksusersportedit> -->
 <knocksuseraboutdelete
   :about_object="com"
   @knocks_about_deleted ="deleteSport(index)"
@@ -330,6 +330,84 @@ icon = "knocks-group2">
 </div>
 </div>
 </el-tab-pane>
+
+<el-tab-pane name = "address">
+<span class ="knocks_text_anchor" slot="label">
+  <i class="knocks-map7"></i>
+  <static_message msg = "Addresses" class = "hide-on-small-only"></static_message>
+</span>
+<div v-if = "userObject != null">
+<center v-if = "userObject.addresses != null &&  userObject.addresses.length == 0">
+<span class = "knocks-alert-circle"></span>
+<static_message msg = "Nothing to show here"></static_message>
+</center>
+</div>
+<el-collapse accordion>
+  <div v-if = "userObject != null">
+    <el-collapse-item v-for="(com,index) in userObject.addresses" :key = "index"  :name="'address_'+index" v-if="userObject.addresses[index] != null && inAddressRange(index)" >
+      <div v-if = "userObject != null" class="col right">
+        <knockselbutton
+        circle
+        type = "danger"
+        disable_placeholder
+        icon = "el-icon-delete"
+        success_msg = "done"
+        submit_at = 'address/delete'
+        :scope = "['knocks_addresses_delete_'+_uid]"
+        :submit_data = "{ addresses_id : userObject.addresses[index].id}"
+        @knocks_submit_accepted = "deleteAddresses(index)"
+        success_at = "done"></knockselbutton>
+      </div>
+    <span slot="title" class="knocks_text_md  ">
+      <knocksaddressviewer
+      :address = "com"
+      hide_prepend
+      :key = "index"
+      v-if = "userObject.addresses">
+      </knocksaddressviewer>
+    </span>
+       <div class = "col s9">
+         <ul >
+      <li> <span class="knocks-earth-globe"></span>   <static_message msg = "Country"></static_message>  :{{ countries[userObject.addresses[index].country].name}}</li>
+      <li v-if = "userObject.addresses[index].region != null">  , <span class="knocks-map10"></span>  <static_message msg= "Region"></static_message>  :  {{userObject.addresses[index].region}}</li>
+      <li v-if = "userObject.addresses[index].state != null"> , <span class="knocksapp-build2"></span>   <static_message msg= "State"></static_message>  :  {{userObject.addresses[index].state}}</li>
+    </ul>
+       </div>
+
+    </el-collapse-item>
+
+</div>
+<el-collapse-item  v-if = "userObject != null && userObject.thatsMe">
+  <span slot="title" class="knocks_text_md knocks_add_text ">
+    <static_message msg= "Add a new address"></static_message>
+  </span>
+  <knocksquickaddress
+  @knocks_address_submited = "updateAddressAdd($event)"
+ ></knocksquickaddress>
+  </el-collapse-item>
+</el-collapse>
+<div class="row" v-if = "userObject != null">
+  <div v-if="userObject != null">
+<div v-if="userObject.addresses != null && userObject.addresses.length > 3 ">
+<a v-if = "userObject.addresses != null && showAddressKey < userObject.addresses.length"
+   @click = "increaseAddressRang()"
+   class = "left knocks_side_padding knocks_text_sm knocks_text_anchor knocks_pointer" >
+  <span class = "knocks-map7"></span> See More
+</a>
+</div>
+</div>
+<div v-if="userObject != null">
+  <div v-if = "userObject.addresses != null && showAddressKey > 3 && userObject.addresses.length > 3 ">
+<a v-if = "userObject.addresses != null && showAddressKey > 3 "
+   @click = "reduceAddressRang()"
+   class = "right knocks_side_padding knocks_text_sm knocks_text_anchor knocks_pointer">
+  <span class = "knocks-map7"></span> See Less
+</a>
+</div>
+</div>
+</div>
+</el-tab-pane>
+
 <!-- <el-tab-pane label="Config" name="second">Config</el-tab-pane>
 <el-tab-pane label="Role" name="third">Role</el-tab-pane>
 <el-tab-pane label="Task" name="fourth">Task</el-tab-pane> -->
@@ -345,6 +423,7 @@ export default {
   },
  data(){
   return{
+    countries : window.Countries.countries ,
     career : null,
     careerLoaded : false ,
     careerIsLoading: false ,
@@ -361,12 +440,16 @@ export default {
     sport: null,
     sportLoaded: false,
     sportIsLoading: false,
+    address: null,
+    addressLoaded: false,
+    addressIsLoading: false,
     userObject : null ,
     showCareerKey : 3,
     showEducationKey : 3,
     showHighEducationKey : 3,
     showSportKey : 3,
     showHobbyKey : 3,
+    showAddressKey : 3,
     thatsMe : false ,
   }
   },
@@ -422,6 +505,17 @@ export default {
       {
         this.hobby.push(e);
       },
+
+      updateAddressAdd(e)
+      {
+        this.userObject.addresses.push(e) ;
+        console.log(this.userObject.addresses)
+        let temp = this.userObject.addresses;
+        this.userObject.addresses = [];
+        setTimeout(()=>{
+          this.userObject.addresses = temp;
+        },500);
+      },
       updateSportAdd(e)
       {
         this.sport.push(e);
@@ -437,6 +531,9 @@ export default {
       updateCareerAdd(e)
       {
         this.career.push(e);
+      },
+      deleteAddresses(index){
+        this.userObject.addresses.splice(index,1);
       },
       deleteCareer(index){
         this.career.splice(index,1);
@@ -627,7 +724,26 @@ showCareerRange(){
         inHobbyRange(index){
           return index > this.showHobbyRange() ? true : false;
         },
-
+        increaseAddressRang(){
+          if(this.userObject.addresses.length - this.showAddressKey > 2 ) {
+            this.showAddressKey += 3;
+          }else{
+             this.showAddressKey += this.userObject.addresses.length - this.showAddressKey;
+            }
+        },
+        reduceAddressRang(){
+          if( this.showAddressKey - 4 < 3) {
+            this.showAddressKey = 3;
+          }else{
+             this.showAddressKey -= 3 ;
+            }
+        },
+        showAddressRange(){
+            return this.userObject.addresses.length - this.showAddressKey - 1;
+          },
+        inAddressRange(index){
+          return index > this.showAddressRange() ? true : false;
+        },
         increaseSportRang(){
           if(this.sport.length - this.showSportKey > 2 ) {
             this.showSportKey += 3;
@@ -648,6 +764,7 @@ showCareerRange(){
           inSportRange(index){
             return index > this.showSportRange() ? true : false;
           },
+
 
   }
 }
