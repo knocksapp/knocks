@@ -130,10 +130,10 @@
 		:materialize_feedback = "false"
 		placeholder = "Add Address"
 		submit_at = "address/create"
-		success_at = "done"
+    computed_response
 		:error_at = "[{ res : 'invalid' , msg : messages.btnDublicate }]"
 		:success_msg= "messages.done"
-		@knocks_submit_accepted = "resetContentReject()"
+    @knocks_submit_accepted = "passToParent($event)">
 		:validation_error = "messages.countryMissing"
 		></knocksbutton>
 		</div>
@@ -148,46 +148,46 @@ export default {
   name: 'knocksquickaddress',
   props : {
   	main_container : {
-  		type : String, 
+  		type : String,
   		default : 'row white knocks_tinny_border_radius knocks_gray_border knocks_fair_bounds'
   	},
   	title : {
-  		type : String , 
+  		type : String ,
   		default : 'Add an address'
   	},
   	title_classes : {
-  		type : String , 
+  		type : String ,
   		default : 'knocks_text_dark knocks_text_ms center'
   	},
   	show_title : {
-  		type : Boolean , 
+  		type : Boolean ,
   		default : false
   	},
   	tiny : {
-  		type : Boolean , 
-  		default : false 
+  		type : Boolean ,
+  		default : false
   	},
   	ask_first : {
-  		type : Boolean , 
-  		default : false , 
+  		type : Boolean ,
+  		default : false ,
   	} ,
 
   },
   data () {
     return {
-    	askFirstRetriver : { loading : false , response : null } , 
-    	checkStatesRetriver : { loading : false , response : null } , 
-    	checkRegionsRetriver : { loading : false , response : null } , 
-    	hasAddress : false , 
-    	countries : window.Countries.countries , 
+    	askFirstRetriver : { loading : false , response : null } ,
+    	checkStatesRetriver : { loading : false , response : null } ,
+    	checkRegionsRetriver : { loading : false , response : null } ,
+    	hasAddress : false ,
+    	countries : window.Countries.countries ,
   		country : null ,
   		messages : {
-  			country : '' , 
-  			state : '' , 
+  			country : '' ,
+  			state : '' ,
   			region : '' ,
-  			btnDublicate : '' , 
+  			btnDublicate : '' ,
   			btnSuccess : '' ,
-  			countryMissing : '' , 
+  			countryMissing : '' ,
   			title : '' ,
   		},
   		state : null ,
@@ -197,6 +197,12 @@ export default {
     }
   },
   methods : {
+		passToParent(e){
+				let ob = e.submit_data.object ;
+				ob.current = 'f'
+				ob.id = e.response;
+				this.$emit('knocks_address_submited' , ob );
+		},
   	handleAskFirst(e){
   		this.hasAddress = e.response.has_address
   	},

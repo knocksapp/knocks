@@ -256,6 +256,8 @@ Route::post('address/region/get', 'UserAddressController@getRegions');
 
 Route::post('address/create', 'UserAddressController@create');
 
+Route::post('address/delete', 'UserAddressController@deleteAddresses');
+
 //MultiMedia
 Route::post('blob/record', 'BlobController@createRecord');
 
@@ -366,6 +368,8 @@ Route::post('userblock/isblockeduser', 'UserBlocksController@isBlocked');
 //unblock user
 
 Route::post('userblock/unblockuser', 'UserBlocksController@unblockUser');
+
+
 
 // Route::get('add_notification' , function(){
 //   $not = new App\Ballon();

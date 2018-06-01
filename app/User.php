@@ -62,7 +62,7 @@ class User extends Authenticatable {
 		foreach ($temp as $ad) {
 			$ob = obj::find($ad->object_id);
 			if ($ob->isAvailable($requester)) {
-				array_push($arr, array('state' => $ad->state, 'region' => $ad->region, 'country' => $ad->country, 'current' => $ad->current));
+				array_push($arr, array('id' => $ad->id , 'state' => $ad->state, 'region' => $ad->region, 'country' => $ad->country, 'current' => $ad->current));
 			}
 		}
 		return $arr;
