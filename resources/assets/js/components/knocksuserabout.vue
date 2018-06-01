@@ -346,17 +346,47 @@ icon = "knocks-group2">
   <div v-if = "userObject != null">
     <el-collapse-item v-for="(com,index) in userObject.addresses" :key = "index"  :name="'address_'+index" v-if="userObject.addresses[index] != null && inAddressRange(index)" >
       <div v-if = "userObject != null" class="col right">
-        <knockselbutton
-        circle
-        type = "danger"
-        disable_placeholder
-        icon = "el-icon-delete"
-        success_msg = "done"
-        submit_at = 'address/delete'
-        :scope = "['knocks_addresses_delete_'+_uid]"
-        :submit_data = "{ addresses_id : userObject.addresses[index].id}"
-        @knocks_submit_accepted = "deleteAddresses(index)"
-        success_at = "done"></knockselbutton>
+         <el-tooltip class="item" effect="light" content="Delete" placement="bottom">
+           <knockselbutton
+           circle
+
+                 icon = "knocks-trash-can3 knocks_text_md"
+                  class = "right knocks_tinny_margin"
+                  size = "mini"
+                  disable_placeholder
+                  type="danger"
+                  button_classes = "knocks_rounded_border"
+                  :submit_flag = "false"
+                  @knocks_button_clicked="centerDialogVisible = true"
+            ></knockselbutton>
+         </el-tooltip>
+         <el-dialog
+          title="address"
+          center
+          width="50%"
+          :visible.sync="centerDialogVisible"
+          center>
+          <span> <span><i style="color : red; font-size : 30px" class="knocks-trash-can3"> </i></span> Are you sure that you want to delete  <strong style="font-size : 20px; color : red;">{{countries[userObject.addresses[index].country].name}}</strong>  from your Addresses?</span>
+
+          <span slot="footer" class="dialog-footer">
+
+           <el-button @click="centerDialogVisible = false">
+             Cancel
+           </el-button>
+         <knockselbutton
+         type = "danger"
+         button_classes="right"
+         reset_on_success
+         placeholder = "Delete"
+         icon = "el-icon-delete"
+         success_msg = "Address has been Deleted Successfully!"
+         submit_at = 'address/delete'
+         :scope = "['knocks_addresses_delete_'+_uid]"
+         :submit_data = "{ addresses_id : userObject.addresses[index].id}"
+         @knocks_submit_accepted = "deleteAddresses(index)"
+         success_at = "done"></knockselbutton>
+       </span>
+</el-dialog>
       </div>
     <span slot="title" class="knocks_text_md  ">
       <knocksaddressviewer
@@ -451,6 +481,7 @@ export default {
     showHobbyKey : 3,
     showAddressKey : 3,
     thatsMe : false ,
+    centerDialogVisible: false,
   }
   },
   computed:{
@@ -539,6 +570,7 @@ export default {
         setTimeout(()=>{
           this.userObject.addresses = temp;
         },500);
+        this.centerDialogVisible = false
       },
       deleteCareer(index){
         this.career.splice(index,1);
