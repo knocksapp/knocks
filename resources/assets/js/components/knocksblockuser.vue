@@ -147,8 +147,8 @@ export default {
           && this.user_id.response[ this.user_id.response.display_name[i] ] !== null
           && this.user_id.response[ this.user_id.response.display_name[i] ].length > 0){
           if(this.user_id.response.display_name[i] == 'nickname' && this.user_id.response.display_name.length > 1)
-            temp.push('('+this.user_id.response[this.user_id.display_name[i]] + ')')
-         else temp.push(this.user_id.response[this.user_id.display_name[i]])
+            temp.push('('+this.user_id.response[this.user_id.response.display_name[i]] + ')')
+         else temp.push(this.user_id.response[this.user_id.response.display_name[i]])
         }
       }
       if(temp.length == 0){

@@ -49,6 +49,7 @@
     </h4>
     <knocksuser 
     class = "knocks_gray_hover row knocks_tinny_margin knocks_standard_border_radius"
+    @blocked = "removeFriends(index)"
     @callback_click = "addConversation(friend.id)"
     v-if="!isCurrent(friend.id) && index < 10"
     :user = "friend.id" v-for = "(friend , index) in friendsToChat.response" as_callback :key = "index"></knocksuser>
@@ -108,6 +109,10 @@ export default {
     },
     closeChatHead(index){
       this.currentChats.splice(index , 1); this.hasConversation = false; this.activeChat = null ;
+    },
+    removeFriends(index){
+      this.friendsToChat.response.splice(index , 1)
+      App.$emit('knocksContentChanged')
     }
   }
 }

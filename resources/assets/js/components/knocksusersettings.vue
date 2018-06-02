@@ -885,12 +885,11 @@
       <knocksblockuserlist ></knocksblockuserlist>
 			<div>
 				<h4 class="ui horizontal divider header transparent">
-<i class="knocks-eye-blocked"></i>
-<static_message msg = "Blocked Users" classes = "knocks_text_sm"  ></static_message>
-
-</h4>
+				<i class="knocks-eye-blocked blue-grey-text"></i>
+				<static_message msg = "Blocked Users" classes = "knocks_text_sm blue-grey-text"  ></static_message>
+				</h4>
 			</div>
-			<knocksshowkeys show_scope = "block" :show_input = "blockedUserIds" as_result blocker :as_label = "false"></knocksshowkeys>
+			<knocksshowkeys class = "knocks_mp_top_margin" show_scope = "block" :show_input = "blockedUserIds" as_result blocker :as_label = "false"></knocksshowkeys>
 
 
 		</div>
