@@ -28,7 +28,7 @@
           <center><knocksloader :gid= "gid+'_knock_loading_span'" v-if = "isLoading" ></knocksloader></center>
         </transition>
         <div v-if = "knockObject != null && knock_type == 'normal' && !as_shortcut" class=" panel knocks_color_kit_light ">
-          <knocksuser  image_container_class = "knocks_inline" name_container_class = " knocks_inline" :user="knockObject.user_id" show_image>
+          <knocksuser  @blocked = "explode()" image_container_class = "knocks_inline" name_container_class = " knocks_inline" :user="knockObject.user_id" show_image>
           </knocksuser>
           <div class="knocks_text_dark content " :id = "gid" @dblclick = "flowtext()"></div>
           <p class="right knocks_text_dark">{{knockObject.time}}</p>
@@ -39,13 +39,14 @@
               <div class="row user knocks_house_keeper" style="" >
                 <div class="col s6 knocks_house_keeper">
                   <knocksuser
+                  @blocked = "explode()"
                   v-model = "ownerObject"
                   image_container_class = "knocks_inline"
                   name_container_class = " knocks_inline"
                   :user="knockObject.user_id" show_image>
                   <template slot = "append_to_display_name" class = "" v-if = "!expiry() || knockObject.exceptions || knockObject.index.check_in != null && knockObject != null">
                   <span class = "knocks-chevron-right3" v-if = "knockObject.type != 'self' && show_appendex"></span>
-                  <knocksuser v-if = "knockObject.type == 'user' && show_appendex" :user = "knockObject.at" as_url class = "knocks_inline "></knocksuser>
+                  <knocksuser @blocked = "explode()" v-if = "knockObject.type == 'user' && show_appendex" :user = "knockObject.at" as_url class = "knocks_inline "></knocksuser>
                   <knocksgroupshortcut v-if = "knockObject.type == 'group' && show_appendex" :group_id = "knockObject.at" as_url class = "knocks_inline "></knocksgroupshortcut>
                   <span v-if="!expiry() && !hasSeen()" class="green-text right ">New</span>
                   <i v-if="knockObject.exceptions" class="knocks-eye-off red-text right "></i>
@@ -284,7 +285,7 @@
             </div>
           </div>
         </transition>
-        <div v-if = "as_shortcut && knockObject != null "  class = "row"style="border-bottom : 1px solid #ccc">
+        <div @blocked = "explode()" v-if = "as_shortcut && knockObject != null "  class = "row"style="border-bottom : 1px solid #ccc">
           <knocksuser
           class = "knocks_house_keeper"
           hide_popover
@@ -859,6 +860,12 @@ export default {
          },
          generateUrl(string){
           return NodeOrgin +'vn/retrive/'+ this.current_user + '/'+this.knockObject.object_id+'/'+string;
+         },
+         explode(){
+          if(window.UserKnocks[this.knock] != undefined)
+            window.UserKnocks[this.knock] = null
+          this.knockObject = null
+          this.$emit('blocked')
          }
 
      }
@@ -906,7 +913,7 @@ export default {
   //height: 7.4em;
   line-height: 1.3em;
   word-wrap: break-word;
-  word-break: break-all;
+  word-break: break-word;
   //margin-left: 3%;
   //border-radius: 15px;
   padding: 0.3rem;

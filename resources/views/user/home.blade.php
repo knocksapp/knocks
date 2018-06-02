@@ -291,9 +291,7 @@
             </div>
             </knockscollapse>
           </div>
-          <div class="row">
-            <knocksuser :user = "1" as_small_card></knocksuser>
-          </div>
+
         </div>
       </div>
     </div>

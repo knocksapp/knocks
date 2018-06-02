@@ -197,7 +197,7 @@ export default {
   		required : true
   	} , 
   	start_as : {
-  		type : Object , 
+  		type : [Object , String] , 
   		default : null
   	} ,
     show_accept_shortcut : {
@@ -229,7 +229,7 @@ export default {
     }
   },
   mounted(){
-  	if(this.start_as != null) this.userObject = this.start_as;
+  	if(this.start_as != null && this.start_as != 'invalid') this.userObject = this.start_as;
   	const vm = this;
     App.$on('KnocksGlogbalCirclesList' , ()=>{
       vm.userCirlces = window.UserCirclesList;

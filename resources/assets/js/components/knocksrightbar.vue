@@ -144,7 +144,7 @@ export default {
 
   data () {
     return {
-    	tap : 'chat' , 
+    	tap : '' , 
     	ballons : [] ,
     	seenCounter : 0 ,
     	showKeyBallon : 3 ,

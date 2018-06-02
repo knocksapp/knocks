@@ -1101,6 +1101,7 @@ export default {
 
       }
       this.submitObject = res;
+      console.log(JSON.stringify(res))
       setTimeout(()=>{ App.$emit('knocksFinalSubmit', {scope : this.scope}); },300);
       return res;
     },

@@ -52,6 +52,7 @@
                 icon = "knocksapp-edit knocks_icon_border "
                 :submit_flag = "false"
                 label_classes = "left"
+                :scope = "['knocks_circle_edit_member']"
                 @knocks_button_clicked = "membersEditor = circle; triggerAction(circle , index , false)"
                 type = "default"
                 class = "col s12"

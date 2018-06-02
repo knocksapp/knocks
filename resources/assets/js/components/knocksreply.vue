@@ -854,6 +854,7 @@ export default {
         tags : this.tagged ,
         privacy_setting : this.privacy_setting , 
       }
+      console.log(JSON.stringify(res))
       this.submitObject = res;
       setTimeout(()=>{ App.$emit('knocksFinalSubmit', {scope : this.scope}); },300);
       return res;

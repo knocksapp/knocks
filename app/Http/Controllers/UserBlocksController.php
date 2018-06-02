@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Ballon;
 use App\Circle_member;
 use App\User;
 use App\user_blocks;
@@ -24,6 +25,15 @@ class UserBlocksController extends Controller {
 
 			$request->blocked_user_id
 		);
+		$b = new Ballon();
+		$b->initialize(json_encode(array(
+			'user' => $request->blocked_user_id,
+			'category' => 'hidden',
+			'index' => array(
+				'category' => 'user_block',
+				'sender_id' => auth()->user()->id,
+			),
+		)));
 		return 'done';
 	}
 

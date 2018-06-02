@@ -159,6 +159,98 @@
     <transition enter-active-class = "animated zoomIn" enter-leave-class = "animated zoomOut">
       <div id = "dev_dictionary" v-if = "devStage == 'Knocks Data'">
         <br/><br/>
+        <div class = "row">
+          <knockscollapse title = "Ream Me" icon = "knocksapp-book" comment = "Instructions for better testing.">
+          <div slot = "content">
+            <div class = "col s12">
+              <div class="ui horizontal divider transparent">
+                Read Me
+              </div>
+              <p class = "col s12">
+                <b class = "red-text">Prepare For Testing</b>
+                ,If you have a fresh install `Just Migrated Your DB`, Then you need to Follow These Instructions
+                <ul class = "uk-list uk-list-divider">
+                  <li>
+                    <b class = "amber-text text-darken-2">
+                    <span class = "knocks-lab4 knocks_icon_border"></span>
+                    Rebound The Initial Data</b>
+                    <p>In all cases you need to rebound these data after every migration as you will need to declare
+                    Languages, Privacy Presets and many more.</p>
+                  </li>
+                  <li>
+                    <b class = "teal-text">
+                    <span class = "knocks-user-add-outline knocks_icon_border"></span>
+                    Add Users For Testing
+                    </b>
+                    <p>
+                      This feature creates the desired number of users, they will automatically add each others on their main circles, not all of them
+                      are friends, but every user will have a good amount of friends so developer can have a cases where there are people in his frinds and others are not.
+                    </p>
+                    <p class = "red-text">Add 150 at once as a maximum, if you are making an online testing, then 50 is prefared.</p>
+                  </li>
+                  <li>
+                    <b class = "amber-text text-darken-2">
+                    <span class = "knocksapp-enhance knocks_icon_border"></span>
+                    Remove Membership Dublications</b>
+                    <p>Incase you've added Users this feature will quickly make sure that there is no dublications in users main circles.</p>
+                  </li>
+                  <li>
+                    <b class ="deep-purple-text">
+                    <span class = "knocks-archive6 knocks_icon_border"></span>
+                    Add Random Entery</b>
+                    <p>This feature adds a random Addresses for users, and for each user who's older than 18 he will have an high education, Addresses and educations
+                    records are real and understandable for developers as they can recognize them.</p>
+                  </li>
+                  <li>
+                    <b class = "green-text text-darken-3">
+                    <span class = "knocks-group-1 knocks_icon_border"></span>
+                    Add Random Groups</b>
+                    <p>This feature adds a groups with a sweet names, different categories and privacy presets, every group has atleast one owner, and many other
+                    members with different possitions (Owners, Admins, Members).</p>
+                    <p class = "red-text">Add 50 groups at once, in local testing case you can go with 70, however 50 group at once could be just great!</p>
+                  </li>
+                  <li>
+                    <b class = "blue-text text-lighten-2">
+                    <span class = "knocks-atom2 knocks_icon_border"></span>
+                    Add Random Circles
+                    </b>
+                    <p>This feature creates a circles with a real names for many users, no standards, many circles will include a normal amount of members while others
+                    will not, just like a real user case!</p>
+                    <p class = "red-text">Add 50 circles at once in both online and local testing for better performance.</p>
+                  </li>
+                  <li>
+                    <b class = "knocks_text_dark">
+                    <span class = "knocks-knocks knocks_icon_border"></span>
+                    Add Random Knocks
+                    </b>
+                    <p>This Feature adds a random knocks with a real quotes, Knocks could be in the user's own profile, or a friend of him, or even in a group he've joined.</p>
+                    <p>Make sure to have groups and users in your database first.</p>
+                    <p class ="red-text">150 at once could be fair, the proccess is light weighted some how.</p>
+                  </li>
+                  <li>
+                    <b class = "pink-text">
+                    <span class = "knocks-communication knocks_icon_border"></span>
+                    Add Random Comments
+                    </b>
+                    <p>This Feature adds a random comments on the available Knocks, each comment has a real quote.</p>
+                    <p>Make sure to have knocks and users in your database first.</p>
+                    <p class ="red-text">150 at once could be fair, the proccess is light weighted some how.</p>
+                  </li>
+                  <li>
+                    <b class = "deep-purple-text">
+                    <span class = "knocks-laughing-face2 knocks_icon_border"></span>
+                    Add Random Reactions
+                    </b>
+                    <p>Adding a random reactions on reactable objects, such as Knocks and Comments.</p>
+                    <p>Reacting with a different reactions in a different amounts to look more real</p>
+                    <p class ="red-text">50 at once could be good, the proccess is not light weighted some how.</p>
+                  </li>
+                </ul>
+              </p>
+            </div>
+          </div>
+          </knockscollapse>
+        </div>
         <div class = "col s3">
           <el-button type="danger" icon = " knocks_icon knocks-trash2" :loading = "resetKnocksLoading"
           @click = "resetKnocksDialog=true">
@@ -237,13 +329,13 @@
   </el-dialog>
   <div class = "col s12">
     <div class="ui horizontal divider transparent">
-      Add 100 Users
+      Add Random Users
     </div>
     <div class = "row">
-       <el-input-number v-model="usersCount"  :min="1" :max="200"></el-input-number>
+      <el-input-number v-model="usersCount"  :min="1" :max="200"></el-input-number>
     </div>
     <knockselbutton
-    placeholder = "Add 100 Users"
+    placeholder = "Add Random Users"
     type = "success"
     :error_at = []
     :scope = "['add_random_users']"
@@ -252,14 +344,14 @@
     submit_at = "dev/db/add/users"
     success_at = "done"
     :timeout = "60000"
-    icon = "knocks-plus"
+    class = "teal"
+    icon = "knocks-user-add-outline"
     success_msg = "Added 100 user Successfully"
     :submit_data = " {count : usersCount} ">
     </knockselbutton>
-    <p class = "col s12">Add 100 Users For Testing, Every user has a real understandable name, and friendship relations out of the box.</p>
+    <p class = "col s12">Add Random Users For Testing, Every user has a real understandable name, and friendship relations out of the box.</p>
   </div>
-
-    <div class = "col s12">
+  <div class = "col s12">
     <div class="ui horizontal divider transparent">
       Add Random Entery
     </div>
@@ -273,13 +365,13 @@
     submit_at = "dev/db/entry/users"
     success_at = "done"
     :timeout = "600000"
-    icon = "knocks-plus"
+    class = " deep-purple darken-4"
+    icon = "knocks-archive6"
     success_msg = "Added Random Entery Successfully"
     :submit_data = " {} ">
     </knockselbutton>
-    <p class = "col s12">Add 100 Users For Testing, Every user has a real understandable name, and friendship relations out of the box.</p>
+    <p class = "col s12">Add Random Users For Testing, Every user has a real understandable name, and friendship relations out of the box.</p>
   </div>
-
   <div class = "col s12">
     <div class="ui horizontal divider transparent">
       Check Membership Dublications
@@ -306,6 +398,126 @@
   </div>
   <div class = "col s12">
     <div class="ui horizontal divider transparent">
+      Add Random Groups
+    </div>
+    <div class = "row">
+      <el-input-number v-model="usersCount"  :min="1" :max="200"></el-input-number>
+    </div>
+    <knockselbutton
+    placeholder = "Add Random Groups"
+    type = "success"
+    :error_at = []
+    :scope = "['add_random_groups']"
+    validation_error = "You need to complete some fields"
+    reset_on_success
+    submit_at = "dev/db/add/groups"
+    success_at = "done"
+    :timeout = "60000"
+    icon = "knocks-group-1"
+    class = "cyan darken-3"
+    success_msg = "Added Random Groups Successfully"
+    :submit_data = " {count : usersCount} ">
+    </knockselbutton>
+    <p class = "col s12">Add Random Groups with a real names, installed with atleast one owner and variety of members with different positions out of the box.</p>
+  </div>
+  <div class = "col s12">
+    <div class="ui horizontal divider transparent">
+      Add Random Circles
+    </div>
+    <div class = "row">
+      <el-input-number v-model="usersCount"  :min="1" :max="200"></el-input-number>
+    </div>
+    <knockselbutton
+    placeholder = "Add Random Circles"
+    type = "success"
+    :error_at = []
+    :scope = "['add_random_circles']"
+    validation_error = "You need to complete some fields"
+    reset_on_success
+    submit_at = "dev/db/add/circles"
+    success_at = "done"
+    :timeout = "60000"
+    icon = "knocks-atom2"
+    class = " light-blue accent-3"
+    success_msg = "Added Random Circles Successfully"
+    :submit_data = " {count : usersCount} ">
+    </knockselbutton>
+    <p class = "col s12">Add Random Circles with a real names, installed with only one owner and variety of members.</p>
+  </div>
+  <div class = "col s12">
+    <div class="ui horizontal divider transparent">
+      Add Random Knocks
+    </div>
+    <div class = "row">
+      <el-input-number v-model="usersCount"  :min="1" :max="200"></el-input-number>
+    </div>
+    <knockselbutton
+    placeholder = "Add Random Knocks"
+    type = "success"
+    :error_at = []
+    :scope = "['add_random_groups']"
+    validation_error = "You need to complete some fields"
+    reset_on_success
+    submit_at = "dev/db/add/knocks"
+    success_at = "done"
+    :timeout = "60000"
+    icon = "knocks-knocks"
+    class = "knocks_color_kit"
+    success_msg = "Added Random Knocks Successfully"
+    :submit_data = " {count : usersCount} ">
+    </knockselbutton>
+    <p class = "col s12">Add Random Knocks, they will be bounded in a different places, friends profile, knock owner groups, and on their own profiles.</p>
+  </div>
+  <div class = "col s12">
+    <div class="ui horizontal divider transparent">
+      Add Random Comments
+    </div>
+    <div class = "row">
+      <el-input-number v-model="usersCount"  :min="1" :max="200"></el-input-number>
+    </div>
+    <knockselbutton
+    placeholder = "Add Random Comments"
+    type = "success"
+    :error_at = []
+    :scope = "['add_random_groups']"
+    validation_error = "You need to complete some fields"
+    reset_on_success
+    submit_at = "dev/db/add/comment"
+    success_at = "done"
+    :timeout = "60000"
+    icon = "knocks-communication"
+    class = "pink lighten-2"
+    success_msg = "Added Random Comments Successfully"
+    :submit_data = " {count : usersCount} ">
+    </knockselbutton>
+    <p class = "col s12">Add Random Comments, they will be bounded in a different places, friends profile, knock owner groups, and on their own profiles.</p>
+  </div>
+  <div class = "col s12">
+    <div class="ui horizontal divider transparent">
+      Add Random Reactions
+    </div>
+    <div class = "row">
+      <el-input-number v-model="usersCount"  :min="1" :max="200"></el-input-number>
+    </div>
+    <knockselbutton
+    placeholder = "Add Random Reactions"
+    type = "success"
+    :error_at = []
+    :scope = "['add_random_groups']"
+    validation_error = "You need to complete some fields"
+    reset_on_success
+    submit_at = "dev/db/add/reaction"
+    success_at = "done"
+    :timeout = "60000"
+    icon = "knocks-laughing-face2"
+    class = "red accent-3"
+    success_msg = "Added Random Reactions Successfully"
+    :submit_data = " {count : usersCount} ">
+    </knockselbutton>
+    <p class = "col s12">Add Random Reactions, they will be bounded in a different places, friends profile, knock owner groups, and on their own profiles.</p>
+  </div>
+  <div class = "col s12">
+    <div class="ui horizontal divider transparent">
       Delete Circle Members
     </div>
     <knockselbutton
@@ -316,28 +528,6 @@
     placeholder = "Delete All Circle Members"
     icon = "knocks-trash2"></knockselbutton>
     <p class = "red-text knocks_fair_bounds col s12">Clicking this will remove all circle members which means all friendship relations will be removed.</p>
-  </div>
-    <div class = "col s12">
-    <div class="ui horizontal divider transparent">
-      Read Me
-    </div>
-    <p class = "col s12">
-      If you have a fresh install `Just Migrated Your DB`, Then you need to Follow These Instructions
-      <ul class = "uk-list uk-list-divider">
-          <li>
-            <span class = "knocks-lab4 knocks_icon_border"></span>
-            Rebound The Initial Data
-         </li>
-         <li>
-            <span class = "knocks-plus knocks_icon_border"></span>
-            Add Users For Testing
-         </li>
-         <li>
-            <span class = "knocksapp-enhance knocks_icon_border"></span>
-            Remove Membership Dublications, incase you've added Users
-         </li>
-      </ul>
-    </p>
   </div>
 </div>
 </transition>

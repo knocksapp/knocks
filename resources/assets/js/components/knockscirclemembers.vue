@@ -33,7 +33,7 @@
 					<knocksuser as_label class = "col" :user="member" show_image>
 					</knocksuser>
 					<knockselbutton
-					 icon = "knocksapp-plus2 knocks_text_md"
+					 icon = "el-icon-plus"
 			         class = "right "
 			         size = "mini"
 			         submit_at = "circle/member/add"
@@ -46,8 +46,8 @@
 	                 ]"
                      @knocks_submit_accepted = "addMember(member , circle)"
 			         disable_placeholder
-			         type=""
-			         button_classes = "knocks_rounded_border "
+			         type="success"
+			         circle
 			         style = "margin-right : 2px !important; margin-top : 8px !important;" 
 					 ></knockselbutton>
 				</div>
@@ -77,7 +77,7 @@
 					<knocksuser as_label class = "col " :user="member" show_image>
 					</knocksuser>
 					<knockselbutton
-					 icon = "knocksapp-minus2 knocks_text_md"
+					 icon = "el-icon-minus"
 			         class = "right "
 			         size = "mini"
 			         submit_at = "circle/member/remove"
@@ -90,8 +90,8 @@
 	                 ]"
                      @knocks_submit_accepted = "removeMember(member , circle)"
 			         disable_placeholder
-			         type=""
-			         button_classes = "knocks_rounded_border "
+			         type="danger"
+			         circle
 			         style = "margin-right : 2px !important; margin-top : 8px !important;" 
 					 ></knockselbutton>
 				</div>

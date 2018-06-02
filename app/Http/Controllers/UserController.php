@@ -264,6 +264,29 @@ class UserController extends Controller {
 		return $result;
 
 	}
+
+	public function searchForUsersByNames(Request $request) {
+		$q = $request->q;
+		if (strlen($q) == 0) {
+			return [];
+		}
+		$names = [];
+		$users = User::where('first_name', 'like', '%' . $q . '%')
+			->orwhere('last_name', 'like', '%' . $q . '%')
+			->orwhere('middle_name', 'like', '%' . $q . '%')
+			->orwhere('nickname', 'like', '%' . $q . '%')->get();
+		foreach ($users as $user) {
+			if (auth()->check()) {
+				if (auth()->user()->hasNoBlocks($user->id)) {
+					array_push($names, $user->fullName());
+				}
+
+			} else {
+				array_push($names, $user->fullName());
+			}
+		}
+		return $names;
+	}
 	public function globalUserSearch(Request $request) {
 		$user = new User();
 		$users = $user->soundsLikeID($request->q);
@@ -513,6 +536,7 @@ class UserController extends Controller {
 		auth()->user()->last_name = $req->last_name;
 		auth()->user()->middle_name = $req->middle_name;
 		auth()->user()->nickname = $req->nickname;
+		auth()->user()->full_name = auth()->user()->fullName();
 		auth()->user()->update();
 		return 'done';
 	}

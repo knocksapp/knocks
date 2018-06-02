@@ -67,6 +67,9 @@ class Knock extends Model {
 	public function view($requester) {
 		if ($this->type == 'group') {
 			$group = Group::find($this->at);
+			if (!$group) {
+				return 'invalid';
+			}
 			if ($group->preset !== 'public') {
 				$isMemberIn = $group->groupMembers()->where('user_id', '=', $requester)->exists();
 				if (!$isMemberIn) {

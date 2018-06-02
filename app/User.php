@@ -347,6 +347,12 @@ class User extends Authenticatable {
 		return $prev;
 	}
 
+	public function fullName() {
+		$name = $this->first_name;
+		$name = $this->middle_name == null ? $name : $name . ' ' . $this->middle_name;
+		$name = $name . ' ' . $this->last_name;
+		return $name;
+	}
 	public function friendsByWeight() {
 		return $this->mainCircle()->circleMembers()->orderBy('weight', 'desc');
 	}
@@ -577,6 +583,8 @@ class User extends Authenticatable {
 		$this->username = $object->username;
 
 		$this->email = $object->email;
+
+		$this->full_name = $this->fullName();
 
 		$this->password = bcrypt($object->password);
 		if (isset($object->nickname)) {
@@ -1322,6 +1330,7 @@ class User extends Authenticatable {
           or last_name like '%$q%'
           or middle_name like '%$q%'
           or nickname like '%$q%'
+          or full_name like '%$q%'
           or username like '%$q%'
           "
 		)
@@ -1342,6 +1351,7 @@ class User extends Authenticatable {
           or users.last_name like '%$q%'
           or users.middle_name like '%$q%'
           or users.nickname like '%$q%'
+          or users.full_name like '%$q%'
           or users.username like '%$q%' )
           "
 		)

@@ -45,6 +45,11 @@ Route::post('dev/db/chck/members', 'DevController@watchMembershipDublications');
 //Add Random Users
 Route::post('dev/db/add/users', 'DevController@addUsersPatch');
 Route::post('dev/db/entry/users', 'DevController@addRandomEntry');
+Route::post('dev/db/add/groups', 'DevController@createRandomGroups');
+Route::post('dev/db/add/circles', 'DevController@createRandomCircles');
+Route::post('dev/db/add/knocks', 'DevController@createRandomKnocks');
+Route::post('dev/db/add/comment', 'DevController@createRandomSocial');
+Route::post('dev/db/add/reaction', 'DevController@createRandomReactions');
 
 Route::post('dev/test', function () {return 'done';});
 
@@ -306,6 +311,8 @@ Route::get('media/cover/compressed/{id}', 'BlobController@retriveCoverCompressed
 Route::get('media/avatar/ref/compressed/{id}', 'BlobController@retriveAvatarCompressed');
 
 Route::post('search/main', 'UserController@mainSearch');
+
+Route::post('search/main/names', 'UserController@searchForUsersByNames');
 
 //userupdate
 
