@@ -309,7 +309,8 @@ export default {
       'friend_request_ignored' , 
       'friend_request_accepted' , 
       'friend_request' , 
-      'friend_request_canceled'  
+      'friend_request_canceled',
+      'user_block'
       ]
 
 
@@ -442,6 +443,10 @@ export default {
        ]})
       }
       if( this.reloadCategories.indexOf( this.constrains.index.category ) != -1){
+
+        if(this.constrains.index.category == 'user_block'){
+          App.$emit('knocksUserBlocked' , {user : this.constrains.index.sender_id})
+        }
         
         App.$emit('knocksUserReload' , this.constrains.index.sender_id)
       // App.$emit('knocksUserKeyUpdate' ,

@@ -79,7 +79,7 @@ export default {
   		
   	},
   	slide(direction){
-  		this.currentTransition = direction == 'right' ?'animated slideInLeft' : 'animated slideInRight'  
+  		this.currentTransition = direction == 'right' ?'animated slideInRight' : 'animated slideInLeft'  
   		let t = this.currentFrame
   		t = direction == 'right' ? t += this.step : t -= this.step
   		this.currentFrame = t > this.currentSuggest.length -1 ? this.currentSuggest.length -1  : t

@@ -68,7 +68,7 @@
           <div class = "col s12 knocks_house_keeper">
             <center>
             <knocksuseractions
-
+            v-if = "userObject != null"
             style = "margin-top : 3px;"
             :user = "user"
             extended
@@ -131,6 +131,7 @@
             <div class="content" v-if = "userObject != null">
               <div class="center">
                 <knocksuseractions
+                v-if = "userObject != null"
                 style = "margin-top : 3px;"
                 :user = "user"
                 @add = "$emit('add')"
@@ -233,6 +234,7 @@
         <p>
           <center>
           <knocksuseractions
+          v-if = "userObject != null"
           add_remove_only
           style = "margin-top : 3px;"
           :user = "user"
@@ -289,6 +291,7 @@
               <hr class="uk-divider-icon"/>
               <knocksuseractions
               :user = "user"
+              v-if = "userObject != null"
               extended
               :start_as ="userObject" :extras="{hover_id : 'user_report_'+user}"></knocksuseractions></center>
             </div>
@@ -326,6 +329,7 @@
             style = "margin-top : 3px;"
             :user = "user"
             extended
+            v-if = "userObject != null"
             :start_as ="userObject" :extras="{hover_id : 'user_report_'+user}"></knocksuseractions></center>
           </div>
           <span class = "knocks-user14" v-if ="userObject.gender != null && userObject.gender != undefined && userObject.gender.toLowerCase() == 'female'" ></span>
@@ -403,7 +407,7 @@
               <slot name = "append_to_name"></slot>
             </div>
             <div :class = "user_actions_container">
-              <knocksuseractions v-if = "show_accept_shortcut"
+              <knocksuseractions v-if = "show_accept_shortcut && userObject != null"
               :extras = "extras"
               :user="user"
               :extended = "extended"
@@ -621,6 +625,8 @@ export default {
       }
     });
     App.$on('knocksUserKeyUpdate' , (payloads)=>{
+      if(vm.userObject == 'invalid') return
+      if(payloads.patch == 'invalid') return
       if(payloads.user == vm.user){
         if(vm.userObject !== null){
         let i ;
@@ -633,6 +639,27 @@ export default {
       }
     }
     });
+    App.$on('knocksUserBlocked' , (payloads)=>{
+      if(vm.user !== payloads.user) return
+      if(vm.userObject != null){
+        if(window.location.pathname == '/'+this.userObject.username){
+            vm.userObject = null
+            vm.$emit('blocked')
+            //$('body').append('<div class = "knocks_off" style = "z-index : 9000000000000000000000 "></div>')
+            //window.location.href = vm.asset('')
+            return
+          }
+         }else{
+           vm.userObject = null
+        vm.$emit('blocked')
+        if(window.location.pathname == '/user/profile/'+this.user)
+          //$('body').append('<div class = "knocks_off" style = "z-index : 9000000000000000000000 "></div>')
+          //window.location.href = vm.asset('')
+        return
+         }
+      
+    })
+
   },
   computed : {
     thatsMe(){
@@ -692,8 +719,23 @@ export default {
     },
     initialize(remoteObject){
       if(remoteObject == 'invalid'){
+        if(this.userObject != null){
+          let uname = this.userObject.username
+          if(window.location.pathname == '/'+this.userObject.username){
+            this.userObject = null
+            this.$emit('blocked')
+            //$('body').append('<div class = "knocks_off" style = "z-index : 9000000000000000000000 "></div>')
+            //window.location.href = this.asset('')
+            
+            return
+          }
+        }
         this.userObject = null
         this.$emit('blocked')
+        if(window.location.pathname == '/user/profile/'+this.user){
+           $('body').append('<div class = "knocks_off" style = "z-index : 9000000000000000000000 "></div>')
+          window.location.href = this.asset('')
+        }
         return
       }
       this.userObject = null ;
@@ -776,6 +818,7 @@ export default {
       }else return;
     },
     formatChatStatus(){
+      if(this.userObject == null || this.userObject == 'invalid') return
       this.clashProp = true ;
       if(this.userObject == null) this.userObject.chatStatus = '';
       if(this.userObject.status !== undefined && this.userObject.last_seen !== undefined ){
@@ -823,4 +866,5 @@ export default {
 .card.small {
     height: 320px;
 }
+
 </style>

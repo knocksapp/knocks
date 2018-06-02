@@ -109,13 +109,15 @@
       <p class = "knocks_text_dark knocks_language_default_font">People Reactions</p>
        <div class="col s12" >
       <!-- <li class="tab col s14 " :class ="emj" @click="getusers(emj)"> -->
+        <center>
       <span class="knocks_fair_bounds " @click="getusers(emj)" v-for="(emj,index) in orderedemojiadv">
         <el-badge :value="usersadv[index].length" class="item badge-font">
-        <div  class = "btn btn-floating knocks_reaction_state_btn" :class = "emj"  @click="doMotion()">
+        <div  class = "btn btn-floating knocks_reaction_state_btn knocks_text_ms" :class = "emj"  @click="doMotion()">
           <span v-if="total > 0"  class="icons" ></span>
         </div>
         </el-badge>
       </span>
+    </center>
     </div>
         <transition
         name="custom-classes-transition"
@@ -123,7 +125,7 @@
         leave-active-class="animated zoomOut"
         >
         <div v-if="current.length >0" class = "col s12 dive knocks_color_kit_light_active">
-          <div class="pos" >
+          <!-- <div class="pos" >
             <div v-for="user in current" class="user"  >
               <knocksuser :user = "user" as_chip class = "animated lightSpeedIn col s11 knocks_language_default_font">
               
@@ -132,14 +134,12 @@
                 <a  @click="cls()"><span class="knocks_text_dark knocks-close red-text right"></span></a>
               </div>
             </div>
-          </div>
+          </div> -->
+          <knocksshowkeys class ="pos knocks_language_default_font" list_classes = "uk-list uk-divider knocks_list_scroll" :as_label = "false" as_chip :show_input = "current"></knocksshowkeys>
         </div>
       </transition>
 
       
-    </div>
-    <div class="">
-      <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat knocks_language_default_font">Agree</a>
     </div>
   </div>
 </div>
@@ -374,7 +374,7 @@ export default {
         vm.total = vm.sad + vm.angry + vm.like + vm.dislike + vm.love + vm.poker + vm.laugh + vm.finger ;
 
         vm.orderedemoji=["knocks-thumb-up2 knocks_icon_reaction_states pink white-text darken-1" ,
-        "knocks-thumb-down2 knocks_icon_reaction_states pink lighten-5s",
+        "knocks-thumb-down2 white-text knocks_icon_reaction_states deep-purple ",
         "knocks-sad-face-eyebrows2 yellow-text  knocks_icon_reaction_states light-blue darken-4" ,
         "knocks-stubborn-face2 orange-text knocks_icon_reaction_states darken-3s blue-grey" ,
         "knocks-heart8 ed-text knocks_icon_reaction_states pink lighten-5 red-text" ,
@@ -573,12 +573,16 @@ export default {
 //margin: 1%;
 //border-radius: 16px !important;
 //margin-left: 10px !important;
-margin-top: 1% !important;
+margin-top: 3px !important;
 border-radius: 15px;
-padding: 2% !important;
+//padding: 2% !important;
 /*width : 100% !important;*/
 
 
+}
+.knocks_list_scroll{
+  max-height : 400px !important;
+  overflow-y : auto !important;
 }
 .user{
   /*font-size: 30px !important;*/

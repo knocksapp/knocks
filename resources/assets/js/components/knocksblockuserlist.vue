@@ -55,10 +55,14 @@ export default {
       return LaravelOrgin+url
     },
     getUsersName(){
+      this.userIds = []
 
-     this.userIds = this.user_id.response;
+      setTimeout(()=>{
+        this.userIds = this.user_id.response;
      if(this.userIds.length > 0) this.lastResultQuery = this.search;
      App.$emit('KnocksContentChanged')
+      },200)
+     
     },
 
 

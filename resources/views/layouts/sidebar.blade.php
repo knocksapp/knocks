@@ -28,6 +28,16 @@
         <static_message msg = "Add Circle"></static_message>
       </div>
       </el-dropdown-item>
+
+       <el-dropdown-item>
+         <div @click = "goToSettings()">
+        <span class = "knocks-cog knocks_icon_border"></span>
+        <static_message msg = "Settings"></static_message>
+      </div>
+      </el-dropdown-item>
+
+
+
       <el-dropdown-item>
       <div @click = "logout()">
         <span class = "knocks-log-out knocks_icon_border"></span>
@@ -55,18 +65,24 @@
         icon_class = "teal-text lighten-3"
         knocksclass="knocks_teal_input" icon = "knocks-search12" ></knocksinput> --}}
         <form action = "{{asset('search')}}" method="get" id = "knocks_sidebar_search_form">
-          <el-input
+          <knockselinput
           class = "knocks_tinny_top_padding knocks_side_padding"
           name = "q"
           placeholder="Search"
+          has_slot
+          inner_placeholder
+          autocomplete
+          autocomplete_from = "search/main/names"
+          @control = "sidebarSearchControllers = $event"
+          @autocomplete = "searchTypingResults = $event"
           @focus = "sidebarFocus()"
           @blur = "searchBlur()"
-          @input = "sidebarRunSearch()"
+          @input = "searchTypingMode = true"
           id="sidebar_search_box"
           v-model="sidebarSearch" class="input-with-select">
-          <knocksvoicerecognition v-model = "sidebarSearchRecognition" :lang = "sideBarSearchLanguage" @recognition = "runVoiceSearch($event)" @leave="sidebarFocus()" slot = "prepend"></knocksvoicerecognition>
-          <el-button native-type ="submit" slot="append" icon=" knocks_icon knocks-search2"></el-button>
-          </el-input>
+          <knocksvoicerecognition v-model = "sidebarSearchRecognition" :lang = "sideBarSearchLanguage" @recognition = "runVoiceSearch($event)" @leave="sidebarFocus()" slot = "labelside"></knocksvoicerecognition>
+          <el-button native-type ="submit" slot="aside" icon=" knocks_icon knocks-search2"></el-button>
+          </knockselinput>
           <input type = "hidden" name = "t" :value = "sidebarSearchTaps"/>
         </form>
         <div style = "display : none" id = "sidebar_search_results">
@@ -103,7 +119,17 @@
             </transition>
           </div>
           <transition enter-active-class = "animated zoomIn" leave-active-class = "animated zoomOut">
-            <div class = "row knocks_house_keeper" v-if = "sidebarSearchResult != null">
+            <div class = "row knocks_house_keeper" v-if = "searchTypingResults.length != 0 && searchTypingMode">
+              <ul class = "uk-list uk-list-divider" >
+                <li v-for = "query in searchTypingResults" @click = "updateSearchQuery(query)" class = "knocks_gray_hover">
+                  <span v-text = "query"></span>
+                  <span class = "knocks-arrow-up-left2 right knocks_text_ms knocks_mp_top_margin animated slideInLeft" ></span>
+                </li>
+              </ul>
+            </div>
+          </transition>
+          <transition enter-active-class = "animated zoomIn" leave-active-class = "animated zoomOut">
+            <div class = "row knocks_house_keeper" v-if = "sidebarSearchResult != null && !searchTypingMode">
               <el-tabs  class = "" v-model = "sidebarSearchTaps">
               <el-tab-pane name = "users">
               <span slot="label">

@@ -435,7 +435,7 @@ Vue.component('knocksblockuserlist', require('./components/knocksblockuserlist.v
    staticMessagesIdTranslate  : 0 ,
    TranslateMessagesLoading : false ,
    TranslateMessagesRes : null ,
-   devStage : 'Components' ,
+   devStage : 'Knocks Data' ,
 
 
 
@@ -908,6 +908,9 @@ Vue.component('knocksblockuserlist', require('./components/knocksblockuserlist.v
     setCircleAdderTrigger(state){
       App.$emit('circle_adder_status_changed' , state);
     },
+    goToSettings(){
+      window.location.href = Asset('user/settings')
+    },  
     logout(){
       this.closeSideBar();
       this.elementNotify({title : 'Logged out' , msg : 'See you again, Bye! '});
@@ -1453,6 +1456,7 @@ window.NavInstance = new Vue({
   currentIndex : null ,
   showProfileUploader : false ,
   sidebarSearch : '' ,
+  sidebarSearchControllers : {} ,
   sidebarSearchFocus : false ,
   sidebarSeachLoading: false ,
   sidebarSearchResult : null ,
@@ -1466,7 +1470,9 @@ window.NavInstance = new Vue({
   showRightSideBar : true ,
   sideBarSearchLanguage : currentUserLanguage ,
   sidebarSearchTaps : 'users' ,
-  sidebarSearchRecognition : {loading : false , speaking : false , result : ''}
+  sidebarSearchRecognition : {loading : false , speaking : false , result : ''},
+  searchTypingMode : false , 
+  searchTypingResults : [] ,
   },
   mounted(){
   const vm = this ;
@@ -1534,6 +1540,11 @@ window.NavInstance = new Vue({
   },
   methods : {
 
+    updateSearchQuery(q){
+      this.sidebarSearchControllers.update(q)
+      this.searchTypingMode = false
+      this.sidebarRunSearch()
+    },
     asset(url){
       return LaravelOrgin + url;
     },
@@ -1553,15 +1564,15 @@ window.NavInstance = new Vue({
 
       if(this.sidebarSearch.length == 0) return;
       const vm = this;
-      if(vm.sidebarSeachLoading)
-      vm.sidebarXHRSource.cancel('Operation canceled by the user.');
-      vm.sidebarXHRCancelToken = axios.CancelToken;
-      vm.sidebarXHRSource = vm.sidebarXHRCancelToken.source();
+      //if(vm.sidebarSeachLoading)
+      //vm.sidebarXHRSource.cancel('Operation canceled by the user.');
+     // vm.sidebarXHRCancelToken = axios.CancelToken;
+     // vm.sidebarXHRSource = vm.sidebarXHRCancelToken.source();
       vm.sidebarSeachLoading = true;
       axios({
         url : LaravelOrgin + '/search/main' ,
         method : 'post' ,
-        cancelToken: vm.sidebarXHRSource.token ,
+        // cancelToken: vm.sidebarXHRSource.token ,
         onDownloadProgress : ()=> { vm.sidebarSeachLoading = true; } ,
         data : {q : vm.sidebarSearch}
       }).then((res)=>{
@@ -1652,6 +1663,9 @@ window.NavInstance = new Vue({
     },
     setCircleAdderTrigger(state){
       App.$emit('circle_adder_status_changed' , state);
+    },
+    goToSettings(){
+      window.location.href = Asset('user/settings')
     },
     profileIndex(){
       if(window.UserId >= 0){
