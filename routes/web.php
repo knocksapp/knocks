@@ -612,8 +612,6 @@ Route::group(['middleware' => 'auth'], function () {
 
 			Route::post('checkinit_reaction/reaction', 'ReactionController@checkinit_reaction');
 
-			Route::get('/user/logout', function () {auth()->user()->turnOffChat(); auth()->logout();return view('guest.signup');});
-
 			//APIS routes
 
 			Route::post('get/circles', 'UserController@userCircles');
@@ -669,6 +667,7 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::get('user/offer/verify', 'UserController@offerVerify');
 	Route::get('user/verify/try/{token}', 'UserController@attempVerify');
 	Route::post('user/verify/request', 'UserController@requestVerify');
+	Route::get('/user/logout', function () {auth()->user()->turnOffChat(); auth()->logout();return view('guest.signup');});
 });
 // Route::get('test' , function(){
 //   return view('test');
