@@ -15,7 +15,7 @@
 			<li>
 
 				<span class = "animated rubberBand  " >Reimagining The Social Media!</span>
-				<span class = "animated rubberBand  " >, Express yourself using your voice or any type of multimedia."></span>
+				<span class = "animated rubberBand  " >, Express yourself using your voice or any type of multimedia.</span>
 			</li>
 			<li>
 
@@ -37,7 +37,6 @@
 	</div>
 	<div class="col s12 knocks_tinny_top_margin">
 		<h4 class="ui horizontal divider header transparent knocks_tinny_top_margin">
-		<i class="check icon knocks_text_md grey-text"></i>
 
 		</h4>
 		<a class="fluid ui button basic purple" href = "{{asset('user/verify/try/'.$user->api_token)}}">
