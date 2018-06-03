@@ -654,6 +654,105 @@ class User extends Authenticatable {
 		\Mail::to($this)->send(new WelcomeMail($this));
 	}
 
+	public function initForTesting($object) {
+		if (auth()->check()) {
+			auth()->logout();
+		}
+		$object = json_decode($object);
+
+		if (isset($object->middle_name)) {
+			if ($object->middle_name != null || !empty($object->middle_name)) {
+				$this->middle_name = $object->middle_name;
+			}
+		}
+
+		if (isset($object->nickname)) {
+			if ($object->nickname != null || !empty($object->nickname)) {
+				$this->nickname = $object->nickname;
+			}
+		}
+
+		$this->first_name = $object->first_name;
+
+		$this->last_name = $object->last_name;
+
+		$this->birthdate = $object->birthdate;
+
+		$this->gender = $object->gender;
+
+		$this->username = $object->username;
+
+		$this->email = $object->email;
+
+		$this->full_name = $this->fullName();
+
+		$this->password = bcrypt($object->password);
+		if (isset($object->nickname)) {
+			$displayName = ['nickname'];
+		} else {
+			$displayName = ['first_name'];
+			if (isset($object->middle_name)) {
+				array_push($displayName, 'middle_name');
+			}
+
+			array_push($displayName, 'last_name');
+		}
+
+		$this->configuration = json_encode(array(
+			'language' => $object->language,
+			'display_name' => $displayName,
+			'objects_public_preset' => 'valid',
+			'default_preset' => null,
+			'sessions_count' => 0,
+			'devices' => array(),
+			'privacy_user_set' => array(
+				"birthdate" => array(),
+				"email" => array(),
+				"gender" => array(),
+				"orientation" => array(),
+				"religon" => array(),
+				"marital_status" => array(),
+				"bio" => array(),
+				"phone" => array(),
+			),
+
+		));
+
+		$this->ballons_configuration = json_encode(array());
+
+		$this->save();
+
+		auth()->login($this);
+
+		$circle = new Circle();
+		$circle->initialize('All', json_encode(
+			[array("class" => "planet", "label" => "health", "category" => "knocks")]
+		));
+
+		$cog = ($this->configuration);
+		$cog = json_decode($cog);
+		$privacyCircleSet = array(
+			"birthdate" => array(["circle" => $circle->id, "preset" => "valid"], ["circle" => -1, "preset" => "valid"]),
+			"email" => array(["circle" => $circle->id, "preset" => "valid"], ["circle" => -1, "preset" => "valid"]),
+			"gender" => array(["circle" => $circle->id, "preset" => "valid"], ["circle" => -1, "preset" => "valid"]),
+			"orientation" => array(["circle" => $circle->id, "preset" => "valid"], ["circle" => -1, "preset" => "valid"]),
+			"religon" => array(["circle" => $circle->id, "preset" => "valid"], ["circle" => -1, "preset" => "valid"]),
+			"marital_status" => array(["circle" => $circle->id, "preset" => "valid"], ["circle" => -1, "preset" => "valid"]),
+			"bio" => array(["circle" => $circle->id, "preset" => "valid"], ["circle" => -1, "preset" => "valid"]),
+			"phone" => array(["circle" => $circle->id, "preset" => "valid"], ["circle" => -1, "preset" => "valid"]),
+		);
+		$cog->privacy_circle_set = $privacyCircleSet;
+		$cog->main_circle = $circle->id;
+		$cog->default_privacy_sets = array(
+			'privacy_user_set' => array(),
+			'privacy_circle_set' => array(array('circle_id' => $circle->id, 'preset_id' => 1)),
+		);
+		$this->configuration = json_encode($cog);
+		$this->update();
+
+		// \Mail::to($this)->send(new WelcomeMail($this));
+	}
+
 	//Update upload Token
 	public function updateToken($token) {
 		$this->upload_tooken = $token;

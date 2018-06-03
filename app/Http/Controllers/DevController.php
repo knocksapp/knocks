@@ -5402,7 +5402,7 @@ class DevController extends Controller {
 		];
 		for ($i = 0; $i < $request->count; $i++) {
 			$user = new User();
-			$user->initialaize(
+			$user->initForTesting(
 				json_encode(array(
 					'first_name' => $names[rand(0, count($names) - 1)],
 					'last_name' => $names[rand(0, count($names) - 1)],
@@ -5420,6 +5420,8 @@ class DevController extends Controller {
 		$all = User::where('id', '>', $usersCount)->get();
 		$count = $all->count();
 		foreach ($all as $one) {
+			$one->verified = 1;
+			$one->update();
 			for ($j = 0; $j < 30; $j++) {
 				$c = User::find(rand(0, $count - 1));
 				if ($c != null) {
