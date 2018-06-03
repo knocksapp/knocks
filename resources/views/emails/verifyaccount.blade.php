@@ -10,7 +10,7 @@
 		<span class = "knocks-knocks"></span>
 		<span msg = "Welcome to KnocksApp"></span>
 		</h4>
-		<h5>
+		<h5 style="font-family: sans-serif !important;">
 		<ul class = "blue-grey-text uk-list uk-list-divider">
 			<li>
 
@@ -37,7 +37,7 @@
 	</div>
 	<div class="col s12 knocks_tinny_top_margin">
 		<h4 class="ui horizontal divider header transparent knocks_tinny_top_margin">
-		<span class = "knocks-mailbox knocks_text_md grey-text"></span>
+		<i class="check icon knocks_text_md grey-text"></i>
 
 		</h4>
 		<a class="fluid ui button basic purple" href = "{{asset('user/verify/try/'.$user->api_token)}}">
