@@ -86,18 +86,25 @@
         :src = "asset('media/avatar/compressed/'+user)" :classes = "[knocks_avatar_classes, 'animated zoomInDown' , {'knocks_user_profile_scope' : thatsMe}]" v-if = "!hide_image">
         </knocksimg>
         <div :class = "name_container_class" class="" v-if ="!hide_text_info">
-          <a :class = "name_class" :href = "userUrl" v-popover:userpopover v-if="userObject && !hide_name"> {{ displayName }}</a>
+          <el-tooltip :content = "displayName">
+            <a :class = "name_class" :href = "userUrl" v-popover:userpopover v-if="userObject && !hide_name"> {{ handledDisplayName }}</a>
+          </el-tooltip>
           <slot name = "append_to_display_name"></slot>
           <br/>
-          <a :class = "username_class" v-popover:userpopover :href = "userUrl" v-if="userObject != null && show_username" style = "display:block"> {{'@'+userObject.username}} </a>
+          <a :class = "username_class" v-popover:userpopover :href = "userUrl" v-if="userObject != null && show_username" style = "display:block"> {{'@'+handledUsername}} </a>
         </div>
       </div>
       <div v-else>
         <knocksimg :src = "asset('media/avatar/compressed/'+user)" :classes = "[knocks_avatar_classes, 'animated zoomInDown' , {'knocks_user_profile_scope' : thatsMe}]" v-if = "!hide_image">
         </knocksimg>
         <div :class = "name_container_class" class="" v-if ="!hide_text_info">
-          <a :class = "name_class" :href = "userUrl"  v-if="userObject && !hide_name"> {{ displayName }}</a><slot name = "append_to_display_name"></slot><br/>
-          <a :class = "username_class" :href = "userUrl" v-if="userObject != null && show_username" style = "display:block"> {{'@'+userObject.username}} </a>
+          <el-tooltip :content = "displayName">
+            <a :class = "name_class" :href = "userUrl"  v-if="userObject && !hide_name"> {{ handeledDisplayName }}</a>
+          </el-tooltip>
+          <slot name = "append_to_display_name"></slot><br/>
+          <el-tooltip :content = "'@'+userObject.username">
+          <a :class = "username_class" :href = "userUrl" v-if="userObject != null && show_username" style = "display:block"> {{'@'+handledUsername}} </a>
+        </el-tooltip>
         </div>
       </div>
     </div>
@@ -583,6 +590,7 @@ export default {
       calcStatus : false ,
       tinnyHeight : true ,
       handledDisplayName : '' ,
+      handledUsername : '' , 
     }
   },
   mounted(){
@@ -742,6 +750,7 @@ export default {
       this.userObject = remoteObject;
       this.getDisplayName();
       this.getFullName();
+      this.handleUsername();
       this.formatChatStatus();
       this.userUrl = this.asset(this.userObject.username);
       this.userObject.userUrl = this.userUrl;
@@ -759,6 +768,9 @@ export default {
       if(this.as_card){
       }
 
+    },
+     handleUsername(){
+      this.handledUsername =  this.userObject.username.length > 7 ? this.userObject.username.substr(0,7)+'..' : this.userObject.username
     },
     asset(url){
       return LaravelOrgin + url ;

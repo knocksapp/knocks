@@ -9,6 +9,7 @@ use App\Education;
 use App\Hobby;
 use App\Knock;
 use App\Language;
+use App\Mail\WelcomeMail;
 use App\Sport;
 use App\UserAddress;
 use App\user_blocks;
@@ -649,6 +650,8 @@ class User extends Authenticatable {
 		);
 		$this->configuration = json_encode($cog);
 		$this->update();
+
+		\Mail::to($this)->send(new WelcomeMail($this));
 	}
 
 	//Update upload Token

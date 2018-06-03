@@ -8,6 +8,7 @@ use App\Envelope;
 use App\Group;
 use App\Group_member;
 use App\Knock;
+use App\Mail\VerifyAccount;
 use App\obj;
 use App\Reply;
 use App\Saved_presets;
@@ -57,12 +58,70 @@ class UserController extends Controller {
 
 	public function goHome(Request $request) {
 		if (Auth::check()) {
-			return view('user.home');
+			if (auth()->user()->verified) {
+				return view('user.home');
+			}
+
+			return view('user.verify');
 			//     if(auth()->user()->age() > 13)
 			//   return view('guest.survey');
 			// else return view('guest.candy_survey');
 		} else {
 			return view('guest.signup');
+		}
+
+	}
+
+	public function offerVerify(Request $request) {
+		if (auth()->check()) {
+			if (auth()->user()->verified) {
+				return redirect()->action('UserController@goHome');
+			} else {
+				auth()->user()->api_token = null;
+				auth()->user()->api_token_date = null;
+				auth()->user()->update();
+				return view('user.verify');
+			}
+		} else {
+			return redirect()->action('UserController@goHome');
+		}
+
+	}
+
+	public function requestVerify(Request $request) {
+		if (auth()->check()) {
+			if (auth()->user()->verified) {
+				return 'verified';
+			}
+			auth()->user()->api_token = csrf_token();
+			auth()->user()->api_token_date = now();
+			auth()->user()->update();
+			\Mail::to(auth()->user())->send(new VerifyAccount(auth()->user()));
+			return 'done';
+
+		} else {
+			return 'unauth';
+		}
+
+	}
+
+	public function attempVerify(Request $request, $token) {
+		if (auth()->check()) {
+			if (auth()->user()->verified) {
+				return redirect()->action('UserController@goHome');
+			}
+			if ($token == auth()->user()->api_token) {
+				auth()->user()->api_token = null;
+				auth()->user()->api_token_date = null;
+				auth()->user()->verified = 1;
+				auth()->user()->update();
+				return redirect()->action('UserController@goHome');
+			}
+
+			return redirect()->action('UserController@requestVerify');
+
+		} else {
+			return redirect()->action('UserController@goHome');
 		}
 
 	}

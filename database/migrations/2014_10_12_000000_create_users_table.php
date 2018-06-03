@@ -37,7 +37,8 @@ class CreateUsersTable extends Migration {
 			$table->boolean('is_searchable')->default(1);
 			$table->json('ballons_configuration');
 			$table->json('configuration');
-			$table->string('api_token', 60)->unique()->nullable();
+			$table->longText('api_token')->nullable();
+			$table->dateTime('api_token_date')->nullable();
 			$table->rememberToken();
 			$table->timestamps();
 			$table->string('upload_tooken')->nullable();

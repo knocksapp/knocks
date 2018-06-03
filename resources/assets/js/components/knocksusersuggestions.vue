@@ -1,5 +1,5 @@
 <template>
-	<div class = "knocks_house_keeper knocks_tinny_border_radius blue-grey lighten-5 knocks_gray_border">
+	<div class = "knocks_house_keeper knocks_tinny_border_radius blue-grey lighten-5 knocks_gray_border" v-if ="zeroSuggestions">
 		<knocksretriver
 		url = "user/suggestions"
 		:xdata = "{c : currentSuggest}"
@@ -53,7 +53,8 @@ export default {
     	currentTransition : 'animated slideInLeft' ,
     	currentFrame : 1 , 
     	isSmallScreen : window.innerWidth < 780 , 
-    	step : 2
+    	step : 2 , 
+      zeroSuggestions : false ,
     }
   },
   mounted(){
@@ -75,6 +76,8 @@ export default {
   			if(this.currentSuggest.indexOf(e.response[i]) == -1)
   				this.currentSuggest.push(e.response[i])
   		}
+      if(this.currentSuggest.length == 0)
+        this.zeroSuggestions = true
   		App.$emit('KnocksContentChanged')
   		
   	},

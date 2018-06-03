@@ -376,8 +376,6 @@ Route::post('userblock/isblockeduser', 'UserBlocksController@isBlocked');
 
 Route::post('userblock/unblockuser', 'UserBlocksController@unblockUser');
 
-
-
 // Route::get('add_notification' , function(){
 //   $not = new App\Ballon();
 //   $not->initialize( json_encode(
@@ -551,122 +549,126 @@ Route::group(['middleware' => 'guest'], function () {
 });
 
 Route::group(['middleware' => 'auth'], function () {
-	Route::group(['middleware' => 'lastseen'], function () {
-		Route::get('faq/survey', function () {
-			if (auth()->user()->age() > 13) {
-				return view('guest.survey');
-			} else {
-				return view('guest.candy_survey');
-			}
+	Route::group(['middleware' => 'isverified'], function () {
+		Route::group(['middleware' => 'lastseen'], function () {
+			Route::get('faq/survey', function () {
+				if (auth()->user()->age() > 13) {
+					return view('guest.survey');
+				} else {
+					return view('guest.candy_survey');
+				}
 
+			});
+
+			Route::get('/user/settings', function () {
+				return view('user.userinfoedit');
+			});
+
+			Route::post('user/answers', 'AnswerController@userAnswers');
+
+			Route::post('survey/submit', 'AnswerController@create');
+
+			Route::post('user/updatepp', 'UserController@updateProfileIndex');
+
+			Route::post('retrive_comment', 'CommentController@retrive');
+
+			Route::post('retrive_reply', 'ReplyController@retrive');
+
+			Route::post('retrive_knock', 'KnockController@retrive');
+
+			Route::post('retrive_knock', 'KnockController@retrive');
+
+			Route::post('knock/delete', 'KnockController@delete');
+
+			Route::get('/{user}', 'UserController@routeToProfile');
+
+			Route::get('user/profile/{user}', 'UserController@routeToProfileById');
+
+			Route::get('group/{group_id}', 'GroupController@routeToGroup');
+
+			Route::get('group/{group_id}/pictures', 'GroupController@routeToGroupPictures');
+
+			Route::get('group/{group_id}/files', 'GroupController@routeToGroupFiles');
+
+			Route::get('group/{group_id}/voices', 'GroupController@routeToGroupVoices');
+
+			Route::get('group/{group_id}/videos', 'GroupController@routeToGroupVideos');
+
+			Route::get('group/{group_id}/settings', 'GroupController@routeToGroupSettings');
+
+			Route::get('/knock/{knock}', 'KnockController@viewKnock');
+
+			Route::get('/cmnt/{comment}', 'KnockController@viewComment');
+
+			Route::get('/rply/{reply}', 'KnockController@viewReply');
+
+			Route::get('/knock/{knock}/{comment}', 'KnockController@viewKnockWithComment');
+
+			Route::post('getstats_reaction/reaction', 'ReactionController@getstats_reaction');
+
+			Route::post('insert_reaction/reaction', 'ReactionController@insert_reaction');
+
+			Route::post('delete_reaction/reaction', 'ReactionController@delete_reaction');
+
+			Route::post('checkinit_reaction/reaction', 'ReactionController@checkinit_reaction');
+
+			Route::get('/user/logout', function () {auth()->user()->turnOffChat(); auth()->logout();return view('guest.signup');});
+
+			//APIS routes
+
+			Route::post('get/circles', 'UserController@userCircles');
+
+			Route::post('create/circles', 'CircleController@create');
+
+			//Friendship requests
+
+			Route::post('get/request', 'UserController@activeRequests');
+
+			Route::post('user/suggestions', 'UserController@getSuggestions');
+
+			Route::post('send/request', 'UserRequestController@sendGroup');
+
+			Route::post('accept/request', 'CircleMemberController@acceptGroup');
+
+			Route::post('circle/member/add', 'CircleMemberController@addMember');
+
+			Route::post('circle/member/remove', 'CircleMemberController@removeMember');
+
+			Route::post('circle/friend/unpair', 'CircleMemberController@unpairFriends');
+
+			Route::post('request/one', 'UserRequestController@sendOne');
+
+			Route::post('request/cancel', 'UserRequestController@cancelOne');
+
+			Route::post('request/ignore', 'UserRequestController@ignoreOne');
+
+			Route::post('request/accept', 'UserRequestController@accept');
+
+			Route::post('view/circle', 'CircleController@view');
+
+			Route::post('user/friendstochat', 'UserController@friendsToChat');
+
+			Route::post('chat/init', 'UserController@initChat');
+
+			// Route::get('cir' , function(){
+			//   $c = auth()->user()->circles()->get();
+			//    $arr = array();
+			//   foreach($c as $cm){
+
+			//     array_push($arr , $cm->circle_name);
+			//     array_push($arr , $cm->CircleMembers()->get());
+			//     $cmm = $cm->CircleMembers()->get();
+			//     foreach($cmm as $cmi){
+			//         array_push( $arr , $cmi->user()->get()->pluck('first_name') );
+			//     }
+			//   }
+			//   return json_encode($arr);
+			// });
 		});
-
-		Route::get('/user/settings', function () {
-			return view('user.userinfoedit');
-		});
-
-		Route::post('user/answers', 'AnswerController@userAnswers');
-
-		Route::post('survey/submit', 'AnswerController@create');
-
-		Route::post('user/updatepp', 'UserController@updateProfileIndex');
-
-		Route::post('retrive_comment', 'CommentController@retrive');
-
-		Route::post('retrive_reply', 'ReplyController@retrive');
-
-		Route::post('retrive_knock', 'KnockController@retrive');
-
-		Route::post('retrive_knock', 'KnockController@retrive');
-
-		Route::post('knock/delete', 'KnockController@delete');
-
-		Route::get('/{user}', 'UserController@routeToProfile');
-
-		Route::get('user/profile/{user}', 'UserController@routeToProfileById');
-
-		Route::get('group/{group_id}', 'GroupController@routeToGroup');
-
-		Route::get('group/{group_id}/pictures', 'GroupController@routeToGroupPictures');
-
-		Route::get('group/{group_id}/files', 'GroupController@routeToGroupFiles');
-
-		Route::get('group/{group_id}/voices', 'GroupController@routeToGroupVoices');
-
-		Route::get('group/{group_id}/videos', 'GroupController@routeToGroupVideos');
-
-		Route::get('group/{group_id}/settings', 'GroupController@routeToGroupSettings');
-
-		Route::get('/knock/{knock}', 'KnockController@viewKnock');
-
-		Route::get('/cmnt/{comment}', 'KnockController@viewComment');
-
-		Route::get('/rply/{reply}', 'KnockController@viewReply');
-
-		Route::get('/knock/{knock}/{comment}', 'KnockController@viewKnockWithComment');
-
-		Route::post('getstats_reaction/reaction', 'ReactionController@getstats_reaction');
-
-		Route::post('insert_reaction/reaction', 'ReactionController@insert_reaction');
-
-		Route::post('delete_reaction/reaction', 'ReactionController@delete_reaction');
-
-		Route::post('checkinit_reaction/reaction', 'ReactionController@checkinit_reaction');
-
-		Route::get('/user/logout', function () {auth()->user()->turnOffChat(); auth()->logout();return view('guest.signup');});
-
-		//APIS routes
-
-		Route::post('get/circles', 'UserController@userCircles');
-
-		Route::post('create/circles', 'CircleController@create');
-
-		//Friendship requests
-
-		Route::post('get/request', 'UserController@activeRequests');
-
-		Route::post('user/suggestions', 'UserController@getSuggestions');
-
-		Route::post('send/request', 'UserRequestController@sendGroup');
-
-		Route::post('accept/request', 'CircleMemberController@acceptGroup');
-
-		Route::post('circle/member/add', 'CircleMemberController@addMember');
-
-		Route::post('circle/member/remove', 'CircleMemberController@removeMember');
-
-		Route::post('circle/friend/unpair', 'CircleMemberController@unpairFriends');
-
-		Route::post('request/one', 'UserRequestController@sendOne');
-
-		Route::post('request/cancel', 'UserRequestController@cancelOne');
-
-		Route::post('request/ignore', 'UserRequestController@ignoreOne');
-
-		Route::post('request/accept', 'UserRequestController@accept');
-
-		Route::post('view/circle', 'CircleController@view');
-
-		Route::post('user/friendstochat', 'UserController@friendsToChat');
-
-		Route::post('chat/init', 'UserController@initChat');
-
-		// Route::get('cir' , function(){
-		//   $c = auth()->user()->circles()->get();
-		//    $arr = array();
-		//   foreach($c as $cm){
-
-		//     array_push($arr , $cm->circle_name);
-		//     array_push($arr , $cm->CircleMembers()->get());
-		//     $cmm = $cm->CircleMembers()->get();
-		//     foreach($cmm as $cmi){
-		//         array_push( $arr , $cmi->user()->get()->pluck('first_name') );
-		//     }
-		//   }
-		//   return json_encode($arr);
-		// });
-
 	});
+	Route::get('user/offer/verify', 'UserController@offerVerify');
+	Route::get('user/verify/try/{token}', 'UserController@attempVerify');
+	Route::post('user/verify/request', 'UserController@requestVerify');
 });
 // Route::get('test' , function(){
 //   return view('test');
