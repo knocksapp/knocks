@@ -14,6 +14,7 @@
   <!--Hiddens-->
   <div>
     <knockscollapse
+    v-if = "msgs.unknown.length > 0"
     unstatic_title
     :title = "handleName(device)"
     :icon = "map.devices[device] !== undefined ? map.devices[device].icon : 'knocks-display'"
