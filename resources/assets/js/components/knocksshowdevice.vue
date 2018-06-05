@@ -164,7 +164,7 @@ export default {
         unknown : ''
       },
     	deviceObject : null ,
-      deviceRetriever : { loading : false }
+      deviceRetriever : { loading : false , response : null }
     }
   },
   methods : {

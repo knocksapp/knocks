@@ -138,6 +138,7 @@
           :gid = "gid+'_btn'"
           :submit_on = "[scope+'_final_submit']"
           :disable_placeholder = "btn_disable_placeholder"
+          :disabled = "!hasAContent"
           :icon = "btn_icon"
           :submit_at = "submit_at"
           :success_at = "success_at"
@@ -965,7 +966,7 @@ export default {
          const h = this.$createElement;
         this.$message({
           message: h('p', null, [
-            h('span', { class : 'knocks_text_ms knocks_text_dark'}, 'There is no content in your knock'),
+            h('span', { class : 'knocks_text_ms knocks_text_dark'}, 'There is no content in your comment'),
             h('i', {  class : ' knocks-warning7 knocks_icon knocks_text_md red-text' })
           ])
         });
