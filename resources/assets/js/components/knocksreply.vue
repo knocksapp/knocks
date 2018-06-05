@@ -35,7 +35,8 @@
         <div class ="white col s10 knocks_house_keeper knocks_standard_border_radius" style="margin-top : 1px !important;"
           :class = "[{'knocks_theme_active_border':focused},{'knocks_pink_border' : !focused}]">
           <static_message msg = "Type here.." v-model = "ceaPlaceholder" class = "knocks_hidden"></static_message>
-          <div :class = "[input_container , {'col s12':focused}, {'col m8 s6':!focused}]" v-if="!draggingMode"
+          <div 
+          :class = "[input_container , {'col s12':focused}, {'col m8 s6':!focused}]" v-if="!draggingMode"
             contenteditable = "true" @focus = "focused = true" @blur = "focused = false"
             class = "knocks_language_follower white knocks_ce_watch_align" :data-text="ceaPlaceholder" :id = "gid+'_input'" v-model = "bodyContent" @input = "constructInput()">
           </div>
@@ -44,7 +45,13 @@
           
           <div :class = "options_bar_class" class = "knocks_house_keeper" style = "margin-top:4px; margin-bottom:0px">
             <transition >
-              <div :class = "[{'knocks_hidden':focused} , {'animated fadeIn' : !focused}]" class = "col right">
+              <div 
+              :class = "[
+              {'knocks_hidden':focused} , 
+              {'animated fadeIn' : !focused},
+              {'col' : !focused && !hasImages && !hasFiles} , 
+              {'col s12' : !focused && (hasImages || hasFiles) } , 
+              ]" class = " right">
                 <knocksmultipleuploader @change = "showInterest()" :gid = "gid+'_file_uploader'" v-model  = "uploader" :scope = "scope"></knocksmultipleuploader>
                 <!-- <a :class = "[maps_classes , option_classes ]" :data-target="gid+'_map_modal'" class="btn modal-trigger"><span :class = "[maps_icon]" @click="triggerMaps"></span></a> -->
                 
