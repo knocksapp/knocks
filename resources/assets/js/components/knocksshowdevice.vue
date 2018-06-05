@@ -145,7 +145,7 @@ export default {
     		os : {
     			'OS X' : { icon : 'knocks-brand9' } , 
           iOS : { icon : 'knocks-brand9' } , 
-          AndroidOS : { icon : 'knocks-brand9' } , 
+          AndroidOS : { icon : 'knocks-brand8' } , 
           Linux : { icon : 'knocks-linux' } , 
           Windows : { icon : 'knocks-brand286' } , 
     		},
