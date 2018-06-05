@@ -16,7 +16,7 @@ return [
 		    |
 	*/
 
-	'driver' => env('MAIL_DRIVER', 'smtp'),
+	'driver' => env('MAIL_DRIVER', 'mailgun'),
 
 	/*
 		    |--------------------------------------------------------------------------
@@ -113,7 +113,7 @@ return [
 	*/
 
 	'markdown' => [
-		'theme' => 'default',
+		'theme' => 'knocks',
 
 		'paths' => [
 			resource_path('views/vendor/mail'),

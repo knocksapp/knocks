@@ -13,11 +13,13 @@ class LastSeen {
 	 * @return mixed
 	 */
 	public function handle($request, Closure $next) {
-		auth()->user()->updateLastSeen();
-		if ($request->url() != asset('user/friendstochat')) {
-			$log = new \App\User_log();
-			$log->autoLog($request->url(), $request->ip(), $request->method());
+		if (auth()->check()) {
+			auth()->user()->updateLastSeen();
 		}
+
+		$log = new \App\User_log();
+		$log->autoLog($request->url(), $request->ip(), $request->method());
+
 		return $next($request);
 
 	}

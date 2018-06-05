@@ -7,10 +7,9 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 
-class VerifyAccount extends Mailable {
+class VerifyAccountMd extends Mailable {
 	use Queueable, SerializesModels;
 	public $user;
-
 	/**
 	 * Create a new message instance.
 	 *

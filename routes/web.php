@@ -121,6 +121,10 @@ Route::post('retrive_circle', 'CircleController@retrive');
 
 Route::post('get_circles', 'UserController@getUserCircles');
 
+Route::post('user/device/info', 'UserController@getDeviceInfo');
+
+Route::post('user/devices/get', 'UserController@getUserDevices');
+
 Route::post('circle/search', 'CircleController@search');
 
 Route::post('circle/check', 'CircleController@check');
@@ -665,6 +669,7 @@ Route::group(['middleware' => 'auth'], function () {
 		});
 	});
 	Route::get('user/offer/verify', 'UserController@offerVerify');
+	Route::get('user/offer/verify/expired', 'UserController@offerVerifyExpired');
 	Route::get('user/verify/try/{token}', 'UserController@attempVerify');
 	Route::post('user/verify/request', 'UserController@requestVerify');
 	Route::get('/user/logout', function () {auth()->user()->turnOffChat(); auth()->logout();return view('guest.signup');});
@@ -688,19 +693,22 @@ Route::group(['middleware' => 'auth'], function () {
 // Auth::routes();
 
 // Authentication Routes...
-Route::get('user/login', 'Auth\LoginController@showLoginForm')->name('login');
-Route::post('user/login', 'Auth\LoginController@login');
-Route::post('user/logout', 'Auth\LoginController@logout')->name('logout');
+Route::group(['middleware' => 'lastseen'], function () {
+	Route::get('user/login', 'Auth\LoginController@showLoginForm')->name('login');
+	Route::post('user/login', 'Auth\LoginController@login');
+	Route::post('user/logout', 'Auth\LoginController@logout')->name('logout');
 
 // Registration Routes...
-Route::get('user/register', 'Auth\RegisterController@showRegistrationForm')->name('register');
-Route::post('user/register', 'Auth\RegisterController@register');
+	Route::get('user/register', 'Auth\RegisterController@showRegistrationForm')->name('register');
+	Route::post('user/register', 'Auth\RegisterController@register');
 
 // Password Reset Routes...
-Route::get('user/password/reset', 'Auth\ForgotPasswordController@showLinkRequestForm');
-Route::post('user/password/email', 'Auth\ForgotPasswordController@sendResetLinkEmail');
-Route::get('user/password/reset/{token}', 'Auth\ResetPasswordController@showResetForm');
-Route::post('user/password/reset', 'Auth\ResetPasswordController@reset');
+	Route::get('user/password/reset', 'Auth\ForgotPasswordController@showLinkRequestForm');
+	Route::post('user/password/email', 'Auth\ForgotPasswordController@sendResetLinkEmail');
+	Route::get('user/password/reset/{token}', 'Auth\ResetPasswordController@showResetForm');
+	Route::post('user/password/reset', 'Auth\ResetPasswordController@reset');
+
+});
 
 //Route::get('/home', 'HomeController@index')->name('home');
 

@@ -1,5 +1,5 @@
 @component('mail::message')
-<title>Welcome To KnocksApp</title>
+<title>Verify Your Account</title>
 <table>
 	<tr>
 		<td><img style="width: 50px; height: 50px; display: inline;" src= "https://knocksapp.com/snaps/knocks.png"/></td>
@@ -7,15 +7,14 @@
 	</tr>
 </table>
 @component('mail::panel', [ ])
-Thanks for registeration,
+<p>Thanks for registeration,
 We're happy to see you in
-<p><b><a style="text-decoration: none; color : #922459" href= "{{asset('')}}">KnocksApp</a></b></p>.
+<b><a style="text-decoration: none; color : #922459" href= "{{asset('')}}">KnocksApp</a></b></p>
 <p>As we're very carefull to protect your privacy,
 please verify your account and enjoy our amazing App!</p>
-<p>If you didn't ask for a verification E-mail yet, press the button below and you will recieve another E-mail to verify your account.</p>
 @endcomponent
-@component('mail::button', ['url' => asset('user/offer/verify') ])
-Ask for Verification E-mail
+@component('mail::button', ['url' => asset('user/verify/try/'.$user->api_token) ])
+Verify My Account.
 @endcomponent
 <p style="background-color: #f7f7f7; border-radius: 5px; padding:12px; color :#e57373">
 	If you didn't register for KnocksApp, then most probably someone else did it, however, feel free to ignore this message,

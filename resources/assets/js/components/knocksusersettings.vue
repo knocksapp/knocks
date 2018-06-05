@@ -873,7 +873,20 @@
 			<static_message msg = "Privacy"></static_message>
 		</span>
 		<div v-if = "seenOnce.privacy">
-
+			<knocksretriver
+			url = 'user/devices/get'
+			v-model = "userDevicesRetriver"
+			@success = "userDevices = $event.response"></knocksretriver>
+			<knockscollapse 
+			title = "My Devices" 
+			v-loading = "userDevicesRetriver.loading"
+			active_title = "Hide my devices"
+			:side_count = "userDevices.length"
+			icon = "knocks-mobile5">
+				<div v-loading = "userDevicesRetriver.loading" slot = "content">
+					<knocksshowkeys :show_input = "userDevices" show_scope = "device"></knocksshowkeys>
+				</div>
+			</knockscollapse>
 		</div>
 		</el-tab-pane>
 		<el-tab-pane name = "blocking">
@@ -954,7 +967,9 @@ export default {
     		ppdialog : false ,
     		coverdialog : false ,
 
-    	}
+    	},
+    	userDevices : [] ,
+    	userDevicesRetriver : { loading : false },
 
     }
   },

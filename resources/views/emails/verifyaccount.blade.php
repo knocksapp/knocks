@@ -11,23 +11,14 @@
 		<span msg = "Welcome to KnocksApp"></span>
 		</h4>
 		<h5 style="font-family: sans-serif !important;">
+		<p>Hello {{$user->fullName()}}</p>!
+		<p>Thank's for registering in <b><a href = "{{asset('')}}">KnocksApp</a></b>, as we are very carefull to protect your privacy</p>
 		<ul class = "blue-grey-text uk-list uk-list-divider">
 			<li>
-
-				<span class = "animated rubberBand  " >Reimagining The Social Media!</span>
-				<span class = "animated rubberBand  " >, Express yourself using your voice or any type of multimedia.</span>
+				<p>You have not verify your E-mail Address yet.</p>
 			</li>
 			<li>
-
-				<span class = "animated rubberBand  " >Sharing your long text content is much better, Knocks Provides a features for text editing and many tamplates for poet and articles!</span>
-			</li>
-			<li>
-
-				<span class = "animated rubberBand  " >Categorize your people into Circles, this could make it much easier to communicate with a lot of people at the same time.</span>
-			</li>
-			<li>
-
-				<span class = "animated rubberBand" >Because your privacy matters!, You can set your own restrictions on every thing that belongs to you, Customizing your privacy setting is also easy and smart to guess what kind of restrictions you may like.</span>
+				<p>Press the button below to verify your E-mail please.</p>
 			</li>
 		</ul>
 		</h5>

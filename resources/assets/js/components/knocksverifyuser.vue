@@ -28,7 +28,8 @@
 		</h5>
 		<h5 class = "knocks_text_danger center">
 			<span class = "knocks-alert-triangle"></span>
-		<static_message msg = "You have not verify your account yet, press the button below to verify it."></static_message>
+		<static_message msg = "You have not verify your account yet, press the button below to verify it." v-if = "!expired"></static_message>
+		<static_message msg = "Whoops!, Looks like your verification E-mail has expired, Press the button below to ask for another verification E-Mail." v-else></static_message>
 		</h5>
 	</div>
 	<div class="col s12 knocks_tinny_top_margin">
@@ -38,7 +39,7 @@
 		</h4>
 		<knockselbutton
 		button_classes = "fluid basic ui button red"
-		placeholder = "Send me an E-mail"
+		:placeholder = " expired ? 'Send me another E-Mail' : 'Send me an E-mail'"
 		submit_at = "user/verify/request"
 		type = "danger"
 		class = "knocks_tinny_top_margin"
@@ -50,7 +51,8 @@
 	<div class = "col s12 animated slideInDown knocks_tinny_top_margin" v-if = "orderdOnce">
 		<h5 class = "teal-text center knocks_tinny_top_margin">
 		<span class = "knocks-mail-checked"
-		<static_message msg = "We've sent you an E-mail to verify your account, check your E-mail please."></static_message>
+		<static_message v-if = "expired" msg = "We've sent you an E-mail to verify your account, check your E-mail please."></static_message>
+		<static_message v-else msg = "We've sent you another E-mail to verify your account, check your E-mail please."></static_message>
 		</h5>
 	</div>
 </div>
@@ -60,7 +62,12 @@
 export default {
 
   name: 'knocksverifyuser',
-
+  props : {
+  	expired : {
+  		type : Boolean , 
+  		default : false
+  	}
+  },
   data () {
     return {
     	orderdOnce : false , 
