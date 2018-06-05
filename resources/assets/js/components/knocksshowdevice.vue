@@ -145,8 +145,8 @@ export default {
     			'OS X' : { icon : 'knocks-brand9' } , 
           iOS : { icon : 'knocks-brand9' } , 
           AndroidOS : { icon : 'knocks-brand9' } , 
-          Linux : { icon : 'knocks-brand9' } , 
-          Windows : { icon : 'knocks-brand9' } , 
+          Linux : { icon : 'knocks-linux' } , 
+          Windows : { icon : 'knocks-brand286' } , 
     		},
         browsers : {
           Chrome : { icon : 'knocks-chrome green-text'} , 
@@ -176,7 +176,7 @@ export default {
         this.init(e.response)
   	},
     handleName(name){
-      return name == 0 || name == null ? msgs.unknown : name
+      return name == 0 || name == null ? this.msgs.unknown : name
     }
   }
 }
