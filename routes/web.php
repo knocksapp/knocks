@@ -550,6 +550,8 @@ Route::group(['middleware' => 'guest'], function () {
 
 	Route::get('signin', function () {auth()->logout();return view('guest.signup');});
 
+	Route::get('user/account/blocked', 'UserController@guiedBlockedAccount');
+
 });
 
 Route::group(['middleware' => 'auth'], function () {

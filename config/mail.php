@@ -16,7 +16,7 @@ return [
 		    |
 	*/
 
-	'driver' => env('MAIL_DRIVER', 'mailgun'),
+	'driver' => env('MAIL_DRIVER', 'smtp'),
 
 	/*
 		    |--------------------------------------------------------------------------
@@ -29,7 +29,7 @@ return [
 		    |
 	*/
 
-	'host' => env('MAIL_HOST', 'smtp.mailgun.org'),
+	'host' => env('MAIL_HOST', 'smtp.mailtrap.io'),
 
 	/*
 		    |--------------------------------------------------------------------------
@@ -56,8 +56,8 @@ return [
 	*/
 
 	'from' => [
-		'address' => env('MAIL_FROM_ADDRESS', 'postmaster@mg.knocksapp.com'),
-		'name' => env('MAIL_FROM_NAME', 'KnocksApp'),
+		'address' => env('MAIL_FROM_ADDRESS', 'knocks.share@gmail.com'),
+		'name' => env('MAIL_FROM_NAME', 'Knocks'),
 	],
 
 	/*

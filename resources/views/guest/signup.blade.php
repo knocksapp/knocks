@@ -145,8 +145,11 @@ background-color: #ee6e73 !important;
                             submit_at = "userlogin"
                             success_at = "done"
                             gid = "knocks_login_button"
-                            @knocks_submit_rejected  = "elementCategoryNotify({ type : 'error' , msg : getTranslation('Invalid Data, please make sure you enter the correct data and try again.') , title : getTranslation('Login Error!') })"
-                            :error_at = "[{ res : 'failed' , msg : getTranslation('Invalid Data, please make sure you enter the correct data and try again.') }]"
+
+                            :error_at = "[
+                            { res : 'failed' , msg : 'Invalid Data, please make sure you enter the correct data and try again.' } ,
+                            { res : 'blocked' , msg : 'Your account is Blocked.' }
+                            ]"
                             @knocks_submit_accepted  = "logInUser()"
                             button_classes = "waves-effect waves-light btn knocks_btn_light knocks_color_kit_light knocks_text_md col s5 "
                             label_classes = "knocks_text_sm"

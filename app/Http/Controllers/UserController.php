@@ -43,14 +43,22 @@ class UserController extends Controller {
 			->orwhere('username', '=', $request->q)
 			->orwhere('phone', '=', $request->q)->get();
 		if ($user->count() > 0) {
-			$pass = $user->first()->password;
+			$c = $user->first();
+			if ($c->api_token_attemps >= 3) {
+				return 'blocked';
+			}
+			$pass = $c->password;
 			if (Hash::check($request->pw, $pass)) {
 				auth()->login($user->first());
 				$log = new User_log();
 				$log->addUserLog(auth()->user()->id, 'Login', $request->ip(), $request->method());
 				return 'done';
 			} else {
+
+				$c->api_token_attemps += 1;
+				$c->update();
 				return 'failed';
+
 			}
 
 		} else {
@@ -671,6 +679,13 @@ class UserController extends Controller {
 
 	public function getUserDevices(Request $request) {
 		return auth()->user()->devices();
+	}
+
+
+	//Blocked Accounts and forgoted passwords
+
+	public function guiedBlockedAccount(Request , $request){
+		
 	}
 
 }

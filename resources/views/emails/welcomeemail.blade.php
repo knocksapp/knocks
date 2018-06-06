@@ -1,10 +1,7 @@
 @component('mail::message')
 <title>Welcome To KnocksApp</title>
-<table>
-	<tr>
-		<td><span style="color : #922459">Welcome to KnocksApp, {{$user->fullName()}}!</span></td>
-	</tr>
-</table>
+
+<h4><span style="color : #922459">Welcome to KnocksApp, {{$user->fullName()}}!</span></h4>
 @component('mail::panel', [ ])
 Thanks for registeration,
 We're happy to see you in
