@@ -366,6 +366,8 @@ Vue.component('knocksblockuserlist', require('./components/knocksblockuserlist.v
 Vue.component('knocksverifyuser', require('./components/knocksverifyuser.vue'));
 Vue.component('knocksshowdevice', require('./components/knocksshowdevice.vue'));
 Vue.component('knocksdateviewer', require('./components/knocksdateviewer.vue'));
+Vue.component('knockswelcomeslider', require('./components/knockswelcomeslider.vue'));
+
 
 
 

@@ -39,47 +39,7 @@ background-color: #ee6e73 !important;
             <static_message msg = "Coming Soon" classes = "knocks_text_light "></static_message>
             </h1>
             <div class = "">
-                <transition name="custom-classes-transition" enter-active-class="animated flipInX" leave-active-class="flipOutX">
-                    <div class = "row knocks_slideshow_element" v-if = "slideShow == 1">
-                        <center>
-
-                        <static_message classes = "animated rubberBand knocks_text_light knocks_text_lg pink-text text-lighten-3" msg="Who's there!"></static_message>
-                        </center>
-                    </div>
-                </transition>
-                <transition name="custom-classes-transition" enter-active-class="animated flipInX" leave-active-class="flipOutX">
-                    <div class = "row knocks_slideshow_element" v-if = "slideShow == 2">
-                        <center>
-                        <span class = "animated rotateIn knocks_text_light knocks_text_lg knocks-globe "></span>
-                        <static_message classes = "animated rubberBand knocks_text_light knocks_text_lmd" msg="Reimagining The Social Media!"></static_message>
-                        <static_message classes = "animated rubberBand knocks_text_light knocks_text_lmd" msg=", Express yourself using your voice or any type of multimedia."></static_message>
-                        </center>
-                    </div>
-                </transition>
-                <transition name="custom-classes-transition"enter-active-class="animated flipInX" leave-active-class="flipOutX">
-                    <div class = "row knocks_slideshow_element" v-if = "slideShow == 3">
-                        <center>
-                        <span class = "animated rubberBand knocks_text_light knocks_text_lg knocks-newspaper5 "></span>
-                        <static_message classes = "animated rubberBand knocks_text_light knocks_text_lmd" msg="Sharing your long text content is much better, Knocks Provides a features for text editing and many tamplates for poet and articles!"></static_message>
-                        </center>
-                    </div>
-                </transition>
-                <transition name="custom-classes-transition" enter-active-class="animated flipInX" leave-active-class="flipOutX">
-                    <div class = "row knocks_slideshow_element" v-if = "slideShow == 4">
-                        <center>
-                        <span class = "animated zoomIn knocks_text_light knocks_text_lg knocks-atom2 "></span>
-                        <static_message classes = "animated rubberBand knocks_text_light knocks_text_lmd" msg="Categorize your people into Circles, this could make it much easier to communicate with a lot of people at the same time."></static_message>
-                        </center>
-                    </div>
-                </transition>
-                <transition name="custom-classes-transition" enter-active-class="animated flipInX" leave-active-class="flipOutX">
-                    <div class = "row knocks_slideshow_element" v-if = "slideShow == 5">
-                        <center>
-                        <span class = "animated rotateIn knocks_text_light knocks_text_lg knocks-locked4 "></span>
-                        <static_message classes = "animated rubberBand knocks_text_light knocks_text_lmd" msg="Because your privacy matters!, You can set your own restrictions on every thing that belongs to you, Customizing your privacy setting is also easy and smart to guess what kind of restrictions you may like."></static_message>
-                        </center>
-                    </div>
-                </transition>
+            <knockswelcomeslider></knockswelcomeslider>
             </div>
         </div>
         <div class = "col l6 s12"  :class = "[{'knocks_left_dashed_border':windowWidth > 800}]">

@@ -329,8 +329,22 @@ class User extends Authenticatable {
 			}
 
 		}
-
+if( count($arr) - $count < 4){
+	$cc = count($arr) - $count;
+	   $allusers = User::all();
+		for($x = 1; $x <= 4 - $cc; $x++){
+		
+				$rand = rand(1 , $allusers->count());
+				if(!in_array($rand,$arr)){
+					array_push($arr , $rand);
+				}
+			
+         
+		}
 		return $arr;
+	}else{
+		return $arr;
+	}
 	}
 
 	public function passFriends($friend, $prev) {
