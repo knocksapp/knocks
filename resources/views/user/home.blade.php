@@ -221,7 +221,6 @@
             </div>
             </knockscollapse>
             <knockscollapse
-            icon = "knocks-graduate"
             regular_class = "blue-grey-text text-darken-3 knocks_text_ms"
             toggler_container = " grey lighten-4 row knocks_gray_hover knocks_margin_keeper knocks_gray_border knocks_fair_padding"
             title = "Add a career"

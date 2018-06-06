@@ -56,7 +56,7 @@ return [
 	*/
 
 	'from' => [
-		'address' => env('MAIL_FROM_ADDRESS', 'hello@example.com'),
+		'address' => env('MAIL_FROM_ADDRESS', 'postmaster@mg.knocksapp.com'),
 		'name' => env('MAIL_FROM_NAME', 'KnocksApp'),
 	],
 
@@ -71,7 +71,7 @@ return [
 		    |
 	*/
 
-	'encryption' => env('MAIL_ENCRYPTION', 'tls'),
+	'encryption' => env('MAIL_ENCRYPTION', 'null'),
 
 	/*
 		    |--------------------------------------------------------------------------

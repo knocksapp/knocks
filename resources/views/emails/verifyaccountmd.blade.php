@@ -2,7 +2,6 @@
 <title>Verify Your Account</title>
 <table>
 	<tr>
-		<td><img style="width: 50px; height: 50px; display: inline;" src= "https://knocksapp.com/snaps/knocks.png"/></td>
 		<td><span style="color : #922459">Welcome to KnocksApp, {{$user->fullName()}}!</span></td>
 	</tr>
 </table>
