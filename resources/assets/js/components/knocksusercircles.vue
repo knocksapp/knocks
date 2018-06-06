@@ -53,7 +53,18 @@
                 :submit_flag = "false"
                 label_classes = "left"
                 :scope = "['knocks_circle_edit_member']"
-                @knocks_button_clicked = "membersEditor = circle; triggerAction(circle , index , false)"
+                @knocks_button_clicked = "membersEditor = circle; nameEditor = null  ; triggerAction(circle , index , false)"
+                type = "default"
+                class = "col s12"
+                button_classes = "knocks_borderless  uk-button-small uk-button uk-button-default knocks_gray_hover knocks_tinny_border_radius knocks_xs_padding"
+                ></knockselbutton>
+                  <knockselbutton
+                placeholder = "Edit Name"
+                icon = "knocks-atom2 knocks_icon_border "
+                :submit_flag = "false"
+                label_classes = "left"
+                :scope = "['knocks_circle_edit_name']"
+                @knocks_button_clicked = "nameEditor = circle; membersEditor = null  ; triggerAction(circle , index , false)"
                 type = "default"
                 class = "col s12"
                 button_classes = "knocks_borderless  uk-button-small uk-button uk-button-default knocks_gray_hover knocks_tinny_border_radius knocks_xs_padding"
@@ -67,6 +78,7 @@
           <span class = "knocksapp-chevron-up"></span>
           </el-button>
           <knockscirclemembers :circle = "circle" v-if = "membersEditor == circle"></knockscirclemembers>
+          <knockseditcirclename :circle = "circle" v-if = "nameEditor == circle"></knockseditcirclename>
         </li>
         <li v-if = "circles != null && circles.length == 0">
           <span class = "knocks-alert"></span>
@@ -106,6 +118,8 @@ export default {
     	circleAdder : null ,
       mainCircle : window.UserMainCircle , 
       membersEditor : null ,
+      nameEditor : null , 
+      nameEditor : null , 
       circlesListLoaders : [] ,
       isFiredSearch : false ,
     }

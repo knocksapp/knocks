@@ -622,6 +622,8 @@ Route::group(['middleware' => 'auth'], function () {
 
 			Route::post('create/circles', 'CircleController@create');
 
+			Route::post('update/circles', 'CircleController@update');
+
 			//Friendship requests
 
 			Route::post('get/request', 'UserController@activeRequests');
