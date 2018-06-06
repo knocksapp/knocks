@@ -84,6 +84,9 @@
               ></knockscroppie>
             </div>
           </transition>
+
+          <knockstips></knockstips>
+
         </div>
       {{--   <el-carousel :interval="30000" arrow="always" height = "400px">
         <el-carousel-item>
