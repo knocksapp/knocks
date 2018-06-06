@@ -6,7 +6,9 @@
 			<span :class = "togglerClasses" v-if = "!dual_title">
 				<span :class = "[icon]"></span>
         <el-tooltip>
-				<static_message :msg = "title"></static_message>
+				<static_message :msg = "title" v-if = "unstatic_title"></static_message>
+        <span v-else >{{title}}</span>
+        <span v-if = "side_count != null"> {{side_count}} </span>
         <div slot = "content">
           <span :class = "[icon]"></span>
             <static_message :msg = "title"></static_message>
@@ -17,7 +19,8 @@
         </div>
       </el-tooltip>
         <small v-if = "comment" :class = "comment_class">
-          <br><static_message :msg = "comment"></static_message>
+           <br><static_message :msg = "comment" v-if ="!unstatic_comment"></static_message>
+          <span v-if = "unstatic_comment" >{{comment}}</span>
         </small>
 				<span :class = "indecatorClasses"></span>
 			</span>
@@ -25,6 +28,7 @@
 				<span :class = "[icon]"></span>
 				<static_message :msg = "title" :class = "[{'animated fadeIn' : !toggleStatus} , {'knocks_hidden' : toggleStatus}]"></static_message>
 				<static_message :msg = "active_title" :class = "[{'animated fadeIn' : toggleStatus} , {'knocks_hidden' : !toggleStatus}]" ></static_message>
+        <span v-if = "side_count != null"> {{side_count}} </span>
 				<span :class = "indecatorClasses"></span>
 			</span>
 		</div>
@@ -89,8 +93,12 @@ export default {
   		type : Boolean , 
   		default : false
   	},
+    side_count : {
+      type : [ Number , String ] , 
+      default : null
+    },
     comment : {
-      type : String , 
+      type : [String , Number], 
       default : null
     },
     comment_class : {
@@ -112,7 +120,11 @@ export default {
     unstatic_comment : {
       type : Boolean ,
       default : false
-    }
+    },
+    unstatic_title : {
+      type : Boolean ,
+      default : false
+    },
   },
   data () {
     return {

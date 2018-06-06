@@ -5,6 +5,7 @@ namespace App;
 use App\Comment;
 use App\Knock;
 use App\obj;
+use App\Saved_presets;
 use App\User_keywords;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
@@ -110,8 +111,27 @@ class Reply extends Model {
 		// $this->UserShowPost($object->user_privacy,$this->object_id);
 		// $this->CircleShowPost($object->user_privacy,$this->object_id);
 
-		if ($object->privacy_setting->tip == 'custom' || $object->privacy_setting->tip == 'userpresets') {
-			$user_ps_object = $object->privacy_setting->user_privacy;
+		if ($object->privacy_setting->tip == 'custom' || $object->privacy_setting->tip == 'userpresets' || $object->privacy_setting->tip == 'choosedefault') {
+			$user_ps_object = $circle_ps_object = array();
+			//Default
+			if ($object->privacy_setting->tip == 'choosedefault') {
+				$dps = auth()->user()->defaultPreset();
+				if ($dps != null) {
+					$udf = Saved_presets::find($dps);
+					if ($udf != null) {
+						$constraints = $udf->constraints();
+						if ($constraints != null) {
+							$user_ps_object = $constraints->user_privacy;
+							$circle_ps_object = $constraints->circle_privacy;
+						}
+					}
+				}
+			} else {
+				$user_ps_object = $object->privacy_setting->user_privacy;
+				$circle_ps_object = $object->privacy_setting->circle_privacy;
+			}
+			//Customs
+
 			foreach ($user_ps_object as $ob) {
 				$user_privacy = new Privacy_set_user();
 				$user_privacy->user_id = $ob->user_id;
@@ -119,8 +139,6 @@ class Reply extends Model {
 				$user_privacy->object_id = $parent_object->id;
 				$user_privacy->save();
 			}
-
-			$circle_ps_object = $object->privacy_setting->circle_privacy;
 			foreach ($circle_ps_object as $ob) {
 				if ($ob->circle_id == -1) {
 					$parent_object->updatePublicPresetNum($ob->preset_id);

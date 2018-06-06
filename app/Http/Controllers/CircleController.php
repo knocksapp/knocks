@@ -74,4 +74,25 @@ class CircleController extends Controller {
 
 	}
 
+	public function update(Request $request) {
+		$request->validate([
+			'name' => 'required',
+			'circle' => 'required',
+		]);
+		$circle = Circle::find($request->circle);
+		if ($circle == null) {
+			return 'invalid';
+		}
+
+		if ($circle->user_id != auth()->user()->id) {
+			return 'invalid';
+		}
+
+		$circle->circle_name = $request->name;
+		$circle->update();
+
+		return 'done';
+
+	}
+
 }

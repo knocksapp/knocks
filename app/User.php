@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Assistant;
 use App\Blob;
 use App\Career;
 use App\Circle;
@@ -13,6 +14,7 @@ use App\Mail\WelcomeMail;
 use App\Sport;
 use App\UserAddress;
 use App\user_blocks;
+use App\User_log;
 use DB;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -1518,6 +1520,31 @@ class User extends Authenticatable {
 		$other = new Circle_member();
 		$other->initialize($friend->id, $this->mainCircle()->id, $this->id);
 	}
+
+	public function devices() {
+		$logs = User_log::where('user_id', '=', $this->id)->get()->groupBy('device');
+		$assistant = new Assistant();
+		return $assistant->objectKeys($logs);
+	}
+
+	public function deviceInfo($device) {
+		$fetcher = User_log::where('user_id', '=', $this->id)->where('device', '=', $device);
+		$logs = $fetcher->get();
+		$assistant = new Assistant();
+		if ($logs->count() != 0) {
+			return array(
+				'first_use' => $logs->first()->created_at,
+				'last_use' => $logs[$logs->count() - 1]->created_at,
+				'os' => $assistant->objectKeys($logs->groupBy('os')),
+				'browsers' => $assistant->objectKeys($logs->groupBy('browser')),
+				'usage' => $logs->count(),
+				'logins' => $logs->where('url', '=', 'Login')->count(),
+				'logins_dates' => $logs->where('url', '=', 'Login')->pluck('created_at'),
+
+			);
+		}return null;
+	}
+
 	public function createCirclesMembership($circles) {
 		//$circles = json_encode($circles);
 		for ($cir = 0; $cir < count($circles); $cir++) {

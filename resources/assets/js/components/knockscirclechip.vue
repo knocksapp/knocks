@@ -115,6 +115,21 @@ export default {
         vm.bindCircle(payloads.object)
       }
     })
+    App.$on('knocksCircleKeyUpdate' , (payloads)=>{
+      if(vm.circleObject == 'invalid') return
+      if(payloads.patch == 'invalid') return
+      if(payloads.circle == vm.circle){
+        if(vm.circleObject !== null){
+        let i ;
+        for(i = 0 ; i < payloads.patch.length; i++){
+          vm.circleObject[payloads.patch[i].key] = payloads.patch[i].value
+        }
+        vm.bindCircle(vm.circleObject);
+      }else{
+        vm.holdOnChanges(payloads);
+      }
+    }
+    });
     App.$on('knocksCircleAddMember' , (payloads)=>{
       if(payloads.circle == vm.circle){
         if(vm.circleObject == null) vm.loadCircleData();

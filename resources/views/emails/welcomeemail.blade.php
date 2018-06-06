@@ -1,18 +1,24 @@
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-beta/css/materialize.min.css">
 @component('mail::message')
-<div class = "row left">
-	<div class = "col s12 l6">
-		<img class = "col s12 left" src = "https://knocksapp.com/snaps/knocks.png"/>
-	</div>
-</div>
-<div class = "row">
-	<div class = "col s12 ">
-		<h3 class = 'purple-text'>Welcome to KnocksApp, {{$user->first_name}}!</h3>
-	</div>
-</div>
-@component('mail::button', ['url' => 'https://knocksapp.com'])
-Start Browsing
+<title>Welcome To KnocksApp</title>
+
+<h4><span style="color : #922459">Welcome to KnocksApp, {{$user->fullName()}}!</span></h4>
+@component('mail::panel', [ ])
+Thanks for registeration,
+We're happy to see you in
+<p><b><a style="text-decoration: none; color : #922459" href= "{{asset('')}}">KnocksApp</a></b></p>.
+<p>As we're very carefull to protect your privacy,
+please verify your account and enjoy our amazing App!</p>
+<p>If you didn't ask for a verification E-mail yet, press the button below and you will recieve another E-mail to verify your account.</p>
 @endcomponent
+@component('mail::button', ['url' => asset('user/offer/verify') ])
+Ask for Verification E-mail
+@endcomponent
+<p style="background-color: #f7f7f7; border-radius: 5px; padding:12px; color :#e57373">
+	If you didn't register for KnocksApp, then most probably someone else did it, however, feel free to ignore this message,
+	<b><a style="text-decoration: none; color : #922459" href= "{{asset('')}}">KnocksApp</a></b> doesn't allow
+unverified accounts to make any activities!</p>
 Thanks,<br>
-{{ config('app.name') }}
+<b style="color : #922459">
+{{ config('app.name') }}</b>
+<span style="color : pink">Who's there!</span>
 @endcomponent

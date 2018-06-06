@@ -1,5 +1,5 @@
 <template>
-	<div class = "knocks_house_keeper knocks_tinny_border_radius blue-grey lighten-5 knocks_gray_border" v-if ="zeroSuggestions">
+	<div class = "knocks_house_keeper knocks_tinny_border_radius blue-grey lighten-5 knocks_gray_border" >
 		<knocksretriver
 		url = "user/suggestions"
 		:xdata = "{c : currentSuggest}"

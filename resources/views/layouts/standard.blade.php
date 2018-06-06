@@ -35,7 +35,7 @@
     <meta name="keywords" lang="en" content="analysis">
     <meta name="keywords" lang="en" content="statistics">
     <div id = "knocks_nav_vue">
-      @include('layouts.guestnav')
+      @include('layouts.emailnav')
     </div>
     <link rel="alternate" href="{{Request::url()}}" hreflang="en" />
     <!--Internet Explorer Comp -->

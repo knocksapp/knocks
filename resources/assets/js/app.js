@@ -365,6 +365,10 @@ Vue.component('knocksblockuser', require('./components/knocksblockuser.vue'));
 Vue.component('knocksblockuserlist', require('./components/knocksblockuserlist.vue'));
 Vue.component('knocksverifyuser', require('./components/knocksverifyuser.vue'));
 Vue.component('knockstips', require('./components/knockstips.vue'));
+Vue.component('knocksshowdevice', require('./components/knocksshowdevice.vue'));
+Vue.component('knocksdateviewer', require('./components/knocksdateviewer.vue'));
+Vue.component('knockseditcirclename', require('./components/knockseditcirclename.vue'));
+
 
 
 

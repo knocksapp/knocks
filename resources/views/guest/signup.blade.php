@@ -145,8 +145,11 @@ background-color: #ee6e73 !important;
                             submit_at = "userlogin"
                             success_at = "done"
                             gid = "knocks_login_button"
-                            @knocks_submit_rejected  = "elementCategoryNotify({ type : 'error' , msg : getTranslation('Invalid Data, please make sure you enter the correct data and try again.') , title : getTranslation('Login Error!') })"
-                            :error_at = "[{ res : 'failed' , msg : getTranslation('Invalid Data, please make sure you enter the correct data and try again.') }]"
+
+                            :error_at = "[
+                            { res : 'failed' , msg : 'Invalid Data, please make sure you enter the correct data and try again.' } ,
+                            { res : 'blocked' , msg : 'Your account is Blocked.' }
+                            ]"
                             @knocks_submit_accepted  = "logInUser()"
                             button_classes = "waves-effect waves-light btn knocks_btn_light knocks_color_kit_light knocks_text_md col s5 "
                             label_classes = "knocks_text_sm"
@@ -256,17 +259,14 @@ background-color: #ee6e73 !important;
                             <div class = "row animated zoomIn" :class = "{'knocks_hidden' :stageNumber != 2}">
 
                                 <div class="row">
-                                    <div class = "col">
-                                        <span class = "knocks-birthday-cake knocks_text_light"></span>
-                                        <span class = "knocks_text_light ">Birthdate</span>
-                                    </div>
-                                    <div class = "col ">
-                                        <el-date-picker
-                                        v-model="birthdate"
-                                        type="date"
-                                        @input = "birthdateIsFired = true"
-                                        placeholder="Pick a day">
-                                        </el-date-picker>
+                                    <div class = "col s12">
+                                        <knockseldatepicker
+                                          :default_time = "{ date : '1995-06-15' }"
+                                          :quick = "[]"
+                                          icon = "knocks-birthday-cake"
+                                          :margins = '{ max : { count : -5 , unit : "y" }  }'
+                                          placeholder = "Birthdate"
+                                          v-model = "birthdate"></knockseldatepicker>
                                         <transition enter-active-class = "animated shake" leave-active-class = "animated zoomOut">
                                           <p class = "knocks_text_danger" v-if = "!validDate && birthdateIsFired">
                                             <span class = "knocks-alert-circle"></span>

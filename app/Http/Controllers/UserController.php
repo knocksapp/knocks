@@ -13,6 +13,7 @@ use App\obj;
 use App\Reply;
 use App\Saved_presets;
 use App\User;
+use App\User_log;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -42,12 +43,22 @@ class UserController extends Controller {
 			->orwhere('username', '=', $request->q)
 			->orwhere('phone', '=', $request->q)->get();
 		if ($user->count() > 0) {
-			$pass = $user->first()->password;
+			$c = $user->first();
+			if ($c->api_token_attemps >= 3) {
+				return 'blocked';
+			}
+			$pass = $c->password;
 			if (Hash::check($request->pw, $pass)) {
 				auth()->login($user->first());
+				$log = new User_log();
+				$log->addUserLog(auth()->user()->id, 'Login', $request->ip(), $request->method());
 				return 'done';
 			} else {
+
+				$c->api_token_attemps += 1;
+				$c->update();
 				return 'failed';
+
 			}
 
 		} else {
@@ -57,6 +68,8 @@ class UserController extends Controller {
 	}
 
 	public function goHome(Request $request) {
+		$log = new User_log();
+		$log->autoLog($request->url(), $request->ip(), $request->method());
 		if (Auth::check()) {
 			if (auth()->user()->verified) {
 				return view('user.home');
@@ -81,6 +94,22 @@ class UserController extends Controller {
 				auth()->user()->api_token_date = null;
 				auth()->user()->update();
 				return view('user.verify');
+			}
+		} else {
+			return redirect()->action('UserController@goHome');
+		}
+
+	}
+
+	public function offerVerifyExpired(Request $request) {
+		if (auth()->check()) {
+			if (auth()->user()->verified) {
+				return redirect()->action('UserController@goHome');
+			} else {
+				auth()->user()->api_token = null;
+				auth()->user()->api_token_date = null;
+				auth()->user()->update();
+				return view('user.verifyexpired');
 			}
 		} else {
 			return redirect()->action('UserController@goHome');
@@ -118,7 +147,7 @@ class UserController extends Controller {
 				return redirect()->action('UserController@goHome');
 			}
 
-			return redirect()->action('UserController@requestVerify');
+			return redirect()->action('UserController@offerVerifyExpired');
 
 		} else {
 			return redirect()->action('UserController@goHome');
@@ -641,6 +670,22 @@ class UserController extends Controller {
 		auth()->user()->$key = $req->value;
 		auth()->user()->update();
 		return 'done';
+	}
+
+	public function getDeviceInfo(Request $request) {
+		$request->validate(['device' => 'required']);
+		return auth()->user()->deviceInfo($request->device);
+	}
+
+	public function getUserDevices(Request $request) {
+		return auth()->user()->devices();
+	}
+
+
+	//Blocked Accounts and forgoted passwords
+
+	public function guiedBlockedAccount(Request , $request){
+		
 	}
 
 }

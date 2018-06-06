@@ -19,6 +19,9 @@
 			  ></knocksuser>
         <knocksblockuser :blocked_user_id = "item" v-if = "index < showKey && show_scope == 'block'"></knocksblockuser>
       <knocksgroupshortcut as_chip :group_id = "item" v-if = "index < showKey && show_scope == 'group'"></knocksgroupshortcut>
+      <knocksshowdevice :device = "item" v-if = "index < showKey && show_scope == 'device'"></knocksshowdevice>
+      <knocksdateviewer :date = "item.date" v-if = "index < showKey && show_scope == 'datefilter'"></knocksdateviewer>
+      <knocksdateviewer :date = "item" v-if = "index < showKey && show_scope == 'date'"></knocksdateviewer>
 		</li>
 	</ul>
   <center  v-else>

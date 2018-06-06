@@ -29,7 +29,7 @@ return [
 		    |
 	*/
 
-	'host' => env('MAIL_HOST', 'smtp.mailgun.org'),
+	'host' => env('MAIL_HOST', 'smtp.mailtrap.io'),
 
 	/*
 		    |--------------------------------------------------------------------------
@@ -56,8 +56,8 @@ return [
 	*/
 
 	'from' => [
-		'address' => env('MAIL_FROM_ADDRESS', 'hello@example.com'),
-		'name' => env('MAIL_FROM_NAME', 'KnocksApp'),
+		'address' => env('MAIL_FROM_ADDRESS', 'knocks.share@gmail.com'),
+		'name' => env('MAIL_FROM_NAME', 'Knocks'),
 	],
 
 	/*
@@ -71,7 +71,7 @@ return [
 		    |
 	*/
 
-	'encryption' => env('MAIL_ENCRYPTION', 'tls'),
+	'encryption' => env('MAIL_ENCRYPTION', 'null'),
 
 	/*
 		    |--------------------------------------------------------------------------
@@ -113,7 +113,7 @@ return [
 	*/
 
 	'markdown' => [
-		'theme' => 'default',
+		'theme' => 'knocks',
 
 		'paths' => [
 			resource_path('views/vendor/mail'),
