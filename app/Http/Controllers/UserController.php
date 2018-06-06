@@ -684,8 +684,8 @@ class UserController extends Controller {
 
 	//Blocked Accounts and forgoted passwords
 
-	public function guiedBlockedAccount(Request , $request){
-		
+	public function guiedBlockedAccount(Request  $request){
+
 	}
 
 }
