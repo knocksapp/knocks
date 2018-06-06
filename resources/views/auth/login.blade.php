@@ -40,7 +40,6 @@ background-color: #ee6e73 !important;
             </h1>
             <div class = "">
             <knockswelcomeslider></knockswelcomeslider>
-            
             </div>
         </div>
         <div class = "col l6 s12"  :class = "[{'knocks_left_dashed_border':windowWidth > 800}]">
