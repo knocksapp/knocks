@@ -568,7 +568,6 @@ Route::group(['middleware' => 'auth'], function () {
 				}
 
 			});
-
 			Route::get('/user/settings', function () {
 				return view('user.userinfoedit');
 			});
