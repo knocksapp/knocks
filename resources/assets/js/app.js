@@ -364,6 +364,7 @@ Vue.component('knockswatchmywindow', require('./components/knockswatchmywindow.v
 Vue.component('knocksblockuser', require('./components/knocksblockuser.vue'));
 Vue.component('knocksblockuserlist', require('./components/knocksblockuserlist.vue'));
 Vue.component('knocksverifyuser', require('./components/knocksverifyuser.vue'));
+Vue.component('knockstips', require('./components/knockstips.vue'));
 Vue.component('knocksshowdevice', require('./components/knocksshowdevice.vue'));
 Vue.component('knocksdateviewer', require('./components/knocksdateviewer.vue'));
 Vue.component('knockseditcirclename', require('./components/knockseditcirclename.vue'));
@@ -919,7 +920,7 @@ Vue.component('knockssitemap', require('./components/knockssitemap.vue'));
     },
     goToSettings(){
       window.location.href = Asset('user/settings')
-    },  
+    },
     logout(){
       this.closeSideBar();
       this.elementNotify({title : 'Logged out' , msg : 'See you again, Bye! '});
@@ -1482,7 +1483,7 @@ window.NavInstance = new Vue({
   sideBarSearchLanguage : currentUserLanguage ,
   sidebarSearchTaps : 'users' ,
   sidebarSearchRecognition : {loading : false , speaking : false , result : ''},
-  searchTypingMode : false , 
+  searchTypingMode : false ,
   searchTypingResults : [] ,
   },
   mounted(){
