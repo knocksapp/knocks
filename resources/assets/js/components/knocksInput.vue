@@ -27,7 +27,7 @@
     </div>
   </div>
   <div class = "userInput2" :class = "lang_alignment">
-    <ul v-if = " isFired  && !isValid && !avoidClash" >
+    <ul v-if = " isFired  && !isValid && !this.focus" >
       <li v-for= "errors in errorsStack" class = "animated slideInDown " :class ="icon_error" v-if ="errorsStack.length != 0">
         <span :class = 'errorsBus[errors].icon'></span>
         <span v-if ="errorsBus[errors].prefix !== null">{{errorsBus[errors].prefix}}</span>

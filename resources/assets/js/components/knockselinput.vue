@@ -6,6 +6,7 @@
         <static_message :msg="placeholder" class = "knocks_hidden" v-model = "innerPlaceholder"  v-else-if = "placeholder != null && !disable_placeholder && inner_placeholder" ></static_message>
     
        <el-input  
+       :type = "type"
         @focus="addFocus()"
         :class = "[{'input-with-select':with_select}]"
         @blur="removeFocus()"
@@ -37,7 +38,7 @@
     <static_message :msg = "autocomplete_progress_message" :classes = "autocomplete_progress_message_classes"></static_message>
   </div>
   <div class = "userInput2" :class = "lang_alignment" v-if = "!hide_errors">
-    <ul v-if = " isFired  && !isValid" >
+    <ul v-if = " isFired  && !isValid" class = "">
       <li v-for= "errors in errorsStack" class = "animated slideInDown " :class ="icon_error">
         <span :class = 'errorsBus[errors].icon'></span>
         <span v-if ="errorsBus[errors].prefix !== null">{{errorsBus[errors].prefix}}</span>
@@ -373,6 +374,7 @@
             isFired : false ,
             isLoading : false ,
             errorsStack : [],
+            avoidClash : false ,
             checkResult : false ,
             autoCompleteResults : null ,
             inputClassObject : '' ,

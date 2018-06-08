@@ -19,6 +19,9 @@
 @if(isset($_GET['t']))
 init_tab = "<?=$_GET['t']?>"
 @endif
+@if(isset($_GET['f']))
+init_field = "<?=$_GET['f']?>"
+@endif
 ></knocksusersettings>
 </div>
 

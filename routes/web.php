@@ -544,6 +544,9 @@ Route::post('allusers', 'UserController@getAllUsers');
 
 Route::group(['middleware' => 'guest'], function () {
 
+	Route::get('user/blocked/unblock/{user}/{token}', 'UserController@attempUnblock');
+	Route::get('user/blocked/temp/{user}/{token}', 'UserController@attempUnblockTempPassword');
+
 	Route::get('signup', function () {
 		return view('guest.signup');
 	});
@@ -722,3 +725,5 @@ Route::post('qis', function () {
 	$x = 'invalid';
 	return $x;
 });
+
+Route::get('app/lost', 'UserController@lost');

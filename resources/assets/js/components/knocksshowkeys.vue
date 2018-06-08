@@ -1,6 +1,6 @@
 <template>
 <div>
-	<ul :class = "list_classes" uk-sortable="cls-custom: uk-box-shadow-small uk-flex uk-flex-middle uk-background" v-if ="show_input.length > 0">
+	<ul :class = "list_classes"  v-if ="show_input.length > 0">
 		<li
 			v-for = "(item , index) in show_input"
 			v-if = "show_input.length != 0"
@@ -98,6 +98,9 @@ export default {
     empty_classes : {
       type : String ,
       default : 'grey-text text-darekn-1 knocks_text_md center'
+    },
+    unsortable : {
+      type : [String , Boolean]
     }
   },
   data () {
@@ -115,6 +118,9 @@ export default {
     showKeyMin(){
       return Math.min(this.showKey , this.show_input.length)
     },
+    sortable(){
+      return this.unsortable ? false : 'cls-custom: uk-box-shadow-small uk-flex uk-flex-middle uk-background' 
+    }
   },
   methods : {
 

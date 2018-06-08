@@ -40,6 +40,9 @@ class CreateUsersTable extends Migration {
 			$table->longText('api_token')->nullable();
 			$table->dateTime('api_token_date')->nullable();
 			$table->integer('api_token_attemps')->nullable();
+			$table->integer('api_token_access_attemps')->nullable();
+			$table->string('temp_password')->nullable();
+			$table->string('api_token_type')->nullable();
 			$table->rememberToken();
 			$table->timestamps();
 			$table->string('upload_tooken')->nullable();

@@ -8,6 +8,7 @@ use App\Envelope;
 use App\Group;
 use App\Group_member;
 use App\Knock;
+use App\Mail\AccountBlocked;
 use App\Mail\VerifyAccount;
 use App\obj;
 use App\Reply;
@@ -44,7 +45,7 @@ class UserController extends Controller {
 			->orwhere('phone', '=', $request->q)->get();
 		if ($user->count() > 0) {
 			$c = $user->first();
-			if ($c->api_token_attemps >= 3) {
+			if ($c->api_token_attemps >= 3 && $c->api_token_type == 'blocked') {
 				return 'blocked';
 			}
 			$pass = $c->password;
@@ -52,13 +53,23 @@ class UserController extends Controller {
 				auth()->login($user->first());
 				$log = new User_log();
 				$log->addUserLog(auth()->user()->id, 'Login', $request->ip(), $request->method());
+				auth()->user()->api_token_attemps = 0;
+				auth()->user()->api_token = null;
+				auth()->user()->api_token_type = null;
+				auth()->user()->update();
 				return 'done';
 			} else {
-
 				$c->api_token_attemps += 1;
+				if ($c->api_token_attemps == 3) {
+					$c->api_token_type = 'blocked';
+					$c->temp_password = $c->generateRandomString(rand(15, 25));
+					$c->api_token = csrf_token();
+					$c->api_token_date = now();
+					$c->api_token_access_attemps = 0;
+				}
 				$c->update();
-				return 'failed';
-
+				\Mail::to($c)->send(new AccountBlocked($c));
+				return $c->api_token_attemps < 3 ? 'fail' : 'blocked';
 			}
 
 		} else {
@@ -153,6 +164,66 @@ class UserController extends Controller {
 			return redirect()->action('UserController@goHome');
 		}
 
+	}
+
+	public function attempUnblock(Request $request, $user, $token) {
+		if (!auth()->check()) {
+			$tuser = User::find($user);
+			if ($tuser == null) {
+				return redirect()->action('UserController@lost');
+			}
+			if ($tuser->api_token_type != 'blocked' || $tuser->api_token_attemps != 3) {
+				return redirect()->action('UserController@goHome');
+			}
+
+			if ($token == $tuser->api_token) {
+				$tuser->api_token = null;
+				$tuser->api_token_date = null;
+				$tuser->api_token_type = null;
+				$tuser->api_token_attemps = null;
+				$tuser->update();
+				return redirect()->action('UserController@goHome');
+			}
+
+			return redirect()->action('UserController@goHome');
+
+		} else {
+			return redirect()->action('UserController@goHome');
+		}
+
+	}
+
+	public function attempUnblockTempPassword(Request $request, $user, $token) {
+		if (!auth()->check()) {
+			$tuser = User::find($user);
+			if ($tuser == null) {
+				return redirect()->action('UserController@lost');
+			}
+			if ($tuser->api_token_type != 'blocked' || $tuser->api_token_attemps != 3) {
+				return redirect()->action('UserController@goHome');
+			}
+
+			if ($token == $tuser->api_token) {
+				$tuser->api_token = null;
+				$tuser->api_token_date = null;
+				$tuser->api_token_type = null;
+				$tuser->api_token_attemps = null;
+				$tuser->password = bcrypt($tuser->temp_password);
+				$tuser->temp_password = null;
+				$tuser->update();
+				return redirect()->action('UserController@goHome');
+			}
+
+			return redirect()->action('UserController@goHome');
+
+		} else {
+			return redirect()->action('UserController@goHome');
+		}
+
+	}
+
+	public function lost() {
+		return view('guest.lost');
 	}
 
 	//Authorised user's language
@@ -681,11 +752,10 @@ class UserController extends Controller {
 		return auth()->user()->devices();
 	}
 
-
 	//Blocked Accounts and forgoted passwords
 
-	public function guiedBlockedAccount(Request , $request){
-		
+	public function guiedBlockedAccount(Request $request) {
+
 	}
 
 }

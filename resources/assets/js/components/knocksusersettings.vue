@@ -1,13 +1,13 @@
 <template>
 <div>
 	<knocksretriver
-  v-model=  "block_user_id"
-  url = "userblock/retriveblockeduser"
-  @success="getUsersName()"
-  :xdata = "{  }"
-  :scope = "['user_filter']"
-  >
-  </knocksretriver>
+	v-model=  "block_user_id"
+	url = "userblock/retriveblockeduser"
+	@success="getUsersName()"
+	:xdata = "{  }"
+	:scope = "['user_filter']"
+	>
+	</knocksretriver>
 	<!--Hiddens-->
 	<div class="knocks_hidden">
 		<knockswatchmywindow v-model = "myWindow"></knockswatchmywindow>
@@ -89,7 +89,6 @@
 						:scope = "[ 'name'+_uid]"></knockselinput>
 					</div>
 				</div>
-
 				<div class = "col s12 l8">
 					<knockselbutton
 					submit_at = "user/update/name"
@@ -685,6 +684,63 @@
 					</div>
 				</div>
 			</div>
+			<div class = "col s12 knocks_tinny_border_radius blue-grey lighten-5 knocks_gray_border knocks_mp_top_margin" v-if = "authModel != null" 
+			id ="changemypassword">
+				<p class = "knocks_text_md blue-grey-text text-darken-3 ">
+					<span class = "knocks-locked4"></span>
+					<static_message msg = "Password"></static_message>
+				</p>
+				<div class = "col s12 knocks_house_keeper">
+					<div class = "col s12">
+						<knockselinput
+						placeholder = "Password"
+						icon = "knocks-locked4 "
+						is_required
+						:min_len = "8"
+						v-model = "input.password"
+						type = "password"
+						inner_placeholder
+						:scope = "['registeration']"
+						:submit_scope = "['registeration']"
+						regex = "^(?=.*[a-zA-Z])(?=.*[0-9])"
+						regex_example = "Your password should contain both charachters and numbers."
+						></knockselinput>
+						<el-progress :text-inside="false" :stroke-width="25"
+						:percentage="passwordComplixty.percentage" :status="passwordComplixty.status">
+						</el-progress>
+						<br/>
+						<knockselinput
+						placeholder = "Password Confirmation"
+						inner_placeholder
+						icon = "knocks-checkmark5"
+						:is_required = "true"
+						:min_len = "8"
+						v-model = "input.password_confirmation"
+						:same_as = "input.password"
+						same_as_name = "your password"
+						type = "password"
+						:scope = "['registeration']"
+						:submit_scope = "['registeration']"
+						></knockselinput>
+					</div>
+					<div class = "col s12 knocks_mp_bottom_margin knocks_mp_top_margin">
+						<knockselbutton
+						submit_at = "user/updatepassword"
+						:submit_data = "{ password : input.password }"
+						success_at = "done"
+						success_msg = "Your password has changed successfully"
+						:error_at = "[]"
+						:scope = "[ _uid + 'password']"
+						placeholder = "Save"
+						icon = "knocks-save"
+						type = "primary"
+						class = "right"
+						:disabled = "input.password != input.password_confirmation || passwordComplixty.status != 'success'"
+						plain
+						></knockselbutton>
+					</div>
+				</div>
+			</div>
 			<div class = "col s12 knocks_tinny_border_radius blue-grey lighten-5 knocks_gray_border knocks_mp_top_margin" v-if = "authModel != null">
 				<p class = "knocks_text_md blue-grey-text text-darken-3 ">
 					<span class = "knocks-feather2"></span>
@@ -692,12 +748,9 @@
 				</p>
 				<div class = "col s12 knocks_house_keeper">
 					<div class = "col s12">
-						<div class="input-field col s12">
-							<textarea :id="'knocks_settings_bio_'+_uid" class="materialize-textarea knocks_input_ps knocks_textarea_ps" v-model = "input.bio"  ></textarea>
-							<label :for="'knocks_settings_bio_'+_uid" :id = "'knocks_settings_bio_label_'+_uid">
-								<span class = "knocks-feather2"></span>
-								<static_message msg = "Biography"></static_message>
-							</label>
+						<div class="field">
+							<label><static_message msg="Your Biography"></static_message></label>
+							<textarea style="margin-top: 0px; margin-bottom: 0px; height: 112px; min-width : 100%" class="uk-textarea" v-model = "input.bio"></textarea>
 						</div>
 					</div>
 					<div class = "col s12 knocks_mp_bottom_margin knocks_mp_top_margin">
@@ -877,15 +930,15 @@
 			url = 'user/devices/get'
 			v-model = "userDevicesRetriver"
 			@success = "userDevices = $event.response"></knocksretriver>
-			<knockscollapse 
-			title = "My Devices" 
+			<knockscollapse
+			title = "My Devices"
 			v-loading = "userDevicesRetriver.loading"
 			active_title = "Hide my devices"
 			:side_count = "userDevices.length"
 			icon = "knocks-mobile5">
-				<div v-loading = "userDevicesRetriver.loading" slot = "content">
-					<knocksshowkeys :show_input = "userDevices" show_scope = "device"></knocksshowkeys>
-				</div>
+			<div v-loading = "userDevicesRetriver.loading" slot = "content">
+				<knocksshowkeys :show_input = "userDevices" show_scope = "device" unsortable></knocksshowkeys>
+			</div>
 			</knockscollapse>
 		</div>
 		</el-tab-pane>
@@ -895,7 +948,7 @@
 			<static_message msg = "Blocking"></static_message>
 		</span>
 		<div v-if = "seenOnce.blocking">
-      <knocksblockuserlist ></knocksblockuserlist>
+			<knocksblockuserlist ></knocksblockuserlist>
 			<div>
 				<h4 class="ui horizontal divider header transparent">
 				<i class="knocks-eye-blocked blue-grey-text"></i>
@@ -903,10 +956,7 @@
 				</h4>
 			</div>
 			<knocksshowkeys class = "knocks_mp_top_margin" show_scope = "block" :show_input = "blockedUserIds" as_result blocker :as_label = "false"></knocksshowkeys>
-
-
 		</div>
-
 		</el-tab-pane>
 		</el-tabs>
 	</div>
@@ -921,6 +971,10 @@ export default {
   	init_tab : {
   		type : String , 
   		default : null
+  	},
+  	init_field : {
+  		type : String , 
+  		default : null ,
   	}
   },
   data () {
@@ -966,10 +1020,13 @@ export default {
     		biokps : null ,
     		ppdialog : false ,
     		coverdialog : false ,
+    		password : '' , 
+    		password_confirmation : '' ,
 
     	},
     	userDevices : [] ,
     	userDevicesRetriver : { loading : false },
+    	movedToField : false ,
 
     }
   },
@@ -1024,7 +1081,23 @@ export default {
 				{ value : 'nickname' , label : 'Nickname' , icon : 'knocks-face-sunglasses' ,
 				disabled : !this.authModel.nickname || this.authModel.nickname.length == 0 } ,
 				]
-  	}
+  	},
+  	passwordComplixty(){
+      if(this.input.password.length == 0) return{ percentage :  0 , status : 'exception' } ;
+      let score = 100;
+      // if(
+      //   this.password.includes(this.first_name) || this.password.includes(this.last_name) ||
+      //   this.password.includes(this.middle_name) || this.password.includes(this.nickname)
+      //   ) score -= 30;
+        if(this.input.password.length < 8)
+          score -= 30;
+        if(this.input.password.match(/^(?=.*[a-zA-Z])(?=.*[0-9])/) == null)
+          score -= 30;
+        //return score;
+        if(score != 100)
+          return { percentage :  score , status : 'exception' } ;
+        else return { percentage :  score , status : 'success' }
+    }
   },
   methods : {
   	handleTaps(e){
@@ -1040,11 +1113,21 @@ export default {
     	this.input.phonekey = this.splitPhone(this.authModel.phone).key
     	this.input.bio = this.authModel.bio
 
-    	if(this.input.bio && this.input.bio.length > 0){
-    		$('#knocks_settings_bio_label_'+this._uid).addClass('active')
-    	}else{
-    		$('#knocks_settings_bio_label_'+this._uid).removeClass('active')
-    	}
+    	const vm  = this 
+
+    	$(document).ready(function(){
+    		if(e != null && vm.init_field && !vm.movedToField){
+    		setTimeout( ()=>{
+
+    			 $('html, body').animate({
+			        scrollTop: $("#"+vm.init_field).offset().top - 70
+			    }, 1300);
+    		    vm.movedToField = true
+    		    
+    		} , 2000)
+    	   }
+    	})
+
 
     },
     handleDisplayNameOptions(){
