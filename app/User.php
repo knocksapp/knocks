@@ -329,10 +329,40 @@ class User extends Authenticatable {
 			}
 
 		}
+		if (count($arr) - $count < 4) {
+			$cc = count($arr) - $count;
+			$allusers = User::all();
+			for ($x = 1; $x <= 4 - $cc; $x++) {
 
-		return $arr;
+				$rand = rand(1, $allusers->count());
+				if ($this->isSuggestableInList($arr, $rand)) {
+					array_push($arr, $rand);
+				}
+
+			}
+			return $arr;
+		} else {
+			return $arr;
+		}
 	}
 
+	public function isSuggestableInList($arr, $user) {
+		return
+		!$this->isFriend($user)
+		&& !in_array($user, $arr)
+		&& $user != $this->id
+		&& !$this->hasSentRequest($user)
+		&& !$this->hasFriendRequest($user);
+
+	}
+	public function isSuggestable($user) {
+		return
+		!$this->isFriend($user)
+		&& $user != $this->id
+		&& !$this->hasSentRequest($user)
+		&& !$this->hasFriendRequest($user);
+
+	}
 	public function passFriends($friend, $prev) {
 		$myFriends = $this->friendsByWeight()->get();
 		foreach ($myFriends as $f) {

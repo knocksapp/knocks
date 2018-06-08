@@ -1836,6 +1836,7 @@ class DevController extends Controller {
 				}
 			}
 		}
+
 		return array('found' => $mainCounter, 'removed' => $removed);
 	}
 	public function addRandomEntry(Request $request) {

@@ -70,12 +70,12 @@ export default {
       this.$emit('input' , { fromNowDate : this.fromNowDate , detailsDate : this.detailsDate })
     },
     formateTime(){
-      if(this.offset > 0){
-          this.time = moment(this.date).add(this.offset * 60 ,'seconds');
+      if(this.offset < 0){
+          this.time = moment(this.date).add(this.offset * -60 ,'seconds');
           return
       }
-      if(this.offset < 0){
-          this.time = moment(this.date).subtract(this.offset * -60 ,'seconds');
+      if(this.offset > 0){
+          this.time = moment(this.date).subtract(this.offset * 60 ,'seconds');
           return
       }
       if(this.offset == 0){

@@ -368,6 +368,9 @@ Vue.component('knockstips', require('./components/knockstips.vue'));
 Vue.component('knocksshowdevice', require('./components/knocksshowdevice.vue'));
 Vue.component('knocksdateviewer', require('./components/knocksdateviewer.vue'));
 Vue.component('knockseditcirclename', require('./components/knockseditcirclename.vue'));
+Vue.component('knockswelcomeslider', require('./components/knockswelcomeslider.vue'));
+Vue.component('knocksforgotmypassword', require('./components/knocksforgotmypassword.vue'));
+Vue.component('knockssitemap', require('./components/knockssitemap.vue'));
 
 
 
@@ -1178,10 +1181,12 @@ Vue.component('knockseditcirclename', require('./components/knockseditcirclename
     },
     logInUser(){
       this.loginStage = null ;
-      this.elementCategoryNotify({ type : 'success' , msg : this.getTranslation('Welcome To Knocks') , title : this.getTranslation('Login Succesfull!') });
       setTimeout( ()=>{
         window.location.href = LaravelOrgin + 'home' ;
       } , 2000);
+    },
+    handleRejectedLogins(e){
+
     },
     submitSurvey(){
 
