@@ -200,14 +200,14 @@ class DevController extends Controller {
 			$knock = new Knock();
 			$knock->initialize(json_encode(
 				array(
-					"body" => $qts[rand(0, count($qts) - 1)],
-					"at" => rand(0, $allUsers->count() - 1),
-					"type" => $ats[rand(0, count($ats) - 1)],
+					"body" => $qts[rand(1, count($qts) - 1)],
+					"at" => rand(1, $allUsers->count() - 1),
+					"type" => $ats[rand(1, count($ats) - 1)],
 					"has_pictures" => false,
 					"images_specifications" => null,
 					"kvc_knock" => false,
 					"hashtags" => [],
-					"text" => $qts[rand(0, count($qts) - 1)],
+					"text" => $qts[rand(1, count($qts) - 1)],
 					"has_files" => false,
 					"files_specifications" => null,
 					"has_videos" => false,
@@ -225,10 +225,10 @@ class DevController extends Controller {
 		$qallKnocks = Knock::all();
 		$allKnocks = Knock::where('id', '>', $qallKnocks->count() - $request->count)->get();
 		foreach ($allKnocks as $k) {
-			$cuser = rand(0, $allUsers->count() - 1);
+			$cuser = rand(1, $allUsers->count() - 1);
 			$cuserO = User::find($cuser);
 			while (!$cuserO) {
-				$cuser = rand(0, $allUsers->count() - 1);
+				$cuser = rand(1, $allUsers->count() - 1);
 				$cuserO = User::find($cuser);
 			}
 			if ($k->type == 'self') {
@@ -238,14 +238,14 @@ class DevController extends Controller {
 			if ($k->type == 'group') {
 				$k->user_id = $cuser;
 				$grps = $cuserO->groupMembers()->pluck('group_id');
-				$k->at = $grps[rand(0, count($grps) - 1)];
+				$k->at = $grps[rand(1, count($grps) - 1)];
 				$k->update();
 			}
 
 			if ($k->type == 'user') {
 				$k->user_id = $cuser;
 				$grps = $cuserO->friends()->pluck('user_id');
-				$k->at = $grps[rand(0, count($grps) - 1)];
+				$k->at = $grps[rand(1, count($grps) - 1)];
 				$k->update();
 			}
 		}
@@ -329,15 +329,15 @@ class DevController extends Controller {
 			$knock = new Comment();
 			$knock->initialize(json_encode(
 				array(
-					"body" => $qts[rand(0, count($qts) - 1)],
-					"at" => rand(0, $allUsers->count() - 1),
+					"body" => $qts[rand(1, count($qts) - 1)],
+					"at" => rand(1, $allUsers->count() - 1),
 					"type" => "knock",
-					"post_id" => rand(0, $allKnocks->count() - 1),
+					"post_id" => rand(1, $allKnocks->count() - 1),
 					"has_pictures" => false,
 					"images_specifications" => null,
 					"kvc_knock" => false,
 					"hashtags" => [],
-					"text" => $qts[rand(0, count($qts) - 1)],
+					"text" => $qts[rand(1, count($qts) - 1)],
 					"has_files" => false,
 					"files_specifications" => null,
 					"has_videos" => false,
@@ -356,16 +356,16 @@ class DevController extends Controller {
 		$qallKnocks = Comment::all();
 		$allKnocks = Comment::where('id', '>', $qallKnocks->count() - $request->count)->get();
 		foreach ($allKnocks as $k) {
-			$cuser = rand(0, $allUsers->count() - 1);
+			$cuser = rand(1, $allUsers->count() - 1);
 			$cuserO = User::find($cuser);
 			while (!$cuserO) {
-				$cuser = rand(0, $allUsers->count() - 1);
+				$cuser = rand(1, $allUsers->count() - 1);
 				$cuserO = User::find($cuser);
 			}
 
 			$k->user_id = $cuser;
 			$grps = $cuserO->friends()->pluck('user_id');
-			$k->at = $grps[rand(0, count($grps) - 1)];
+			$k->at = $grps[rand(1, count($grps) - 1)];
 			$k->update();
 
 		}
@@ -382,9 +382,9 @@ class DevController extends Controller {
 		foreach ($objects as $o) {
 			for ($i = 0; $i < $request->count; $i++) {
 				$reactor = User::find(rand(1, $users->count() - 1));
-				if ($toss[rand(0, 1)] && $reactor) {
+				if ($toss[rand(1, 1)] && $reactor) {
 					$reaction = new Reaction();
-					$reaction->init($reactor->id, $o->id, $reactions[rand(0, count($reactions) - 1)], $o->type);
+					$reaction->init($reactor->id, $o->id, $reactions[rand(1, count($reactions) - 1)], $o->type);
 				}
 			}
 		}
@@ -1085,9 +1085,9 @@ class DevController extends Controller {
 		//Create Groups
 		for ($i = 0; $i < $request->count; $i++) {
 			$g = new Group();
-			$g->initialize($names[rand(0, count($names) - 1)], $categories[rand(0, count($categories) - 1)], null, $presets[rand(0, count($presets) - 1)]);
+			$g->initialize($names[rand(1, count($names) - 1)], $categories[rand(1, count($categories) - 1)], null, $presets[rand(1, count($presets) - 1)]);
 			$m = new Group_member();
-			$m->initialize(rand(0, $allUsers->count()), $g->id, 'Owner');
+			$m->initialize(rand(1, $allUsers->count()), $g->id, 'Owner');
 		}
 		//Add Members for Groups
 		$groups = Group::all();
@@ -1096,7 +1096,7 @@ class DevController extends Controller {
 		foreach ($sg as $c) {
 			for ($i = 0; $i < 50; $i++) {
 				$m = new Group_member();
-				$m->initialize(rand(0, $allUsers->count()), $c->id, rand(0, count($positons)));
+				$m->initialize(rand(1, $allUsers->count()), $c->id, rand(1, count($positons)));
 			}
 		}
 
@@ -1798,7 +1798,7 @@ class DevController extends Controller {
 		//Create Groups
 		for ($i = 0; $i < $request->count; $i++) {
 			$g = new Circle();
-			$g->init($names[rand(0, count($names) - 1)], json_encode(array()), rand(0, $allUsers->count() - 1));
+			$g->init($names[rand(1, count($names) - 1)], json_encode(array()), rand(1, $allUsers->count() - 1));
 		}
 		//Add Members for Groups
 		$toss = [true, false];
@@ -1807,11 +1807,11 @@ class DevController extends Controller {
 		$sg = Circle::where('id', '>', $gc - $request->count)->where('circle_name', '!=', 'All')->get();
 		foreach ($sg as $c) {
 			$friends = User::find($c->user_id);
-			if ($friends && $toss[rand(0, 1)]) {
+			if ($friends && $toss[rand(1, 1)]) {
 				$friends = $friends->friends()->pluck('user_id');
 				for ($i = 0; $i < 10; $i++) {
 					$m = new Circle_member();
-					$m->initialize($friends[rand(0, count($friends) - 1)], $c->id, $c->user_id);
+					$m->initialize($friends[rand(1, count($friends) - 1)], $c->id, $c->user_id);
 				}
 			}
 		}
@@ -4378,16 +4378,16 @@ class DevController extends Controller {
 		//Addresses init($study_at, $study_what, $study_since, $study_to, $grade, $user)
 		foreach ($users as $user) {
 			if ($user->addresses()->count() < 3) {
-				$co = $countries[rand(0, count($countries) - 1)];
-				$st = $states[rand(0, count($states) - 1)];
-				$ci = $cities[rand(0, count($cities) - 1)];
+				$co = $countries[rand(1, count($countries) - 1)];
+				$st = $states[rand(1, count($states) - 1)];
+				$ci = $cities[rand(1, count($cities) - 1)];
 				$add = new UserAddress();
 				$add->init(json_encode(array('user' => $user->id, 'country' => $co, 'state' => $st, 'region' => $ci, 'index' => json_encode(array()))));
 			}
 			if ($user->age() > 23) {
-				$u = $unis[rand(0, count($unis) - 1)];
-				$g = $grades[rand(0, count($grades) - 1)];
-				$m = $majors[rand(0, count($majors) - 1)];
+				$u = $unis[rand(1, count($unis) - 1)];
+				$g = $grades[rand(1, count($grades) - 1)];
+				$m = $majors[rand(1, count($majors) - 1)];
 				$hd = new High_education();
 				$hd->init($u, $m, $user->birthYear() + 18 . '-10-01', $user->birthYear() + 22 . '-06-01', $g, $user->id);
 			}
@@ -5405,12 +5405,12 @@ class DevController extends Controller {
 			$user = new User();
 			$user->initForTesting(
 				json_encode(array(
-					'first_name' => $names[rand(0, count($names) - 1)],
-					'last_name' => $names[rand(0, count($names) - 1)],
+					'first_name' => $names[rand(1, count($names) - 1)],
+					'last_name' => $names[rand(1, count($names) - 1)],
 					'username' => "knockstestuser" . ($i + $usersCount),
 					'gender' => "male",
-					'middle_name' => $names[rand(0, count($names) - 1)],
-					'nickname' => $names[rand(0, count($names) - 1)],
+					'middle_name' => $names[rand(1, count($names) - 1)],
+					'nickname' => $names[rand(1, count($names) - 1)],
 					'birthdate' => rand(1950, 2012) . "-" . rand(1, 12) . "-" . rand(1, 28),
 					'email' => "test" . ($i + $usersCount) . "@knocks.com",
 					'password' => "testtest12",
@@ -5424,7 +5424,7 @@ class DevController extends Controller {
 			$one->verified = 1;
 			$one->update();
 			for ($j = 0; $j < 30; $j++) {
-				$c = User::find(rand(0, $count - 1));
+				$c = User::find(rand(1, $count - 1));
 				if ($c != null) {
 					$one->pairAsFriend($c);
 				}
