@@ -54,6 +54,9 @@
     </a>
     <a href="{{asset(auth()->user()->username)}}"><span class="white-text name">
       {{ ucfirst(auth()->user()->first_name)}} {{ucfirst(auth()->user()->last_name)}}
+      @if(auth()->user()->nickname != null)
+      ( {{auth()->user()->nickname}} )
+      @endif
     </span></a>
   </div></li>
   <div id = "sidebar_search">
