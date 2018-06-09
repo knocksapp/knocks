@@ -194,19 +194,103 @@ class DevController extends Controller {
 			" Imagination was given to man to compensate him for what he is not, and a sense of humor was provided to console him for what he is.Oscar Wilde",
 			" When a person can no longer laugh at himself, it is time for others to laugh at him.Thomas Szasz",
 		];
+		$hashtags = [
+			'#love',
+			'#instagood',
+			'#me',
+			'#tbt',
+			'#cute',
+			'#follow',
+			'#followme',
+			'#photooftheday',
+			'#happy',
+			'#tagforlikes',
+			'#beautiful',
+			'#self',
+			'#girl',
+			'#picoftheday',
+			'#like4like',
+			'#smile',
+			'#friends',
+			'#fun',
+			'#like',
+			'#fashion',
+			'#instadaily',
+			'#igers',
+			'#instalike',
+			'#food',
+			'#swag',
+			'#amazing',
+			'#tflers',
+			'#follow4follow',
+			'#bestoftheday',
+			'#likeforlike',
+			'#instamood',
+			'#style',
+			'#wcw',
+			'#family',
+			'#141',
+			'#f4f',
+			'#nofilter',
+			'#lol',
+			'#life',
+			'#pretty',
+			'#repost',
+			'#hair',
+			'#my',
+			'#sun',
+			'#webstagram',
+			'#iphoneonly',
+			'#art',
+			'#tweegram',
+			'#cool',
+			'#followback',
+			'#instafollow',
+			'#instasize',
+			'#bored',
+			'#instacool',
+			'#funny',
+			'#mcm',
+			'#instago',
+			'#instasize',
+			'#vscocam',
+			'#girls',
+			'#all_shots',
+			'#party',
+			'#music',
+			'#eyes',
+			'#nature',
+			'#beauty',
+			'#night',
+			'#fitness',
+			'#beach',
+			'#look',
+			'#nice',
+			'#sky',
+			'#christmas',
+		];
 		$allUsers = User::all();
 		$ats = ['user', 'self', 'group'];
 		for ($i = 0; $i < $request->count; $i++) {
+			$selectedHashtag = $hashtags[rand(0, count($hashtags) - 1)];
 			$knock = new Knock();
 			$knock->initialize(json_encode(
 				array(
-					"body" => $qts[rand(1, count($qts) - 1)],
+					"body" => $qts[rand(1, count($qts) - 1)] . '
+					 <a contenteditable="false" href="https://knocks.dev/trend/' . substr($selectedHashtag, 1) . '" class="knocks_hashtag">' . $selectedHashtag . '</a>
+					 <a contenteditable="false" href="https://knocks.dev/trend/knocks" class="knocks_hashtag">#knocks</a>
+					 <a contenteditable="false" href="https://knocks.dev/trend/knocksApp" class="knocks_hashtag">#knocksApp</a>
+					 ',
 					"at" => rand(1, $allUsers->count() - 1),
 					"type" => $ats[rand(1, count($ats) - 1)],
 					"has_pictures" => false,
 					"images_specifications" => null,
 					"kvc_knock" => false,
-					"hashtags" => [],
+					"hashtags" => [
+						$selectedHashtag,
+						'#knocks',
+						'#knocksApp',
+					],
 					"text" => $qts[rand(1, count($qts) - 1)],
 					"has_files" => false,
 					"files_specifications" => null,
@@ -225,10 +309,10 @@ class DevController extends Controller {
 		$qallKnocks = Knock::all();
 		$allKnocks = Knock::where('id', '>', $qallKnocks->count() - $request->count)->get();
 		foreach ($allKnocks as $k) {
-			$cuser = rand(1, $allUsers->count() - 1);
+			$cuser = rand(1, $allUsers->count());
 			$cuserO = User::find($cuser);
 			while (!$cuserO) {
-				$cuser = rand(1, $allUsers->count() - 1);
+				$cuser = rand(1, $allUsers->count());
 				$cuserO = User::find($cuser);
 			}
 			if ($k->type == 'self') {
@@ -238,7 +322,7 @@ class DevController extends Controller {
 			if ($k->type == 'group') {
 				$k->user_id = $cuser;
 				$grps = $cuserO->groupMembers()->pluck('group_id');
-				$k->at = $grps[rand(1, count($grps) - 1)];
+				$k->at = $grps[rand(1, count($grps))];
 				$k->update();
 			}
 

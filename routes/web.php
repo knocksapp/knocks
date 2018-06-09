@@ -679,6 +679,7 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::get('user/verify/try/{token}', 'UserController@attempVerify');
 	Route::post('user/verify/request', 'UserController@requestVerify');
 	Route::get('/user/logout', function () {auth()->user()->turnOffChat(); auth()->logout();return view('guest.signup');});
+	Route::post('user/passwords/forgot/ask', 'UserController@forgotMyPasswordAsk');
 });
 // Route::get('test' , function(){
 //   return view('test');

@@ -1,14 +1,14 @@
 <template>
 <div class="row knocks_xs_side_padding">
   
-  <div class="col s12 grid modal-trigger" @click="crop()" :id="gid+'_container'" :href="'#'+gid+'_image_editor_modal'"  >
+  <div class="col s12 grid " uk-toggle @click="crop()" :id="gid+'_container'" :href="'#'+gid+'_image_editor_modal'"  >
   <div class="column">
     <div class="ui fluid card">
       <div class="ui  middle aligned  image" style=" " :id="gid+'_img_editor_toggler'">
         <img :src = "currentSource"  v-if = "currentSource != null" :id="gid+'_img_editor_el'"  @load = "setHeight()"/>
       </div>
       <div class="content">
-        <a class="header center" @click = "crop()">
+        <a class="header center" >
           <span class = "knocksapp-edit"></span>
           <static_message msg = "Edit" v-if = "windowWidth > 900"></static_message>
         </a>
@@ -16,15 +16,14 @@
     </div>
   </div>
 </div>
-  <div :id="gid+'_image_editor_modal'" class="modal" style = "width : 100% !important; top: 10px !important; min-height: 83vh;">
-    <div class="modal-content" style="">
+  <div :id="gid+'_image_editor_modal'" class="uk-modal-full" uk-modal>
+    <div class="uk-modal-dialog" style="">
       <el-input placeholder="Quote Your Image.." v-model="quote" class = "knocks_fair_bounds" @input = "assign()">
         <template slot="prepend"><span class = "knocks-pencil9"></span></template>
       </el-input>
-      <div class = " col s12 knocks_house_keeper " style= "z-index : 30000000000" :id = "`knocks_upload_port_`+gid" >
+      <div class = " col s12 knocks_house_keeper " :id = "`knocks_upload_port_`+gid" >
       </div>
-    </div>
-    <div class="modal-footer" style="">
+         <div class="uk-modal-footer " style="">
       <center>
         <knockspopover>
       <template slot = "container">
@@ -73,6 +72,7 @@
       </knockspopover>
       </center>
     </div>
+    </div>
   </div>
 </div>
 </template>
@@ -103,7 +103,7 @@ export default {
     }
   }
   , mounted(){
-    $('#'+this.gid+'_image_editor_modal').modal();
+    //$('#'+this.gid+'_image_editor_modal').modal();
     this.minOrigin = Math.min(this.windowWidth , this.windowHeight)
     this.assign();
   	setTimeout( ()=>{ this.assignToModel(this.source);} , 200);
@@ -136,8 +136,9 @@ export default {
   },
   crop(){
     const vm = this;
-    $('#knocks_upload_port_'+vm.gid).empty();
+    //$('#knocks_upload_port_'+vm.gid).empty();
     let targetElement = document.getElementById('knocks_upload_port_'+vm.gid );
+    if(!vm.basic)
     vm.basic = new Croppie( targetElement , {
                    boundary: {
                     width: vm.minOrigin * 80 / 100,
@@ -168,14 +169,15 @@ export default {
      }
         this.basic.result(options ).then(function(blob) {
           vm.currentSource = blob;
-           $('#'+vm.gid+'_image_editor_modal').modal('close');
+           //$('#'+vm.gid+'_image_editor_modal').modal('close');
+           UIkit.modal( document.getElementById(vm.gid+'_image_editor_modal' )).hide();
            vm.assign();
         });
   }, assign(){
     this.$emit('input' , {blob : this.currentSource , quote : this.quote});
   },
   cancelEditing(){
-    $('#'+this.gid+'_image_editor_modal').modal('close');
+    UIkit.modal( document.getElementById(this.gid+'_image_editor_modal')).hide();
   }
 }
 }
@@ -185,5 +187,8 @@ export default {
 
 .modal-content{
   height: 70% !important;
+}
+.uk-modal{
+  z-index : 70000000 !important
 }
 </style>

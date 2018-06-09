@@ -1585,4 +1585,7 @@ class User extends Authenticatable {
 			}
 		}
 	}
+	public function isBlockedAccount() {
+		return $this->api_token_attemps >= 3 && $this->api_token_type == 'blocked';
+	}
 }

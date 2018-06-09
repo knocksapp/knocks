@@ -754,10 +754,27 @@ class UserController extends Controller {
 
 	//Blocked Accounts and forgoted passwords
 
+	public function guiedBlockedAccount(Request $request) {
 
-	public function guiedBlockedAccount(Request  $request){
+	}
 
+	public function forgotMyPasswordAsk(Request $request) {
+		if (auth()->check()) {
+			return 'auth';
+		}
 
+		$request->validate(['email' => 'required']);
+		$user = User::where('email', '=', $request->email)->get();
+		if (!$user->exists()) {
+			return 'not_exist';
+		} else {
+			$user = $user->first();
+			if ($user->isBlockedAccount()) {
+				return 'blocked';
+			} else {
+
+			}
+		}
 	}
 
 }
