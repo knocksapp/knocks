@@ -22,6 +22,7 @@
       <knocksshowdevice :device = "item" v-if = "index < showKey && show_scope == 'device'"></knocksshowdevice>
       <knocksdateviewer :date = "item.date" v-if = "index < showKey && show_scope == 'datefilter'"></knocksdateviewer>
       <knocksdateviewer :date = "item" v-if = "index < showKey && show_scope == 'date'"></knocksdateviewer>
+      <knockshashtagchip :hashtag = "item" v-if = "index < showKey && show_scope == 'hashtag'"></knockshashtagchip>
 		</li>
 	</ul>
   <center  v-else>
@@ -33,10 +34,10 @@
   <p class = "grey-text text-lighten-22">{{showKeyMin+'/'+show_input.length}}</p>
 	<div class = "row">
 		<a :class ="[{'knocks_hidden':!(show_input.length > showKey)}]" @click = "showKey += show_key">
-			<static_message msg = "See More"></static_message>
+			<static_message :msg = "see_messages.more"></static_message>
 		</a>
 		<a :class ="[{'knocks_hidden':!(showKey > show_key && show_input.length > show_key)}]" class = "right" @click = "showKey -= show_key">
-			<static_message msg = "See Less"></static_message>
+			<static_message :msg = "see_messages.less"></static_message>
 		</a>
 	</div>
 </div>
@@ -101,6 +102,15 @@ export default {
     },
     unsortable : {
       type : [String , Boolean]
+    },
+    see_messages : {
+      type : Object , 
+      default : ()=>{
+        return {
+          more : 'See More' , 
+          less : 'See Less'
+        }
+      }
     }
   },
   data () {

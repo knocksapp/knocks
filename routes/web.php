@@ -712,6 +712,8 @@ Route::group(['middleware' => 'lastseen'], function () {
 
 	Route::get('trend/{hashtag}', 'HashtagsController@findHashTag');
 
+	Route::post('hashtags/trends/get', 'HashtagsController@getRecentHashtags');
+
 	Route::get('user/login', 'Auth\LoginController@showLoginForm')->name('login');
 	Route::post('user/login', 'Auth\LoginController@login');
 	Route::post('user/logout', 'Auth\LoginController@logout')->name('logout');

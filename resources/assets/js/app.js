@@ -479,7 +479,7 @@ Vue.component('knockswelcomeslider', require('./components/knockswelcomeslider.v
 Vue.component('knocksforgotmypassword', require('./components/knocksforgotmypassword.vue'));
 Vue.component('knockssitemap', require('./components/knockssitemap.vue'));
 Vue.component('knocksmeganumber', require('./components/knocksmeganumber.vue'));
-
+Vue.component('knockstrendslist', require('./components/knockstrendslist.vue'));
 
 
 
@@ -621,7 +621,7 @@ Vue.component('knocksmeganumber', require('./components/knocksmeganumber.vue'));
 
     username_login : 'username' ,
     password_login : 'password123123',
-
+    watchMyWindow : { isSmall : false } , 
 
 
     //Document
