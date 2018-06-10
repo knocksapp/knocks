@@ -113,6 +113,12 @@ Route::post('group/posts/older', 'GroupController@retriveOlderGroupKnocks');
 
 Route::post('group/posts/newer', 'GroupController@retriveNewerGroupKnocks');
 
+Route::post('trend/posts', 'HashtagsController@retriveTrendKnocks');
+
+Route::post('trend/posts/older', 'HashtagsController@retriveOlderTrendKnocks');
+
+Route::post('trend/posts/newer', 'HashtagsController@retriveNewerTrendKnocks');
+
 Route::post('user/search', 'UserController@searchForFriends');
 
 Route::post('user/search/global', 'UserController@globalUserSearch');
@@ -734,7 +740,7 @@ Route::post('qis', function () {
 Route::get('app/lost', 'UserController@lost');
 
 Route::get('hash/knocksbyhashtags', function () {
-	$posts = App\User_hashtags::where('hashtag', '=', '#party')->get();
+	$posts = App\User_hashtags::where('hashtag', '=', '#knocks')->get();
 	$ob = [];
 	foreach ($posts as $post) {
 		$knock = App\Knock::find($post->parent_id);

@@ -18,7 +18,24 @@ class HashtagsController extends Controller {
 			return redirect()->action('UserController@lost');
 		} else {
 			$currentHashtag = $hashtagQuery->first();
-			return $currentHashtag;
+		 return view('trend.trend', ['trend' => $currentHashtag]);
 		}
 	}
+	   public function retriveTrendKnocks(Request $request){
+      $hash = hashtags::find($request->user);
+      if($hash)
+      return $hash->retriveKnocks();
+    }
+
+    public function retriveOlderTrendKnocks(Request $request){
+       $hash = hashtags::find($request->user);
+      if($hash)
+      return $hash->retriveOlderKnocks($request->min);
+    }
+
+    public function retriveNewerTrendKnocks(Request $request){
+      $hash = hashtags::find($request->user);
+      if($hash)
+      return $hash->retriveNewerKnocks($request->max);
+    }
 }
