@@ -1,21 +1,5 @@
 <template>
 <div class=" knocks-border-reactionstats  knocks_house_keeper knocks_icon_reaction_states col s12 "   :class = "bar_classes" :id = "gid">
-  
-  <!-- <div class="row">
-    <div class="col s12">
-      <ul class="tabs">
-        <div v-if="total > 0" v-for="(emj,index) in orderedemojiadv" >
-          <li class="tab col s3 active " :class="emj"></li>
-        </div>
-      </ul>
-    </div>
-    <div v-if="total > 0" v-for="(emj,index) in orderedemojiadv" >
-      <div v-for="eachuser in usersadv[index]">
-      </div>
-      <div class="col s12">{{eachuser}} </div>
-    </div>
-  </div> -->
-
   <div class=" knocks_reaction_tab stars">
 
     <div class="col s12 knocks_house_keeper" >
@@ -49,7 +33,7 @@
         <!-- <el-badge :value="usersadv[index].length" class="item badge-font "> -->
         <knockspopover >
           <template slot = "container">
-            <div  class = "btn btn-floating knocks_btn_floating_ssm knocks_reaction_state_btn modal-trigger" :class = "[emj,{'knocks_left_override':index > 0}]"  style="border:1px solid pink !important; margin-top:5px" 
+            <div  class = "btn btn-floating knocks_btn_floating_ssm knocks_reaction_state_btn " uk-toggle :class = "[emj,{'knocks_left_override':index > 0}]"  style="border:1px solid pink !important; margin-top:5px" 
              :href="'#'+gid+'_modal'" @click="doMotion()">
               <span  class="icons" ></span>
              </div>
@@ -61,7 +45,6 @@
         </knockspopover>
         <!-- </el-badge> -->
       </span>
-   
        </div>
         <div class = "col l3 s4 right knocks_house_keeper">
          <knocksreactor 
@@ -99,13 +82,10 @@
       
     </div>
     <div >
-
-
-
     </div>
   </div>
-      <div :id="gid+'_modal'" class="modal knocks_modal">
-    <div class="modal-content">
+      <div :id="gid+'_modal'" class="uk-modal-full" uk-modal>
+    <div class="uk-modal-dialog" style="">
       <p class = "knocks_text_dark knocks_language_default_font">People Reactions</p>
        <div class="col s12" >
       <!-- <li class="tab col s14 " :class ="emj" @click="getusers(emj)"> -->
@@ -125,31 +105,12 @@
         leave-active-class="animated zoomOut"
         >
         <div v-if="current.length >0" class = "col s12 dive knocks_color_kit_light_active">
-          <!-- <div class="pos" >
-            <div v-for="user in current" class="user"  >
-              <knocksuser :user = "user" as_chip class = "animated lightSpeedIn col s11 knocks_language_default_font">
-              
-              </knocksuser>
-              <div class = "col s1">
-                <a  @click="cls()"><span class="knocks_text_dark knocks-close red-text right"></span></a>
-              </div>
-            </div>
-          </div> -->
           <knocksshowkeys class ="pos knocks_language_default_font" list_classes = "uk-list uk-divider knocks_list_scroll" :as_label = "false" as_chip :show_input = "current"></knocksshowkeys>
         </div>
-      </transition>
-
-      
+      </transition> 
     </div>
   </div>
 </div>
-<!-- <div v-if="total > 0" v-for="(emj,index) in orderedemojiadv" >
-  <span :class ="emj"  >
-    <span  v-for="eachuser in usersadv[index]">
-      {{eachuser}}
-    </span>
-  </span>
-</div> -->
 </template>
 <script>
 export default {
@@ -604,5 +565,11 @@ border-radius: 15px;
 .bk{
      color :  red;
      background-color: transparent !important;
+}
+.uk-modal{
+  z-index : 70000000 !important
+}
+.uk-modal-dialog{
+  min-height : 100%;
 }
 </style>

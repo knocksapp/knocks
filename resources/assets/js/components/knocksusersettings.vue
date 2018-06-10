@@ -725,7 +725,7 @@
 					</div>
 					<div class = "col s12 knocks_mp_bottom_margin knocks_mp_top_margin">
 						<knockselbutton
-						submit_at = "user/updatepassword"
+						submit_at = "user/update/password"
 						:submit_data = "{ password : input.password }"
 						success_at = "done"
 						success_msg = "Your password has changed successfully"

@@ -79,6 +79,113 @@ window.axios.defaults.headers.common =
 
 Window.UserNavigator = null;
 
+
+//WINDOW METHODS
+
+window.hoverIcon = function(node){
+  $(node).removeClass('rubberBand');
+  $(node).addClass('swing');
+  if($(node).hasClass('tooltipped')){
+    $(node).tooltip({delay: 50});
+  }
+}
+window.leaveIcon = function(node){
+  $(node).removeClass('swing');
+  $(node).addClass('rubberBand');
+}
+
+
+
+
+
+
+
+
+$(document).ready(function(){
+
+  $('.knocks_language_follower').css({'text-align' : window.currentUserLanguageAlignment , 'font-family' : window.currentUserLanguageFont});
+
+   $(".button-collapse").sideNav();
+
+
+  $($('body').find('.knocks_valign')).css
+        ({'margin-top' : ($('.knocks_valign').parent().height()/2)-($('.knocks_valign').height()/2) });
+
+
+   ///Resize Actions
+
+   $(window).resize(function(){
+      window.WindowWidth = $(window).width();
+      window.DocumentWidth = $(document).width();
+      window.WindowHeight = $(window).innerHeight();
+    });
+});
+
+//GLOBAL METHODS
+window.Asset = (url)=>{
+  return window.LaravelOrgin + url ;
+}
+window.ExsistsInUsersObject = (index)=>{
+  return window.UsersObject[index]== undefined ? false : true ;
+}
+window.ExsistsInImgBlobs = (index)=>{
+  return window.ImgBlobs[JSON.stringify(index)]== undefined ? false : true ;
+}
+window.ExistInObject = (object,key) =>{
+  return object[key] == undefined ? true : false ;
+}
+window.KnocksVerticalAlign = ()=>{
+    $($('body').find('.knocks_valign')).css
+        ({'margin-top' : ($('.knocks_valign').parent().height()/2)-($('.knocks_valign').height()/2) });
+}
+window.UserCirclesLength = ()=>{
+  let counter , circle ;
+  counter = 0;
+  for( circle in window.UserCircles)
+    counter++;
+  return counter;
+}
+window.ExistsInStaticMessages = (key)=>{
+  return StaticMessages[key] == undefined ? false : true;
+}
+window.GetTranslationByWord = (word)=>{
+        if(ExistsInStaticMessages(word)) return StaticMessages[word];
+        var translation = '';
+        $.ajax({
+        async: false,
+        url: window.location.protocol + '//' + window.location.hostname + ':'+window.location.port+'/gtrans',
+        type : 'POST',
+        data : {language : window.currentUserLanguage, word : word , _token : document.querySelector('meta[name="csrf-token"]').getAttribute('content')} ,
+        success: function(data) {
+             translation = data;
+             window.StaticMessages[word] = translation;
+        }});
+        return translation;
+}
+window.MigaNumber = (num)=>{
+  if(num/10000000 > 1) return window.TrimExtraZeros((num/10000000).toFixed(2))+'M';
+  if(num/1000 > 1) return window.TrimExtraZeros((num/1000).toFixed(1))+'K';
+  return num;
+}
+window.TrimExtraZeros = (num)=>{
+  return num % 1 == 0 ? parseInt(num) : num ;
+}
+
+window.TextAlignWeight = (text)=>{
+  let rightChars =  ["ة", "ج", "ح", "خ", "ه", "ع", "غ", "ف", "ق", "ث", "ص", "ض", "ش", "س", "ي", "ب", "ل", "ا", "ت", "ن", "م", "ك", "و", "ر", "ز", "د", "ذ", "ط", "ظ", "ئ", "أ", "إ", "ؤ", "آ"];
+  let i , splitted = text.split('') , rightCounter = 0 , len = splitted.length , leftCounter = len ;
+  for(i = 0 ; i < len; i++){
+    if(rightChars.indexOf(splitted[i]) != -1){
+      rightCounter++;
+      leftCounter--;
+    }
+  }
+  return { right : rightCounter , left : leftCounter , max : Math.max(leftCounter , rightCounter) == leftCounter ? 'left' : 'right' }
+}
+
+
+
+
 require('jquery-touchswipe');
 
 
@@ -371,6 +478,8 @@ Vue.component('knockseditcirclename', require('./components/knockseditcirclename
 Vue.component('knockswelcomeslider', require('./components/knockswelcomeslider.vue'));
 Vue.component('knocksforgotmypassword', require('./components/knocksforgotmypassword.vue'));
 Vue.component('knockssitemap', require('./components/knockssitemap.vue'));
+Vue.component('knocksmeganumber', require('./components/knocksmeganumber.vue'));
+
 
 
 
@@ -1686,103 +1795,3 @@ window.NavInstance = new Vue({
       }
     },
   }});
-window.hoverIcon = function(node){
-  $(node).removeClass('rubberBand');
-  $(node).addClass('swing');
-  if($(node).hasClass('tooltipped')){
-    $(node).tooltip({delay: 50});
-  }
-}
-window.leaveIcon = function(node){
-  $(node).removeClass('swing');
-  $(node).addClass('rubberBand');
-}
-
-
-
-
-
-
-
-
-$(document).ready(function(){
-
-  $('.knocks_language_follower').css({'text-align' : window.currentUserLanguageAlignment , 'font-family' : window.currentUserLanguageFont});
-
-   $(".button-collapse").sideNav();
-
-
-  $($('body').find('.knocks_valign')).css
-        ({'margin-top' : ($('.knocks_valign').parent().height()/2)-($('.knocks_valign').height()/2) });
-
-
-   ///Resize Actions
-
-   $(window).resize(function(){
-      window.WindowWidth = $(window).width();
-      window.DocumentWidth = $(document).width();
-      window.WindowHeight = $(window).innerHeight();
-    });
-});
-
-//GLOBAL METHODS
-window.Asset = (url)=>{
-  return window.LaravelOrgin + url ;
-}
-window.ExsistsInUsersObject = (index)=>{
-  return window.UsersObject[index]== undefined ? false : true ;
-}
-window.ExsistsInImgBlobs = (index)=>{
-  return window.ImgBlobs[JSON.stringify(index)]== undefined ? false : true ;
-}
-window.ExistInObject = (object,key) =>{
-  return object[key] == undefined ? true : false ;
-}
-window.KnocksVerticalAlign = ()=>{
-    $($('body').find('.knocks_valign')).css
-        ({'margin-top' : ($('.knocks_valign').parent().height()/2)-($('.knocks_valign').height()/2) });
-}
-window.UserCirclesLength = ()=>{
-  let counter , circle ;
-  counter = 0;
-  for( circle in window.UserCircles)
-    counter++;
-  return counter;
-}
-window.ExistsInStaticMessages = (key)=>{
-  return StaticMessages[key] == undefined ? false : true;
-}
-window.GetTranslationByWord = (word)=>{
-        if(ExistsInStaticMessages(word)) return StaticMessages[word];
-        var translation = '';
-        $.ajax({
-        async: false,
-        url: window.location.protocol + '//' + window.location.hostname + ':'+window.location.port+'/gtrans',
-        type : 'POST',
-        data : {language : window.currentUserLanguage, word : word , _token : document.querySelector('meta[name="csrf-token"]').getAttribute('content')} ,
-        success: function(data) {
-             translation = data;
-             window.StaticMessages[word] = translation;
-        }});
-        return translation;
-}
-window.MigaNumber = (num)=>{
-  if(num/10000000 > 1) return window.TrimExtraZeros((num/10000000).toFixed(2))+'M';
-  if(num/1000 > 1) return window.TrimExtraZeros((num/1000).toFixed(1))+'K';
-  return num;
-}
-window.TrimExtraZeros = (num)=>{
-  return num % 1 == 0 ? parseInt(num) : num ;
-}
-
-window.TextAlignWeight = (text)=>{
-  let rightChars =  ["ة", "ج", "ح", "خ", "ه", "ع", "غ", "ف", "ق", "ث", "ص", "ض", "ش", "س", "ي", "ب", "ل", "ا", "ت", "ن", "م", "ك", "و", "ر", "ز", "د", "ذ", "ط", "ظ", "ئ", "أ", "إ", "ؤ", "آ"];
-  let i , splitted = text.split('') , rightCounter = 0 , len = splitted.length , leftCounter = len ;
-  for(i = 0 ; i < len; i++){
-    if(rightChars.indexOf(splitted[i]) != -1){
-      rightCounter++;
-      leftCounter--;
-    }
-  }
-  return { right : rightCounter , left : leftCounter , max : Math.max(leftCounter , rightCounter) == leftCounter ? 'left' : 'right' }
-}
