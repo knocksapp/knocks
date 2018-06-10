@@ -21,12 +21,13 @@ class hashtags extends Model {
 	}
 
 	public function retriveOlderKnocks($min) {
-		$hashtags = User_hashtags::where('hashtag', '=', $this->hashtag)->where('id', '<', $min)->orderBy('id', 'desc')->get();
-		$lastIndex = count($hashtags) - 1;
+
+		$hashtags = User_hashtags::where('hashtag', '=', $this->hashtag)->where('parent_id', '<', $min)->orderBy('parent_id', 'desc')->get();
+		$lastIndex = $hashtags->count() - 1;
 		$arr = array('knocks' => [], 'last_index' => null);
 		$i = 0;
-		while (count($arr['knocks']) < 3 && $i <= $hashtags->count() - 1) {
-			if ($lastIndex > $i) {
+		while (count($arr['knocks']) < 3 && $i <= $lastIndex) {
+
 				$c = Knock::find($hashtags[$i]->parent_id);
 				if ($c) {
 					$view = $c->view(auth()->check() ? auth()->user()->id : -1);
@@ -36,19 +37,22 @@ class hashtags extends Model {
 
 				}
 
+
 			}
+
 			$i++;
 		}
 		return $arr;
 	}
 
 	public function retriveNewerKnocks($max) {
-		$hashtags = User_hashtags::where('hashtag', '=', $this->hashtag)->where('id', '>', $max)->orderBy('id', 'desc')->get();
-		$lastIndex = count($hashtags) - 1;
+
+		$hashtags = User_hashtags::where('hashtag', '=', $this->hashtag)->where('parent_id', '>', $max)->orderBy('parent_id', 'desc')->get();
+		$lastIndex = $hashtags->count() - 1;
 		$arr = array('knocks' => [], 'last_index' => null);
 		$i = 0;
-		while (count($arr['knocks']) < 3 && $i <= $hashtags->count() - 1) {
-			if ($lastIndex > $i) {
+		while (count($arr['knocks']) < 3 && $i <= $lastIndex) {
+
 				$c = Knock::find($hashtags[$i]->parent_id);
 				if ($c) {
 					$view = $c->view(auth()->check() ? auth()->user()->id : -1);
@@ -58,19 +62,22 @@ class hashtags extends Model {
 
 				}
 
+
 			}
+
 			$i++;
 		}
 		return $arr;
 	}
 
 	public function retriveKnocks() {
-		$hashtags = User_hashtags::where('hashtag', '=', $this->hashtag)->orderBy('id', 'desc')->get();
-		$lastIndex = count($hashtags) - 1;
+
+		$hashtags = User_hashtags::where('hashtag', '=', $this->hashtag)->orderBy('parent_id', 'desc')->get();
+		$lastIndex = $hashtags->count() - 1;
 		$arr = array('knocks' => [], 'last_index' => null);
 		$i = 0;
-		while (count($arr['knocks']) < 3 && $i <= $hashtags->count() - 1) {
-			if ($lastIndex > $i) {
+		while (count($arr['knocks']) < 3 && $i <= $lastIndex) {
+
 				$c = Knock::find($hashtags[$i]->parent_id);
 				if ($c) {
 					$view = $c->view(auth()->check() ? auth()->user()->id : -1);
@@ -85,4 +92,8 @@ class hashtags extends Model {
 		}
 		return $arr;
 	}
+
 }
+
+}
+
