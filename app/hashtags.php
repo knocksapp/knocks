@@ -21,11 +21,13 @@ class hashtags extends Model {
 	}
 
 	public function retriveOlderKnocks($min) {
+
 		$hashtags = User_hashtags::where('hashtag', '=', $this->hashtag)->where('parent_id', '<', $min)->orderBy('parent_id', 'desc')->get();
 		$lastIndex = $hashtags->count() - 1;
 		$arr = array('knocks' => [], 'last_index' => null);
 		$i = 0;
 		while (count($arr['knocks']) < 3 && $i <= $lastIndex) {
+
 				$c = Knock::find($hashtags[$i]->parent_id);
 				if ($c) {
 					$view = $c->view(auth()->check() ? auth()->user()->id : -1);
@@ -34,17 +36,23 @@ class hashtags extends Model {
 					}
 
 				}
+
+
+			}
+
 			$i++;
 		}
 		return $arr;
 	}
 
 	public function retriveNewerKnocks($max) {
+
 		$hashtags = User_hashtags::where('hashtag', '=', $this->hashtag)->where('parent_id', '>', $max)->orderBy('parent_id', 'desc')->get();
 		$lastIndex = $hashtags->count() - 1;
 		$arr = array('knocks' => [], 'last_index' => null);
 		$i = 0;
 		while (count($arr['knocks']) < 3 && $i <= $lastIndex) {
+
 				$c = Knock::find($hashtags[$i]->parent_id);
 				if ($c) {
 					$view = $c->view(auth()->check() ? auth()->user()->id : -1);
@@ -53,17 +61,23 @@ class hashtags extends Model {
 					}
 
 				}
+
+
+			}
+
 			$i++;
 		}
 		return $arr;
 	}
 
 	public function retriveKnocks() {
+
 		$hashtags = User_hashtags::where('hashtag', '=', $this->hashtag)->orderBy('parent_id', 'desc')->get();
 		$lastIndex = $hashtags->count() - 1;
 		$arr = array('knocks' => [], 'last_index' => null);
 		$i = 0;
 		while (count($arr['knocks']) < 3 && $i <= $lastIndex) {
+
 				$c = Knock::find($hashtags[$i]->parent_id);
 				if ($c) {
 					$view = $c->view(auth()->check() ? auth()->user()->id : -1);
@@ -72,8 +86,14 @@ class hashtags extends Model {
 					}
 
 				}
+
+			}
 			$i++;
 		}
 		return $arr;
 	}
+
 }
+
+}
+

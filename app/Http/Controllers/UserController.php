@@ -701,7 +701,7 @@ class UserController extends Controller {
 	}
 
 	public function updatePassword(Request $req) {
-		$req->validate(['password' => 'required']);
+		$req->validate(['password' => 'required', 'regex:/(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}/']);
 		auth()->user()->password = bcrypt($req->password);
 		auth()->user()->update();
 		return 'done';

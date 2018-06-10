@@ -3,6 +3,8 @@
 namespace App;
 
 use App\Privacy_preset;
+use App\Privacy_set_circle;
+use App\Privacy_set_user;
 use Illuminate\Database\Eloquent\Model;
 
 class obj extends Model {
@@ -141,6 +143,27 @@ class obj extends Model {
 	}
 
 	public function isAvailable($requestMaker) {
+
+		if (!auth()->check()) {
+			if ($this->quick_preset == 'public') {
+				return true;
+			}
+			if ($this->quick_preset == 'choosedefault') {
+				if (Privacy_set_user::where('object_id', '=', $this->id)->get()->count() == 0) {
+					if (Privacy_set_circle::where('object_id', '=', $this->id)->get()->count() == 0) {
+						return true;
+					}
+				}
+			}
+			$Preset_pup = json_decode($this->index)->public_preset;
+			if ($Preset_pup == 'invalidForAll') {
+				return false;
+			} else if ($Preset_pup == 'invalid') {
+				return false;
+			} elseif ($Preset_pup == 'valid') {
+				return true;
+			}
+		}
 
 		if (auth()->check() && !auth()->user()->hasNoBlocks($requestMaker)) {
 			return 'invalid';
