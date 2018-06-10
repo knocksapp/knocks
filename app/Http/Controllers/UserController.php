@@ -700,6 +700,13 @@ class UserController extends Controller {
 		return 'done';
 	}
 
+	public function updatePassword(Request $req) {
+		$req->validate(['password' => 'required']);
+		auth()->user()->password = bcrypt($req->password);
+		auth()->user()->update();
+		return 'done';
+	}
+
 	public function updateDisplayName(Request $req) {
 		$req->validate(['display_name' => 'required']);
 		$cog = auth()->user()->cog();
