@@ -27,6 +27,22 @@ Route::get('/search', function () {
 	return view('test.searchpage', compact('q'));
 });
 
+Route::get('help/privacy/preset', function () {
+	return view('help.privacyhelp');
+});
+
+Route::get('help/circle', function () {
+	return view('help.circlehelp');
+});
+
+Route::get('help/recorder', function () {
+	return view('help.recorderhelp');
+});
+
+Route::get('help/voicecommand', function () {
+	return view('help.voicecommandhelp');
+});
+
 Route::post('object/hide', 'ObjController@hide');
 
 Route::post('dev/all_langs', 'LanguageController@collect');

@@ -478,7 +478,9 @@ Vue.component('knockseditcirclename', require('./components/knockseditcirclename
 Vue.component('knockswelcomeslider', require('./components/knockswelcomeslider.vue'));
 Vue.component('knocksforgotmypassword', require('./components/knocksforgotmypassword.vue'));
 Vue.component('knockssitemap', require('./components/knockssitemap.vue'));
+Vue.component('knocksprivacytips', require('./components/knocksprivacytips.vue'));
 Vue.component('knocksmeganumber', require('./components/knocksmeganumber.vue'));
+
 
 
 
