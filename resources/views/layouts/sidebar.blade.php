@@ -258,6 +258,7 @@
                    <knocksusercircles></knocksusercircles>
                 </div>
                 </knockscollapse>
+                <knockstrendslist></knockstrendslist>
 
               </ul>
             </div>

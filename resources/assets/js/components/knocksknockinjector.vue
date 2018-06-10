@@ -257,7 +257,7 @@ export default {
       const vm = this;
       axios({
         method : 'post',
-        data : {  min : vm.minRetrived  , user : vm.requsted},
+        data : {  min : vm.minRetrived  , user : vm.requsted },
         url : LaravelOrgin + vm.older_retrive ,
          onDownloadProgress: function (progressEvent) {
           vm.loadingKnocks = true;

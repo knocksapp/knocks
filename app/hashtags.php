@@ -28,18 +28,13 @@ class hashtags extends Model {
 		$i = 0;
 		while (count($arr['knocks']) < 3 && $i <= $lastIndex) {
 
-				$c = Knock::find($hashtags[$i]->parent_id);
-				if ($c) {
-					$view = $c->view(auth()->check() ? auth()->user()->id : -1);
-					if ($view != 'invalid') {
-						array_push($arr['knocks'], $c->id);
-					}
-
+			$c = Knock::find($hashtags[$i]->parent_id);
+			if ($c) {
+				$view = $c->view(auth()->check() ? auth()->user()->id : -1);
+				if ($view != 'invalid') {
+					array_push($arr['knocks'], $c->id);
 				}
-
-
 			}
-
 			$i++;
 		}
 		return $arr;
@@ -53,18 +48,13 @@ class hashtags extends Model {
 		$i = 0;
 		while (count($arr['knocks']) < 3 && $i <= $lastIndex) {
 
-				$c = Knock::find($hashtags[$i]->parent_id);
-				if ($c) {
-					$view = $c->view(auth()->check() ? auth()->user()->id : -1);
-					if ($view != 'invalid') {
-						array_push($arr['knocks'], $c->id);
-					}
-
+			$c = Knock::find($hashtags[$i]->parent_id);
+			if ($c) {
+				$view = $c->view(auth()->check() ? auth()->user()->id : -1);
+				if ($view != 'invalid') {
+					array_push($arr['knocks'], $c->id);
 				}
-
-
 			}
-
 			$i++;
 		}
 		return $arr;
@@ -78,15 +68,12 @@ class hashtags extends Model {
 		$i = 0;
 		while (count($arr['knocks']) < 3 && $i <= $lastIndex) {
 
-				$c = Knock::find($hashtags[$i]->parent_id);
-				if ($c) {
-					$view = $c->view(auth()->check() ? auth()->user()->id : -1);
-					if ($view != 'invalid') {
-						array_push($arr['knocks'], $c->id);
-					}
-
+			$c = Knock::find($hashtags[$i]->parent_id);
+			if ($c) {
+				$view = $c->view(auth()->check() ? auth()->user()->id : -1);
+				if ($view != 'invalid') {
+					array_push($arr['knocks'], $c->id);
 				}
-
 			}
 			$i++;
 		}
@@ -94,6 +81,3 @@ class hashtags extends Model {
 	}
 
 }
-
-}
-
