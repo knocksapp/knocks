@@ -107,6 +107,8 @@ Route::post('user/info/lazy', 'UserController@getInfoLazy');
 
 Route::post('user/update/name', 'UserController@updateName');
 
+Route::post('user/update/password', 'UserController@updatePassword');
+
 Route::post('user/update/displayname', 'UserController@updateDisplayName');
 
 Route::post('user/posts', 'UserController@retrivePeopleKnocks');
@@ -126,6 +128,12 @@ Route::post('group/posts', 'GroupController@retriveGroupKnocks');
 Route::post('group/posts/older', 'GroupController@retriveOlderGroupKnocks');
 
 Route::post('group/posts/newer', 'GroupController@retriveNewerGroupKnocks');
+
+Route::post('trend/posts', 'HashtagsController@retriveTrendKnocks');
+
+Route::post('trend/posts/older', 'HashtagsController@retriveOlderTrendKnocks');
+
+Route::post('trend/posts/newer', 'HashtagsController@retriveNewerTrendKnocks');
 
 Route::post('user/search', 'UserController@searchForFriends');
 
@@ -717,6 +725,9 @@ Route::group(['middleware' => 'auth'], function () {
 
 // Authentication Routes...
 Route::group(['middleware' => 'lastseen'], function () {
+
+	Route::get('trend/{hashtag}', 'HashtagsController@findHashTag');
+
 	Route::get('user/login', 'Auth\LoginController@showLoginForm')->name('login');
 	Route::post('user/login', 'Auth\LoginController@login');
 	Route::post('user/logout', 'Auth\LoginController@logout')->name('logout');
@@ -743,3 +754,18 @@ Route::post('qis', function () {
 });
 
 Route::get('app/lost', 'UserController@lost');
+
+Route::get('hash/knocksbyhashtags', function () {
+	$posts = App\User_hashtags::where('hashtag', '=', '#knocks')->get();
+	$ob = [];
+	foreach ($posts as $post) {
+		$knock = App\Knock::find($post->parent_id);
+		if ($knock != null) {
+			$view = $knock->view(auth()->user()->id);
+			if ($view != 'invalid') {
+				array_push($ob, $view);
+			}
+		}
+	}
+	return $ob;
+});

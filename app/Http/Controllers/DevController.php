@@ -472,6 +472,7 @@ class DevController extends Controller {
 				}
 			}
 		}
+		return 'done';
 	}
 
 	public function createRandomGroups(Request $request) {

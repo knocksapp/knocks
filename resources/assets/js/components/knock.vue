@@ -11,9 +11,9 @@
         <static_message classes = "text-lighten-2  grey-text  knocks_text_ms fadeIn" msg = "Who's There!" v-if = "userSuggestions.length == 0 && tagged.length == 0"></static_message>
         <div @click="spliceFromTagged(i)" v-for = "(x , i) in tagged" v-if = "alreadyTagged(x)"  >
      
-           <knocksuser :user="x" as_chip show_image name_class = "knocks_color_kit" hide_text_info
-           main_container =  "animated bounceInLeft knocks_color_kit knocks_inline right" >
-           </knocksuser>  
+             
+
+           <img class="knocks_chip_image animated slideInLeft right"  :src = "asset('media/avatar/compressed/'+x)">
          
        </div>
        <div @click="pushToTagged(x , i)" v-for = "(x , i) in userSuggestions" class = "knocks_inline" v-if = "!alreadyTagged(x)">
@@ -1163,6 +1163,9 @@ export default {
         });
       
       },
+      asset(url){
+        return window.Asset(url)
+      },
       watchMyDom(){
        const vm = this;
        if(this.hashtagComp.length > 0)
@@ -1385,6 +1388,13 @@ export default {
 </script>
 
 <style lang="css" scoped>
+.knocks_chip_image{
+  height: 32px;
+  width: 32px;
+  border-radius: 50%;
+  cursor : pointer;
+  border : 1px solid pink;
+}
 </style>
 
 
