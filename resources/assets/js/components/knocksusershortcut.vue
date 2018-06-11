@@ -94,7 +94,7 @@
         </knocksimg>
         <div :class = "name_container_class" class="" v-if ="!hide_text_info">
           <el-tooltip :content = "displayName">
-          <a :class = "name_class" :href = "userUrl"  v-if="userObject && !hide_name"> {{ handeledDisplayName }}</a>
+          <a :class = "name_class" :href = "userUrl"  v-if="userObject && !hide_name"> {{ handledDisplayName }}</a>
           </el-tooltip>
           <slot name = "append_to_display_name"></slot><br/>
           <el-tooltip :content = "'@'+userObject.username">

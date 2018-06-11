@@ -106,7 +106,7 @@
         leave-active-class="animated zoomOut"
         >
         <div v-if="current.length >0" class = "col s12 uk-divider">
-          <knocksshowkeys class ="pos knocks_language_default_font" list_classes = "uk-list uk-divider knocks_list_scroll" :as_label = "false" as_chip :show_input = "current"></knocksshowkeys>
+          <knocksshowkeys class ="pos knocks_language_default_font" list_classes = "uk-list uk-list-divider knocks_list_scroll" :as_label = "false" as_chip :show_input = "current"></knocksshowkeys>
         </div>
       </transition> 
     </div>

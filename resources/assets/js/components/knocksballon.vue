@@ -147,8 +147,16 @@
         </knocksuser>
         <div v-if = "constrains.index.object_type =='knock'">
           <a :href = "asset('knock/'+constrains.index.child)" target="_blank">
-            <static_message  style = "padding : 3px;" classes = " knocks_text_dark" v-if="domainUser != null" msg = "** reacted on your knock."
+            <span class = "right" :class = "reactions[constrains.index.reaction]"></span>
+            <static_message  style = "padding : 3px;" classes = " knocks_text_dark" v-if="domainUser != null && constrains.index.reactors.length ==1" 
+            msg = "** reacted on your knock."
             replaceable :replacements = "[ {target : '**' , body : domainUser.name}]"></static_message>
+             <static_message  style = "padding : 3px;" classes = " knocks_text_dark" v-if="domainUser != null && constrains.index.reactors.length ==2" 
+             msg = "** and one other reacted on your knock."
+            replaceable :replacements = "[ {target : '**' , body : domainUser.name}]"></static_message>
+            <static_message  style = "padding : 3px;" classes = " knocks_text_dark" v-if="domainUser != null && constrains.index.reactors.length ==2" 
+             msg = "** and one ## others reacted on your knock."
+            replaceable :replacements = "[ {target : '**' , body : domainUser.name } , { target : '##' , body : constrains.index.reactors.length - 1 }]"></static_message>
           </a>
           <knockscollapse title = "Show The Knock" active_title = "Hide The Knock" icon = "knocks-chat-2" dual_title
           toggler_container = "row knocks_blue_gray_hover knocks_tinny_border_radius knocks_margin_keeper knocks_tinny_padding">
