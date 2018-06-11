@@ -34,10 +34,10 @@ class ReactionController extends Controller {
 
 			$reaction->save();
 			$obj = obj::find($request->object_id);
-			if ($obj->user_id != auth()->user()->id) {
-				$ballon = new Ballon();
-				$ballon->userReaction(auth()->user()->id, $obj->user_id, $request->type, $obj->id, $obj->type, $obj->getMyChild()->id, $obj);
-			}
+
+			$ballon = new Ballon();
+			$ballon->userReaction(auth()->user()->id, $obj->user_id, $request->type, $obj->id, $obj->type, $obj->getMyChild()->id, $obj);
+
 			return 'done';
 		}
 
