@@ -53,9 +53,11 @@
       <img :src="pp()" class = "circle knocks_user_profile_scope" alt = "{{auth()->user()->username.' Profile Picture'}}"/>
     </a>
     <a href="{{asset(auth()->user()->username)}}"><span class="white-text name">
-      {{ ucfirst(auth()->user()->first_name)}} {{ucfirst(auth()->user()->last_name)}}
       @if(auth()->user()->nickname != null)
-      ( {{auth()->user()->nickname}} )
+      {{auth()->user()->nickname}}
+      @endif
+      @if(auth()->user()->nickname == null)
+      {{auth()->user()->first_name}}
       @endif
     </span></a>
   </div></li>

@@ -282,7 +282,7 @@ class DevController extends Controller {
 					 <a contenteditable="false" href="https://knocks.dev/trend/knocksApp" class="knocks_hashtag">#knocksApp</a>
 					 ',
 					"at" => rand(1, $allUsers->count() - 1),
-					"type" => $ats[rand(1, count($ats) - 1)],
+					"type" => $ats[rand(0, count($ats) - 1)],
 					"has_pictures" => false,
 					"images_specifications" => null,
 					"kvc_knock" => false,
@@ -291,7 +291,7 @@ class DevController extends Controller {
 						'#knocks',
 						'#knocksApp',
 					],
-					"text" => $qts[rand(1, count($qts) - 1)],
+					"text" => $qts[rand(0, count($qts) - 1)],
 					"has_files" => false,
 					"files_specifications" => null,
 					"has_videos" => false,
@@ -322,7 +322,7 @@ class DevController extends Controller {
 			if ($k->type == 'group') {
 				$k->user_id = $cuser;
 				$grps = $cuserO->groupMembers()->pluck('group_id');
-				$k->at = $grps[rand(1, count($grps))];
+				$k->at = $grps[rand(0, count($grps) - 1)];
 				$k->update();
 			}
 
@@ -465,8 +465,8 @@ class DevController extends Controller {
 		$users = User::all();
 		foreach ($objects as $o) {
 			for ($i = 0; $i < $request->count; $i++) {
-				$reactor = User::find(rand(1, $users->count() - 1));
-				if ($toss[rand(1, 1)] && $reactor) {
+				$reactor = User::find(rand(1, $users->count()));
+				if ($toss[rand(0, 1)] && $reactor) {
 					$reaction = new Reaction();
 					$reaction->init($reactor->id, $o->id, $reactions[rand(1, count($reactions) - 1)], $o->type);
 				}
