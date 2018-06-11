@@ -6,7 +6,7 @@
 			<span :class = "togglerClasses" v-if = "!dual_title">
 				<span :class = "[icon]"></span>
         <el-tooltip>
-				<static_message :msg = "title" v-if = "unstatic_title"></static_message>
+				<static_message :msg = "title" v-if = "!unstatic_title"></static_message>
         <span v-else >{{title}}</span>
         <span v-if = "side_count != null"> {{side_count}} </span>
         <div slot = "content">

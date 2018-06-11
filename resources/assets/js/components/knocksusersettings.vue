@@ -233,7 +233,6 @@
 						]"
 						v-model = "input.gender"
 						is_required
-						allow_create
 						icon = "knocks-controller-record"
 						:error_mixins = "[{ key : 'is_required' , mixin : { msg : 'This field is required.' , icon : 'knocks-alert-circle' } }]"
 						general_icon = "knocks-tag-add"

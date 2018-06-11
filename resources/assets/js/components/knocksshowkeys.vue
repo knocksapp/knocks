@@ -23,16 +23,17 @@
       <knocksdateviewer :date = "item.date" v-if = "index < showKey && show_scope == 'datefilter'"></knocksdateviewer>
       <knocksdateviewer :date = "item" v-if = "index < showKey && show_scope == 'date'"></knocksdateviewer>
       <knockshashtagchip :hashtag = "item" v-if = "index < showKey && show_scope == 'hashtag'"></knockshashtagchip>
+      <knocksaddressviewer :address = "item" v-if = "index < showKey && show_scope == 'address'"></knocksaddressviewer>
 		</li>
 	</ul>
-  <center  v-else>
+  <center  v-if = "show_input.length == 0 && !hide_on_empty">
   <span :class = "empty_classes" class = "animated slideInUp">
     <span :class = "empty_icon"></span>
     <static_message :msg = "empty_message"></static_message>
   </span>
 </center>
-  <p class = "grey-text text-lighten-22">{{showKeyMin+'/'+show_input.length}}</p>
-	<div class = "row">
+  <p  v-if = "!hide_count" class = "grey-text text-lighten-22">{{showKeyMin+'/'+show_input.length}}</p>
+	<div :class = "status_classes" v-if ="show_input.length >= show_key">
 		<a :class ="[{'knocks_hidden':!(show_input.length > showKey)}]" @click = "showKey += show_key">
 			<static_message :msg = "see_messages.more"></static_message>
 		</a>
@@ -61,7 +62,7 @@ export default {
   		default : null ,
   	},
   	list_classes : {
-  		type : String ,
+  		type : [String, Array , Object] ,
   		default : 'uk-list uk-list-striped knocks_gray_border knocks_tinny_border_radius'
   	},
 		show_accept_shortcut: {
@@ -93,15 +94,19 @@ export default {
       default : 'Empty..'
     },
     empty_icon : {
-      type : String ,
+      type : [String, Array , Object] ,
       default : 'knocksapp-prick2'
     },
     empty_classes : {
-      type : String ,
+      type : [String, Array , Object] ,
       default : 'grey-text text-darekn-1 knocks_text_md center'
     },
     unsortable : {
       type : [String , Boolean]
+    },
+    hide_count : {
+      type : Boolean , 
+      default : false
     },
     see_messages : {
       type : Object , 
@@ -111,6 +116,14 @@ export default {
           less : 'See Less'
         }
       }
+    },
+    status_classes : {
+      type : [Array , Object , String] , 
+      default : 'row'
+    },
+    hide_on_empty : {
+      type : Boolean , 
+      default : false
     }
   },
   data () {

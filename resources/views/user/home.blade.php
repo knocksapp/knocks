@@ -1,13 +1,14 @@
 @extends('layouts.user')
 @section('content')
 <title>Knocks | Home</title>
+<knockswatchmywindow v-model = "watchMyWindow" pwb></knockswatchmywindow>
 <transition    name="custom-classes-transition" enter-active-class="animated tada" leave-active-class="animated bounceOutRight">
   <h3 v-if = "!loggedIn" class = "center knocks_text_dark">See you again, Bye!</h3>
 </transition>
 <transition    name="custom-classes-transition" enter-active-class="animated zoomIn" leave-active-class="animated zoomOut">
   <div class = " " style = "padding : 0.2rem" v-if = "loggedIn">
     <div class = "row " style = "padding : 3px;">
-      <div class = "col l8 s12  grey lighten-5" style="" id = "knocks_main_injectort">
+      <div class = "col grey lighten-5" style="" id = "knocks_main_injectort" :class = "[{'col s12':watchMyWindow.width < 1200} , {'col l8':watchMyWindow.width >= 1200}]">
         <div class = "">
           <knock
           :scope= "['knock']"
@@ -21,7 +22,6 @@
           success_msg = "Done."
           gid = "knockknock"></knock>
         </div>
-        {{--   <knockscircleseditor></knockscircleseditor> --}}
         <div id = "knocks_homepage_lower_area">
           <transition name="custom-classes-transition" enter-active-class="animated zoomIn" leave-active-class="animated zoomOut">
             <div v-if = "lowerTrigger == 'cover_uploader'">
@@ -88,27 +88,8 @@
           <knockstips></knockstips>
 
         </div>
-      {{--   <el-carousel :interval="30000" arrow="always" height = "400px">
-        <el-carousel-item>
-        <knocksquickaddress show_title></knocksquickaddress>
-        </el-carousel-item>
-        <el-carousel-item>
-        <knocksusereducation tiny></knocksusereducation>
-        </el-carousel-item>
-        <el-carousel-item>
-        <knocksuserhigheducation tiny></knocksuserhigheducation>
-        </el-carousel-item>
-        <el-carousel-item>
-        <knocksuserhobby tiny></knocksuserhobby>
-        <knocksusersport tiny></knocksusersport>
-        </el-carousel-item>
-        <el-carousel-item>
-        <knocksusercareers tiny></knocksusercareers>
-        </el-carousel-item>
-        </el-carousel> --}}
-
-
-        <knocksusersuggestions></knocksusersuggestions>
+        <br/>
+        <knocksusersuggestions class ="" ></knocksusersuggestions>
 
 
           <div class="white knocks_fair_bounds knocks_ocean_blue_border knocks_tinny_border_radius hide-on-large-only">
@@ -201,7 +182,7 @@
 
         <knocksknockinjector :current_user = "{{auth()->user()->id}}" show_appendex></knocksknockinjector>
       </div>
-      <div class = "col l4 show-on-large hide-on-med-and-down"
+      <div class = "col l4" v-if = "watchMyWindow.width >= 1200"
         style=" margin-top: -3.4%;
         margin-bottom: -3%;
         padding: 0.4rem;

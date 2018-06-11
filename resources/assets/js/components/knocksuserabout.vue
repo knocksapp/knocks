@@ -345,11 +345,10 @@ icon = "knocks-group2">
 <el-collapse accordion>
   <div v-if = "userObject != null">
     <el-collapse-item v-for="(com,index) in userObject.addresses" :key = "index"  :name="'address_'+index" v-if="userObject.addresses[index] != null && inAddressRange(index)" >
-      <div v-if = "userObject != null" class="col right">
+      <div v-if = "userObject != null && userObject.thatsMe" class="col right">
          <el-tooltip class="item" effect="light" content="Delete" placement="bottom">
            <knockselbutton
            circle
-
                  icon = "knocks-trash-can3 knocks_text_md"
                   class = "right knocks_tinny_margin"
                   size = "mini"
@@ -399,8 +398,8 @@ icon = "knocks-group2">
        <div class = "col s9">
          <ul >
       <li> <span class="knocks-earth-globe"></span>   <static_message msg = "Country"></static_message>  :{{ countries[userObject.addresses[index].country].name}}</li>
-      <li v-if = "userObject.addresses[index].region != null">  , <span class="knocks-map10"></span>  <static_message msg= "Region"></static_message>  :  {{userObject.addresses[index].region}}</li>
-      <li v-if = "userObject.addresses[index].state != null"> , <span class="knocksapp-build2"></span>   <static_message msg= "State"></static_message>  :  {{userObject.addresses[index].state}}</li>
+      <li v-if = "userObject.addresses[index].state != null"><span class="knocksapp-build2"></span>   <static_message msg= "State"></static_message>  :  {{userObject.addresses[index].state}}</li>
+      <li v-if = "userObject.addresses[index].region != null"><span class="knocks-map10"></span>  <static_message msg= "Region"></static_message>  :  {{userObject.addresses[index].region}}</li>
     </ul>
        </div>
 

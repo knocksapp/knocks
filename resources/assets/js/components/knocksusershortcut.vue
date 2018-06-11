@@ -51,12 +51,7 @@
             <span v-if ="userObject.middle_name != null && userObject.middle_name != undefined" >{{userObject.middle_name}} </span>
             <span v-if ="userObject.last_name != null && userObject.last != undefined" >{{userObject.last_name}} </span>
           </div>
-          <div class = "col s12" v-if ="userObject.gender != null && userObject.gender != undefined && userObject.gender.toLowerCase() == 'male'" >
-            <span class = "knocks-male2"></span><span><static_message msg = "Male"></static_message></span>
-          </div>
-          <div class = "col s12" v-if ="userObject.gender != null && userObject.gender != undefined && userObject.gender.toLowerCase() == 'female'" >
-            <span class = "knocks-female2"></span><span><static_message msg = "Female"></static_message></span>
-          </div>
+          <knocksgenderviewer class = "col s12" :gender = "userObject.gender"  v-if ="userObject.gender != null && userObject.gender != undefined"></knocksgenderviewer class = "col s12">
           <div class = "col s12" v-if ="userObject.birthdate != null && userObject.birthdate != undefined" >
             <span class = "knocks-birthday-cake"></span> <span> {{ birthDate(userObject.birthdate) }}</span>
           </div>
@@ -87,7 +82,7 @@
         </knocksimg>
         <div :class = "name_container_class" class="" v-if ="!hide_text_info">
           <el-tooltip :content = "displayName">
-            <a :class = "name_class" :href = "userUrl" v-popover:userpopover v-if="userObject && !hide_name"> {{ handledDisplayName }}</a>
+          <a :class = "name_class" :href = "userUrl" v-popover:userpopover v-if="userObject && !hide_name"> {{ handledDisplayName }}</a>
           </el-tooltip>
           <slot name = "append_to_display_name"></slot>
           <br/>
@@ -99,12 +94,12 @@
         </knocksimg>
         <div :class = "name_container_class" class="" v-if ="!hide_text_info">
           <el-tooltip :content = "displayName">
-            <a :class = "name_class" :href = "userUrl"  v-if="userObject && !hide_name"> {{ handeledDisplayName }}</a>
+          <a :class = "name_class" :href = "userUrl"  v-if="userObject && !hide_name"> {{ handeledDisplayName }}</a>
           </el-tooltip>
           <slot name = "append_to_display_name"></slot><br/>
           <el-tooltip :content = "'@'+userObject.username">
           <a :class = "username_class" :href = "userUrl" v-if="userObject != null && show_username" style = "display:block"> {{'@'+handledUsername}} </a>
-        </el-tooltip>
+          </el-tooltip>
         </div>
       </div>
     </div>
@@ -114,16 +109,16 @@
       <knocksimg :src = "asset('media/avatar/compressed/'+user)" :classes = "{'knocks_user_profile_scope' : thatsMe}" ></knocksimg>
       <span :class = "name_class" :href = "userUrl"  v-if="userObject && !hide_text_info"  >
         <el-tooltip placement="bottom-start">
-         <span slot = "content">
-         {{displayName}}
-         <p class = " " >
-          <a :href = "userUrl" target="_blank" class = "knocks_text_pink" ><span class = "knocksapp-share4"></span></a>
-          <a :href = "userUrl"  class = "knocks_text_pink" ><static_message msg = "Visit"></static_message></a>
-        </p>
-       </span>
-        <span> 
+        <span slot = "content">
+          {{displayName}}
+          <p class = " " >
+            <a :href = "userUrl" target="_blank" class = "knocks_text_pink" ><span class = "knocksapp-share4"></span></a>
+            <a :href = "userUrl"  class = "knocks_text_pink" ><static_message msg = "Visit"></static_message></a>
+          </p>
+        </span>
+        <span>
           {{handledDisplayName}}
-         </span>
+        </span>
         </el-tooltip>
       </span>
       <slot name = "append"></slot>
@@ -158,7 +153,6 @@
             <el-tooltip :content = "displayName" placement="bottom-start">
             <span> {{handledDisplayName}} </span>
             </el-tooltip>
-
           </a><slot name = "append_to_display_name"></slot>
           <a :class = "[username_class , 'header']" :href = "userUrl" v-if="userObject != null && show_username" style = "display:block"> {{'@'+userObject.username}} </a>
           <p v-if = "!thatsMe && userObject != null && userObject.common_people !== undefined && userObject.common_people.length > 0">
@@ -174,18 +168,17 @@
                 <span v-if ="userObject.middle_name != null && userObject.middle_name != undefined" >{{userObject.middle_name}} </span>
                 <span v-if ="userObject.last_name != null && userObject.last != undefined" >{{userObject.last_name}} </span>
               </div>
-              <knocksaddressviewer class = "col s12"
-              :address = "address"
-              v-for = "(address,index) in userObject.addresses"
-              :key = "index"
+              <knocksshowkeys class = "col s12"
+              :list_classes = "['knocks_house_keeper']"
+              hide_count
+              :see_messages = "{ more : 'See More Addresses' , less : 'See Less' }"
+              status_classes = "col knocks_house_keeper"
+              hide_on_empty
+              :show_input = "userObject.addresses"
+              show_scope = "address"
               v-if = "userObject.addresses">
-              </knocksaddressviewer>
-              <div class = "col s12" v-if ="userObject.gender != null && userObject.gender != undefined && userObject.gender.toLowerCase() == 'male'" >
-                <span class = "knocks-male2"></span><span><static_message msg = "Male"></static_message></span>
-              </div>
-              <div class = "col s12" v-if ="userObject.gender != null && userObject.gender != undefined && userObject.gender.toLowerCase() == 'female'" >
-                <span class = "knocks-female2"></span><span><static_message msg = "Female"></static_message></span>
-              </div>
+              </knocksshowkeys>
+             <knocksgenderviewer class = "col s12" :gender = "userObject.gender"  v-if ="userObject.gender != null && userObject.gender != undefined"></knocksgenderviewer class = "col s12">
               <div class = "col s12" v-if ="userObject.birthdate != null && userObject.birthdate != undefined" >
                 <span class = "knocks-birthday-cake"></span> <span> {{ birthDate(userObject.birthdate) }}</span>
               </div>
@@ -261,18 +254,17 @@
               <span v-if ="userObject.middle_name != null && userObject.middle_name != undefined" >{{userObject.middle_name}} </span>
               <span v-if ="userObject.last_name != null && userObject.last != undefined" >{{userObject.last_name}} </span>
             </div>
-            <knocksaddressviewer class = "col s12"
-            :address = "address"
-            v-for = "(address,index) in userObject.addresses"
-            :key = "index"
+            <knocksshowkeys class = "col s12"
+            :list_classes = "['knocks_house_keeper']"
+            hide_count
+            :see_messages = "{ more : 'See More Addresses' , less : 'See Less' }"
+            status_classes = "col knocks_house_keeper"
+            hide_on_empty
+            :show_input = "userObject.addresses"
+            show_scope = "address"
             v-if = "userObject.addresses">
-            </knocksaddressviewer>
-            <div class = "col s12" v-if ="userObject.gender != null && userObject.gender != undefined && userObject.gender.toLowerCase() == 'male'" >
-              <span class = "knocks-male2"></span><span><static_message msg = "Male"></static_message></span>
-            </div>
-            <div class = "col s12" v-if ="userObject.gender != null && userObject.gender != undefined && userObject.gender.toLowerCase() == 'female'" >
-              <span class = "knocks-female2"></span><span><static_message msg = "Female"></static_message></span>
-            </div>
+            </knocksshowkeys>
+            <knocksgenderviewer class = "col s12" :gender = "userObject.gender"  v-if ="userObject.gender != null && userObject.gender != undefined"></knocksgenderviewer class = "col s12">
             <div class = "col s12" v-if ="userObject.birthdate != null && userObject.birthdate != undefined" >
               <span class = "knocks-birthday-cake"></span> <span> {{ birthDate(userObject.birthdate) }}</span>
             </div>
@@ -339,24 +331,20 @@
             v-if = "userObject != null"
             :start_as ="userObject" :extras="{hover_id : 'user_report_'+user}"></knocksuseractions></center>
           </div>
-          <span class = "knocks-user14" v-if ="userObject.gender != null && userObject.gender != undefined && userObject.gender.toLowerCase() == 'female'" ></span>
-          <span class = "knocks-user12" v-if ="userObject.gender != null && userObject.gender != undefined && userObject.gender.toLowerCase() == 'male'" ></span>
-          <span class = "knocks-user-outline"  v-if ="userObject.gender == null || userObject.gender == undefined "></span>
           <static_message msg = "UserName : "></static_message>
           <span v-if ="userObject.username != null && userObject.username != undefined" >{{userObject.username}} </span>
         </div>
-        <knocksaddressviewer class = "col s12"
-        :address = "address"
-        v-for = "(address,index) in userObject.addresses"
-        :key = "index"
+        <knocksshowkeys class = "col s12"
+        :list_classes = "['knocks_house_keeper']"
+        hide_count
+        :see_messages = "{ more : 'See More Addresses' , less : 'See Less' }"
+        status_classes = "col knocks_house_keeper"
+        hide_on_empty
+        :show_input = "userObject.addresses"
+        show_scope = "address"
         v-if = "userObject.addresses">
-        </knocksaddressviewer>
-        <div class = "col s12" v-if ="userObject.gender != null && userObject.gender != undefined && userObject.gender.toLowerCase() == 'male'" >
-          <span class = "knocks-male2"></span><span><static_message msg = "Male"></static_message></span>
-        </div>
-        <div class = "col s12" v-if ="userObject.gender != null && userObject.gender != undefined && userObject.gender.toLowerCase() == 'female'" >
-          <span class = "knocks-female2"></span><span><static_message msg = "Female"></static_message></span>
-        </div>
+        </knocksshowkeys>
+       <knocksgenderviewer class = "col s12" :gender = "userObject.gender"  v-if ="userObject.gender != null && userObject.gender != undefined"></knocksgenderviewer class = "col s12">
         <div class = "col s12" v-if ="userObject.birthdate != null && userObject.birthdate != undefined" >
           <span class = "knocks-birthday-cake"></span>
           <static_message msg = "Birthdate : "></static_message>
@@ -434,9 +422,9 @@
         <knocksimg :src = "asset('media/avatar/compressed/'+user)" :classes = "[knocks_avatar_classes, 'animated zoomInDown' ,{'knocks_user_profile_scope' : thatsMe}]"></knocksimg>
         <span :class ="[name_class]" >{{ displayName }}</span>
         <slot name = "append"></slot>
-        <span v-if = "userObject.chatStatus && !clashProp" 
-        style = "margin-top : 8px !important; margin-right : 3px !important"
-        class="right uk-badge" :class = "[{'red' : !calcStatus} , {'green' : calcStatus}]">{{userObject.chatStatus}}
+        <span v-if = "userObject.chatStatus && !clashProp"
+          style = "margin-top : 8px !important; margin-right : 3px !important"
+          class="right uk-badge" :class = "[{'red' : !calcStatus} , {'green' : calcStatus}]">{{userObject.chatStatus}}
         </span>
         <slot name = "preppend"></slot>
       </a>
