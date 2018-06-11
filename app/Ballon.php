@@ -146,7 +146,7 @@ class Ballon extends Model {
 			$this->initialize(json_encode(array(
 				'user' => $reciever,
 				'category' => 'reaction',
-				'parent' => $parent,
+				'parent' => $parent->id,
 				'index' => array(
 					'category' => 'reaction',
 					'reaction' => $reaction,

@@ -21,7 +21,7 @@
             <p class = "knocks_text_md knocks_tinny_padding ">
               <static_message style = " color : #00bfa5;" msg = "Knocks help you to Categorize your people into Circles,
               this could make it much easier to communicate with a lot of people at the same time. "></static_message>
-              <a href = "/help/circle">more about</a>
+              <a class = "blue-text" href = "/help/circle">more about</a>
             </p>
           </div>
         </div>
@@ -38,7 +38,7 @@
             <p class = "knocks_text_ms knocks_tinny_padding ">
               <static_message style = " color : #ff8a80;" msg = "It is important to start categorizing who can see your knocks, comments and replies or not by
               customizing your presets also customize people's comments and replies if they can see each other comments and replies or not."></static_message>
-              <a href = "/help/privacy/preset">more about</a>
+              <a class = "blue-text" href = "/help/privacy/preset">more about</a>
             </p>
           </div>
         </div>
@@ -57,7 +57,7 @@
             <p class = "knocks_text_md knocks_tinny_padding ">
               <static_message style = " color : #922459;" msg = "Now you can post a knock, search for a friend, visit your own profile or friend profile,
               go to your settings, logout and create circles by giving orders with your voice."></static_message>
-              <a href = "/help/voicecommand">more about</a>
+              <a class = "blue-text" href = "/help/voicecommand">more about</a>
             </p>
           </div>
         </div>
@@ -74,7 +74,7 @@
             <p class = "knocks_text_md knocks_tinny_padding ">
               <static_message style = " color : #e91e63;" msg = "Using your voice would be much easier,
               that's why Knocks provide you with recording a Knock and also can transform what you said into text."></static_message>
-              <a href = "/help/recorder">more about</a>
+              <a class = "blue-text" href = "/help/recorder">more about</a>
             </p>
           </div>
         </div>

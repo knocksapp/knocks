@@ -86,7 +86,8 @@
   </div>
       <div :id="gid+'_modal'" class="uk-modal-full" uk-modal>
     <div class="uk-modal-dialog" style="">
-      <p class = "knocks_text_dark knocks_language_default_font">People Reactions</p>
+      <button class="uk-modal-close-default" type="button" uk-close></button>
+      <p class = "knocks_text_dark knocks_language_default_font knocks_text_md knocks_mp_top_margin" style="text-alignment : center !important">People Reactions</p>
        <div class="col s12" >
       <!-- <li class="tab col s14 " :class ="emj" @click="getusers(emj)"> -->
         <center>
@@ -104,7 +105,7 @@
         enter-active-class="animated zoomIn"
         leave-active-class="animated zoomOut"
         >
-        <div v-if="current.length >0" class = "col s12 dive knocks_color_kit_light_active">
+        <div v-if="current.length >0" class = "col s12 uk-divider">
           <knocksshowkeys class ="pos knocks_language_default_font" list_classes = "uk-list uk-divider knocks_list_scroll" :as_label = "false" as_chip :show_input = "current"></knocksshowkeys>
         </div>
       </transition> 

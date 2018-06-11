@@ -6,8 +6,8 @@
 		<span v-if = "address.country !== undefined && address.country !== null"> {{countries[address.country].emoji}}
 			<static_message :msg = "countries[address.country].name"></static_message>
 		 </span>
-		 <span v-if ="address.state !== undefined && address.state !== null"> , {{address.state}}</span>
-		 <span v-if ="address.region !== undefined && address.region !== null"> , {{address.region}}</span>
+		 <span v-if ="address.state !== undefined && address.state !== null && address.state.length != 0"> , {{address.state}}</span>
+		 <span v-if ="address.region !== undefined && address.region !== null && address.region.length != 0"> , {{address.region}}</span>
 	</span>
 </template>
 
