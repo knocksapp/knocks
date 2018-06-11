@@ -61,9 +61,13 @@ export default {
           vm.showWb = true
           setTimeout(()=>{
             $('#'+vm._uid+'_sp').removeClass('animated rotateIn')
+            $('#'+vm._uid+'_sm').addClass('animated slideOutUp')
             $('#'+vm._uid+'_sp').addClass('animated rotateOut')
+            $('#'+vm._uid+'_sp').addClass('animated rotateOut')
+            if(vm.pwb && vm.fromBlur)
             setTimeout(()=>{
               $('#'+vm._uid).addClass('animated zoomOut')
+              if(vm.pwb && vm.fromBlur)
               setTimeout(()=>{
                 vm.showWb = false
                 $('#'+vm._uid+'_sp').addClass('animated rotateIn')
@@ -78,8 +82,10 @@ export default {
   			vm.isFocused = false
   			vm.emit('blur ')
         if(vm.pwb){
+          vm.showWb = false
           $('#'+vm._uid).removeClass('animated zoomOut')
           $('#'+vm._uid+'_sp').removeClass('animated rotateOut')
+          $('#'+vm._uid+'_sm').removeClass('animated slideOutUp')
         } 
 
   		})
