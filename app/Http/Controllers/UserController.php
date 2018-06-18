@@ -732,12 +732,19 @@ class UserController extends Controller {
 
 	public function updateName(Request $req) {
 		$req->validate(['first_name' => 'required', 'last_name' => 'required']);
+		$qname = auth()->user()->queryName();
 		auth()->user()->first_name = $req->first_name;
 		auth()->user()->last_name = $req->last_name;
 		auth()->user()->middle_name = $req->middle_name;
 		auth()->user()->nickname = $req->nickname;
 		auth()->user()->full_name = auth()->user()->fullName();
 		auth()->user()->update();
+		$sq = SearchQueries::where('keywords', '=', $qname)->where('query_id', '=', auth()->user()->id)->where('query_type', '=', 'user')->get();
+		if ($sq->count() != 0) {
+			$sq = $sq->first();
+			$sq->keywords = auth()->user()->queryName();
+			$sq->update();
+		}
 		return 'done';
 	}
 
