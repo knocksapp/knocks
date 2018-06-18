@@ -12,4 +12,8 @@ class Assistant extends Model {
 		}
 		return $arr;
 	}
+
+	public function objectRollback($object) {
+		return json_decode(json_encode($object));
+	}
 }

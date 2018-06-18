@@ -1345,7 +1345,8 @@ span.badge.new{
     padding-right : 120px;
    }
    main , footer {
-    padding-right : 300px;
+    padding-right : 300px !important;
+    padding-left: 300px !important
    }
   #app {
     margin-top : 52px;

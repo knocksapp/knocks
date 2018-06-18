@@ -692,7 +692,20 @@
 				<div class = "col s12 knocks_house_keeper">
 					<div class = "col s12">
 						<knockselinput
-						placeholder = "Password"
+						placeholder = "Your Old Password"
+						icon = "knocks-locked4 "
+						is_required
+						:min_len = "8"
+						v-model = "input.oldpassword"
+						type = "password"
+						inner_placeholder
+						:scope = "['registeration']"
+						:submit_scope = "['registeration']"
+						regex = "^(?=.*[a-zA-Z])(?=.*[0-9])"
+						regex_example = "Your password should contain both charachters and numbers."
+						></knockselinput>
+						<knockselinput
+						placeholder = "Your New Password"
 						icon = "knocks-locked4 "
 						is_required
 						:min_len = "8"
@@ -725,16 +738,20 @@
 					<div class = "col s12 knocks_mp_bottom_margin knocks_mp_top_margin">
 						<knockselbutton
 						submit_at = "user/update/password"
-						:submit_data = "{ password : input.password }"
+						:submit_data = "{ password : input.password , old : input.oldpassword }"
 						success_at = "done"
 						success_msg = "Your password has changed successfully"
-						:error_at = "[]"
 						:scope = "[ _uid + 'password']"
 						placeholder = "Save"
 						icon = "knocks-save"
 						type = "primary"
 						class = "right"
-						:disabled = "input.password != input.password_confirmation || passwordComplixty.status != 'success'"
+						@knocks_submit_rejected = "handlePasswordUpdateReject($event)"
+						:disabled = "input.password != input.password_confirmation || passwordComplixty.status != 'success' || input.password == input.oldpassword"
+						:error_at = "[
+						{ res : 'errorpassword' , msg : 'Incorrect Password, please check your old password to avoid blocking your account.' },
+						{ res : 'blocked' , msg : 'Your Account is blocked, check your mail please' }
+						]"
 						plain
 						></knockselbutton>
 					</div>
@@ -1021,6 +1038,7 @@ export default {
     		coverdialog : false ,
     		password : '' , 
     		password_confirmation : '' ,
+    		oldpassword : '' , 
 
     	},
     	userDevices : [] ,
@@ -1161,6 +1179,11 @@ export default {
     },
     asset(url){
     	return Asset(url)
+    },
+    handlePasswordUpdateReject(e){
+    	if(e.response == 'blocked'){
+    		//App.$emit('logoutGlobal')
+    	}
     }
   }
 }

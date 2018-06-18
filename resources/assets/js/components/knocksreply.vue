@@ -1,6 +1,6 @@
 <template>
 <transition   name="custom-classes-transition" enter-active-class="animated zoomInDown" leave-active-class="animated zoomOutUp">
-  <div :class = "main_container" :id = "gid" class = " " v-if= "showState" style="margin-bottom : 2px !important;">
+  <div :class = "main_container" :id = "gid" class = " " v-if= "showState && is_auth" style="margin-bottom : 2px !important;">
     <slot name = "top"></slot>
     <div class = "    col s12 knocks_house_keeper ">
       <!-- LEVEL ONE -->
@@ -459,6 +459,10 @@ export default {
     toggle_object_id : {
       type : Number , 
       default : null
+    },
+    is_auth : {
+      type : Boolean ,
+      default : parseInt(window.UserId) > 0
     }
 
   },
@@ -891,12 +895,13 @@ export default {
 
     watchMyDom(){
       const vm = this;
+      if(this.is_auth){
       if(vm.parent_type != 'timelinephoto'){
       document.getElementById(this.gid+'_input').onpaste = function(){
       vm.watchMyDomKeeper();
       vm.watchMyDomKeeper();
     }
-  }
+    }
     $(document).on('keyup' , '#'+this.gid+'_input' , function(){
       vm.watchMyDomKeeper();
       vm.watchMyDomKeeper();
@@ -918,6 +923,7 @@ export default {
         vm.watchMyDomKeeper();
         vm.watchMyDomKeeper();
     });
+     }
 
     },
  resetKnock(){

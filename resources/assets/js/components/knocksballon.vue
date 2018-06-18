@@ -1,7 +1,7 @@
 <template>
-<transition enter-active-class = "animated bounceInRight" :leave-active-class = "leaveActiveClass" v-if = "constrains.category != 'hidden'">
+<transition enter-active-class = "animated bounceInRight" :leave-active-class = "leaveActiveClass" v-if = "constrains.category != 'hidden' ">
   <div :class = "container_class"
-    v-if="(!closed || keep_showing) && isValid "
+    v-if="( (!closed && index_time == 0) || keep_showing) && isValid "
     :id = "gid"
     style=""
     @mouseover = "hoverAct()"
@@ -154,8 +154,8 @@
              <static_message  style = "padding : 3px;" classes = " knocks_text_dark" v-if="domainUser != null && constrains.index.reactors.length ==2" 
              msg = "** and one other reacted on your knock."
             replaceable :replacements = "[ {target : '**' , body : domainUser.name}]"></static_message>
-            <static_message  style = "padding : 3px;" classes = " knocks_text_dark" v-if="domainUser != null && constrains.index.reactors.length ==2" 
-             msg = "** and one ## others reacted on your knock."
+            <static_message  style = "padding : 3px;" classes = " knocks_text_dark" v-if="domainUser != null && constrains.index.reactors.length > 2" 
+             msg = "** and ## others reacted on your knock."
             replaceable :replacements = "[ {target : '**' , body : domainUser.name } , { target : '##' , body : constrains.index.reactors.length - 1 }]"></static_message>
           </a>
           <knockscollapse title = "Show The Knock" active_title = "Hide The Knock" icon = "knocks-chat-2" dual_title

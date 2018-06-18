@@ -153,6 +153,10 @@ export default {
     show_toggler : {
       type : Boolean ,
       default : false ,
+    },
+    is_auth : {
+      type : Boolean ,
+      default : parseInt(window.UserId) > 0
     }
   },
 

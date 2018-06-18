@@ -1,6 +1,6 @@
 <template>
 <div >
-  <knockspopover v-if = "!as_list">
+  <knockspopover v-if = "!as_list && is_auth">
   <template slot = "container">
   <a :href="circle_url" data-position="bottom" >
     <div class="chip ":class="chip_bg_color"v-if = "circleObject != null" >
@@ -97,6 +97,10 @@ export default {
       type : Number , 
       default : 3
     },
+    is_auth : {
+      type : Boolean ,
+      default : parseInt(window.UserId) > 0
+    }
   },
   data () {
     return {

@@ -421,6 +421,10 @@ class User extends Authenticatable {
 		return $this->mainCircle()->circleMembers()->get();
 	}
 
+	public function friendsList() {
+		return $this->mainCircle()->circleMembers()->pluck('user_id');
+	}
+
 	public function userAddresses() {
 		return UserAddress::where('user_id', '=', $this->id);
 	}
@@ -822,7 +826,9 @@ class User extends Authenticatable {
 			'display_name' => $this->cog()->display_name,
 		);
 	}
-
+	public function autoGrip() {
+		return auth()->check() ? $this->retriveForUser(auth()->user()->id) : $this->retriveForUser(-1);
+	}
 	public function retriveForUser($requester) {
 		//Get the configuration
 		if (auth()->check() && !$this->hasNoBlocks($requester)) {
@@ -1587,5 +1593,50 @@ class User extends Authenticatable {
 	}
 	public function isBlockedAccount() {
 		return $this->api_token_attemps >= 3 && $this->api_token_type == 'blocked';
+	}
+
+	public function injectKnocks() {
+		$friends = $this->friendsList()->toArray();
+		array_push($friends, $this->id);
+		$knocks = Knock::whereIn('user_id', $friends)->orderBy('id', 'desc')->get();
+		$i = 0;
+		$result = array('knocks' => [], 'last_index' => null);
+		while ($i < 3 && $i < $knocks->count()) {
+			if ($knocks[$i]->view($this->id) != 'invalid') {
+				array_push($result['knocks'], $knocks[$i]->id);
+			}
+			$i++;
+		}
+		return $result;
+	}
+	public function injectKnocksMax($max) {
+		if (!$max) {
+			return array('knocks' => [], 'last_index' => null);
+		}
+		$friends = $this->friendsList()->toArray();
+		array_push($friends, $this->id);
+		$knocks = Knock::whereIn('user_id', $friends)->where('id', '>', $max)->orderBy('id', 'desc')->get();
+		$i = 0;
+		$result = array('knocks' => [], 'last_index' => null);
+		while ($i < 3 && $i < $knocks->count()) {
+			array_push($result['knocks'], $knocks[$i]->id);
+			$i++;
+		}
+		return $result;
+	}
+	public function injectKnocksMin($min) {
+		if (!$min) {
+			return array('knocks' => [], 'last_index' => null);
+		}
+		$friends = $this->friendsList()->toArray();
+		array_push($friends, $this->id);
+		$knocks = Knock::whereIn('user_id', $friends)->where('id', '<', $min)->orderBy('id', 'desc')->get();
+		$i = 0;
+		$result = array('knocks' => [], 'last_index' => null);
+		while ($i < 3 && $i < $knocks->count()) {
+			array_push($result['knocks'], $knocks[$i]->id);
+			$i++;
+		}
+		return $result;
 	}
 }

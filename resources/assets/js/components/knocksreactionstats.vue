@@ -46,7 +46,7 @@
         <!-- </el-badge> -->
       </span>
        </div>
-        <div class = "col l3 s4 right knocks_house_keeper">
+        <div class = "col l3 s4 right knocks_house_keeper" v-if = "is_auth">
          <knocksreactor 
          v-if = "!no_reactor"
          :candy = "candy"
@@ -198,6 +198,10 @@ export default {
         no_reactor : {
       type : Boolean , 
       default : false 
+    },
+    is_auth : {
+      type : Boolean ,
+      default : parseInt(window.UserId) > 0
     }
 
   },

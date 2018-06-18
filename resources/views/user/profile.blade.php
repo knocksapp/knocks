@@ -1,5 +1,8 @@
 @extends('layouts.user')
 @section('content')
+<?php
+$currentUser = auth()->check() ? auth()->user() : array('id' => -1);
+?>
 <title>
 {{$user->first_name}}
 @if($user->middle_name != null)
@@ -18,7 +21,7 @@
   <div class = " " style = "padding : 0.2rem" v-if = "loggedIn" id = "knocks_homepage_lower_area">
     <div class = "row knocks_house_keeper" style = "padding : 3px;">
       <div class = "row knocks_house_keeper">
-        @if($user->id == auth()->user()->id)
+        @if($user->id == $currentUser['id'])
         <el-tooltip  placement="bottom" effect="light">
         <span slot = "content">
           <span class = "knocks-settings5 "></span>
@@ -90,7 +93,7 @@
             unquoted
             :scope = "['cover_picture_handler']"
             :object_id = "{{$user->profilePictureBlob()['object_id']}}"
-            :user_id = "{{auth()->user()->id}}"
+            :user_id = "{{$currentUser['id']}}"
             :owner_object = "profileModel"
             entrance = "custom"
             :knock_id =  "{{$user->profilePictureBlob()['object_id']}}"
@@ -127,14 +130,14 @@
               </div>
             </transition>
             @endif
-            @if($user->id != auth()->user()->id)
+            @if($user->id != $currentUser['id'])
             <knocksimageviewer gid ="profile_image_viewer"
             :sources = "{{ $user->coverPictures() }}"
             v-if = "profileModel != null"
             unquoted
             :scope = "['cover_picture_handler']"
             :object_id = "{{$user->profilePictureBlob()['object_id']}}"
-            :user_id = "{{auth()->user()->id}}"
+            :user_id = "{{$currentUser['id']}}"
             :owner_object = "profileModel"
             entrance = "custom"
             :knock_id =  "{{$user->profilePictureBlob()['object_id']}}"
@@ -145,7 +148,7 @@
           </div>
           <div class = "knocks_profile_avatar_frame knocks_house_keeper">
             <a class = "">
-              @if($user->id == auth()->user()->id)
+              @if($user->id == $currentUser['id'])
               <div >
                 <knocksimageviewer gid ="profile_image_viewer"
                 :sources = "{{ $user->profilePictures() }}"
@@ -153,7 +156,7 @@
                 unquoted
                 :scope = "['profile_picture_handler']"
                 :object_id = "{{$user->profilePictureBlob()['object_id']}}"
-                :user_id = "{{auth()->user()->id}}"
+                :user_id = "{{$currentUser['id']}}"
                 :owner_object = "profileModel"
                 entrance = "custom"
                 :knock_id =  "{{$user->profilePictureBlob()['object_id']}}"
@@ -163,14 +166,14 @@
                 <span class = "knocksapp-edit knocks_profile_update_anchor" @click = "setProfileTrigger" v-if = "lowerTrigger != 'profile_uploader'"></span>
               </div>
               @endif
-              @if($user->id != auth()->user()->id)
+              @if($user->id != $currentUser['id'])
               <knocksimageviewer gid ="profile_image_viewer"
               :sources = "{{ $user->profilePictures() }}"
               v-if = "profileModel != null"
               unquoted
               :scope = "['profile_picture_handler']"
               :object_id = "{{$user->profilePictureBlob()['object_id']}}"
-              :user_id = "{{auth()->user()->id}}"
+              :user_id = "{{$currentUser['id']}}"
               :owner_object = "profileModel"
               entrance = "custom"
               :knock_id =  "{{$user->profilePictureBlob()['object_id']}}"
@@ -195,7 +198,7 @@
         </div>
         <div class = "row knocks_house_keeper white knocks_standard_border_radius" style="border : 1px solid #cfd8dc">
           <knocksuserabout :user = "{{$user->id}}"></knocksuserabout>
-          @if($user->id == auth()->user()->id)
+          @if($user->id == $currentUser['id'])
           <div class = "row">
             <h4 class="ui horizontal divider header transparent">
             <span class="knocks-centralized-structure"></span>
@@ -232,7 +235,7 @@
               <knocksaddcircle gid = "circle_adder"></knocksaddcircle>
             </div>
           </transition>
-          @if($user->id != auth()->user()->id)
+          @if($user->id != $currentUser['id'])
           <transition name="custom-classes-transition" enter-active-class="animated zoomIn" leave-active-class="animated zoomOut">
             <div v-if = "lowerTrigger == 'cover_uploader'">
               <h5 class = "knocks_text_dark">
@@ -286,25 +289,27 @@
             </div>
           </transition>
           <div class = "row">
+            @if(auth()->check())
             <knock
             :scope= "['knock_at_profile']"
             :error_at="[]"
             submit_at = "post/create"
-            :recorder_upload_data = "{ user : {{auth()->user()->id}} , index : {}}"
+            :recorder_upload_data = "{ user : {{$currentUser['id']}} , index : {}}"
             :player_show_options = "false"
             :post_at = "{{ $user->id }}"
-            @if($user->id == auth()->user()->id)
+            @if($user->id == $currentUser['id'])
             parent_type = "self"
             @endif
-            @if($user->id != auth()->user()->id)
+            @if($user->id != $currentUser['id'])
             parent_type = "user"
             @endif
             success_at = "done"
             success_msg = "Done."
             gid = "knockknock"></knock>
+            @endif
           </div>
           <knocksknockinjector
-          :current_user = "{{auth()->user()->id}}"
+          :current_user = "{{$currentUser['id']}}"
           as_atimeline
           show_appendex
           newer_retrive = "user/profile/posts/newer"

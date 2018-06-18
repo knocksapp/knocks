@@ -285,6 +285,17 @@ class Knock extends Model {
 			$uht->user_id = auth()->user()->id;
 			$uht->save();
 		}
+		$sq = new SearchQueries();
+		$as = new Assistant();
+		$sq->init($as->objectRollback(
+			array('keywords' => $object->text,
+				'query_id' => $parent_object->id,
+				'query_type' => 'knock',
+				'child_id' => $this->id,
+				'object_quick_presets' => $object->privacy_setting->tip,
+				'index' => null,
+			)
+		));
 	}
 	public function knockIndex() {
 		return json_decode($this->index);

@@ -22,8 +22,7 @@
   <knocksretriver
   :xdata = "{}"
   v-model=  "friendsToChat"
-  recursed
-  behind_recursion
+  prevent_on_mount
   @success = "updateUsersLastSeens($event)"
   url = "user/friendstochat"></knocksretriver>
   <transition enter-active-class = "animated slideInDown" leave-active-class = "animated slideOutUp">
@@ -42,7 +41,12 @@
     v-for = "(chat , index) in currentChats" :key = "index"></knocksconversation>
   </div>
   </transition>
-  <div v-if = "friendsToChat != null && friendsToChat.response != null && currentChats.length != friendsToChat.response.length" :class = "{'animated slideOutDown' : hasConversation}">
+  <div
+  :class = "[{'knocks_full_height': friendsToChat.loading || friendsToChat.response == null}]"
+  v-loading = "friendsToChat.loading || friendsToChat.response == null"
+  element-loading-spinner="el-icon-loading knocks_text_lg grey-text">
+  <div 
+  v-if = "friendsToChat != null && friendsToChat.response != null && currentChats.length != friendsToChat.response.length" :class = "{'animated slideOutDown' : hasConversation}">
        <h4 class="ui horizontal divider header transparent">
     <i class="knocks-group-outline"></i>
     <static_message msg = "Friends To Chat"></static_message>
@@ -54,7 +58,7 @@
     v-if="!isCurrent(friend.id) && index < 10"
     :user = "friend.id" v-for = "(friend , index) in friendsToChat.response" as_callback :key = "index"></knocksuser>
   </div>
-  
+  </div>
 </div>
 </template>
 
@@ -65,16 +69,23 @@ export default {
 
   data () {
     return {
-      friendsToChat : null ,
+      friendsToChat : { loading : true , response : null } ,
       currentChats : [] , 
       hasConversation : false , 
       activeChat : null , 
+      msgs : {
+        holdon : ''
+      },
       current_user : parseInt(UserId) , 
     }
   },
   mounted(){
     const vm = this;
     App.$on('knocksConversationToggle' , (payloads)=>{ vm.hasConversation = payloads.toggle });
+    setTimeout(()=>{
+      this.friendsToChat.retrive()
+      console.log('NOW!!')
+    },4000)
   },
   methods : {
     updateUsersLastSeens(e){

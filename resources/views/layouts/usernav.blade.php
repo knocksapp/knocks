@@ -44,5 +44,9 @@
 
     </div>
     </nav>
-
+    @if(auth()->check())
       @include('layouts.sidebar')
+      @endif
+      @if(!auth()->check())
+      @include('layouts.guestsidebar')
+      @endif

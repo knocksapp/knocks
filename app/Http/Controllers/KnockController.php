@@ -35,7 +35,7 @@ class KnockController extends Controller {
 		]);
 
 		$knock = Knock::find($request->knock);
-		return $knock->view(auth()->user()->id);
+		return $knock->view(auth()->check() ? auth()->user()->id : -1);
 	}
 
 	public function retriveOlder(Request $request) {
@@ -58,7 +58,7 @@ class KnockController extends Controller {
 				$comments = Knock::find($request->knock)->comments()->where('type', '=', 'knock')->get();
 				foreach ($comments as $comment) {
 					$object = obj::find($comment->object_id);
-					if ($object->isAvailable(auth()->user()->id)) {
+					if ($object->isAvailable(auth()->check() ? auth()->user()->id : -1)) {
 						array_push($array, $comment->id);
 					}
 

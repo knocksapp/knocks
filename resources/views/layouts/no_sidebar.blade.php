@@ -3,60 +3,7 @@
 
 
   <head>
-    <meta charset="UTF-8" />
-    <!--Internet Explorer Comp -->
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <!-- Mobile First -->
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="user_lang" content = "{{  auth()->user()->userLanguage() }}"/>
-    <meta name="lang_font" content = "{{  auth()->user()->userLanguageFont() }}"/>
-    <meta name="lang_alignment" content = "{{  auth()->user()->userLanguageAlignment() }}"/>
-    <meta name="csrf-token" content="{{ csrf_token() }}">
-    <meta name="pp_index" content="{{ auth()->user()->profile_picture }}">
-    <meta name="user" content="{{auth()->user()->id}}">
-    <meta name="main_circle" content="{{auth()->user()->mainCircle()->id}}">
-{{--     <meta http-equiv="Content-Security-Policy"
-    content="default-src *;
-   img-src * 'self' data: https:; script-src 'self' 'unsafe-inline' 'unsafe-eval' *;
-   style-src  'self' 'unsafe-inline' *"> --}}
-
-   <meta http-equiv="Content-Security-Policy" content="
-                            default-src * data: blob: ws: wss: gap://ready file://*;
-                            style-src * 'unsafe-inline';
-                            script-src * 'unsafe-inline' 'unsafe-eval';
-                            connect-src * ws: wss:;">
-    <?php auth()->user()->updateToken(csrf_token()); ?>
-    <link rel = "stylesheet" href = {{asset('css/app.css')}}  />
-    <meta name="session-type" content="user">
-    <audio src = "{{asset('snaps/knocks_notification.mp3')}}" id = "knocks_notification" style = "display : none" controls></audio>
-    <audio src = "{{asset('snaps/knocks_recording.mp3')}}" id = "knocks_recording_vid_src" style = "display : none" controls></audio>
-    <audio src = "{{asset('snaps/knocks-react.mp3')}}" id = "knocks_disreact_vid_src" style = "display : none" controls></audio>
-    <audio src = "{{asset('snaps/knocks-disreact.mp3')}}" id = "knocks_react_vid_src" style = "display : none" controls></audio>
-    <link rel="icon" type="text/css" href="{{asset('snaps/knocks.png')}}">
-
-
-    <style>
-      html , body , .knocks_language_default_font{
-        font-family : {{  auth()->user()->userLanguageFont() }} ;
-        text-align : {{  auth()->user()->userLanguageAlignment() }} ;
-      }
-       @media only screen and (min-width : 993px){
-      main{
-        padding-right: 302px !important;
-        padding-left:  0px !important;
-      }
-    }
-      .knocks_language_font{
-        font-family : {{  auth()->user()->userLanguageFont() }} ;
-      }
-      .knocks_language_default_float{
-        float : {{  auth()->user()->userLanguageAlignment() }} ;
-      }
-
-
-}
-
-    </style>
+   @include('layouts.acheaders')
     @yield('head_externals')
         <div id="knocks_nav_vue">
           <nav class = " top-nav nav-extended knocks_house_keeper" id = "knocks_main_navbar" style="position: fixed; top:0; z-index : 10000000 !important;">

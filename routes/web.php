@@ -13,52 +13,60 @@
 |
  */
 //Actual Views
-//Home Page
-//asdasdsa/
-Route::post('contacts', 'UserController@retriveContact');
 
+/*
+==========================  <<< ⚠⚠⚠    !IMPORTANT  ⚠⚠⚠  >>> =========================
+==========================   <<< ⚠⚠⚠     READ ME  ⚠⚠⚠   >>> =========================
+KnocksApp Routes Map follows many middlewares, each of them plays a senstive role and lays under many constraints that must be satisfied
+1 - AUTH :
+auth middleware makes sure that the heading user is authenticated, if you're using controllers which write or update for an authanticated user
+so unsatisfing this middleware will respond back with errors, 500 status errors!
+
+2 - GUEST
+This middleware makes sure that the heading user is NOT authintecated, its pretty important for some functions such as login, signup and many more.
+
+3 - ISVERIFIED
+this middleware should come after an auth middleware, this prevents the user to perform any authintecated function before verifing his account.
+
+4 - LASTSEEN
+this middleware can work under both AUTH and GUEST cases, we only use it for the routes we need to store at logs and incase of auth user it will update his lastseen.
+
+==========================  <<<  COMMON USAGE AND MIXINS >>> =========================
+In general we mix  between them in many cases to assure many functions of them, and here's the mose common of them.
+
+1 - AUTH > ISVERIFIED > LASTSEEN
+This is the most important mix in the whole app, having this set will only let the authintecated users use our controllers functions and update their lastseen, it will
+also make sure that they are vifried users, otherwise it will redirect them to virify thier accounts.
+
+2 - GUEST > LASTSEEN
+This set makes sure to save the guest routs in the app logs, we can use this to get users who have many incorrect logins attemps.
+
+3 - LASTSEEN
+Having this general middleware is kind of rare, we can use it in the main search, it could be useful to store what kind of search queries are used the most.
+
+=======================================================================================
+# INCASE YOU HAVE MANY RELATED ROUTS MAKE SURE TO COMMENT THEM AND PUT THEM TOGETHER FOR EASIER DEVELOPMENT LIFE CIRCLE
+ */
+
+//NO MIDDLEWARE AREA
+//THOSE ROUTS ARE ONLY FOR DEVELOPMENT, DONT USE ANY PRODUCTION ROUTES HERE
 //DEVELOPERS ROUTES STARTS /////////////////////////////////////////////////////////////
-//Language APIS
 Route::get('/dev', function () {
 	return view('test.home');
 });
-
-Route::get('/search', function () {
-	return view('test.searchpage', compact('q'));
-});
-
-Route::get('help/privacy/preset', function () {
-	return view('help.privacyhelp');
-});
-
-Route::get('help/circle', function () {
-	return view('help.circlehelp');
-});
-
-Route::get('help/recorder', function () {
-	return view('help.recorderhelp');
-});
-
-Route::get('help/voicecommand', function () {
-	return view('help.voicecommandhelp');
-});
-
-Route::post('object/hide', 'ObjController@hide');
-
+//Language APIS
 Route::post('dev/all_langs', 'LanguageController@collect');
 Route::post('dev/all_msgs', 'StaticMessageController@collect');
 Route::post('dev/new_word', 'StaticMessageController@addNewWord');
 Route::post('dev/translate', 'StaticMessageController@boundTranslation');
 Route::post('dev/translate/force', 'StaticMessageController@forceTranslation');
 Route::post('dev/delete/allmems', 'DevController@removeAllFriends');
-
 //Resetting the app
 Route::post('dev/trunc/knocks', 'DevController@resetKnocks');
 Route::post('dev/trunc/users', 'DevController@resetKnocks');
 Route::post('dev/db/reinstall', 'DevController@reinstall');
 Route::post('dev/db/chck/members', 'DevController@watchMembershipDublications');
-
-//Add Random Users
+//Knocks Virtual Socializing ~RANDOM ENTERY~
 Route::post('dev/db/add/users', 'DevController@addUsersPatch');
 Route::post('dev/db/entry/users', 'DevController@addRandomEntry');
 Route::post('dev/db/add/groups', 'DevController@createRandomGroups');
@@ -66,23 +74,110 @@ Route::post('dev/db/add/circles', 'DevController@createRandomCircles');
 Route::post('dev/db/add/knocks', 'DevController@createRandomKnocks');
 Route::post('dev/db/add/comment', 'DevController@createRandomSocial');
 Route::post('dev/db/add/reaction', 'DevController@createRandomReactions');
-
+//TESTING POSTS WITH FIXED RESPONSE
 Route::post('dev/test', function () {return 'done';});
-
 //DEVELOPERS ROUTES ENDS /////////////////////////////////////////////////////////////
 
-//Presets
-Route::post('user/preset/check', 'SavedPresetsController@check');
+/*
+================
+================================
+================================================
+================ <<< ~~~ AUTH > ISVIRIFIED > LASTSEEN ~~~~ >>> ================
+================================================
+================================
+================
+ */
+//================ AUTH > ISVIRIFIED > LASTSEEN >> BEGINS
+Route::group(['middleware' => 'auth'], function () {
+	Route::group(['middleware' => 'isverified'], function () {
+		Route::group(['middleware' => 'lastseen'], function () {
 
-Route::post('user/preset/save', 'SavedPresetsController@save');
+			//User Privacy Presets
+			Route::post('user/preset/check', 'SavedPresetsController@check');
 
-Route::post('user/preset/delete', 'SavedPresetsController@delete');
+			Route::post('user/preset/save', 'SavedPresetsController@save');
 
-Route::post('user/preset/fav', 'SavedPresetsController@setAsDefault');
+			Route::post('user/preset/delete', 'SavedPresetsController@delete');
 
-Route::post('user/preset/get', 'SavedPresetsController@get');
+			Route::post('user/preset/fav', 'SavedPresetsController@setAsDefault');
 
-Route::post('user/preset/default', 'UserController@getDefaultPreset');
+			Route::post('user/preset/get', 'SavedPresetsController@get');
+
+			Route::post('user/preset/default', 'UserController@getDefaultPreset');
+
+			//User Ballons
+			Route::post('get_notification', 'BallonController@getUserNotification');
+
+			Route::post('ballons/batch', 'BallonController@getAllUserNotification');
+
+			Route::post('ballons/fr/batch', 'BallonController@getAllUserNotificationFr');
+
+			Route::post('update_notifications', 'BallonController@setToPoped');
+
+			Route::post('ballon/seen', 'BallonController@setToSeen');
+
+			//User Entery
+			//Education
+			Route::post('education', 'EducationController@createEducation');
+
+			Route::post('education/get', 'EducationController@retriveEducation');
+
+			Route::post('education/update', 'EducationController@updateEducation');
+
+			Route::post('education/delete', 'EducationController@deleteEducation');
+			//Career
+			Route::post('career', 'CareerController@createCareer');
+
+			Route::post('career/get', 'CareerController@retriveCareer');
+
+			Route::post('career/update', 'CareerController@updateCareer');
+
+			Route::post('career/delete', 'CareerController@deleteCareer');
+
+			//High Education
+			Route::post('high_education', 'HighEducationController@createHighEducation');
+
+			Route::post('high_education/get', 'HighEducationController@retriveHighEducation');
+
+			Route::post('high_education/update', 'HighEducationController@updateHighEducation');
+
+			Route::post('high_education/delete', 'HighEducationController@deleteHighEducation');
+
+			//Hobby
+			Route::post('hobby', 'HobbyController@createHobby');
+
+			Route::post('hobby/get', 'HobbyController@retriveHobby');
+
+			Route::post('hobby/update', 'HobbyController@updateHobby');
+
+			Route::post('hobby/delete', 'HobbyController@deleteHobby');
+
+			Route::post('hobby/all', 'HobbyController@hobbies');
+
+			//Sport
+			Route::post('sport', 'SportController@createSport');
+
+			Route::post('sport/get', 'SportController@retriveSport');
+
+			Route::post('sport/update', 'SportController@updateSport');
+
+			Route::post('sport/delete', 'SportController@deleteSport');
+
+			Route::post('sport/all', 'SportController@sports');
+
+			//Addresses
+			Route::post('address/state/get', 'UserAddressController@getStates');
+
+			Route::post('address/region/get', 'UserAddressController@getRegions');
+
+			Route::post('address/create', 'UserAddressController@create');
+
+			Route::post('address/delete', 'UserAddressController@deleteAddresses');
+
+		});
+	});
+});
+//================ AUTH > ISVIRIFIED > LASTSEEN << ENDS
 
 //Check if the user exists
 Route::post('user/check', 'UserController@check');
@@ -90,18 +185,6 @@ Route::post('user/check', 'UserController@check');
 Route::post('email/check', 'UserController@mailCheck');
 
 Route::post('registeration', 'UserController@register');
-
-Route::post('get_notification', 'BallonController@getUserNotification');
-
-Route::post('ballons/batch', 'BallonController@getAllUserNotification');
-
-Route::post('ballons/fr/batch', 'BallonController@getAllUserNotificationFr');
-
-Route::post('update_notifications', 'BallonController@setToPoped');
-
-Route::post('ballon/seen', 'BallonController@setToSeen');
-
-Route::post('user/info', 'UserController@getInfo');
 
 Route::post('user/info/lazy', 'UserController@getInfoLazy');
 
@@ -117,12 +200,6 @@ Route::post('user/posts/older', 'UserController@retriveOlderPeopleKnocks');
 
 Route::post('user/posts/newer', 'UserController@retriveNewerPeopleKnocks');
 
-Route::post('user/profile/posts', 'UserController@retriveUserKnocks');
-
-Route::post('user/profile/posts/older', 'UserController@retriveOlderUserKnocks');
-
-Route::post('user/profile/posts/newer', 'UserController@retriveNewerUserKnocks');
-
 Route::post('group/posts', 'GroupController@retriveGroupKnocks');
 
 Route::post('group/posts/older', 'GroupController@retriveOlderGroupKnocks');
@@ -136,8 +213,6 @@ Route::post('trend/posts/older', 'HashtagsController@retriveOlderTrendKnocks');
 Route::post('trend/posts/newer', 'HashtagsController@retriveNewerTrendKnocks');
 
 Route::post('user/search', 'UserController@searchForFriends');
-
-Route::post('user/search/global', 'UserController@globalUserSearch');
 
 Route::post('userlogin', 'UserController@userlogin');
 
@@ -195,60 +270,6 @@ Route::post('get_groupname', 'GroupController@getGroupName');
 
 Route::post('get_group_for_join', 'GroupController@retriveGroupForJoin');
 
-//Career
-
-Route::post('career', 'CareerController@createCareer');
-
-Route::post('career/get', 'CareerController@retriveCareer');
-
-Route::post('career/update', 'CareerController@updateCareer');
-
-Route::post('career/delete', 'CareerController@deleteCareer');
-
-//Education
-
-Route::post('education', 'EducationController@createEducation');
-
-Route::post('education/get', 'EducationController@retriveEducation');
-
-Route::post('education/update', 'EducationController@updateEducation');
-
-Route::post('education/delete', 'EducationController@deleteEducation');
-
-//High Education
-
-Route::post('high_education', 'HighEducationController@createHighEducation');
-
-Route::post('high_education/get', 'HighEducationController@retriveHighEducation');
-
-Route::post('high_education/update', 'HighEducationController@updateHighEducation');
-
-Route::post('high_education/delete', 'HighEducationController@deleteHighEducation');
-
-//Hobby
-
-Route::post('hobby', 'HobbyController@createHobby');
-
-Route::post('hobby/get', 'HobbyController@retriveHobby');
-
-Route::post('hobby/update', 'HobbyController@updateHobby');
-
-Route::post('hobby/delete', 'HobbyController@deleteHobby');
-
-Route::post('hobby/all', 'HobbyController@hobbies');
-
-//Sport
-
-Route::post('sport', 'SportController@createSport');
-
-Route::post('sport/get', 'SportController@retriveSport');
-
-Route::post('sport/update', 'SportController@updateSport');
-
-Route::post('sport/delete', 'SportController@deleteSport');
-
-Route::post('sport/all', 'SportController@sports');
-
 Route::post('check_user_ingroup', 'GroupMemberController@checkUserInGroup');
 
 Route::post('join_public_group', 'GroupController@joinPublicGroup');
@@ -269,27 +290,11 @@ Route::get('usersupdatesettings', 'UserController@updateSettings');
 
 Route::post('post/seen', 'KnockController@tickSeen');
 
-Route::post('post/comments', 'KnockController@getComments');
-
 Route::post('comment/create', 'CommentController@create');
-
-Route::post('comment/replies', 'CommentController@getReplies');
-
-Route::post('reply/replies', 'ReplyController@getReplies');
 
 Route::post('blob/qoute', 'BlobController@quote');
 
 Route::post('reply/create', 'ReplyController@create');
-
-//Addresses
-
-Route::post('address/state/get', 'UserAddressController@getStates');
-
-Route::post('address/region/get', 'UserAddressController@getRegions');
-
-Route::post('address/create', 'UserAddressController@create');
-
-Route::post('address/delete', 'UserAddressController@deleteAddresses');
 
 //MultiMedia
 Route::post('blob/record', 'BlobController@createRecord');
@@ -337,10 +342,6 @@ Route::get('media/cover/{id}', 'BlobController@retriveCover');
 Route::get('media/cover/compressed/{id}', 'BlobController@retriveCoverCompressed');
 
 Route::get('media/avatar/ref/compressed/{id}', 'BlobController@retriveAvatarCompressed');
-
-Route::post('search/main', 'UserController@mainSearch');
-
-Route::post('search/main/names', 'UserController@searchForUsersByNames');
 
 //userupdate
 
@@ -403,6 +404,7 @@ Route::post('userblock/isblockeduser', 'UserBlocksController@isBlocked');
 //unblock user
 
 Route::post('userblock/unblockuser', 'UserBlocksController@unblockUser');
+Route::post('user/passwords/forgot/ask', 'UserController@forgotMyPasswordAsk');
 
 // Route::get('add_notification' , function(){
 //   $not = new App\Ballon();
@@ -570,6 +572,7 @@ Route::group(['middleware' => 'guest'], function () {
 
 	Route::get('user/blocked/unblock/{user}/{token}', 'UserController@attempUnblock');
 	Route::get('user/blocked/temp/{user}/{token}', 'UserController@attempUnblockTempPassword');
+	Route::get('user/fmp/temp/{user}/{token}', 'UserController@attempFMPTempPassword');
 
 	Route::get('signup', function () {
 		return view('guest.signup');
@@ -602,17 +605,7 @@ Route::group(['middleware' => 'auth'], function () {
 
 			Route::post('user/updatepp', 'UserController@updateProfileIndex');
 
-			Route::post('retrive_comment', 'CommentController@retrive');
-
-			Route::post('retrive_reply', 'ReplyController@retrive');
-
-			Route::post('retrive_knock', 'KnockController@retrive');
-
-			Route::post('retrive_knock', 'KnockController@retrive');
-
 			Route::post('knock/delete', 'KnockController@delete');
-
-			Route::get('/{user}', 'UserController@routeToProfile');
 
 			Route::get('user/profile/{user}', 'UserController@routeToProfileById');
 
@@ -635,8 +628,6 @@ Route::group(['middleware' => 'auth'], function () {
 			Route::get('/rply/{reply}', 'KnockController@viewReply');
 
 			Route::get('/knock/{knock}/{comment}', 'KnockController@viewKnockWithComment');
-
-			Route::post('getstats_reaction/reaction', 'ReactionController@getstats_reaction');
 
 			Route::post('insert_reaction/reaction', 'ReactionController@insert_reaction');
 
@@ -703,7 +694,6 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::get('user/verify/try/{token}', 'UserController@attempVerify');
 	Route::post('user/verify/request', 'UserController@requestVerify');
 	Route::get('/user/logout', function () {auth()->user()->turnOffChat(); auth()->logout();return view('guest.signup');});
-	Route::post('user/passwords/forgot/ask', 'UserController@forgotMyPasswordAsk');
 });
 // Route::get('test' , function(){
 //   return view('test');
@@ -725,6 +715,52 @@ Route::group(['middleware' => 'auth'], function () {
 
 // Authentication Routes...
 Route::group(['middleware' => 'lastseen'], function () {
+
+	//USER INFO
+	Route::get('/{user}', 'UserController@routeToProfile');
+	Route::post('user/info', 'UserController@getInfo');
+
+	//MAIN SEARCH ROUTES
+	Route::get('/search', function () {
+		return view('test.searchpage', compact('q'));
+	});
+	Route::post('user/search/global', 'UserController@globalUserSearch');
+
+	Route::post('search/main', 'UserController@mainSearch');
+
+	Route::post('search/main/names', 'UserController@searchForUsersByNames');
+
+	//Profile Visiting
+	Route::post('user/profile/posts', 'UserController@retriveUserKnocks');
+
+	Route::post('user/profile/posts/older', 'UserController@retriveOlderUserKnocks');
+
+	Route::post('user/profile/posts/newer', 'UserController@retriveNewerUserKnocks');
+
+	//Knocks Retrieve and its childs
+	Route::post('retrive_knock', 'KnockController@retrive');
+	Route::post('retrive_comment', 'CommentController@retrive');
+	Route::post('retrive_reply', 'ReplyController@retrive');
+	Route::post('post/comments', 'KnockController@getComments');
+	Route::post('comment/replies', 'CommentController@getReplies');
+	Route::post('reply/replies', 'ReplyController@getReplies');
+	Route::post('getstats_reaction/reaction', 'ReactionController@getstats_reaction');
+
+	Route::get('help/privacy/preset', function () {
+		return view('help.privacyhelp');
+	});
+
+	Route::get('help/circle', function () {
+		return view('help.circlehelp');
+	});
+
+	Route::get('help/recorder', function () {
+		return view('help.recorderhelp');
+	});
+
+	Route::get('help/voicecommand', function () {
+		return view('help.voicecommandhelp');
+	});
 
 	Route::get('trend/{hashtag}', 'HashtagsController@findHashTag');
 
@@ -771,3 +807,5 @@ Route::get('hash/knocksbyhashtags', function () {
 	}
 	return $ob;
 });
+
+Route::post('object/hide', 'ObjController@hide');

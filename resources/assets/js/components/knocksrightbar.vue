@@ -44,6 +44,7 @@
 				:gid="'knocks_notification_rightbar_'+index"
 				mute
         extended
+        :index_time = "index"
 				hide_replies
 				@seen = "seenCounter--; seens.push(ballon)"
 				v-if = " index < showKeyBallon && ballonsTickedOnce "

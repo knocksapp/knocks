@@ -478,7 +478,7 @@
     reset_on_success
     submit_at = "career"
     computed_response
-    success_msg = "Mabrok 3alek el shoghlana"
+    success_msg = "Saved."
     gid = "stage_one_net"
     :submit_data = " {works_at : works_at , works_since : worksSince, works_to : worksTo , works_what : works_what , works_as : works_as} "
     :disabled = "!testDate"

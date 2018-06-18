@@ -9,6 +9,7 @@ use App\Group;
 use App\Group_member;
 use App\Knock;
 use App\Mail\AccountBlocked;
+use App\Mail\ForgotMyPassword;
 use App\Mail\VerifyAccount;
 use App\obj;
 use App\Reply;
@@ -68,8 +69,11 @@ class UserController extends Controller {
 					$c->api_token_access_attemps = 0;
 				}
 				$c->update();
-				\Mail::to($c)->send(new AccountBlocked($c));
-				return $c->api_token_attemps < 3 ? 'fail' : 'blocked';
+				if ($c->api_token_attemps == 3) {
+					\Mail::to($c)->send(new AccountBlocked($c));
+				}
+
+				return $c->api_token_attemps < 3 ? 'failed' : 'blocked';
 			}
 
 		} else {
@@ -222,6 +226,35 @@ class UserController extends Controller {
 
 	}
 
+	public function attempFMPTempPassword(Request $request, $user, $token) {
+		if (!auth()->check()) {
+			$tuser = User::find($user);
+			if ($tuser == null) {
+				return redirect()->action('UserController@lost');
+			}
+			if ($tuser->api_token_type != 'forgotpassword') {
+				return redirect()->action('UserController@goHome');
+			}
+
+			if ($token == $tuser->api_token) {
+				$tuser->api_token = null;
+				$tuser->api_token_date = null;
+				$tuser->api_token_type = null;
+				$tuser->api_token_attemps = null;
+				$tuser->password = bcrypt($tuser->temp_password);
+				$tuser->temp_password = null;
+				$tuser->update();
+				return redirect()->action('UserController@goHome');
+			}
+
+			return redirect()->action('UserController@goHome');
+
+		} else {
+			return redirect()->action('UserController@goHome');
+		}
+
+	}
+
 	public function lost() {
 		return view('guest.lost');
 	}
@@ -235,15 +268,15 @@ class UserController extends Controller {
 	}
 
 	public function retrivePeopleKnocks(Request $request) {
-		return auth()->user()->getPeopleKnocks(json_encode($request->limits));
+		return auth()->user()->injectKnocks();
 	}
 
 	public function retriveOlderPeopleKnocks(Request $request) {
-		return auth()->user()->getPeopleKnocksRegularMin($request->min);
+		return auth()->user()->injectKnocksMin($request->min);
 	}
 
 	public function retriveNewerPeopleKnocks(Request $request) {
-		return auth()->user()->getPeopleKnocksRegularMax($request->max);
+		return auth()->user()->injectKnocksMax($request->max);
 	}
 
 	public function retriveUserKnocks(Request $request) {
@@ -347,7 +380,7 @@ class UserController extends Controller {
 	}
 	public function getInfo(Request $request) {
 		$user = User::find($request->q);
-		return $user != null ? $user->retriveForUser(auth()->user()->id) : 'invalid';
+		return $user != null ? $user->retriveForUser(auth()->check() ? auth()->user()->id : -1) : 'invalid';
 	}
 
 	public function getInfoLazy(Request $request) {
@@ -702,9 +735,28 @@ class UserController extends Controller {
 
 	public function updatePassword(Request $req) {
 		$req->validate(['password' => 'required', 'regex:/(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}/']);
-		auth()->user()->password = bcrypt($req->password);
-		auth()->user()->update();
-		return 'done';
+		if (Hash::check($req->old, auth()->user()->password)) {
+			auth()->user()->password = bcrypt($req->password);
+			auth()->user()->update();
+			return 'done';
+		} else {
+			auth()->user()->api_token_attemps += 1;
+			if (auth()->user()->api_token_attemps == 3) {
+				auth()->user()->api_token_type = 'blocked';
+				auth()->user()->temp_password = auth()->user()->generateRandomString(rand(15, 25));
+				auth()->user()->api_token = csrf_token();
+				auth()->user()->api_token_date = now();
+				auth()->user()->api_token_access_attemps = 0;
+			}
+			auth()->user()->update();
+			if (auth()->user()->api_token_attemps >= 3) {
+				//\Mail::to(auth()->user())->send(new AccountBlocked(auth()->user()));
+				auth()->logout();
+				return 'blocked';
+			}
+
+			return auth()->user()->api_token_attemps < 3 ? 'errorpassword' : 'blocked';
+		}
 	}
 
 	public function updateDisplayName(Request $req) {
@@ -768,10 +820,10 @@ class UserController extends Controller {
 	public function forgotMyPasswordAsk(Request $request) {
 		if (auth()->check()) {
 			return 'auth';
-		}
 
+		}
 		$request->validate(['email' => 'required']);
-		$user = User::where('email', '=', $request->email)->get();
+		$user = User::where('email', '=', $request->email);
 		if (!$user->exists()) {
 			return 'not_exist';
 		} else {
@@ -780,6 +832,12 @@ class UserController extends Controller {
 				return 'blocked';
 			} else {
 
+				$user->temp_password = $c->generateRandomString(rand(15, 25));
+				$user->api_token = csrf_token();
+				$user->api_token_date = now();
+				$user->api_token_type = 'forgotpassword';
+				$user->update();
+				\Mail::to($user)->send(new ForgotMyPassword($user));
 			}
 		}
 	}

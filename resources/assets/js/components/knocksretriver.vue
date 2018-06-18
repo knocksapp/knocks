@@ -148,8 +148,8 @@ export default {
   			vm.errors = err.response;
   			vm.resultCollector();
   			vm.$emit('catch' , vm.result);
-        if(err.response.status == 401)
-          App.$emit('logoutGlobal');
+        //if(err.response.status == 401)
+          //App.$emit('logoutGlobal');
   		});
   	},
   	resultCollector(){

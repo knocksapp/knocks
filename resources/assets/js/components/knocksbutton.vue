@@ -294,6 +294,11 @@ export default {
       return false ;
     },
     submit(){
+      if(window.navigator.onLine !== undefined && !window.navigator.onLine){
+          this.elementCategoryNotify({ type : 'error' , msg : 'There is no internet connection' , title : 'Warining' })
+          this.actualLoading = false;
+          return
+      }
       if(this.actualLoading) {console.log('prevent extra s'); return; }
       this.actualLoading = true;
       //console.log(this.submit_data);
@@ -353,10 +358,12 @@ export default {
       }).catch((err)=>{
         vm.networkHasErrors = true ;
         vm.networkErrors = err ;
-
         vm.$emit('knocks_submit_error');
         Materialize.toast('<span class="knocks_text_danger">'+err+'</span>', 3000, 'rounded');
         vm.isLoading = vm.actualLoading = false ;
+        if(window.navigator.onLine !== undefined && !window.navigator.onLine){
+          vm.elementCategoryNotify({ type : 'error' , msg : 'There is no internet connection' , title : 'Warining' })
+        }
 
       });
     }

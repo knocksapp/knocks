@@ -1,6 +1,6 @@
 <template>
   <el-button class=" " 
-  v-loading = "isLoading" 
+  :loading = "isLoading" 
   :disabled = "disabled" 
   :plain = "plain"
   :circle = "circle"
@@ -262,6 +262,11 @@ export default {
       return false ;
     },
     submit(){
+      if(window.navigator.onLine !== undefined && !window.navigator.onLine){
+          this.elementCategoryNotify({ type : 'error' , msg : 'There is no internet connection' , title : 'Warining' })
+          this.actualLoading = false;
+          return
+      }
       console.log(this.submit_data);
       App.$emit('knocks_submit_passed');
       const vm = this;
@@ -290,7 +295,7 @@ export default {
           vm.$emit('knocks_submit_accepted' , {submit_data : vm.submit_data , response : temp});
           return true;
         }else{
-          vm.$emit('knocks_submit_rejected');
+          vm.$emit('knocks_submit_rejected' , { response : temp , submit_data : vm.submit_data });
           var i ;
           for( i = 0; i < vm.error_at.length ; i++ ){
             if(vm.error_at[i].res == temp){
@@ -304,6 +309,11 @@ export default {
         vm.$emit('knocks_submit_error' , err);
         Materialize.toast('<span class="knocks_text_danger">'+vm.connection_error+'</span>', 3000, 'rounded');
         vm.isLoading = false ;
+        if(window.navigator.onLine !== undefined && !window.navigator.onLine){
+          vm.elementCategoryNotify({ type : 'error' , msg : 'There is no internet connection' , title : 'Warining' })
+          vm.actualLoading = false;
+          return
+      }
       });
     }
 

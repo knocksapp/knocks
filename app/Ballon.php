@@ -130,7 +130,7 @@ class Ballon extends Model {
 	}
 
 	public function userReaction($sender, $reciever, $reaction, $object, $object_type, $child, $parent) {
-		$same = Ballon::where('user_id', '=', $reciever)->where('parent_id', '=', $parent)->where('poped', '=', 0)->where('category', '=', 'reaction');
+		$same = Ballon::where('user_id', '=', $reciever)->where('parent_id', '=', $parent)->where('category', '=', 'reaction');
 		if ($same->exists()) {
 			$ballon = $same->first();
 			$ind = $ballon->index();
@@ -139,6 +139,8 @@ class Ballon extends Model {
 				array_push($commenters, $sender);
 				$ind->commenters = $commenters;
 			}
+			$ind->poped = 0;
+			$ind->seen = 0;
 			$ind->sender_id = $sender;
 			$ballon->index = json_encode($ind);
 			$ballon->update();

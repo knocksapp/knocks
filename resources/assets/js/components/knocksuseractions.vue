@@ -1,5 +1,5 @@
 <template>
-<div v-if = "userObject != null">
+<div v-if = "userObject != null && is_auth">
   <div v-if = "!add_remove_only">
   <el-popover
   ref="addtomypeople"
@@ -215,7 +215,11 @@ export default {
     extras : {
     type : Object , 
     default : null,
-  }
+  },
+  is_auth : {
+      type : Boolean ,
+      default : parseInt(window.UserId) > 0
+    }
   },
   data () {
     return {

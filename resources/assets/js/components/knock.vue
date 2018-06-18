@@ -653,7 +653,7 @@ export default {
       for(i = 0 ; i < childs.length; i++){
         if(!vm.hasAspecialClass(childs[i]) && childs[i].tagName != 'BR'){
           //console.log(childs[i].tagName)
-          $(childs[i]).replaceWith($(childs[i]).text());
+          $(childs[i]).replaceWith(  $(childs[i]).text());
           //console.log('watch');
         }
       }
@@ -816,7 +816,10 @@ export default {
         
         return;
       }
-      this.submitFormat();
+      setTimeout(()=>{
+        this.watchMyDom()
+        this.submitFormat();
+      },500)
     },
     hasAspecialClass(el){
       let classes = [
@@ -1078,7 +1081,7 @@ export default {
       this.collectHashTags();
 
       let res =  {
-        body : this.bodyContent , 
+        body : $('#'+this.gid+'_input').html() , 
         at : this.post_at ,
         type : this.parent_type ,
         has_pictures : this.hasImages , 
@@ -1170,20 +1173,24 @@ export default {
        const vm = this;
        if(this.hashtagComp.length > 0)
        App.$emit('knocksRetriver' , {scope : ['hashtag_input']})
-        this.updateTextContent();
+       this.updateTextContent();
         if(!this.isAnArrow(this.lastKey) && !this.isSelectingAll){
         //sthis.collectUrls(); 
         }
+  
        let childs = document.getElementById(vm.gid+'_input').children;
        let i;
         for(i = 0 ; i < childs.length; i++){
+          console.log('watch'+i)
+          $(childs[i]).removeAttr( 'style' );
           if(!vm.hasAspecialClass(childs[i])&& childs[i].tagName != 'BR'){
             //console.log(childs[i].tagName)
-            $(childs[i]).replaceWith($(childs[i]).text());
+            $(childs[i]).html($('<span>'+$(childs[i]).text()+'</span>').html());
             //console.log('watch');
           }
         }
         this.hasText = $('#'+vm.gid+'_input').text().length > 0 ;
+        
       },
       updateTextContent(){
       this.textContent.text= $('#'+this.gid+'_input').text();

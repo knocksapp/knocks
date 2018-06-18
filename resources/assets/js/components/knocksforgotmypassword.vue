@@ -28,6 +28,11 @@
 			icon = "knocks-paper-plane-o"
 			button_classes = "knocks_light_color_kit right"
 			placeholder = "Send me an email"
+			:error_at = "[
+			{ res : 'not_exist' , msg : 'This email does not belong to any account.' } , 
+			{ res : 'blocked' , msg : 'This account is blocked, check your mail to unblock it first.' } , 
+			{ res : 'auth' , msg : 'You can not be here.' } , 
+			]"
 			:submit_data = "{ email : email }"
 			:scope = "['knocks_forgot_mypassword_'+_uid]"
 			submit_at = 'user/passwords/forgot/ask'></knockselbutton>

@@ -18,7 +18,7 @@
 			@input = "handleUser($event , index)"
 			v-for = "(user , index) in currentSuggest" 
 			:key = "index" 
-			as_card></knocksuser>
+			as_small_card></knocksuser>
 		 
 		</div>
 		<div class="row"  element-loading-text="Loading..." v-loading = "gripper.loading" element-loading-spinner="el-icon-loading">

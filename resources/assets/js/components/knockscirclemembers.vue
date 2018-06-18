@@ -15,7 +15,7 @@
 		:replacements = "[{ target : '%%%'  , body : retriver.response.name }]"></static_message>
 		</div>
 		<knockselinput
-		icon = "knocks-search-2"
+		icon = "el-icon-search"
 		v-if = "handled"
 		autocomplete
 		:autocomplete_start="1"
@@ -150,7 +150,9 @@ export default {
    				this.searchUsers.splice(i , 1 );
    			}
    		}
-   		App.$emit('KnocksContentChanged')
+   		setTimeout(()=>{
+   			App.$emit('KnocksContentChanged')
+   		},500)
    	},
    	addMember( member , circle ){
    		this.currentMembers.splice(0 , 0 , member);
