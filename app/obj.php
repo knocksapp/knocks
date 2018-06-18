@@ -141,7 +141,9 @@ class obj extends Model {
 		$this->index = json_encode(array("public_preset" => auth()->user()->publicPreset(), "followers" => array(auth()->user()->id => true)));
 		$this->save();
 	}
-
+	public function autoCheck() {
+		return $this->isAvailable(auth()->check() ? auth()->user()->id : -1);
+	}
 	public function isAvailable($requestMaker) {
 
 		if (!auth()->check()) {

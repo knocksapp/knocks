@@ -264,8 +264,8 @@ export default {
     submit(){
       if(window.navigator.onLine !== undefined && !window.navigator.onLine){
           this.elementCategoryNotify({ type : 'error' , msg : 'There is no internet connection' , title : 'Warining' })
-          this.actualLoading = false;
-          return
+         // this.actualLoading = false;
+         // return
       }
       console.log(this.submit_data);
       App.$emit('knocks_submit_passed');

@@ -482,7 +482,7 @@ Vue.component('knocksprivacytips', require('./components/knocksprivacytips.vue')
 Vue.component('knocksmeganumber', require('./components/knocksmeganumber.vue'));
 Vue.component('knockstrendslist', require('./components/knockstrendslist.vue'));
 Vue.component('knocksgenderviewer', require('./components/knocksgenderviewer.vue'));
-
+Vue.component('knockstextlenhandler', require('./components/knockstextlenhandler.vue'));
 
 
 
@@ -1614,15 +1614,13 @@ window.NavInstance = new Vue({
 
 
 
-  // $(window).resize(function(){
-  //   if(WindowWidth < 900){
-  //     vm.showRightSideBar = true ;
-  //   }else{
-  //     vm.showRightSideBar = false ;
-  //   }
-  // });
-  });
 
+  });
+  $(window).resize(function(){
+   
+    
+      vm.showRightSideBar = true ;
+     });
 
   // $(document).on('#sidebar_search_box' , function(){
   //   vm.sidebarSearchFocus = true;

@@ -4,6 +4,14 @@
 
   <head>
    @include('layouts.acheaders')
+   <style>
+   @if(!auth()->check())
+     main{
+      padding-right: 0px !important;
+      padding-left: 0px !important;
+     }
+     @endif
+   </style>
     @yield('head_externals')
         <div id="knocks_nav_vue">
           <nav class = " top-nav nav-extended knocks_house_keeper" id = "knocks_main_navbar" style="position: fixed; top:0; z-index : 10000000 !important;">
@@ -18,26 +26,10 @@
                       <span>Knocks</span>
                     </span>
                   </a>
-          {{--
-                    <ul id="nav-mobile" class="right hide-on-med-and-down  ">
-                      <li><a class = "knocks_text_light waves-pink dropdown-button waves-effect" >
-                        <span class = "knocks-balloon"></span>
-                        <static_message :msgid="26"></static_message>
-                      </a></li>
-                      <li><a class = "knocks_text_light waves-pink  dropdown-button  waves-effect" data-activates="knocks_notification_ul">
-                        <span class = "knocks-mailbox "></span>
-                        <static_message :msgid="27"></static_message>
-                      </a></li>
-                    </ul> --}}
+
                 </div>
                  <div class="nav-content ">
-                {{-- <ul class="tabs tabs-transparent container knocks_color_kit">
-                  <li class="tab"><a href="#test1" class = ""><span class = "">Test</span></a></li>
-                  <li class="tab"><a href="#test1" class = ""><span class = "">Test</span></a></li>
-                  <li class="tab"><a href="#test1" class = ""><span class = "">Test</span></a></li>
-                  <li class="tab"><a href="#test1" class = ""><span class = "">Test</span></a></li>
-                </ul>
-           --}}    </div>
+               </div>
 
 
 
@@ -51,9 +43,6 @@
     <main id = "knocks_main" style= "background-color: #eceff1">
       <div class = "knocks_full_wrapper"></div>
       <div id = "app"  class = "row" style="margin-bottom: 0px;">
-
-
-        <!--Notification-->
         <div class = "knocks_balloons_container" >
         <knocksballon
         v-for = "(ballon , ind) in ballons" :key="ind"
@@ -61,19 +50,6 @@
         v-if = "ballon.poped == 0"
         :constrains = "ballon"
         ></knocksballon>
-
-      {{--   <knocksballon
-
-        :gid="'knocks_notification_wall_'"
-        category = "System"
-
-        :constrains = "{
-         content : '<h3>Hello</h3>' ,
-        }"
-
-        ></knocksballon> --}}
-
-
       </div>
 
 

@@ -721,10 +721,12 @@ Route::group(['middleware' => 'lastseen'], function () {
 	Route::post('user/info', 'UserController@getInfo');
 
 	//MAIN SEARCH ROUTES
-	Route::get('/search', function () {
+	Route::get('/app/search', function () {
 		return view('test.searchpage', compact('q'));
 	});
 	Route::post('user/search/global', 'UserController@globalUserSearch');
+
+	Route::post('search/main/sc', 'UserController@shortMainSearch');
 
 	Route::post('search/main', 'UserController@mainSearch');
 

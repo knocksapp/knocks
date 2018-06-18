@@ -69,7 +69,7 @@
                     </a>
                   </div>
                   <div class = "col s3">
-                    <el-dropdown trigger="click" class = "right">
+                    <el-dropdown trigger="click" class = "right" v-if = "is_auth">
                     <span class="el-dropdown-link">
                       <knockspopover>
                       <template slot = "container">
@@ -81,7 +81,7 @@
                       </span>
                       </knockspopover>
                     </span>
-                    <el-dropdown-menu slot="dropdown">
+                    <el-dropdown-menu slot="dropdown" >
                     <el-dropdown-item v-if="userId == knockObject.user_id">
                     <div>
                       <span class = "knocks-trashcan4 knocks_icon_border blue-text"></span>
@@ -495,7 +495,11 @@ export default {
       }else return;
     });
    
-    
+    App.$on('knocksKnockContentChanged' , ()=>{
+      vm.knockObject = null
+      setTimeout(()=>{ vm.askToBound() },500)
+      
+    })
     
     
   }, 

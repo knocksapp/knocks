@@ -310,7 +310,9 @@ $currentUser = auth()->check() ? auth()->user() : array('id' => -1);
           </div>
           <knocksknockinjector
           :current_user = "{{$currentUser['id']}}"
+          @if(auth()->check())
           as_atimeline
+          @endif
           show_appendex
           newer_retrive = "user/profile/posts/newer"
           older_retrive = "user/profile/posts/older"

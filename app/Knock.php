@@ -8,6 +8,7 @@ use App\hashtags;
 use App\ignore_object;
 use App\obj;
 use App\Saved_presets;
+use App\SearchQueries;
 use App\User;
 use App\User_hashtags;
 use App\User_keywords;
@@ -63,6 +64,11 @@ class Knock extends Model {
 
 	public function isIgnored($user) {
 		return ignore_object::where('object_id', '=', $this->object_id)->where('user_id', '=', $user)->exists();
+	}
+
+	public function autoIdView() {
+		$s = $this->view(auth()->check() ? auth()->user()->id : -1);
+		return !$s || $s == 'invalid' ? false : $this->id;
 	}
 
 	public function view($requester) {

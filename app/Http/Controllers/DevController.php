@@ -274,9 +274,10 @@ class DevController extends Controller {
 		for ($i = 0; $i < $request->count; $i++) {
 			$selectedHashtag = $hashtags[rand(0, count($hashtags) - 1)];
 			$knock = new Knock();
+			$tc = $qts[rand(1, count($qts) - 1)];
 			$knock->initialize(json_encode(
 				array(
-					"body" => $qts[rand(1, count($qts) - 1)] . '
+					"body" => $tc . '
 					 <a contenteditable="false" href="https://knocks.dev/trend/' . substr($selectedHashtag, 1) . '" class="knocks_hashtag">' . $selectedHashtag . '</a>
 					 <a contenteditable="false" href="https://knocks.dev/trend/knocks" class="knocks_hashtag">#knocks</a>
 					 <a contenteditable="false" href="https://knocks.dev/trend/knocksApp" class="knocks_hashtag">#knocksApp</a>
@@ -291,7 +292,7 @@ class DevController extends Controller {
 						'#knocks',
 						'#knocksApp',
 					],
-					"text" => $qts[rand(0, count($qts) - 1)],
+					"text" => $tc,
 					"has_files" => false,
 					"files_specifications" => null,
 					"has_videos" => false,

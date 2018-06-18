@@ -21,7 +21,7 @@ if (auth()->check()) {
 }
 ?>
   <link rel = "stylesheet" href = {{asset('css/app.css')}}  />
-  <meta name="session-type" content="user">
+  <meta name="session-type" content="{{ auth()->check() ? 'user' : 'guest' }}">
   <audio src = "{{asset('snaps/knocks_notification.mp3')}}" id = "knocks_notification" style = "display : none" controls></audio>
   <audio src = "{{asset('snaps/knocks_recording.mp3')}}" id = "knocks_recording_vid_src" style = "display : none" controls></audio>
   <audio src = "{{asset('snaps/knocks-react.mp3')}}" id = "knocks_disreact_vid_src" style = "display : none" controls></audio>

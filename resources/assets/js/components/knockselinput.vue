@@ -8,6 +8,7 @@
        <el-input  
        :type = "type"
         @focus="addFocus()"
+        :name = "name"
         :class = "[{'input-with-select':with_select}]"
         @blur="removeFocus()"
         :placeholder = "innerPlaceholder"
@@ -355,6 +356,10 @@
         with_select : {
           type : Boolean ,
           default : false ,
+        },
+        name : {
+          type : String , 
+          default : ''
         }
 
     

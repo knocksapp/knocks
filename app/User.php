@@ -11,6 +11,7 @@ use App\Hobby;
 use App\Knock;
 use App\Language;
 use App\Mail\WelcomeMail;
+use App\SearchQueries;
 use App\Sport;
 use App\UserAddress;
 use App\user_blocks;
@@ -386,6 +387,13 @@ class User extends Authenticatable {
 		$name = $name . ' ' . $this->last_name;
 		return $name;
 	}
+	public function queryName() {
+		$name = $this->nickname == null ? '' : '(' . $this->nickname . ') ';
+		$name = $name . $this->first_name;
+		$name = $this->middle_name == null ? $name : $name . ' ' . $this->middle_name;
+		$name = $name . ' ' . $this->last_name;
+		return $name;
+	}
 	public function friendsByWeight() {
 		return $this->mainCircle()->circleMembers()->orderBy('weight', 'desc');
 	}
@@ -415,6 +423,10 @@ class User extends Authenticatable {
 
 	public function hasNoBlocks($user) {
 		return !$this->isBlockedBy($user) && !$this->isBlocking($user);
+	}
+
+	public function autoHasNoBlocks() {
+		return auth()->check() ? $this->hasNoBlocks(auth()->user()->id) : true;
 	}
 
 	public function friends() {
@@ -687,6 +699,18 @@ class User extends Authenticatable {
 		$this->configuration = json_encode($cog);
 		$this->update();
 
+		$sq = new SearchQueries();
+		$as = new Assistant();
+		$sq->init($as->objectRollback(
+			array('keywords' => $this->queryName(),
+				'query_id' => $this->id,
+				'query_type' => 'user',
+				'child_id' => null,
+				'object_quick_presets' => null,
+				'index' => null,
+			)
+		));
+
 		\Mail::to($this)->send(new WelcomeMail($this));
 	}
 
@@ -787,6 +811,17 @@ class User extends Authenticatable {
 		$this->update();
 
 		// \Mail::to($this)->send(new WelcomeMail($this));
+		$sq = new SearchQueries();
+		$as = new Assistant();
+		$sq->init($as->objectRollback(
+			array('keywords' => $this->queryName(),
+				'query_id' => $this->id,
+				'query_type' => 'user',
+				'child_id' => null,
+				'object_quick_presets' => null,
+				'index' => null,
+			)
+		));
 	}
 
 	//Update upload Token

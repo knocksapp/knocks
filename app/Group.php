@@ -32,6 +32,17 @@ class Group extends Model {
 			"requests" => []
 		));
 		$this->save();
+		$sq = new SearchQueries();
+		$as = new Assistant();
+		$sq->init($as->objectRollback(
+			array('keywords' => $this->name,
+				'query_id' => $this->id,
+				'query_type' => 'group',
+				'child_id' => null,
+				'object_quick_presets' => null,
+				'index' => null,
+			)
+		));
 	}
 
 	public function index() {

@@ -3,7 +3,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Comment;
 use App\Envelope;
 use App\Group;
 use App\Group_member;
@@ -11,9 +10,8 @@ use App\Knock;
 use App\Mail\AccountBlocked;
 use App\Mail\ForgotMyPassword;
 use App\Mail\VerifyAccount;
-use App\obj;
-use App\Reply;
 use App\Saved_presets;
+use App\SearchQueries;
 use App\User;
 use App\User_log;
 use Illuminate\Http\Request;
@@ -490,55 +488,65 @@ class UserController extends Controller {
 		}
 		return $temp;
 	}
+
+	public function shortMainSearch(Request $request) {
+		$result = [];
+
+		$query = SearchQueries::where('keywords', 'like', '%' . $request->q . '%')->get();
+		foreach ($query as $q) {
+
+			if ($q->query_type == 'user') {
+				$cu = User::find($q->query_id);
+				if ($cu && $cu->autoHasNoBlocks()) {
+					array_push($result, array('c' => $q->keywords, 't' => 'user'));
+				}
+			}
+			if ($q->query_type == 'group') {
+				$cu = Group::find($q->query_id);
+				if ($cu) {
+					array_push($result, array('c' => $q->keywords, 't' => 'group'));
+				}
+			}
+			if ($q->query_type == 'knock') {
+				$cu = Knock::find($q->child_id);
+				if ($cu && $cu->autoIdView()) {
+					array_push($result, array('c' => $q->keywords, 't' => 'knock'));
+				}
+			}
+
+		}
+
+		return $result;
+
+	}
+
 	public function mainSearch(Request $request) {
 		$result = array();
-		$result['users'] = auth()->user()->soundsLikeID($request->q);
+		$result['users'] = array();
 		$result['reply'] = array();
 		$result['comment'] = array();
 		$result['knock'] = array();
-		$result['groups'] = Group::where('name', 'like', '%' . $request->q . '%')->get()->pluck('id');
+		$result['groups'] = array();
+		$query = SearchQueries::where('keywords', 'like', '%' . $request->q . '%')->get();
+		foreach ($query as $q) {
 
-		// $obs = obj::
-		// where('keywords' , 'like' , "%$request->q%  ")
-		// ->get();
-
-		//  $obs = collect(DB::select( DB::raw("SELECT id FROM objs
-		//    WHERE keywords sounds like '$request->q'
-		//    or keywords like '%$request->q%'
-		//    "
-		//  )
-		// ));
-		$objs = obj::where('type', '=', 'knock')
-			->orwhere('type', '=', 'comment')
-			->orwhere('type', '=', 'reply')
-			->get();
-		foreach ($objs as $ob) {
-
-			if ($ob->isAvailable(auth()->user()->id)) {
-				similar_text($ob->keywords, $request->q, $percent);
-
-				if ($percent > 50 || strpos($ob->keywords, $request->q)) {
-					if ($ob->type == 'knock') {
-						$res = Knock::where('object_id', '=', $ob->id);
-						if ($res->count() > 0) {
-							array_push($result[$ob->type], $res->first()->id);
-						}
-
-					} elseif ($ob->type == 'comment') {
-						$res = Comment::where('object_id', '=', $ob->id);
-						if ($res->count() > 0) {
-							array_push($result[$ob->type], $res->first()->id);
-						}
-
-					} elseif ($ob->type == 'reply') {
-						$res = Reply::where('object_id', '=', $ob->id);
-						if ($res->count() > 0) {
-							array_push($result[$ob->type], $res->first()->id);
-						}
-
-					}
+			if ($q->query_type == 'user') {
+				$cu = User::find($q->query_id);
+				if ($cu && $cu->autoHasNoBlocks()) {
+					array_push($result['users'], $q->query_id);
 				}
-
+			}
+			if ($q->query_type == 'group') {
+				$cu = Group::find($q->query_id);
+				if ($cu) {
+					array_push($result['groups'], $q->query_id);
+				}
+			}
+			if ($q->query_type == 'knock') {
+				$cu = Knock::find($q->child_id);
+				if ($cu && $cu->autoIdView()) {
+					array_push($result['knock'], $cu->id);
+				}
 			}
 
 		}

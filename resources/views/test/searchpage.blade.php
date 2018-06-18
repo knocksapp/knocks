@@ -1,4 +1,4 @@
-@extends('layouts.no_sidebar')
+@extends('layouts.user')
 @section('head_externals')
 <style>
 .el-tabs__content{
