@@ -28,7 +28,6 @@ background-color: #ee6e73 !important;
 <title>Welcome To KnocksApp</title>
 @endsection
 @section('content')
-
 <div class = "">
     <div class = "row">
         <div class = "col l6 hide-on-med-and-down">
@@ -44,8 +43,8 @@ background-color: #ee6e73 !important;
             <div class  = "">
                 <transition  name="custom-classes-transition" enter-active-class="animated zoomIn" leave-active-class="animated zoomOut">
                     <h3 class = "center knocks_text_lmd knocks_language_default_font" v-if = "loginStage == null">
-                        <static_message class = "knocks_text_light" msg = "Welcome To KnocksApp"></static_message>
-                        <img class = "col s8 push-s2 animated rotateIn" src = "{{asset('snaps/knocks_circle.png')}}" style="margin-top : 20px;" />
+                    <static_message class = "knocks_text_light" msg = "Welcome To KnocksApp"></static_message>
+                    <img class = "col s8 push-s2 animated rotateIn" src = "{{asset('snaps/knocks_circle.png')}}" style="margin-top : 20px;" />
                     </h3>
                 </transition>
                 <transition  name="custom-classes-transition" enter-active-class="animated zoomIn" leave-active-class="animated zoomOut">
@@ -61,8 +60,6 @@ background-color: #ee6e73 !important;
                         </a>
                         </h4>
                         <div class = "row animated slideInUp">
-
-
                             <knocksinput
                             placeholder = "Username, Email Or Phone number"
                             gid = "username_login"
@@ -121,10 +118,8 @@ background-color: #ee6e73 !important;
                             connection_error = "There's a problem in your connection, please try again."
                             :submit_data = "{ q : username_login ,pw : password_login ,}"></knocksbutton>
                         </div>
-
                     </div>
                 </transition>
-
                 <transition  name="custom-classes-transition"
                     enter-active-class="animated slideInUp "
                     leave-active-class="animated zoomOut">
@@ -207,7 +202,6 @@ background-color: #ee6e73 !important;
                                 <knocksbutton
                                 placeholder = "Next"
                                 @knocks_stack_passed  = "stageSwitch(2)"
-
                                 :submit_flag = "false"
                                 success_at = "done"
                                 gid = "stage_one_next"
@@ -219,38 +213,54 @@ background-color: #ee6e73 !important;
                             </div>
                             <!--Stage Two-->
                             <div class = "row animated zoomIn" :class = "{'knocks_hidden' :stageNumber != 2}">
-
                                 <div class="row">
                                     <div class = "col s12">
                                         <knockseldatepicker
-                                          :default_time = "{ date : '1995-06-15' }"
-                                          :quick = "[]"
-                                          icon = "knocks-birthday-cake"
-                                          :margins = '{ max : { count : -5 , unit : "y" }  }'
-                                          placeholder = "Birthdate"
-                                          v-model = "birthdate"></knockseldatepicker>
+                                        :default_time = "{ date : '1995-06-15' }"
+                                        :quick = "[]"
+                                        is_required
+                                        icon = "knocks-birthday-cake"
+                                        :margins = '{ max : { count : -5 , unit : "y" }  }'
+                                        placeholder = "Birthdate"
+                                        :scope = "['stage_two' , 'registeration']"
+                                        v-model = "birthdate"></knockseldatepicker>
                                         <transition enter-active-class = "animated shake" leave-active-class = "animated zoomOut">
-                                          <p class = "knocks_text_danger" v-if = "!validDate && birthdateIsFired">
-                                            <span class = "knocks-alert-circle"></span>
-                                            <static_message msg ="Invalid Birthdate."></static_message>
-                                          </p>
+                                            <p class = "knocks_text_danger" v-if = "!validDate && birthdateIsFired">
+                                                <span class = "knocks-alert-circle"></span>
+                                                <static_message msg ="Invalid Birthdate."></static_message>
+                                            </p>
                                         </transition>
                                     </div>
                                 </div>
                                 <div class = "col s4 l3">
-                                    <span class = "knocks-male2 knocks_text_light knocks_text_ms"></span>
-                                    <span class = "knocks-female2 knocks_text_light knocks_text_ms"></span>
+                                    <span class = "knocks-controller-record knocks_text_light knocks_text_ms"></span>
                                     <static_message msg = "Gender" classes = "knocks_text_ms"></static_message>
                                 </div>
-                                <div class = "col s12 l8 ">
-                                <knockstaps :multiple = "false"
-                                 v-model="gender"
-                                :options = "knocksTapsDevOptions" >
-                                  </knockstaps>
+                                <div class = "col s12  ">
+                                    <knockselselect
+                                    start_as = "Male"
+                                    :feeds="[
+                                    { label : 'Male' , value : 'Male' , icon : 'knocks-male2' } ,
+                                    { label : 'Female' , value : 'Female' , icon : 'knocks-female2' } ,
+                                    { label : 'Mercury' , value : 'Mercury' , icon : 'knocks-mercury' } ,
+                                    { label : 'Intersex' , value : 'Intersex' , icon : 'knocks-intersex' } ,
+                                    { label : 'Transgender (Non-binary)' , value : 'Transgender' , icon : 'knocks-transgender-alt' } ,
+                                    { label : 'Mars Stroke (Androgyny)' , value : 'Marse Stroke' , icon : 'knocks-mars-stroke' } ,
+                                    { label : 'Marse Stroke Vertical' , value : 'Marse Stroke Vertical' , icon : 'knocks-mars-stroke-v' } ,
+                                    { label : 'Marse Stroke Horizontal' , value : 'Marse Stroke Horizontal' , icon : 'knocks-mars-stroke-h' } ,
+                                    { label : 'Neuter' , value : 'Neuter' , icon : 'knocks-neuter' } ,
+                                    { label : 'Genderless' , value : 'Genderless' , icon : 'knocks-genderless' } ,
+                                    ]"
+                                    v-model = "gender"
+                                    is_required
+                                    icon = "knocks-controller-record"
+                                    :error_mixins = "[{ key : 'is_required' , mixin : { msg : 'This field is required.' , icon : 'knocks-alert-circle' } }]"
+                                    general_icon = "knocks-tag-add"
+                                    placeholder = "Gender"
+                                    :scope = "['stage_two' , 'registeration']"></knockselselect>
                                 </div>
                                 <br/><br/>
                                 <center>
-
                                 <knocksbutton
                                 placeholder = "previous"
                                 @knocks_button_clicked  = "stageSwitch(1)"
@@ -276,7 +286,6 @@ background-color: #ee6e73 !important;
                                 validation_error = "There're some fields we need you to complete.">
                                 </knocksbutton>
                                 </center>
-
                             </div>
                             <!--Stage Three-->
                             <div class = "row animated zoomIn" :class = "{ 'knocks_hidden':stageNumber != 3 }">
@@ -332,7 +341,6 @@ background-color: #ee6e73 !important;
                                 placeholder = "previous"
                                 @knocks_button_clicked  = "stageSwitch(2)"
                                 :validate = "false"
-
                                 :submit_flag = "false"
                                 success_at = "done"
                                 gid = "stage_one_next"
@@ -344,7 +352,6 @@ background-color: #ee6e73 !important;
                                 <knocksbutton
                                 placeholder = "Next"
                                 @knocks_stack_passed  = "stageSwitch(4)"
-
                                 :submit_flag = "false"
                                 success_at = "done"
                                 gid = "stage_one_next"
@@ -402,7 +409,6 @@ background-color: #ee6e73 !important;
                                 placeholder = "previous"
                                 @knocks_button_clicked  = "stageSwitch(3)"
                                 :validate = "false"
-
                                 :submit_flag = "false"
                                 success_at = "done"
                                 label_classes = "knocks_text_sm"
@@ -412,7 +418,6 @@ background-color: #ee6e73 !important;
                                 </knocksbutton>
                                 <knocksbutton
                                 placeholder = "Register"
-
                                 submit_at = "registeration"
                                 success_at = "done"
                                 label_classes = "knocks_text_sm"
@@ -445,7 +450,6 @@ background-color: #ee6e73 !important;
                             <el-step title="Username And Phone" :icon="stageIcon(3,'knocks-email3')"></el-step>
                             <el-step title="Protect Your Account" :icon="stageIcon(4,'knocks-locked4')"></el-step>
                             </el-steps>
-
                         </div>
                     </transition>
                 </div>

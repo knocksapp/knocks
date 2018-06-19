@@ -454,9 +454,7 @@ class DevController extends Controller {
 			$k->update();
 
 		}
-
 		return 'done';
-
 	}
 
 	public function createRandomReactions(Request $request) {

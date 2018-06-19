@@ -90,8 +90,6 @@
         </div>
         <br/>
         <knocksusersuggestions class ="" ></knocksusersuggestions>
-
-
           <div class="white knocks_fair_bounds knocks_ocean_blue_border knocks_tinny_border_radius hide-on-large-only">
             <knockscollapse
             icon = "knocks-map7"
@@ -178,8 +176,6 @@
             </div>
             </knockscollapse>
           </div>
-
-
         <knocksknockinjector :current_user = "{{auth()->user()->id}}" show_appendex></knocksknockinjector>
       </div>
       <div class = "col l4" v-if = "watchMyWindow.width >= 1200"
@@ -274,7 +270,6 @@
             </div>
             </knockscollapse>
           </div>
-
         </div>
       </div>
     </div>
