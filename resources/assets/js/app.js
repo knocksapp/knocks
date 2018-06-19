@@ -1616,11 +1616,7 @@ window.NavInstance = new Vue({
 
 
   });
-  $(window).resize(function(){
-   
-    
-      vm.showRightSideBar = true ;
-     });
+ 
 
   // $(document).on('#sidebar_search_box' , function(){
   //   vm.sidebarSearchFocus = true;
