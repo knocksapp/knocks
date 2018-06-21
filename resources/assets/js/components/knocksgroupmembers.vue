@@ -56,7 +56,7 @@
 				    <div class="row" v-if="group_members != null && group_members.response != null">
 				    	<ul class="uk-list uk-list-divider">
 				    	<li  v-for="(mem,index) in group_members.response" class="knocks_fair_bounds">
-				    	<knocksuser  :show_accept_shortcut="false" class="col s10 animated fadeIn" :user="mem.user_id" v-model="members_names[index]" :as_result="true">
+				    	<knocksuser  :show_accept_shortcut="false" main_container="col s10 animated fadeIn" :user="mem.user_id" v-model="members_names[index]" :as_result="true">
                     <span slot="append_to_name" class=""><span v-if="mem.position == 'Owner'" style="font-size : 10px !important" class="uk-badge red">Owner</span><span v-if="mem.position == 'Member'" style="font-size : 10px !important" class="uk-badge blue">Member</span> <span 
                   v-if="mem.position == 'Admin'" 
                   class="uk-badge green knocks_text_sm" 
@@ -67,7 +67,7 @@
                          <span class="right" v-if="mem.position != 'Owner' || mem.position != 'Admin'">
                           <knocksgroupmemberdelete 
                           :authposition = "authposition"
-                          :position="mem.position" @member_deleted="group_members.response.splice(index,1)" :group_id="group_object.id" :gid="index" :member_delete = "mem.user_id"></knocksgroupmemberdelete></span>
+                          :position="mem.position" @member_deleted="group_members.response.splice(index,1); deletedMember($event)" :group_id="group_object.id" :gid="index" :member_delete = "mem.user_id"></knocksgroupmemberdelete></span>
       				      </li>
       				    </ul>
       				    </div>
@@ -76,13 +76,13 @@
       					 	<span slot="label" class="grey-text"><i class="knocks-user-plus"></i> Add Members</span>
       					 	<knockselinput v-model = "test" placeholder="search" autocomplete :autocomplete_start="2" autocomplete_from = "user/search" @autocomplete="user = $event" ></knockselinput>
       					 	<ul class="uk-list uk-list-divider">
-      				    	<li >
-                      <div v-for="(u ,index) in user" v-if="!inGroup(u)">
-      				    	<knocksuser  main_container="col s10 knocks_house_keeper"  class="animated bounceIn" :user="user[index]"  :key = "u">
+      				    	<li v-for="(u ,index) in user" class="knocks_fair_bounds">
+                      <div  v-if="!inGroup(u)">
+      				    	<knocksuser   main_container="col s10 knocks_house_keeper"  class="animated bounceIn" :user="user[index]"  :key = "u">
                      </knocksuser>
                      <knocksgroupjoining 
                      @member_added = "addMember($event)"
-                     class="col s2 right" :group_id="group_object.id" :add_member_mode="true" :user_id="u"></knocksgroupjoining>
+                     class="right" :group_id="group_object.id" :add_member_mode="true" :user_id="u"></knocksgroupjoining>
                    </div>
 				      </li>
 				  </ul>
@@ -183,6 +183,10 @@ export default {
      }
   },
   methods:{
+    deletedMember(e,index){
+     
+     $('#group_member_count').empty().append(this.group_members.response.length);
+    },
        isOwner(){
        	const vm = this
        	let i;
@@ -214,10 +218,12 @@ export default {
               return false ;
         },
         addMember(e , index){
+
           this.group_members.response.push({
             user_id : e , 
             position : 'Member'
           });
+          $('#group_member_count').empty().append(this.group_members.response.length);
          },
        emitChanged(){
        	App.$emit('KnocksContentChanged');

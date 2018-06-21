@@ -85,6 +85,7 @@
         gid = "stage_one_net"
         :submit_data = " {group_id : group_object.id , group_name : group_name, group_category : group_category} "
         button_classes = "right"
+        @knocks_submit_accepted = "rename_group($event)"
         >
         </knockselbutton>
           </div>
@@ -165,8 +166,8 @@
               <li  v-for="(mem,index) in group_members.response">
                  <knocksgroupmemberposition :user_id = "mem.user_id" :group_id="group_object.id"></knocksgroupmemberposition>
               <knocksuser
+                 main_container="col s10 animated fadeIn"
                 :show_accept_shortcut="false" 
-                class="col s5 animated fadeIn" 
                 :user="mem.user_id" 
                 :as_result="true"
                 :show_username = "false"
@@ -242,6 +243,9 @@ export default {
   	   		vm.update_pic = true;
 
   	   },
+       rename_group(e){
+           $('#group_name_view').empty().append(e.submit_data.group_name);
+       },
   	   requestCount(){
   	   	    const vm = this
   	   	    let i;

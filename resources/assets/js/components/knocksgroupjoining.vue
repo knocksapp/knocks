@@ -39,15 +39,18 @@
       </el-button>
     </div>
     <div v-if = "add_member_mode && group_object != null && !checkMem">
+       <el-tooltip class="item" effect="light" content="Invite Member" placement="left">
       <el-button 
       v-if="group_object.preset == 'public'"
       @click="addMemberToGroup('public')"
       type="primary"
       v-loading="isLoading"
       :disabled = "isLoading"
+      circle
+      icon = "el-icon-plus"
       >
-      <span> Invite <i class="knocks-plus2"></i></span>
     </el-button>
+    </el-tooltip>
     </div>
     <div v-if = "add_member_mode && group_object != null && !checkMem">
       <el-button 
