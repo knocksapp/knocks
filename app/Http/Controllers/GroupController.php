@@ -207,7 +207,7 @@ class GroupController extends Controller
    }
    public function updateGroupInfo(Request $request){
       $group = Group::find($request->group_id);
-      if(count($group) > 0){
+      if(count($group) != null){
         $group->name = $request->group_name;
         $group->category = $request->group_category;
         $group->update();
@@ -216,7 +216,7 @@ class GroupController extends Controller
     }
     public function updateGroupPrivacy(Request $request){
       $group = Group::find($request->group_id);
-      if(count($group) > 0){
+      if(count($group) != null){
         $group->preset = $request->preset;
         $group->update();
         return 'done';

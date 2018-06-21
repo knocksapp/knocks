@@ -40,7 +40,7 @@
 
 <el-dialog
   :visible.sync="centerDialogVisible"
-  width="30%"
+  width="95%"
   center>
   <span slot="title" class="red-text knocks_text_md"><i class="knocks-info"></i> Group Leave Warrning </span>
   <span class="knocks_text_ms">
@@ -71,14 +71,18 @@
   </span>
   <span slot="footer" class="dialog-footer">
     <el-button @click="centerDialogVisible = false">Cancel</el-button>
-    <el-button type="danger" :disabled="disabled" @click="removeOwner()">{{btn_label}}</el-button>
+    <el-button type="danger"  :disabled="disabled" @click="removeOwner()" :icon="btn_label">Leave this Group</el-button>
   </span>
 </el-dialog>
-
-	<el-button v-popover:popover5 v-if="flag_member.response && flag" type="danger"><i class="knocks-close"></i> {{kick}}</el-button>
-  <el-button v-popover:popover5 v-if="canKick()" type="danger"><i class="knocks-close"></i> {{kick}}</el-button>
-  <el-button v-popover:popover5 v-if="member_delete == auth " @click="loadMem()"  type="danger"><i class="knocks-close"></i> {{leave}}</el-button>
-
+<el-tooltip class="item" effect="light" content="Kick Member" placement="left">
+	<el-button v-popover:popover5 circle :icon="kick" v-if="flag_member.response && flag" type="danger"></el-button>
+</el-tooltip>
+<el-tooltip class="item" effect="light" content="Kick Member" placement="left">
+  <el-button v-popover:popover5 circle :icon="kick" v-if="canKick()" type="danger"></el-button>
+</el-tooltip>
+<el-tooltip class="item" effect="light" content="Leave this Group" placement="left">
+  <el-button circle v-popover:popover5 v-if="member_delete == auth " :icon="leave" @click="loadMem()"  type="danger"></el-button>
+</el-tooltip>
 </div>
 
 </div>
@@ -122,9 +126,9 @@ export default {
        group_members : null,
        disabled : true,
        check : [],
-       btn_label : 'Leave',
-       kick : 'Kick',
-       leave : 'Leave',
+       btn_label : 'knocks-exit',
+       kick : 'el-icon-close',
+       leave : 'knocks-exit',
     }
   },
   methods:{

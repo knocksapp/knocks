@@ -9,7 +9,7 @@
           <img class = "knocks_group_avatar_scope" src = "{{ asset('media/group/picture/'.$group->id) }}" style="width : 100%; border-radius : 25px; padding : 3px; " />
       </div>
       <div class="col s6 l7 push-l1 push-s1 knocks_house_keeper knocks_fair_bounds" style="padding-top : 120px !important">
-         <h3 class="knocks_house_keeper knocks_text_dark" ><a class="knocks_house_keeper knocks_text_dark" href="{{asset('group/'.$group->id) }}">{{$group->name}}</a></h3>
+         <h3 class="knocks_house_keeper knocks_text_dark" ><a id="group_name_view" class="knocks_house_keeper knocks_text_dark" href="{{asset('group/'.$group->id) }}">{{$group->name}}</a></h3>
 
          <h6 class="knocks_sp_top_margin knocks_text_dark" style="opacity : 0.5"><i class="knocks-user"></i> Members : <span class="green-text">{{$group->groupMembers()->count()}}</span></h6>
     
