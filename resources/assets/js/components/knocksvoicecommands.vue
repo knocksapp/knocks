@@ -202,7 +202,10 @@
                       </ul>
                     </div>
                     </knockscollapse>
-                    <knockscollapse icon = 'knocks-pencil9' title = "Write a Knock" comment = "Write and publish your Knocks in a few seconds, from anywhere!."
+                    <knockscollapse 
+                    id = "knocks_kvc_clp_help_wk"
+                    gid = "knocks_kvc_clp_help_wk"
+                    icon = 'knocks-pencil9' title = "Write a Knock" comment = "Write and publish your Knocks in a few seconds, from anywhere!."
                     regular_class = "knocks_text_light "
                     active_class = 'knocks_text_light_active  '
                     toggler_container = "transparent knocks_blured_bg_hover knocks_margin_keeper knocks_fair_padding">
@@ -760,8 +763,11 @@ export default {
   },
   showHelpWriteKnock(){
     this.answer("This is how to write a Knock through Knocks Assistant.")
-    App.$emit('KnocksCollapseByGid' , { gid : 'knocks_kvc_clp_help' } )
-    document.getElementById('knocks_kvc_clp_help').scrollIntoView();
+    App.$emit('KnocksCollapseSwitchByGid' , { gid : 'knocks_kvc_clp_help' , switch : true} )
+    setTimeout(()=>{
+      App.$emit('KnocksCollapseSwitchByGid' , { gid : 'knocks_kvc_clp_help_wk' , switch : true} )
+      document.getElementById('knocks_kvc_clp_help_wk').scrollIntoView();
+    },400)
   },
   //Show My Circles
   showMyCircles(){

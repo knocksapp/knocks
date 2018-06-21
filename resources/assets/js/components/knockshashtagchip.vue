@@ -32,7 +32,11 @@ export default {
   	hashtag : {
   		type : String , 
   		required : true ,
-  	}
+  	},
+    no_refresh : {
+      type : Boolean , 
+      default : false 
+    }
   },
   data () {
     return {

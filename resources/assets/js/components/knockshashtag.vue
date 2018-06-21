@@ -1,6 +1,5 @@
 <template>
-	<div :class = "[{'knocks_xs_padding' : result.length > 0}]">
-		    
+	<div :class = "[{'knocks_xs_padding' : result.length > 0}]">   
 			<knockshashtagchip :hashtag = "res" v-for = "(res, index) in result" :key = "index" class = "animated fadeIn"></knockshashtagchip>
 	</div>
 </template>
@@ -13,7 +12,7 @@ export default {
   	body : {
   		type : String , 
   		default : ''
-  	}
+  	},
   },
   data () {
     return {

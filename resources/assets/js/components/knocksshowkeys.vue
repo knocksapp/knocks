@@ -24,6 +24,7 @@
       <knocksdateviewer :date = "item" v-if = "index < showKey && show_scope == 'date'"></knocksdateviewer>
       <knockshashtagchip :hashtag = "item" v-if = "index < showKey && show_scope == 'hashtag'"></knockshashtagchip>
       <knocksaddressviewer :address = "item" v-if = "index < showKey && show_scope == 'address'"></knocksaddressviewer>
+      <slot :name = "index"></slot>
 		</li>
 	</ul>
   <center  v-if = "show_input.length == 0 && !hide_on_empty">

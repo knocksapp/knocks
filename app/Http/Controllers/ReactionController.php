@@ -62,7 +62,6 @@ class ReactionController extends Controller {
 		return 'done';
 
 	}
-
 	public function getstats_reaction(Request $request) {
 		$sad_users = array();
 		$reaction_sad = Reaction::where('object_id', '=', $request->object_id)

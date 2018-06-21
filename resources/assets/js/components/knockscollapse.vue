@@ -151,11 +151,18 @@ export default {
     })
 
     App.$on('KnocksCollapseByGid' , (payloads)=>{
-      console.log('resp')
       if(vm.gid == null || payloads.gid == undefined || payloads.gid == null) return
-      
         if(payloads.gid == vm.gid){
           console.log('col match')
+          vm.toggleById()
+          return
+        }   
+    })
+
+     App.$on('KnocksCollapseSwitchByGid' , (payloads)=>{
+      if(vm.gid == null || payloads.gid == undefined || payloads.gid == null) return
+        if(payloads.gid == vm.gid){
+          if(vm.toggleCase != payloads.switch)
           vm.toggleById()
           return
         }   

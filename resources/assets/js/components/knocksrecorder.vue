@@ -4,7 +4,7 @@
     <el-popover
   ref="popover1"
   placement="top-start"
-  
+  v-if = "recoginitionAvailable"
   width="200"
   trigger="click"
   >
@@ -45,7 +45,7 @@
 
 </div>
 </el-popover>
-     <a v-popover:popover1><span class = "knocksapp-list3"></span></a>
+     <a v-popover:popover1 v-if = "recoginitionAvailable" ><span class = "knocksapp-list3"></span></a>
     <knockspopover v-if="(currentBlob == null || isRecording) && mainRecorder != null" >
     <template slot = "container">
 
@@ -366,7 +366,8 @@ export default {
       stream : null , 
       speaking : false ,
       loading : false ,
-      // limitPercentage : 0 ,  
+      // limitPercentage : 0 , 
+      recoginitionAvailable : false 
 
 
     }
@@ -636,7 +637,7 @@ methods : {
   },
   startDictation() {
     const vm = this;
-      
+    this.recoginitionAvailable = window.hasOwnProperty('webkitSpeechRecognition')
     if (window.hasOwnProperty('webkitSpeechRecognition')) {
   
       vm.recognition = new webkitSpeechRecognition();
