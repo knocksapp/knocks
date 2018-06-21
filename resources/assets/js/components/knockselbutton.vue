@@ -1,20 +1,33 @@
 <template>
+    <el-tooltip>
+    <div slot = "content">
+      <div v-if = "hasTryAgain">
+        <i class="material-icons" :class = "buttonIcon" v-if="!isLoading"></i>
+        <span :class="label_classes" v-if = "placeholder != null">Try Again</span>
+      </div>
+      <div v-else>
+        <i class="material-icons" :class = "buttonIcon" v-if="!isLoading"></i>
+        <span  :class="label_classes" v-if = "placeholder != null">{{placeholder}}</span>
+      </div>
+    </div>
   <el-button class=" " 
   :loading = "isLoading" 
   :disabled = "disabled" 
   :plain = "plain"
   :circle = "circle"
-  :size = "size" :round = "rounded"
+  :size = "size" 
+  :round = "rounded"
   :type = "type"
-  :class = "[lang_alignment, button_classes]" @click = "construct()">
-    <i :class = "[icon , {right: !disable_placeholder && align == 'right'} ,
-    {left: !disable_placeholder && align == 'left'} , {center : disable_placeholder}]" v-if="!isLoading"></i>
+  :class = "[lang_alignment, button_classes]" 
+  @click = "construct()">
+    <i :class = "buttonIcon" v-if="!isLoading"></i>
 
         <static_message :msgid="place_holder" :class="label_classes" v-if = "placeholder == null && !disable_placeholder">
         </static_message>
         <static_message :msg="placeholder" :class="label_classes" v-else-if = "placeholder != null && !disable_placeholder" >
         </static_message>
   </el-button>
+</el-tooltip>
 </template>
 
 <script>
@@ -164,6 +177,17 @@ export default {
       lang_alignment : document.querySelector('meta[name="lang_alignment"]').getAttribute('content') ,
       errorsStack : [],
       isLoading : false ,
+      hasTryAgain : false
+    }
+  },
+  computed : {
+    buttonIcon(){
+      let arr = []
+      if(!this.hasTryAgain) arr.push(this.icon)
+      if(this.hasTryAgain) arr.push('el-icon-refresh')
+      if(!this.disable_placeholder && this.align == 'right') arr.push('right')
+      if(!this.disable_placeholder && this.align == 'left') arr.push('left')
+      return arr;
     }
   },
   mounted(){
@@ -267,6 +291,7 @@ export default {
          // this.actualLoading = false;
          // return
       }
+      vm.hasTryAgain = false
       console.log(this.submit_data);
       App.$emit('knocks_submit_passed');
       const vm = this;
@@ -281,6 +306,7 @@ export default {
           },
       })
       .then(function(response) {
+        vm.hasTryAgain = false
         vm.isLoading = false;
         vm.$emit('input' , response.data);
         if(vm.reset_on_submit)App.$emit('knocks_input_reset' , vm.scope);
@@ -306,6 +332,7 @@ export default {
           }
         }
       }).catch((err)=>{
+        vm.hasTryAgain = true
         vm.$emit('knocks_submit_error' , err);
         Materialize.toast('<span class="knocks_text_danger">'+vm.connection_error+'</span>', 3000, 'rounded');
         vm.isLoading = false ;
