@@ -16,7 +16,11 @@
       :as_result = "as_result"
 			:blocker = "blocker"
 			:show_accept_shortcut = "show_accept_shortcut"
-			  ></knocksuser>
+			>
+        <div slot = "append_to_name" v-if = "inners">
+          <slot :name = "'inner_'+index"></slot>
+        </div>   
+      </knocksuser>
         <knocksblockuser :blocked_user_id = "item" v-if = "index < showKey && show_scope == 'block'"></knocksblockuser>
       <knocksgroupshortcut as_chip :group_id = "item" v-if = "index < showKey && show_scope == 'group'"></knocksgroupshortcut>
       <knocksshowdevice :device = "item" v-if = "index < showKey && show_scope == 'device'"></knocksshowdevice>
@@ -117,6 +121,10 @@ export default {
           less : 'See Less'
         }
       }
+    },
+    inners : {
+      type : Boolean , 
+      default : false 
     },
     status_classes : {
       type : [Array , Object , String] , 
