@@ -134,9 +134,9 @@
     submit_at = "/create_group"
     success_msg = "You Created the group Succecfully."
     gid = "stage_one_net"
-    @knocks_submit_accepted = "outerVisible = false"
+    @knocks_submit_accepted = "outerVisible = false; handle($event)"
     button_classes = "  fluid ui button knocks_color_kit knocks_anchor_color_kit_dark "
-    success_at="done"
+    computed_response
     :submit_data = " {name : group_name , category : group_category, preset : radio4 , normal_members : retrivedFriends, circle_members : circle_members} "
     >
     </knockselbutton>
@@ -364,7 +364,10 @@ export default {
       },
       refreshContent(){
         App.$emit('KnocksContentChanged')
-      }
+      },
+      handle(e){
+        window.location.href = Asset('group/'+e.response)
+      },
 
   }
 }
