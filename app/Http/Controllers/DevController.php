@@ -1180,7 +1180,7 @@ class DevController extends Controller {
 		foreach ($sg as $c) {
 			for ($i = 0; $i < 50; $i++) {
 				$m = new Group_member();
-				$m->initialize(rand(1, $allUsers->count()), $c->id, rand(1, count($positons)));
+				$m->initialize(rand(1, $allUsers->count()), $c->id, rand(0, count($positons) - 1));
 			}
 		}
 
