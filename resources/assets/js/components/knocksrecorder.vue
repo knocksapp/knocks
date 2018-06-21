@@ -50,7 +50,7 @@
     <template slot = "container">
 
        <span v-if = "isRecording && timer_right" :class = "timer_class" >{{ displayDuration }}</span>
-    <button @mousedown="startRecord()"  @mouseup="stopRecord()"  :class = "recordButtonClasses" 
+    <button @click = "toggleRecord()"  :class = "recordButtonClasses" 
     v-if="currentBlob == null || isRecording">
     <span :class = "recordIconClasses"></span>
     </button>
@@ -533,13 +533,21 @@ methods : {
        }
 
   },
+  toggleRecord(){
+    if(this.isRecording){
+      this.stopRecord()
+    }else{
+      this.startRecord()
+    }
+  },
   startRecord(){
     if(!this.stream.active && this.mediaDevicesSupport){
       console.log('reinitial')
       this.record();
     }
+    if(this.isRecording) return
     else{
-          this.isRecording = true ;
+    this.isRecording = true ;
     this.chunks = [];
     document.getElementById('knocks_recording_vid_src').play();
     setTimeout(()=>{
@@ -606,6 +614,8 @@ methods : {
         vm.resetRecord();
       }
       
+    }).catch((err)=>{
+      vm.$emit('error' , { type : 'network' , error : err  })
     });
 
  

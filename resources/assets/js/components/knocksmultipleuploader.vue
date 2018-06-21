@@ -105,6 +105,15 @@
       </h4>
        <center> <el-progress type="circle" :percentage="loadingPercentage"></el-progress> </center>
     </div>
+
+    <div v-if = "!isLoading && nwerrors != null" class = "animated fadeIn    ">
+       <center> 
+        
+        <span class = "red-text"> Whoops!, there's a problem in your connection, please try again.</span>
+    </center>
+
+    </div>
+
 </div>
 </template>
 
@@ -502,6 +511,8 @@ export default {
 
             }).catch((err)=>{
                 vm.nwerrors = err ;
+                vm.$emit('error' , { type : 'network' , error : err  })
+                vm.isLoading = vm.isUploading = false
             });
         }
 
@@ -535,6 +546,8 @@ export default {
                 vm.nwerrors = err ;
                 vm.isUploading = false ;
                 vm.isLoading = false ;
+                vm.$emit('error' , { type : 'network' , error : err  })
+
             });
         }
 

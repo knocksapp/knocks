@@ -226,6 +226,15 @@ import Icons from 'uikit/dist/js/uikit-icons';
 UIkit.use(Icons);
 
 //components can be called from the imported UIkit reference
+import Vue from 'vue'
+import Vue2TouchEvents from 'vue2-touch-events'
+Vue.use(Vue2TouchEvents, {
+    disableClick: false,
+    touchClass: '',
+    tapTolerance: 10,
+    swipeTolerance: 30,
+    longTapTimeInterval: 400
+})
 
 
 

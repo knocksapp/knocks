@@ -1,21 +1,32 @@
 <template>
+  <el-tooltip>
+    <div slot = "content">
+      <div v-if = "hasTryAgain">
+        <i class="material-icons" :class = "buttonIcon" v-if="!isLoading"></i>
+        <span :class="label_classes" v-if = "placeholder != null">Try Again</span>
+      </div>
+      <div v-else>
+        <i class="material-icons" :class = "buttonIcon" v-if="!isLoading"></i>
+        <span  :class="label_classes" v-if = "placeholder != null">{{placeholder}}</span>
+      </div>
+    </div>
   <button class=" " :id = "gid" @mouseover = "isHovered = true; emit()" @mouseleave = "isHovered = false; emit()"
   :class = "buttonClasses" @click = "construct()" :disabled = "isLoading || disabled">
-    <i class="material-icons" :class = "[icon , {right: !disable_placeholder && align == 'right'} ,
-    {left: !disable_placeholder && align == 'left'} , {center : disable_placeholder}]" v-if="!isLoading"></i>
+    <i class="material-icons" :class = "buttonIcon" v-if="!isLoading"></i>
     <knocksloader size = "small" v-if="isLoading"></knocksloader>
         <static_message :msgid="place_holder" :class="label_classes" v-if = "placeholder == null && !disable_placeholder">
         </static_message>
         <static_message :msg="placeholder" :class="label_classes" v-else-if = "placeholder != null && !disable_placeholder" >
         </static_message>
   </button>
+</el-tooltip>
 </template>
 
 <script>
 export default {
   props : {
     icon : {
-      type : String ,
+      type : [String , Array , Object] ,
       default : ''
     } ,
     gid : {
@@ -28,7 +39,7 @@ export default {
       default : 'left'
     } ,
     button_classes : {
-      type : String ,
+      type : [String , Array , Object] ,
       default : 'waves-effect waves-light btn knocks_btn knocks_color_kit knocks_text_md'
     },
     place_holder : {
@@ -138,6 +149,10 @@ export default {
     hide_success_msg : {
       type : Boolean ,
       default : false
+    },
+    no_tryagain : {
+      type : Boolean ,
+      default : false 
     }
 
 
@@ -152,6 +167,7 @@ export default {
       networkHasErrors : false ,
       networkErrors : null ,
       actualLoading : false ,
+      hasTryAgain : false
     }
   },
   computed : {
@@ -166,6 +182,14 @@ export default {
       return array;
 
       // [lang_alignment, {'disabled animated pulse': isLoading} , {hover_class , isHovered} ,{ 'disabled' : disabled } , button_classes]
+    },
+    buttonIcon(){
+      let arr = []
+      if(!this.hasTryAgain) arr.push(this.icon)
+      if(this.hasTryAgain) arr.push('el-icon-refresh')
+      if(!this.disable_placeholder && this.align == 'right') arr.push('right')
+      if(!this.disable_placeholder && this.align == 'left') arr.push('left')
+      return arr;
     }
   },
   mounted(){
@@ -204,10 +228,14 @@ export default {
     });
 
       App.$on('knocksButtonVirtualStop' , (payload)=>{
+        if(vm.scope == null) return
       let tar;
-        for(tar in payload.scope){
+        for(tar = 0; tar <  payload.scope.length; tar++){
         if(vm.scope.indexOf(payload.scope[tar]) != -1){
           vm.isLoading = false ;
+          if( !vm.no_tryagain && (payload.tryAgain === undefined || payload.tryAgain == true) ){
+            vm.hasTryAgain = true
+          }
           vm.emit();
           return ;
         }
@@ -301,6 +329,7 @@ export default {
       }
       if(this.actualLoading) {console.log('prevent extra s'); return; }
       this.actualLoading = true;
+      this.hasTryAgain = false
       //console.log(this.submit_data);
       App.$emit('knocks_submit_passed');
       const vm = this;
@@ -363,6 +392,10 @@ export default {
         vm.isLoading = vm.actualLoading = false ;
         if(window.navigator.onLine !== undefined && !window.navigator.onLine){
           vm.elementCategoryNotify({ type : 'error' , msg : 'There is no internet connection' , title : 'Warining' })
+        }
+
+        if(!vm.no_tryagain){
+          vm.hasTryAgain = true
         }
 
       });
