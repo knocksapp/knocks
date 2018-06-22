@@ -32,6 +32,7 @@
       gid = "groupname"
       icon = "knocks-group2"
       :is_required = "true"
+      :max_len = "25"
       :scope = "['CreateGroup']"
       v-model = "group_name"
       ></knocksinput>
@@ -39,6 +40,7 @@
       placeholder = "Group Category"
       gid = "groupname"
       icon = "knocks-grid8"
+      :max_len = "25"
       :is_required = "true"
       :scope = "['CreateGroup']"
       v-model = "group_category"
@@ -329,7 +331,7 @@ export default {
 
             axios({
               method : 'post',
-              url : 'user/search',
+              url : LaravelOrgin + 'user/search',
               data : {q : vm.search}
             }).then((response)=>{
               console.log(response.data);

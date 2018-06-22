@@ -158,12 +158,7 @@ export default {
             }else{
               vm.visible2 = false;
             App.$emit('knocksRetriver' , { scope : ['remove_member'+vm.gid]});
-            this.$notify({
-                  title: 'Success',
-                  message: 'You Have Kicked This Member From Group Successfully',
-                  type: 'success'
-                });
-
+           
             }        
         }
          if(vm.authposition == 'Member' || vm.authposition == 'Admin')
@@ -191,11 +186,23 @@ export default {
        	   if(e.response == 'done'){
              this.$emit('member_deleted');
              setTimeout( ()=>{App.$emit('KnocksContentChanged');} , 300)
+                this.$notify({
+                  title: 'Success',
+                  message: 'You Have Kicked This Member From Group Successfully',
+                  type: 'success'
+                });
 
             
            }
        	 
-       	else alert('error')
+       	else {
+           this.$notify({
+                  title: 'Connection Timeout',
+                  message: 'Please , Check your Connection',
+                  type: 'Error'
+                });
+
+        }
        },
      canKick(){
       if(this.authposition == 'Owner' && this.member_delete != parseInt(UserId) && this.position != 'Owner') return true;
