@@ -3,6 +3,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Assistant;
 use App\Envelope;
 use App\Group;
 use App\Group_member;
@@ -255,6 +256,15 @@ class UserController extends Controller {
 
 	public function lost() {
 		return view('guest.lost');
+	}
+	public function unsupportedBrowser() {
+		$assist = new Assistant();
+		if (!$assist->isSupportedBrowser()) {
+			return view('layouts.oldie');
+		} else {
+			return redirect()->action('UserController@goHome');
+		}
+
 	}
 
 	//Authorised user's language

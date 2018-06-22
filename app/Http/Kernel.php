@@ -59,5 +59,6 @@ class Kernel extends HttpKernel {
 		'cors' => \App\Http\Middleware\cors::class,
 		'lastseen' => \App\Http\Middleware\LastSeen::class,
 		'isverified' => \App\Http\Middleware\IsVerified::class,
+		'supportedbrowser' => \App\Http\Middleware\supportedBrowser::class,
 	];
 }
