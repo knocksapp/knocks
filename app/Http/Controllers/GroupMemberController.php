@@ -9,8 +9,15 @@ use App\Group_member;
 class GroupMemberController extends Controller
 {
     public function getGroupMembers(Request $request){
-    	$all = Group_member::where('group_id','=',$request->group_id)->get();
-    	return $all;
+    	// $all = Group_member::where('group_id','=',$request->group_id)->where()->get();
+    	// return $all;
+        $groupmembers = \DB::table('users')
+            ->join('group_members', 'users.id', '=', 'group_members.user_id')
+            ->select('group_members.*')
+            ->where('group_members.group_id','=',$request->group_id)
+            ->where('users.full_name','LIKE','%'.$request->q.'%')->orwhere('users.nickname', 'like' , '%'.$request->q.'%')
+            ->get();
+            return $groupmembers;
     }
      public function checkUserInGroup(Request $request){
              $ingroup = Group_member::where('group_id','=',$request->group)
