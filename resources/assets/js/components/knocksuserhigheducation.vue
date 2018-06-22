@@ -45,6 +45,7 @@
     v-model = "grade"
     ></knockselinput>
   </div>
+  <div class = "row">
   <div :class="[ { 'col s12 l4' : !tiny} , {'col s12 knocks_xs_padding' : tiny}]">
     <knockseldatepicker
     v-if = "authModel != null"
@@ -59,6 +60,7 @@
     placeholder = "Study Since ?"
     v-model = "study_since"></knockseldatepicker>
   </div>
+</div>
   <div :class="[ { 'col s12 l4 block' : !tiny} , {'col s12 knocks_xs_padding' : tiny}]">
     <knockseldatepicker
     v-if = "authModel != null"
@@ -94,7 +96,7 @@ export default {
   name: 'knockshigheducation',
   props : {
     tiny : {
-      type : Boolean , 
+      type : Boolean ,
       default : false
     }
   },
@@ -141,8 +143,8 @@ export default {
         study_what : '',
         study_since : null,
         grade : '',
-        auth : parseInt(UserId) , 
-        authModel : null 
+        auth : parseInt(UserId) ,
+        authModel : null
       };
     },
     computed : {

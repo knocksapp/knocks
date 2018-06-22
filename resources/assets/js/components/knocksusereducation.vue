@@ -47,6 +47,7 @@
     </div>
   </div>
   <div :class = "[{'row' : !tiny} , {'row knocks_house_keeper' : tiny}]">
+    <div class = "row">
     <div :class="[ { 'col s12 l4' : !tiny} , {'col s12 knocks_xs_padding' : tiny}]">
       <knockseldatepicker
       v-if = "authModel != null"
@@ -61,6 +62,7 @@
       placeholder = "Study Since ?"
       v-model = "study_since"></knockseldatepicker>
     </div>
+  </div>
     <div :class = "[{'col s12 l4' : !tiny} , {'col s12 knocks_mp_top_margin knocks_xs_padding' : tiny}]">
       <!-- <el-date-picker
       v-model="study_to"
@@ -149,9 +151,9 @@ export default {
         study_to : null,
         study_what : '',
         study_since : null,
-        grade : '' , 
-        auth : parseInt(UserId) , 
-        authModel : null 
+        grade : '' ,
+        auth : parseInt(UserId) ,
+        authModel : null
       };
     },
     computed : {
