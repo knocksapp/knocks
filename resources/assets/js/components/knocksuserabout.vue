@@ -117,9 +117,9 @@ icon = "knocks-group2">
 <ul >
   <li > <span class="knocks-home12"></span>   <static_message msg = "Study At"></static_message>  :  {{education[index].study_at}}</li>
   <li >  <span class="knocks-time4"></span>  <static_message msg= "Study Since"></static_message>  :  {{education[index].study_since}}</li>
-  <li v-if = "education[index].study_to != null"> <span class="knocks-time4"></span>   <static_message msg= "Study To"></static_message>  :  {{education[index].study_to}}</li>
-  <li v-if = "education[index].grade != null"> <span class="knocks-certificate3"></span>   <static_message msg= "Grade"></static_message> :  {{education[index].grade}}</li>
-  <li v-if = "education[index].study_what != null"> <span class="knocks-document-certificate2"></span>  <static_message msg= "Certificate"></static_message>  :  {{education[index].study_what}}</li>
+  <li v-if = "education[index].study_to != null && education[index].study_to.length != 0"> <span class="knocks-time4"></span>   <static_message msg= "Study To"></static_message>  :  {{education[index].study_to}}</li>
+  <li v-if = "education[index].grade != null && education[index].grade.length != 0"> <span class="knocks-certificate3"></span>   <static_message msg= "Grade"></static_message> :  {{education[index].grade}}</li>
+  <li v-if = "education[index].study_what != null && education[index].study_what.length != 0"> <span class="knocks-document-certificate2"></span>  <static_message msg= "Certificate"></static_message>  :  {{education[index].study_what}}</li>
 </ul>
 </el-collapse-item>
 <el-collapse-item   v-if = "userObject != null && userObject.thatsMe">
@@ -181,9 +181,9 @@ icon = "knocks-group2">
 <ul>
   <li> <span class="knocks-home12"></span>   <static_message msg = "Study At"></static_message>  :  {{high_education[index].study_at}}</li>
   <li>  <span class="knocks-time4"></span>  <static_message msg= "Study Since"></static_message>  :  {{high_education[index].study_since}}</li>
-  <li v-if = "high_education[index].study_to != null"> <span class="knocks-time4"></span>   <static_message msg= "Study To"></static_message>  :  {{high_education[index].study_to}}</li>
-  <li v-if = "high_education[index].grade != null"> <span class="knocks-certificate3"></span>   <static_message msg= "Grade"></static_message> :  {{high_education[index].grade}}</li>
-  <li v-if = "high_education[index].study_what != null"> <span class="knocks-document-certificate2"></span>  <static_message msg= "Certificate"></static_message>  :  {{high_education[index].study_what}}</li>
+  <li v-if = "high_education[index].study_to != null && high_education[index].study_to.length != 0"> <span class="knocks-time4"></span>   <static_message msg= "Study To"></static_message>  :  {{high_education[index].study_to}}</li>
+  <li v-if = "high_education[index].grade != null && high_education[index].grade.length != 0"> <span class="knocks-certificate3"></span>   <static_message msg= "Grade"></static_message> :  {{high_education[index].grade}}</li>
+  <li v-if = "high_education[index].study_what != null && high_education[index].study_what.length != 0"> <span class="knocks-document-certificate2"></span>  <static_message msg= "Certificate"></static_message>  :  {{high_education[index].study_what}}</li>
 </ul>
 </el-collapse-item>
 <el-collapse-item  v-if = "userObject != null && userObject.thatsMe">
