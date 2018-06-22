@@ -431,7 +431,7 @@
     "Youth worker",
     ]'
     allow_create
-    v-model = "works_what"
+    v-model = "works_as"
     is_required
     icon = "knocks-black-tie"
     :error_mixins = "[{ key : 'is_required' , mixin : { msg : 'You need to write the major name.' , icon : 'knocks-alert-circle' } }]"
@@ -442,7 +442,7 @@
     :scope = "['career_adder'+_uid]"></knockselselect>
   </div>
   <div class="col s12 knocks_mp_top_margin knocks_xs_padding">
-    
+
     <knockseldatepicker
     v-if = "authModel != null"
     :scope = "['career_adder'+_uid]"
@@ -455,7 +455,7 @@
     :margins = '{ max : { count : 0 , unit : "y" } , min : { from : authModel.birthdate , count : 3 , unit : "y" } }'
     placeholder = "Works Since ?"
     v-model = "works_since"></knockseldatepicker>
-    
+
   </div>
   <div class="col s12 knocks_mp_top_margin knocks_xs_padding ">
     <knockseldatepicker
@@ -494,7 +494,7 @@ export default {
   name: 'knocksusercareers',
   props :{
     tiny : {
-      type : Boolean , 
+      type : Boolean ,
       default : false
     }
   },
@@ -509,7 +509,7 @@ export default {
   },
   data() {
       return {
-        auth : parseInt(UserId) , 
+        auth : parseInt(UserId) ,
         authModel : null ,
         value1: '',
         value2: '',
