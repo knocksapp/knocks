@@ -341,7 +341,7 @@ export default {
           callback : this.showMyCircles
         },
         howtowrite : {
-          keywords : ['how' , 'to' , 'write' , 'post' , 'knock'] , 
+          keywords : ['how' , 'to' , 'write' , 'post' ] , 
           callback : this.showHelpWriteKnock
         },
         visit_profile : { 
