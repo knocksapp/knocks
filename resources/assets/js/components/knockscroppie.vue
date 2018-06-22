@@ -166,7 +166,10 @@ export default {
 
       
      // destroy croppie
-
+     if(!event.target.files[0].type.includes('image')){
+      this.$message.error('Your file must be an image.');
+      return
+     } 
      const vm = this;
      if(document.getElementById(vm.gid+"_fileItem").value == "") return;
      this.bindEvent = event;

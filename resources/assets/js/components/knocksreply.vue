@@ -49,8 +49,8 @@
               :class = "[
               {'knocks_hidden':focused} , 
               {'animated fadeIn' : !focused},
-              {'col' : !focused && !hasImages && !hasFiles} , 
-              {'col s12' : !focused && (hasImages || hasFiles) } , 
+              {'col' : !focused && !hasImages && ( uploader === null || uploader.regularFiles === undefined || uploader.regularFiles.length == 0 )} , 
+              {'col s12' : !focused && (hasImages || !( uploader === null || uploader.regularFiles === undefined || uploader.regularFiles.length == 0 )) } , 
               ]" class = " right">
                 <knocksmultipleuploader @change = "showInterest()" :gid = "gid+'_file_uploader'" v-model  = "uploader" :scope = "scope"></knocksmultipleuploader>
                 <!-- <a :class = "[maps_classes , option_classes ]" :data-target="gid+'_map_modal'" class="btn modal-trigger"><span :class = "[maps_icon]" @click="triggerMaps"></span></a> -->
