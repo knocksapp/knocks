@@ -133,7 +133,8 @@
         </span>
       </div>
     </li>
-    <li v-if="group_object.preset == 'closed' || group_object.preset == 'secret'">
+
+    <li v-if="request_count > 0">
       <div v-if="group_requests != null && group_requests.response != null" class="collapsible-header"><i class="knocks-mail4 grey-text"></i>Manage Users Requests </br> <el-badge :value="request_count" class="item"></el-badge></div>
       <div class="collapsible-body" v-if="group_requests != null && group_requests.response != null && group_object != null">
       	<span v-if="group_requests.response != null"> 
@@ -163,7 +164,7 @@
         <span>
            <div class="row" v-if="group_members != null && group_members.response != null">
            <ul class="uk-list uk-list-divider">
-              <li  v-for="(mem,index) in group_members.response">
+              <li  v-for="(mem,index) in group_members.response" v-if="index < showKey">
                  <knocksgroupmemberposition :user_id = "mem.user_id" :group_id="group_object.id"></knocksgroupmemberposition>
               <knocksuser
                  main_container="col s10 animated fadeIn"
@@ -203,6 +204,13 @@
                        
                    </li>
                </ul>
+                <div class="center" v-if="group_members.response.length > 3">
+                    <el-button-group >
+                    <el-button @click = "showKey+=4" :disabled="showKey >= group_members.response.length">See More</el-button>
+                    <el-button @click="showKey-=4" :disabled="showKey < 5">See Less</el-button>
+                  </el-button-group>
+                  <h5 class="grey-text">{{showKey >= group_members.response.length ? group_members.response.length : showKey}} / {{group_members.response.length}}</h5>
+                </div>
           </div>
          </span>
        </div>
@@ -226,6 +234,7 @@ export default {
       group_name : '',
       group_category : '',
       radio4 : '',
+      showKey : 4,
       group_members : null,
       group_requests : null,
       request_count : 0,
