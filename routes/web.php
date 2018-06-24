@@ -216,6 +216,12 @@ Route::group(['middleware' => 'supportedbrowser'], function () {
 
 	Route::post('user/search', 'UserController@searchForFriends');
 
+    Route::post('child/search', 'UserController@retriveChild');
+
+    Route::post('parent/search', 'UserController@retriveParent');
+
+    Route::post('check/candy', 'UserController@checkKid');
+
 	Route::post('userlogin', 'UserController@userlogin');
 
 	Route::post('retrive_circle', 'CircleController@retrive');
