@@ -492,6 +492,9 @@ Vue.component('knocksmeganumber', require('./components/knocksmeganumber.vue'));
 Vue.component('knockstrendslist', require('./components/knockstrendslist.vue'));
 Vue.component('knocksgenderviewer', require('./components/knocksgenderviewer.vue'));
 Vue.component('knockstextlenhandler', require('./components/knockstextlenhandler.vue'));
+Vue.component('knocksglobalsearch', require('./components/knocksglobalsearch.vue'));
+Vue.component('knockstestingsocialize', require('./components/knockstestingsocialize.vue'));
+
 
 
 

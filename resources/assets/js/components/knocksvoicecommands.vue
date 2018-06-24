@@ -101,6 +101,15 @@
                 gid = "knockknock_voice_commands"></knock>
               </div>
             </transition>
+            <transition>
+              <div class = "knocks_house_keeper"
+                :class ="[
+                {'animated zoomIn' : currentKeyScope =='globalsearch' || currentKeyScope == 'globalsearch' } ,
+                {'knocks_hidden' : !(currentKeyScope =='globalsearch' || currentKeyScope == 'globalsearch' )} ,
+                ]">
+                <knocksglobalsearch v-model = "globalSearcher" @short_search = "handleSearchResults($event)"></knocksglobalsearch>
+              </div>
+            </transition>
             <transition enter-active-class = "animated bounceInLeft" leave-active-class = "animated bounceOutRight">
               <div v-if = "currentKeyScope == 'mycircles'">
                 <knocksusercircles></knocksusercircles>
@@ -376,6 +385,10 @@ export default {
           keywords : ['create' , 'new' , 'knock' , 'post'] ,
           callback : this.createKnock
         },
+        globalsearch : { 
+          keywords : ['search' , 'for' ] ,
+          callback : this.globalSearch
+        },
         spell_knock :{
           keywords : ['i' , 'want' , 'to' , 'say'] , 
           callback : this.initKnock
@@ -397,6 +410,7 @@ export default {
       hasRedirect : false , 
       auth : parseInt(UserId) , 
       circleAdder : null , 
+      globalSearcher : null ,
 
 
     }
@@ -723,6 +737,14 @@ export default {
       this.answer("Okay, "+this.authModel.name+"!, your knock '"+e.body+" ,' was published successfully.")
       else this.answer(this.getRandomAnswer('knockssuccess'))
     this.resetAll()
+  },
+  //Search
+  globalSearch(){
+     this.globalSearcher.search(this.convertedText.toLowerCase().split('search for ').join('') )
+  },
+  handleSearchResults(e){
+    let res = e.shortResult
+    this.answer('there is '+res.length+' results for your search')
   },
   //Remote Closing The KVC
   remoteClose(){

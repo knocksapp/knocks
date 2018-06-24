@@ -17,6 +17,11 @@ class Assistant extends Model {
 		return json_decode(json_encode($object));
 	}
 
+	public function getCollectionChunk($collection, $chuncks, $index) {
+		$arr = collect($collection)->chunk($chuncks)->toArray();
+		return count($arr) <= $index ? [] : $arr[$index];
+	}
+
 	public function isSupportedBrowser() {
 		$agent = new \Jenssegers\Agent\Agent();
 		$browser = $agent->browser();

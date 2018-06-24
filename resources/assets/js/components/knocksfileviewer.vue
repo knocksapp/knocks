@@ -1,33 +1,39 @@
 <template>
-	<div>
-		  <knocksloaderbar v-if = "isLoading" :class = "{'animated fadeOutUp': !isLoading}"></knocksloaderbar >
-		  <a :href = "asset(file)" target="_blank"style = "padding:0.2rem" class = " knocks_anchor_light_div knocks_standard_border_radius ">
-		  	<knockspopover v-if = "fileMeta != null">
-            <template slot = "container" v-if = "fileMeta.name != undefined && fileMeta.extension != undefined" >
-            <span v-if = "fileMeta.name != undefined && fileMeta.extension != undefined && extensions[fileMeta.extension] != undefined"
-            :class = "[extensions[fileMeta.extension] , icons_class]"></span>
-            <span v-else :class = "[icons_class , 'knocks-file']"></span>
-            <span v-if = "fileMeta.name != undefined
-                && fileMeta.extension != undefined
-                && fileMeta.name != undefined
-                && fileMeta.name.length < 15 "
-
-            :class = "[file_name_class]">{{fileMeta.name}}</span>
-            <span v-if = "fileMeta.name != undefined
-                && fileMeta.extension != undefined
-                && fileMeta.name != undefined
-                && fileMeta.name.length >= 15"
-            class = "knocks_text_anchor knocks_text_dark"
-            
-            :class = "[file_name_class , icons_class]">{{minimizedText(fileMeta.name)}}</span>
-            </template>
-            <span slot = "content"  class = "knocks_tooltip animated flipInX" >
-                <span :class = "[extensions[fileMeta.extension] , 'knocks_text_light']"></span>
-                <span>{{fileMeta.name}}</span>
-            </span>
-            </knockspopover>
-		  </a>
-	</div>
+<div>
+  <knocksloaderbar v-if = "isLoading" :class = "{'animated fadeOutUp': !isLoading}"></knocksloaderbar >
+  <a :href = "asset(file)" v-if = "fileMeta != null && !isMedia(fileMeta.extension)" target="_blank"style = "padding:0.2rem" class = " knocks_anchor_light_div knocks_standard_border_radius ">
+    <knockspopover v-if = "fileMeta != null">
+    <template slot = "container" v-if = "fileMeta.name != undefined && fileMeta.extension != undefined && !isMedia(fileMeta.extension)" >
+    <span v-if = "fileMeta.name != undefined && fileMeta.extension != undefined && extensions[fileMeta.extension] != undefined"
+    :class = "[extensions[fileMeta.extension] , icons_class]"></span>
+    <span v-else :class = "[icons_class , 'knocks-file']"></span>
+    <span v-if = "fileMeta.name != undefined
+      && fileMeta.extension != undefined
+      && fileMeta.name != undefined
+      && fileMeta.name.length < 15 "
+    :class = "[file_name_class]">{{fileMeta.name}}</span>
+    <span v-if = "fileMeta.name != undefined
+      && fileMeta.extension != undefined
+      && fileMeta.name != undefined
+      && fileMeta.name.length >= 15"
+      class = "knocks_text_anchor knocks_text_dark"
+      
+    :class = "[file_name_class , icons_class]">{{minimizedText(fileMeta.name)}}</span>
+    </template>
+    <span slot = "content"  class = "knocks_tooltip animated flipInX" >
+      <span :class = "[extensions[fileMeta.extension] , 'knocks_text_light']"></span>
+      <span>{{fileMeta.name}}</span>
+    </span>
+    </knockspopover>
+  </a>
+  <div class = "knocks_fair_bouds" v-if = "fileMeta != null && isMedia(fileMeta.extension) && isVideo(fileMeta.extension)">
+    <video :src = "asset(file)" controls  ></video>
+  </div>
+  <div class = "row" v-if = "fileMeta != null && isMedia(fileMeta.extension) && isAudio(fileMeta.extension)">
+    <audio :src = "asset(file)" controls style="display : block" ></audio>
+    <br/>
+  </div>
+</div>
 </template>
 <script>
 export default {
@@ -131,7 +137,19 @@ export default {
   			if(res.data != 'invalid')
   			vm.fileMeta = res.data;
   		})
-  	}
+  	},
+    isMedia(ext){
+      let match = ext.match(/(video\/\w*)|(audio\/\w*)/)
+      return match && match[0] == ext
+    },
+    isVideo(ext){
+      let match = ext.match(/(video\/\w*)/)
+      return match && match[0] == ext
+    },
+    isAudio(ext){
+      let match = ext.match(/(audio\/\w*)/)
+      return match && match[0] == ext
+    },
   }
 }
 </script>
