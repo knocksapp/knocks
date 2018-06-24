@@ -15,6 +15,7 @@ use App\SearchQueries;
 use App\Sport;
 use App\UserAddress;
 use App\user_blocks;
+use App\candy_blobs;
 use App\User_log;
 use DB;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -565,6 +566,18 @@ class User extends Authenticatable {
 		return $this->hasMany('App\User_request', 'reciver_id');
 	}
 
+	public function candyUserSentRequests() {
+		return $this->hasMany('App\candy_blobs', 'req_id');
+	}
+
+	public function candyUserRecivedRequests() {
+		if('req_id' == 'parent_id')
+		return $this->hasMany('App\candy_blobs', 'kid_id');
+		else {
+			return $this->hasMany('App\candy_blobs', 'parent_id');
+		}
+	}
+
 	public function sentEnvelopes() {
 		return $this->hasMany('App\Envelope', 'sender_id');
 	}
@@ -1011,12 +1024,40 @@ class User extends Authenticatable {
 
 	}
 
+	public function candyHasSentRequest($target) {
+		if('req_id' == 'parent_id')
+		return $this->candyUserSentRequests()->where('kid_id', '=', $target)->where('status', '=', 'waiting')->exists();
+		else {
+			return $this->candyUserSentRequests()->where('parent_id', '=', $target)->where('status', '=', 'waiting')->exists();
+		}
+	}
+
+	public function hasCandyRequest($from) {
+		return $this->candyUserRecivedRequests()->where('req_id', '=', $from)->where('status', '=', 'waiting')->exists();
+	}
+
+	public function hasCandyRequestObject($from) {
+		$req = $this->candyUserRecivedRequests()->where('req_id', '=', $from)->where('status', '=', 'waiting');
+		if (!$req->exists()) {
+			return false;
+		} else {
+			return $req->first();
+		}
+
+	}
+
 	public function defaultPresets() {
 		return json_encode(json_decode($this->configuration)->default_privacy_sets);
 	}
 
 	public function isFriend($user) {
 		return $this->mainCircle()->circleMembers()->where('user_id', '=', $user)->count() == 0 ? false : true;
+	}
+
+	public function isBondedCandy($user) {
+		$f1 =  candy_blobs::where('parent_id', '=', $this->id)->where('kid_id' ,'=',$user)->where('status','=','accepted')->exists();
+		$f2 =  candy_blobs::where('parent_id', '=', $user)->where('kid_id' ,'=',$this->id)->where('status','=','accepted')->exists();
+		return $f1 || $f2;
 	}
 
 	//User circle methods
@@ -1055,6 +1096,13 @@ class User extends Authenticatable {
 		}
 	}
 
+	public function hasRecievedCandyRequest($id) {
+		if ($this->candyUserRecivedRequests()->where('id', '=', $id)->count() == 0) {
+			return false;
+		} else {
+			return true;
+		}
+	}
 	//User Attribures
 
 	public function has_career($works_at, $works_since) {
@@ -1591,6 +1639,8 @@ class User extends Authenticatable {
 		$other = new Circle_member();
 		$other->initialize($friend->id, $this->mainCircle()->id, $this->id);
 	}
+
+	
 
 	public function devices() {
 		$logs = User_log::where('user_id', '=', $this->id)->get()->groupBy('device');
