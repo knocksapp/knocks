@@ -492,9 +492,9 @@ Vue.component('knocksmeganumber', require('./components/knocksmeganumber.vue'));
 Vue.component('knockstrendslist', require('./components/knockstrendslist.vue'));
 Vue.component('knocksgenderviewer', require('./components/knocksgenderviewer.vue'));
 Vue.component('knockstextlenhandler', require('./components/knockstextlenhandler.vue'));
+Vue.component('knockscandyrequest', require('./components/knockscandyrequest.vue'));
 Vue.component('knocksglobalsearch', require('./components/knocksglobalsearch.vue'));
 Vue.component('knockstestingsocialize', require('./components/knockstestingsocialize.vue'));
-
 
 
 
@@ -569,7 +569,7 @@ Vue.component('knockstestingsocialize', require('./components/knockstestingsocia
    staticMessagesIdTranslate  : 0 ,
    TranslateMessagesLoading : false ,
    TranslateMessagesRes : null ,
-   devStage : 'Knocks Data' ,
+   devStage : 'Components' ,
 
 
 
