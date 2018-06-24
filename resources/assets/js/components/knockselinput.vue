@@ -393,6 +393,7 @@
             controllers : {
               update : this.remoteUpdate , 
               reset : this.remoteReset , 
+              autocomplete : this.autoComplete , 
               focus : $('#knocks_input_'+this._uid+'>input').focus() , 
               blur : $('#knocks_input_'+this._uid+'>input').blur() , 
               submit : this.submit , 

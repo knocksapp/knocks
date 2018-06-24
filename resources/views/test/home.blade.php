@@ -327,6 +327,19 @@
     <el-button type="primary" @click="reboundInitialData()">Confirm</el-button>
   </span>
   </el-dialog>
+
+    <div class = "col s12">
+    <div class="ui horizontal divider transparent">
+      SOCIALIZE
+    </div>
+    <knockstestingsocialize></knockstestingsocialize>
+    <p class = "col s12">It makes sure that friends are only recorded once at Main Circles, after finishing check your dev tools
+      on <code class = "knocks_text_pink">dev/db/chck/members</code> route and check the response object.<br/>
+      Normally you should find an object <code class = "knocks_text_pink">{ found : X , removed : Y }</code> ,make sure that both numbers are the same.<br/>
+      Otherwise, that means that there are still dublicated Memberships, which means you will need to run it again.
+    </p>
+  </div>
+
   <div class = "col s12">
     <div class="ui horizontal divider transparent">
       Add Random Users

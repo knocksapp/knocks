@@ -144,7 +144,7 @@
                   </p>
                   </h3>
                   <div  class="knocks_text_dark content knocks_content_padding" :id = "gid" @dblclick = "flowtext()"></div>
-                  <span class = "knocks_text_ms knocks-zoomin4 hide-on-large-only knocks_text_dark" @click = "flowtext()"></span> 
+                  <span class = "knocks_text_ms knocks-zoomin4 hide-on-large-only knocks_text_dark" v-if ="knockObject != null && knockObject.body && knockObject.body.length > 0" @click = "flowtext()"></span> 
                 </div>
                 <div class="row knocks_house_keeper"  v-if="bodyLen > 350" ><div class="top">
                   <a class="rdmore right" :id="gid+'_readmore'" style="padding-left : 0.2 rem !important; padding-right : 0.2 rem !important;"  @click="rd();" href="javascript:void(0);">See more</a></div>
