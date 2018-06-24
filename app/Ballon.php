@@ -48,6 +48,18 @@ class Ballon extends Model {
 		)));
 	}
 
+	public function candyRequestBalloon($sender, $reciever, $request, $type) {
+		$this->initialize(json_encode(array(
+			'user' => $reciever,
+			'category' => $type.'_request',
+			'index' => array(
+				'category' => $type.'_request',
+				'req_id' => $sender,
+				'request' => $request,
+			),
+		)));
+	}
+
 	public function friendRequestAccepted($sender, $reciever) {
 		$this->initialize(json_encode(array(
 			'user' => $reciever,
@@ -55,6 +67,17 @@ class Ballon extends Model {
 			'index' => array(
 				'category' => 'friend_request_accepted',
 				'sender_id' => $sender,
+			),
+		)));
+	}
+
+	public function candyRequestAccepted($sender, $reciever, $type) {
+		$this->initialize(json_encode(array(
+			'user' => $reciever,
+			'category' => $type.'_request_accepted',
+			'index' => array(
+				'category' => $type.'_request_accepted',
+				'req_id' => $sender,
 			),
 		)));
 	}
