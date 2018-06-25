@@ -138,6 +138,7 @@
         :label_classes = "btn_label_classes"
         @knocks_submit_accepted = "resetKnock()"
         :materialize_feedback = "false"
+        hide_success_msg
         button_classes = " el-button knocks_color_kit btn-floating knocks_tiny_floating_btn  knocks_btn_color_kit  knocks_right knocks_noshadow_ps knocks_borderless">
         </knocksbutton>
       </div>

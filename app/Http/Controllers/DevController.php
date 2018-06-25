@@ -322,7 +322,7 @@ class DevController extends Controller {
 			}
 			if ($k->type == 'group') {
 				$k->user_id = $cuser;
-				$grps = $cuserO->groupMembers()->pluck('group_id');
+				$grps = $cuserO->groupMembers()->pluck('group_id')->toArray();
 				$k->at = $grps[rand(0, count($grps) - 1)];
 				$k->update();
 			}
@@ -1180,7 +1180,7 @@ class DevController extends Controller {
 		foreach ($sg as $c) {
 			for ($i = 0; $i < 50; $i++) {
 				$m = new Group_member();
-				$m->initialize(rand(1, $allUsers->count()), $c->id, rand(0, count($positons) - 1));
+				$m->initialize(rand(1, $allUsers->count()), $c->id, $positons[rand(0, count($positons) - 1)]);
 			}
 		}
 
@@ -1891,8 +1891,8 @@ class DevController extends Controller {
 		$sg = Circle::where('id', '>', $gc - $request->count)->where('circle_name', '!=', 'All')->get();
 		foreach ($sg as $c) {
 			$friends = User::find($c->user_id);
-			if ($friends && $toss[rand(1, 1)]) {
-				$friends = $friends->friends()->pluck('user_id');
+			if ($friends && $toss[rand(0, 1)]) {
+				$friends = $friends->friends()->pluck('user_id')->toArray();
 				for ($i = 0; $i < 10; $i++) {
 					$m = new Circle_member();
 					$m->initialize($friends[rand(1, count($friends) - 1)], $c->id, $c->user_id);

@@ -19,6 +19,7 @@ class BlobController extends Controller {
 		return $blob->recordBlob(json_encode(array(
 			'blob' => $request->extended,
 			'duration' => $request->duration,
+			'text_content' => $request->text_content,
 		)));
 	}
 	public function retriveRecord(Request $request, $id) {
@@ -74,7 +75,7 @@ class BlobController extends Controller {
 				return 'invalid';
 			}
 
-			return array('name' => $blob->index()->name, 'extension' => $blob->extension);
+			return array('name' => $blob->index()->name, 'extension' => $blob->extension, 'user' => $blob->user_id);
 
 		}
 	}

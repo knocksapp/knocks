@@ -525,8 +525,8 @@ class UserController extends Controller {
 			}
 
 		}
-
-		return $result;
+		$assistant = new Assistant();
+		return $assistant->getCollectionChunk($result, 8, 0);
 
 	}
 
@@ -857,12 +857,13 @@ class UserController extends Controller {
 				return 'blocked';
 			} else {
 
-				$user->temp_password = $c->generateRandomString(rand(15, 25));
+				$user->temp_password = $user->generateRandomString(rand(15, 25));
 				$user->api_token = csrf_token();
 				$user->api_token_date = now();
 				$user->api_token_type = 'forgotpassword';
 				$user->update();
 				\Mail::to($user)->send(new ForgotMyPassword($user));
+				return 'done';
 			}
 		}
 	}

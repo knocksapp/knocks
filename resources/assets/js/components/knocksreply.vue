@@ -8,201 +8,189 @@
         <div class = "col s12 knocks_house_keeper" style = "margin-top : 1px !important; padding : 0px !important;"
           :class =  "[{'knocks_hidden' :!hasAContent} , { hasAContent :'animated slideInUp'}]">
           <div class = "col s1 l2 left">
-                       <knocksprivacyadjustments trigger_class = " amber-text  transparent darken-2 btn-floating knocks_btn_floating_sm   knocks_noshadow_ps knocks_borderless " class = "right" v-model = "privacy_setting" ></knocksprivacyadjustments>
-        </div>
-        <div class = " col l10 s10">
-          <span class = "knocks-knocks grey-text knocks_tinny_side_padding text-lighten-2  animated fadeIn" v-if = "userSuggestions.length == 0 && tagged.length == 0"></span>
-          <static_message classes = "text-lighten-2  grey-text  fadeIn" :msg = "replier_message" v-if = "userSuggestions.length == 0 && tagged.length == 0"></static_message>
-          <div @click="spliceFromTagged(i)" v-for = "(x , i) in tagged" v-if = "alreadyTagged(x)"  >
-            
-            <knocksuser :user="x" as_chip show_image name_class = "knocks_color_kit" hide_text_info
-            main_container =  "animated bounceInLeft knocks_color_kit knocks_inline right knocks_smooth_transition" >
-            </knocksuser>
-            
+            <knocksprivacyadjustments trigger_class = " amber-text  transparent darken-2 btn-floating knocks_btn_floating_sm   knocks_noshadow_ps knocks_borderless " class = "right" v-model = "privacy_setting" ></knocksprivacyadjustments>
           </div>
-          <div @click="pushToTagged(x , i)" v-for = "(x , i) in userSuggestions" class = "knocks_inline" v-if = "!alreadyTagged(x)">
-            
-            <knocksuser :user="x" as_chip show_image  v-model = "suggestions[i]" main_container =  "animated bounceInUp" ></knocksuser>
-            
-          </div>
-        </div>
-      </div>
-    </transition>
-    
-    <!--LEVEL TWO -->
-    <div class = "">
-      <div class = "">
-        <div class ="white col s10 knocks_house_keeper knocks_standard_border_radius" style="margin-top : 1px !important;"
-          :class = "[{'knocks_theme_active_border':focused},{'knocks_pink_border' : !focused}]">
-          <static_message msg = "Type here.." v-model = "ceaPlaceholder" class = "knocks_hidden"></static_message>
-          <div 
-          :class = "[input_container , {'col s12':focused}, {'col m8 s6':!focused}]" v-if="!draggingMode"
-            contenteditable = "true" @focus = "focused = true" @blur = "focused = false"
-            class = "knocks_language_follower white knocks_ce_watch_align" :data-text="ceaPlaceholder" :id = "gid+'_input'" v-model = "bodyContent" @input = "constructInput()">
-          </div>
-          
-          <!--Level Three-->
-          
-          <div :class = "options_bar_class" class = "knocks_house_keeper" style = "margin-top:4px; margin-bottom:0px">
-            <transition >
-              <div 
-              :class = "[
-              {'knocks_hidden':focused} , 
-              {'animated fadeIn' : !focused},
-              {'col' : !focused && !hasImages && ( uploader === null || uploader.regularFiles === undefined || uploader.regularFiles.length == 0 )} , 
-              {'col s12' : !focused && (hasImages || !( uploader === null || uploader.regularFiles === undefined || uploader.regularFiles.length == 0 )) } , 
-              ]" class = " right">
-                <knocksmultipleuploader @change = "showInterest()" :gid = "gid+'_file_uploader'" v-model  = "uploader" :scope = "scope"></knocksmultipleuploader>
-                <!-- <a :class = "[maps_classes , option_classes ]" :data-target="gid+'_map_modal'" class="btn modal-trigger"><span :class = "[maps_icon]" @click="triggerMaps"></span></a> -->
-                
-                <!--              <knockspopover>
-                <template slot = "container">
-                <a :class = "[maps_classes , option_classes ]" v-if = "!draggingMode" :data-target="gid+'_location_modal'" class="btn modal-trigger">
-                  <span :class = "[maps_icon]" ></span>
-                </a>
-                </template>
-                <span slot = "content"  class = "knocks_tooltip animated flipInX" >
-                  <span :class = "maps_icon"></span>
-                  <static_message msg = "Check in"></static_message>
-                </span>
-                </knockspopover> -->
-                <knockspopover v-if = "!draggingMode">
-                <template slot="container">
-                <a :class = "[maps_classes , option_classes ]" class="btn" >
-                  <span :class = "[uploader_icon]" @click="triggerUploader()" v-if = "!draggingMode"></span>
-                  <span :class = "[uploader_back_icon]" @click="triggerUploader()" v-if = "draggingMode"></span>
-                </a>
-                </template>
-                <span slot = "content"  class = "knocks_tooltip animated flipInX" >
-                  <span :class = "uploader_icon"></span>
-                  <static_message msg = "Upload files"></static_message>
-                </span>
-                </knockspopover>
-                <knockspopover v-if = "draggingMode">
-                <template slot="container">
-                <a :class = "[maps_classes , option_classes ]" class="btn" >
-                  <span :class = "[uploader_icon]" @click="triggerUploader()" v-if = "!draggingMode"></span>
-                  <span :class = "[uploader_back_icon]" @click="triggerUploader()" v-if = "draggingMode"></span>
-                </a>
-                </template>
-                <span slot = "content"  class = "knocks_tooltip animated flipInX" >
-                  <span :class = "uploader_back_icon"></span>
-                  <static_message msg = "Back"></static_message>
-                </span>
-                </knockspopover>
-                <knocksrecorder
-                v-if = "!draggingMode"
-                
-                @recognition="addRecognitionContent($event)"
-                @record_reset="addRecognitionContent('')"
-                v-model = "recorder"
-                hide_player
-                main_container = "knocks_house_keeper knocks_inline"
-                :upload_data= "recorder_upload_data"
-                :gid = "gid+'_recorder'"
-                :record_button_on_stop = "option_classes"
-                :upload_on_finish = "recorder_upload_on_finish"
-                :recorder_container = "recorder_record_buttons_container"
-                :player_container = "recorder_player_container"
-                :scope = "scope"
-                :player_initial_class = "player_initial_class"
-                :player_play_class = "player_play_class"
-                :player_pause_class = "player_pause_class"
-                :player_icon_play_class = "player_icon_play_class"
-                :player_icon_pause_class = "player_icon_pause_class"
-                :player_volume_off_class = "player_volume_off_class"
-                :player_volume_low_class = "player_volume_low_class"
-                :player_volume_high_class = "player_volume_high_class"
-                :player_timer_classes = "player_timer_classes"
-                :player_runtime_classes = "player_runtime_classes"
-                :player_main_container = "player_main_container"
-                :player_buttons_container = "player_buttons_container"
-                :player_sniper_container = "player_sniper_container"
-                :player_timer_container = "player_timer_container"
-                :player_show_timer = "player_show_timer"
-                :player_options_container = "player_options_container"
-                :player_show_options = "player_show_options"
-                :player_runtime_container = "player_runtime_container"
-                :player_show_runtime = "player_show_runtime"
-                :player_volume_container = "player_volume_container"
-                :player_show_volume = "player_show_volume"
-                :player_volume_icon_grid = "player_volume_icon_grid"
-                :player_volume_sniper_container = "player_volume_sniper_container"
-                timer_right
-                >
-                </knocksrecorder>
-                
-              </div>
-            </transition>
+          <div class = " col l10 s10">
+            <span class = "knocks-knocks grey-text knocks_tinny_side_padding text-lighten-2  animated fadeIn" v-if = "userSuggestions.length == 0 && tagged.length == 0"></span>
+            <static_message classes = "text-lighten-2  grey-text  fadeIn" :msg = "replier_message" v-if = "userSuggestions.length == 0 && tagged.length == 0"></static_message>
+            <div @click="spliceFromTagged(i)" v-for = "(x , i) in tagged" v-if = "alreadyTagged(x)"  >
+              
+              <knocksuser :user="x" as_chip show_image name_class = "knocks_color_kit" hide_text_info
+              main_container =  "animated bounceInLeft knocks_color_kit knocks_inline right knocks_smooth_transition" >
+              </knocksuser>
+              
+            </div>
+            <div @click="pushToTagged(x , i)" v-for = "(x , i) in userSuggestions" class = "knocks_inline" v-if = "!alreadyTagged(x)">
+              
+              <knocksuser :user="x" as_chip show_image  v-model = "suggestions[i]" main_container =  "animated bounceInUp" ></knocksuser>
+              
+            </div>
           </div>
         </div>
-        
-        <div :class="btn_container_class">
-          <knockspopover>
-          <template slot = "container">
-          <knocksbutton
-          :scope = "scope"
-          :gid = "gid+'_btn'"
-          :submit_on = "[scope+'_final_submit']"
-          :disable_placeholder = "btn_disable_placeholder"
-          :disabled = "!hasAContent"
-          :icon = "btn_icon"
-          :submit_at = "submit_at"
-          :success_at = "success_at"
-          :error_at = "error_at"
-          :success_msg= "success_msg"
-          :submit_data = "{ submit_object : submitObject }"
-          :error_class = "btn_error_class"
-          :success_class = "btn_success_class"
-          :button_classes = "btn_classes"
-          :label_classes = "btn_label_classes"
-          @knocks_submit_accepted = "resetKnock()"
-          :materialize_feedback = "false"
-          button_classes = " el-button knocks_color_kit btn-floating knocks_tiny_floating_btn  knocks_btn_color_kit  knocks_right knocks_noshadow_ps knocks_borderless">
-          </knocksbutton>
-          </template>
-          <span slot = "content"  class = "knocks_tooltip animated flipInX" style="margin-top: 20px !important;" >
-            <span :class="btn_icon" class = " animated zoomInRight"></span>
-            <static_message msg = "Publish"></static_message>
-          </span>
-          </knockspopover>
-          
-        </div>
-        
-      </div>
-    </div>
-  </div>
-  
-  
-  <!-- Modal Structure -->
-  <div :id="gid+'_map_modal'" class="modal modal-fixed-footer ">
-    <div class="modal-content">
-      <h4>Modal Header</h4>
-      <input id="pac-input" class="controls" type="text" placeholder="Search Box">
-      <div :id="gid+'_map_holder'" class = "knocks_map_holder"></div>
-    </div>
-    <div class="modal-footer">
-      <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat ">Agree</a>
-    </div>
-  </div>
-  <div :id="gid+'_location_modal'" class="modal modal-fixed-footer">
-    <div class="modal-content">
-      <h4>Modal Header</h4>
-      <knocksinput
-      placeholder="search"
-      v-model = "searchLocation"
-      @input="searchForNearby()"
-      :gid = "gid+'_location_searchbar'"
-      icon_class = "teal-text lighten-3"
-      knocksclass="knocks_teal_input" icon = "knocks-search12" >
-      </knocksinput>
+      </transition>
       
+      <!--LEVEL TWO -->
+      <div class = "">
+        <div class = "">
+          <div class ="white col s10 knocks_house_keeper knocks_standard_border_radius" style="margin-top : 1px !important;"
+            :class = "[{'knocks_theme_active_border':focused},{'knocks_pink_border' : !focused}]">
+            <static_message msg = "Type here.." v-model = "ceaPlaceholder" class = "knocks_hidden"></static_message>
+            <div
+              :class = "[input_container , {'col s12':focused}, {'col m8 s6':!focused}]" v-if="!draggingMode"
+              contenteditable = "true" @focus = "focused = true" @blur = "focused = false"
+              class = "knocks_language_follower white knocks_ce_watch_align" :data-text="ceaPlaceholder" :id = "gid+'_input'" v-model = "bodyContent" @input = "constructInput()">
+            </div>
+            
+            <!--Level Three-->
+            
+            <div :class = "options_bar_class" class = "knocks_house_keeper" style = "margin-top:4px; margin-bottom:0px">
+              <transition >
+                <div
+                  :class = "[
+                  {'knocks_hidden':focused} ,
+                  {'animated fadeIn' : !focused},
+                  {'col' : !focused && !hasImages && ( uploader === null || uploader.regularFiles === undefined || uploader.regularFiles.length == 0 )} ,
+                  {'col s12' : !focused && (hasImages || !( uploader === null || uploader.regularFiles === undefined || uploader.regularFiles.length == 0 )) } ,
+                  ]" class = " right">
+                  <knocksmultipleuploader @change = "showInterest()" :gid = "gid+'_file_uploader'" v-model  = "uploader" :scope = "scope"></knocksmultipleuploader>
+                  <knockspopover v-if = "!draggingMode">
+                  <template slot="container">
+                  <a :class = "[maps_classes , option_classes ]" class="btn" >
+                    <span :class = "[uploader_icon]" @click="triggerUploader()" v-if = "!draggingMode"></span>
+                    <span :class = "[uploader_back_icon]" @click="triggerUploader()" v-if = "draggingMode"></span>
+                  </a>
+                  </template>
+                  <span slot = "content"  class = "knocks_tooltip animated flipInX" >
+                    <span :class = "uploader_icon"></span>
+                    <static_message msg = "Upload files"></static_message>
+                  </span>
+                  </knockspopover>
+                  <knockspopover v-if = "draggingMode">
+                  <template slot="container">
+                  <a :class = "[maps_classes , option_classes ]" class="btn" >
+                    <span :class = "[uploader_icon]" @click="triggerUploader()" v-if = "!draggingMode"></span>
+                    <span :class = "[uploader_back_icon]" @click="triggerUploader()" v-if = "draggingMode"></span>
+                  </a>
+                  </template>
+                  <span slot = "content"  class = "knocks_tooltip animated flipInX" >
+                    <span :class = "uploader_back_icon"></span>
+                    <static_message msg = "Back"></static_message>
+                  </span>
+                  </knockspopover>
+                  <knocksrecorder
+                  v-if = "!draggingMode"
+                  
+                  @recognition="addRecognitionContent($event)"
+                  @record_reset="addRecognitionContent('')"
+                  v-model = "recorder"
+                  hide_player
+                  main_container = "knocks_house_keeper knocks_inline"
+                  :upload_data= "recorder_upload_data"
+                  :gid = "gid+'_recorder'"
+                  :record_button_on_stop = "option_classes"
+                  :upload_on_finish = "recorder_upload_on_finish"
+                  :recorder_container = "recorder_record_buttons_container"
+                  :player_container = "recorder_player_container"
+                  :scope = "scope"
+                  :player_initial_class = "player_initial_class"
+                  :player_play_class = "player_play_class"
+                  :player_pause_class = "player_pause_class"
+                  :player_icon_play_class = "player_icon_play_class"
+                  :player_icon_pause_class = "player_icon_pause_class"
+                  :player_volume_off_class = "player_volume_off_class"
+                  :player_volume_low_class = "player_volume_low_class"
+                  :player_volume_high_class = "player_volume_high_class"
+                  :player_timer_classes = "player_timer_classes"
+                  :player_runtime_classes = "player_runtime_classes"
+                  :player_main_container = "player_main_container"
+                  :player_buttons_container = "player_buttons_container"
+                  :player_sniper_container = "player_sniper_container"
+                  :player_timer_container = "player_timer_container"
+                  :player_show_timer = "player_show_timer"
+                  :player_options_container = "player_options_container"
+                  :player_show_options = "player_show_options"
+                  :player_runtime_container = "player_runtime_container"
+                  :player_show_runtime = "player_show_runtime"
+                  :player_volume_container = "player_volume_container"
+                  :player_show_volume = "player_show_volume"
+                  :player_volume_icon_grid = "player_volume_icon_grid"
+                  :player_volume_sniper_container = "player_volume_sniper_container"
+                  timer_right
+                  >
+                  </knocksrecorder>
+                  
+                </div>
+              </transition>
+            </div>
+          </div>
+          
+          <div :class="btn_container_class">
+            <knockspopover>
+            <template slot = "container">
+            <knocksbutton
+            :scope = "scope"
+            :gid = "gid+'_btn'"
+            :submit_on = "[scope+'_final_submit']"
+            :disable_placeholder = "btn_disable_placeholder"
+            :disabled = "!hasAContent"
+            :icon = "btn_icon"
+            v-model = "button"
+            :submit_at = "submit_at"
+            :success_at = "success_at"
+            :error_at = "error_at"
+            :success_msg= "success_msg"
+            :submit_data = "{ submit_object : submitObject }"
+            :error_class = "btn_error_class"
+            :success_class = "btn_success_class"
+            :button_classes = "btn_classes"
+            :label_classes = "btn_label_classes"
+            @knocks_submit_accepted = "resetKnock()"
+            hide_success_msg
+            :materialize_feedback = "false"
+            button_classes = " el-button knocks_color_kit btn-floating knocks_tiny_floating_btn  knocks_btn_color_kit  knocks_right knocks_noshadow_ps knocks_borderless">
+            </knocksbutton>
+            </template>
+            <span slot = "content"  class = "knocks_tooltip animated flipInX" style="margin-top: 20px !important;" >
+              <span :class="btn_icon" class = " animated zoomInRight"></span>
+              <static_message msg = "Publish"></static_message>
+            </span>
+            </knockspopover>
+            
+          </div>
+          
+        </div>
+      </div>
     </div>
-    <div class="modal-footer">
-      <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat ">Agree</a>
+    
+    
+    <!-- Modal Structure -->
+    <div :id="gid+'_map_modal'" class="modal modal-fixed-footer ">
+      <div class="modal-content">
+        <h4>Modal Header</h4>
+        <input id="pac-input" class="controls" type="text" placeholder="Search Box">
+        <div :id="gid+'_map_holder'" class = "knocks_map_holder"></div>
+      </div>
+      <div class="modal-footer">
+        <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat ">Agree</a>
+      </div>
+    </div>
+    <div :id="gid+'_location_modal'" class="modal modal-fixed-footer">
+      <div class="modal-content">
+        <h4>Modal Header</h4>
+        <knocksinput
+        placeholder="search"
+        v-model = "searchLocation"
+        @input="searchForNearby()"
+        :gid = "gid+'_location_searchbar'"
+        icon_class = "teal-text lighten-3"
+        knocksclass="knocks_teal_input" icon = "knocks-search12" >
+        </knocksinput>
+      </div>
+      <div class="modal-footer">
+        <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat ">Agree</a>
+      </div>
     </div>
   </div>
-</div>
 </transition>
 </template>
 
@@ -505,7 +493,7 @@ export default {
       finalTextBody : '' ,
       focused : false ,
       ceaPlaceholder : '' ,
-
+      button : {}
     }
   } , 
   computed : {
@@ -521,7 +509,9 @@ export default {
 
     hasAContent(){
       return (
-       ( this.bodyContent == null || this.bodyContent.length == 0 ) && this.uploader == null && this.locationResult == null && 
+       ( this.bodyContent == null || this.bodyContent.length == 0 ) && 
+       ( this.uploader == null || this.uploader.regularFiles.length == 0 || this.uploader.images.length == 0 )
+       && this.locationResult == null && 
        (this.recorder == null || !this.recorder.hasRecord)
       ) ? false : true;
     }
@@ -566,10 +556,10 @@ export default {
     }
   });
     App.$on('knocksMediaQueryLogged' , (payload)=>{
-      console.log('mediaQueryRecieved');
-      console.log(payload);
       let tar ;
-      for(tar in payload.scope){
+      for(tar = 0 ; tar < payload.scope.length; tar++){
+        console.log('mediaQueryRecieved');
+        console.log(payload);
         if(vm.scope.indexOf(payload.scope[tar]) != -1){
 
           if(vm.recorderResponded && vm.mfuResponded) return;
@@ -868,7 +858,10 @@ export default {
       }
       console.log(JSON.stringify(res))
       this.submitObject = res;
-      setTimeout(()=>{ App.$emit('knocksFinalSubmit', {scope : this.scope}); },300);
+      setTimeout(()=>{ 
+        App.$emit('knocksFinalSubmit', {scope : this.scope}); 
+        console.log("%c knocks final submit from "+this.scope , "font-size : 15px; font-color : blue")
+       },300);
       return res;
     },
    prepareSubmit(){
@@ -954,14 +947,16 @@ export default {
       this.mfuResponded = false;
       this.textContent = {text : '' , voice : ''};
       this.finalTextBody = "";
+
       App.$emit('knocks_multiple_uploader_reset' , this.scope);
       this.$emit('knocks_reply_done');
       $('#'+this.gid+'_input').empty()
       $('#'+this.gid+'_input').blur()
       this.notifi();
       App.$emit('knocks_refresh_posts');
-      if(!this.show_on_mount) this.showState = false ;
-      App.$emit('knocksReplyState' , {scope : this.scope , type : this.toggle_parent_type , state : false});
+     // if(!this.show_on_mount) this.showState = false ;
+     // App.$emit('knocksReplyState' , {scope : this.scope , type : this.toggle_parent_type , state : false});
+      //sconsole.log('reset '+this.gid)
     },
     notifi() {
             

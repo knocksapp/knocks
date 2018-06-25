@@ -44,7 +44,8 @@
   <div
   :class = "[{'knocks_full_height': friendsToChat.loading || friendsToChat.response == null}]"
   v-loading = "friendsToChat.loading || friendsToChat.response == null"
-  element-loading-spinner="el-icon-loading knocks_text_lg grey-text">
+  element-loading-text = "Chatting is coming soon"
+  element-loading-spinner="  ">
   <div 
   v-if = "friendsToChat != null && friendsToChat.response != null && currentChats.length != friendsToChat.response.length" :class = "{'animated slideOutDown' : hasConversation}">
        <h4 class="ui horizontal divider header transparent">
@@ -59,6 +60,7 @@
     :user = "friend.id" v-for = "(friend , index) in friendsToChat.response" as_callback :key = "index"></knocksuser>
   </div>
   </div>
+  Chatting is coming soon
 </div>
 </template>
 
@@ -83,8 +85,8 @@ export default {
     const vm = this;
     App.$on('knocksConversationToggle' , (payloads)=>{ vm.hasConversation = payloads.toggle });
     setTimeout(()=>{
-      this.friendsToChat.retrive()
-      console.log('NOW!!')
+      //this.friendsToChat.retrive()
+    
     },4000)
   },
   methods : {

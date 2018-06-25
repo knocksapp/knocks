@@ -7,9 +7,9 @@
 </p>
 <p style="color : red">Your Temporary Password</p>
 @component('mail::panel', [ ])
-$user->temp_password
+{{$user->temp_password}}
 @endcomponent
-@component('mail::button', ['url' => asset('user/fmp/temp/'.$user->api_token) ])
+@component('mail::button', ['url' => asset('user/fmp/temp/'.$user->id.'/'.$user->api_token) ])
 Set A Temporary Password
 @endcomponent
 Thanks,<br>

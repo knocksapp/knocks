@@ -206,7 +206,7 @@ export default {
         for(tar = 0 ; tar < payload.scope.length ; tar++){
         if(vm.scope && payload.scope[tar])
         if(vm.scope.indexOf(payload.scope[tar]) != -1){
-          if(vm.submit_flag && vm.errorsStack.length == 0){
+          if(vm.submit_flag && vm.errorsStack.length == 0 && !vm.actualLoading){
             vm.submit();
             return ;
           }
@@ -277,6 +277,7 @@ export default {
       this.$emit('knocks_button_clicked' , this.scope);
       if(!this.validate) return;
       this.errorsStack = [],
+      console.log('%cknocks_submit_from '+this.scope , "font-size : 14px")
       App.$emit('knocks_submit' , this.scope);
       if(this.errorsStack.length == 0 && (this.precondition == true || this.precondition == null)){
         this.$emit('knocks_stack_passed');

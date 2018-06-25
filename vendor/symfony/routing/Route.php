@@ -19,40 +19,14 @@ namespace Symfony\Component\Routing;
  */
 class Route implements \Serializable
 {
-    /**
-     * @var string
-     */
     private $path = '/';
-
-    /**
-     * @var string
-     */
     private $host = '';
-
-    /**
-     * @var string[]
-     */
     private $schemes = array();
-
-    /**
-     * @var string[]
-     */
     private $methods = array();
-
-    /**
-     * @var array
-     */
     private $defaults = array();
-
-    /**
-     * @var array
-     */
     private $requirements = array();
-
-    /**
-     * @var array
-     */
     private $options = array();
+    private $condition = '';
 
     /**
      * @var null|CompiledRoute
@@ -60,11 +34,8 @@ class Route implements \Serializable
     private $compiled;
 
     /**
-     * @var string
-     */
-    private $condition = '';
-
-    /**
+     * Constructor.
+     *
      * Available options:
      *
      *  * compiler_class: A class name able to compile this route instance (RouteCompiler by default)
@@ -223,7 +194,6 @@ class Route implements \Serializable
      *
      * @return bool true if the scheme requirement exists, otherwise false
      */
-    
     public function hasScheme($scheme)
     {
         return in_array(strtolower($scheme), $this->schemes, true);

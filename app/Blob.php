@@ -119,6 +119,7 @@ class Blob extends Model {
 		$this->index = json_encode(array(
 			'blob' => $object->blob,
 			'duration' => $object->duration,
+			'text_content' => $object->text_content,
 		));
 		$this->save();
 		return $this->id;

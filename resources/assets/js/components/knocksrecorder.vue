@@ -4,7 +4,7 @@
     <el-popover
   ref="popover1"
   placement="top-start"
-  v-if = "recoginitionAvailable"
+  v-if = "recoginitionFeatureAvailable"
   width="200"
   trigger="click"
   >
@@ -367,7 +367,8 @@ export default {
       speaking : false ,
       loading : false ,
       // limitPercentage : 0 , 
-      recoginitionAvailable : false 
+      recoginitionAvailable : false  , 
+      recoginitionFeatureAvailable : window.hasOwnProperty('webkitSpeechRecognition')
 
 
     }
@@ -387,6 +388,22 @@ export default {
         vm.chunks.push(e.data);
         console.log('started');
       }
+    });
+
+     App.$on('knocks_multiple_uploader_reset' , (scope) =>{
+        
+            if(scope != null && scope.length > 0 && vm.scope != null && vm.scope.length > 0){
+            let i;
+            for(i = 0; i < scope.length; i++){
+
+              if(vm.scope.indexOf(scope[i]) != -1){
+               vm.resetRecord();
+               return;
+              }
+            }
+            return;
+           }
+      
     });
 
     this.$on('recordStoped' , () => {
@@ -601,6 +618,7 @@ methods : {
     uploadObject.blob = this.currentSource.replace('data:audio/webm; codecs=opus;base64,',''); 
     uploadObject.extended = this.currentBlob.replace('data:audio/webm; codecs=opus;base64,',''); 
     uploadObject.duration = this.recordDuration  ;
+    uploadObject.text_content = this.convertedText  ;
     
     const vm = this;
     axios({
@@ -612,7 +630,7 @@ methods : {
   if(response.data != 'invalid'){
         App.$emit('recordUploaded');
         App.$emit('knocksMediaQueryLogged' , { scope : vm.scope , token : response.data , query : 'record' , hasRecord : true  });
-        vm.resetRecord();
+       
       }
       
     }).catch((err)=>{
