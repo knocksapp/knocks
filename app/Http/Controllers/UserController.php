@@ -63,7 +63,7 @@ class UserController extends Controller {
 				if ($c->api_token_attemps == 3) {
 					$c->api_token_type = 'blocked';
 					$c->temp_password = $c->generateRandomString(rand(15, 25));
-					$c->api_token = csrf_token();
+					$c->api_token = generateRandomString(rand(15, 25));
 					$c->api_token_date = now();
 					$c->api_token_access_attemps = 0;
 				}
@@ -136,7 +136,7 @@ class UserController extends Controller {
 			if (auth()->user()->verified) {
 				return 'verified';
 			}
-			auth()->user()->api_token = csrf_token();
+			auth()->user()->api_token = generateRandomString(rand(15, 25));
 			auth()->user()->api_token_date = now();
 			auth()->user()->update();
 			\Mail::to(auth()->user())->send(new VerifyAccount(auth()->user()));
@@ -769,7 +769,7 @@ class UserController extends Controller {
 			if (auth()->user()->api_token_attemps == 3) {
 				auth()->user()->api_token_type = 'blocked';
 				auth()->user()->temp_password = auth()->user()->generateRandomString(rand(15, 25));
-				auth()->user()->api_token = csrf_token();
+				auth()->user()->api_token = generateRandomString(rand(15, 25));
 				auth()->user()->api_token_date = now();
 				auth()->user()->api_token_access_attemps = 0;
 			}
@@ -858,7 +858,7 @@ class UserController extends Controller {
 			} else {
 
 				$user->temp_password = $user->generateRandomString(rand(15, 25));
-				$user->api_token = csrf_token();
+				$user->api_token = generateRandomString(rand(15, 25));
 				$user->api_token_date = now();
 				$user->api_token_type = 'forgotpassword';
 				$user->update();
