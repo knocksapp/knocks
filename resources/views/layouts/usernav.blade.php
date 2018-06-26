@@ -6,7 +6,7 @@
         <a href="{{asset('')}}" class="brand-logo ">
           <span class = "knocks_text_light">
             <span class = "knocks-knocks"></span>
-            <span class = "">Knocks</span><span class =  "knocks_responsive_text_xs knocks_text_light_active">App</span>
+            <span class = "knocks_text_xs">Knocks</span><span class =  "knocks_responsive_text_xs knocks_text_light_active">App</span>
           </span>
         </a>
       </div>
