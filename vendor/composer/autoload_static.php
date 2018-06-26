@@ -83,10 +83,6 @@ class ComposerStaticInite6c63ca61b830e919cd743d9fd7963b0
             'Laravel\\Tinker\\' => 15,
             'Laravel\\Socialite\\' => 18,
         ),
-        'K' => 
-        array (
-            'Ken\\BladeMinify\\' => 16,
-        ),
         'J' => 
         array (
             'Jenssegers\\Agent\\' => 17,
@@ -95,10 +91,6 @@ class ComposerStaticInite6c63ca61b830e919cd743d9fd7963b0
         'I' => 
         array (
             'Illuminate\\' => 11,
-        ),
-        'H' => 
-        array (
-            'HTMLMin\\HTMLMin\\' => 16,
         ),
         'G' => 
         array (
@@ -263,10 +255,6 @@ class ComposerStaticInite6c63ca61b830e919cd743d9fd7963b0
         array (
             0 => __DIR__ . '/..' . '/laravel/socialite/src',
         ),
-        'Ken\\BladeMinify\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/ken/blade-minify/src',
-        ),
         'Jenssegers\\Agent\\' => 
         array (
             0 => __DIR__ . '/..' . '/jenssegers/agent/src',
@@ -278,10 +266,6 @@ class ComposerStaticInite6c63ca61b830e919cd743d9fd7963b0
         'Illuminate\\' => 
         array (
             0 => __DIR__ . '/..' . '/laravel/framework/src/Illuminate',
-        ),
-        'HTMLMin\\HTMLMin\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/htmlmin/htmlmin/src',
         ),
         'GuzzleHttp\\Psr7\\' => 
         array (
@@ -515,7 +499,6 @@ class ComposerStaticInite6c63ca61b830e919cd743d9fd7963b0
         'App\\user_reports' => __DIR__ . '/../..' . '/app/user_reports.php',
         'ArithmeticError' => __DIR__ . '/..' . '/symfony/polyfill-php70/Resources/stubs/ArithmeticError.php',
         'AssertionError' => __DIR__ . '/..' . '/symfony/polyfill-php70/Resources/stubs/AssertionError.php',
-        'CSSmin' => __DIR__ . '/..' . '/mrclay/minify/min/lib/CSSmin.php',
         'Carbon\\Carbon' => __DIR__ . '/..' . '/nesbot/carbon/src/Carbon/Carbon.php',
         'Carbon\\CarbonInterval' => __DIR__ . '/..' . '/nesbot/carbon/src/Carbon/CarbonInterval.php',
         'Carbon\\CarbonPeriod' => __DIR__ . '/..' . '/nesbot/carbon/src/Carbon/CarbonPeriod.php',
@@ -565,7 +548,6 @@ class ComposerStaticInite6c63ca61b830e919cd743d9fd7963b0
         'Doctrine\\Instantiator\\Exception\\UnexpectedValueException' => __DIR__ . '/..' . '/doctrine/instantiator/src/Doctrine/Instantiator/Exception/UnexpectedValueException.php',
         'Doctrine\\Instantiator\\Instantiator' => __DIR__ . '/..' . '/doctrine/instantiator/src/Doctrine/Instantiator/Instantiator.php',
         'Doctrine\\Instantiator\\InstantiatorInterface' => __DIR__ . '/..' . '/doctrine/instantiator/src/Doctrine/Instantiator/InstantiatorInterface.php',
-        'DooDigestAuth' => __DIR__ . '/..' . '/mrclay/minify/min/lib/DooDigestAuth.php',
         'Dotenv\\Dotenv' => __DIR__ . '/..' . '/vlucas/phpdotenv/src/Dotenv.php',
         'Dotenv\\Exception\\ExceptionInterface' => __DIR__ . '/..' . '/vlucas/phpdotenv/src/Exception/ExceptionInterface.php',
         'Dotenv\\Exception\\InvalidCallbackException' => __DIR__ . '/..' . '/vlucas/phpdotenv/src/Exception/InvalidCallbackException.php',
@@ -1077,7 +1059,6 @@ class ComposerStaticInite6c63ca61b830e919cd743d9fd7963b0
         'File_Iterator' => __DIR__ . '/..' . '/phpunit/php-file-iterator/src/Iterator.php',
         'File_Iterator_Facade' => __DIR__ . '/..' . '/phpunit/php-file-iterator/src/Facade.php',
         'File_Iterator_Factory' => __DIR__ . '/..' . '/phpunit/php-file-iterator/src/Factory.php',
-        'FirePHP' => __DIR__ . '/..' . '/mrclay/minify/min/lib/FirePHP.php',
         'GuzzleHttp\\Client' => __DIR__ . '/..' . '/guzzlehttp/guzzle/src/Client.php',
         'GuzzleHttp\\ClientInterface' => __DIR__ . '/..' . '/guzzlehttp/guzzle/src/ClientInterface.php',
         'GuzzleHttp\\Cookie\\CookieJar' => __DIR__ . '/..' . '/guzzlehttp/guzzle/src/Cookie/CookieJar.php',
@@ -1146,18 +1127,6 @@ class ComposerStaticInite6c63ca61b830e919cd743d9fd7963b0
         'GuzzleHttp\\RetryMiddleware' => __DIR__ . '/..' . '/guzzlehttp/guzzle/src/RetryMiddleware.php',
         'GuzzleHttp\\TransferStats' => __DIR__ . '/..' . '/guzzlehttp/guzzle/src/TransferStats.php',
         'GuzzleHttp\\UriTemplate' => __DIR__ . '/..' . '/guzzlehttp/guzzle/src/UriTemplate.php',
-        'HTMLMin\\HTMLMin\\Compilers\\MinifyCompiler' => __DIR__ . '/..' . '/htmlmin/htmlmin/src/Compilers/MinifyCompiler.php',
-        'HTMLMin\\HTMLMin\\Facades\\HTMLMin' => __DIR__ . '/..' . '/htmlmin/htmlmin/src/Facades/HTMLMin.php',
-        'HTMLMin\\HTMLMin\\HTMLMin' => __DIR__ . '/..' . '/htmlmin/htmlmin/src/HTMLMin.php',
-        'HTMLMin\\HTMLMin\\HTMLMinServiceProvider' => __DIR__ . '/..' . '/htmlmin/htmlmin/src/HTMLMinServiceProvider.php',
-        'HTMLMin\\HTMLMin\\Http\\Middleware\\MinifyMiddleware' => __DIR__ . '/..' . '/htmlmin/htmlmin/src/Http/Middleware/MinifyMiddleware.php',
-        'HTMLMin\\HTMLMin\\Minifiers\\BladeMinifier' => __DIR__ . '/..' . '/htmlmin/htmlmin/src/Minifiers/BladeMinifier.php',
-        'HTMLMin\\HTMLMin\\Minifiers\\CssMinifier' => __DIR__ . '/..' . '/htmlmin/htmlmin/src/Minifiers/CssMinifier.php',
-        'HTMLMin\\HTMLMin\\Minifiers\\HtmlMinifier' => __DIR__ . '/..' . '/htmlmin/htmlmin/src/Minifiers/HtmlMinifier.php',
-        'HTMLMin\\HTMLMin\\Minifiers\\JsMinifier' => __DIR__ . '/..' . '/htmlmin/htmlmin/src/Minifiers/JsMinifier.php',
-        'HTMLMin\\HTMLMin\\Minifiers\\MinifierInterface' => __DIR__ . '/..' . '/htmlmin/htmlmin/src/Minifiers/MinifierInterface.php',
-        'HTTP_ConditionalGet' => __DIR__ . '/..' . '/mrclay/minify/min/lib/HTTP/ConditionalGet.php',
-        'HTTP_Encoder' => __DIR__ . '/..' . '/mrclay/minify/min/lib/HTTP/Encoder.php',
         'Hamcrest\\Arrays\\IsArray' => __DIR__ . '/..' . '/hamcrest/hamcrest-php/hamcrest/Hamcrest/Arrays/IsArray.php',
         'Hamcrest\\Arrays\\IsArrayContaining' => __DIR__ . '/..' . '/hamcrest/hamcrest-php/hamcrest/Hamcrest/Arrays/IsArrayContaining.php',
         'Hamcrest\\Arrays\\IsArrayContainingInAnyOrder' => __DIR__ . '/..' . '/hamcrest/hamcrest-php/hamcrest/Hamcrest/Arrays/IsArrayContainingInAnyOrder.php',
@@ -1995,16 +1964,6 @@ class ComposerStaticInite6c63ca61b830e919cd743d9fd7963b0
         'Illuminate\\View\\ViewFinderInterface' => __DIR__ . '/..' . '/laravel/framework/src/Illuminate/View/ViewFinderInterface.php',
         'Illuminate\\View\\ViewName' => __DIR__ . '/..' . '/laravel/framework/src/Illuminate/View/ViewName.php',
         'Illuminate\\View\\ViewServiceProvider' => __DIR__ . '/..' . '/laravel/framework/src/Illuminate/View/ViewServiceProvider.php',
-        'JSCompilerContext' => __DIR__ . '/..' . '/mrclay/minify/min/lib/JSMinPlus.php',
-        'JSMin' => __DIR__ . '/..' . '/mrclay/minify/min/lib/JSMin.php',
-        'JSMinPlus' => __DIR__ . '/..' . '/mrclay/minify/min/lib/JSMinPlus.php',
-        'JSMin_UnterminatedCommentException' => __DIR__ . '/..' . '/mrclay/minify/min/lib/JSMin.php',
-        'JSMin_UnterminatedRegExpException' => __DIR__ . '/..' . '/mrclay/minify/min/lib/JSMin.php',
-        'JSMin_UnterminatedStringException' => __DIR__ . '/..' . '/mrclay/minify/min/lib/JSMin.php',
-        'JSNode' => __DIR__ . '/..' . '/mrclay/minify/min/lib/JSMinPlus.php',
-        'JSParser' => __DIR__ . '/..' . '/mrclay/minify/min/lib/JSMinPlus.php',
-        'JSToken' => __DIR__ . '/..' . '/mrclay/minify/min/lib/JSMinPlus.php',
-        'JSTokenizer' => __DIR__ . '/..' . '/mrclay/minify/min/lib/JSMinPlus.php',
         'JakubOnderka\\PhpConsoleColor\\ConsoleColor' => __DIR__ . '/..' . '/jakub-onderka/php-console-color/src/JakubOnderka/PhpConsoleColor/ConsoleColor.php',
         'JakubOnderka\\PhpConsoleColor\\InvalidStyleException' => __DIR__ . '/..' . '/jakub-onderka/php-console-color/src/JakubOnderka/PhpConsoleColor/InvalidStyleException.php',
         'JakubOnderka\\PhpConsoleHighlighter\\Highlighter' => __DIR__ . '/..' . '/jakub-onderka/php-console-highlighter/src/JakubOnderka/PhpConsoleHighlighter/Highlighter.php',
@@ -2017,8 +1976,6 @@ class ComposerStaticInite6c63ca61b830e919cd743d9fd7963b0
         'Jenssegers\\Agent\\AgentServiceProvider' => __DIR__ . '/..' . '/jenssegers/agent/src/AgentServiceProvider.php',
         'Jenssegers\\Agent\\Facades\\Agent' => __DIR__ . '/..' . '/jenssegers/agent/src/Facades/Agent.php',
         'JsonSerializable' => __DIR__ . '/..' . '/nesbot/carbon/src/JsonSerializable.php',
-        'Ken\\BladeMinify\\Middleware\\Minify' => __DIR__ . '/..' . '/ken/blade-minify/src/Middleware/Minify.php',
-        'Ken\\BladeMinify\\ServiceProvider' => __DIR__ . '/..' . '/ken/blade-minify/src/ServiceProvider.php',
         'Laravel\\Socialite\\AbstractUser' => __DIR__ . '/..' . '/laravel/socialite/src/AbstractUser.php',
         'Laravel\\Socialite\\Contracts\\Factory' => __DIR__ . '/..' . '/laravel/socialite/src/Contracts/Factory.php',
         'Laravel\\Socialite\\Contracts\\Provider' => __DIR__ . '/..' . '/laravel/socialite/src/Contracts/Provider.php',
@@ -2108,40 +2065,6 @@ class ComposerStaticInite6c63ca61b830e919cd743d9fd7963b0
         'League\\OAuth1\\Client\\Signature\\PlainTextSignature' => __DIR__ . '/..' . '/league/oauth1-client/src/Client/Signature/PlainTextSignature.php',
         'League\\OAuth1\\Client\\Signature\\Signature' => __DIR__ . '/..' . '/league/oauth1-client/src/Client/Signature/Signature.php',
         'League\\OAuth1\\Client\\Signature\\SignatureInterface' => __DIR__ . '/..' . '/league/oauth1-client/src/Client/Signature/SignatureInterface.php',
-        'Minify' => __DIR__ . '/..' . '/mrclay/minify/min/lib/Minify.php',
-        'Minify_Build' => __DIR__ . '/..' . '/mrclay/minify/min/lib/Minify/Build.php',
-        'Minify_CSS' => __DIR__ . '/..' . '/mrclay/minify/min/lib/Minify/CSS.php',
-        'Minify_CSS_Compressor' => __DIR__ . '/..' . '/mrclay/minify/min/lib/Minify/CSS/Compressor.php',
-        'Minify_CSS_UriRewriter' => __DIR__ . '/..' . '/mrclay/minify/min/lib/Minify/CSS/UriRewriter.php',
-        'Minify_CSSmin' => __DIR__ . '/..' . '/mrclay/minify/min/lib/Minify/CSSmin.php',
-        'Minify_Cache_APC' => __DIR__ . '/..' . '/mrclay/minify/min/lib/Minify/Cache/APC.php',
-        'Minify_Cache_File' => __DIR__ . '/..' . '/mrclay/minify/min/lib/Minify/Cache/File.php',
-        'Minify_Cache_Memcache' => __DIR__ . '/..' . '/mrclay/minify/min/lib/Minify/Cache/Memcache.php',
-        'Minify_Cache_WinCache' => __DIR__ . '/..' . '/mrclay/minify/min/lib/Minify/Cache/WinCache.php',
-        'Minify_Cache_XCache' => __DIR__ . '/..' . '/mrclay/minify/min/lib/Minify/Cache/XCache.php',
-        'Minify_Cache_ZendPlatform' => __DIR__ . '/..' . '/mrclay/minify/min/lib/Minify/Cache/ZendPlatform.php',
-        'Minify_ClosureCompiler' => __DIR__ . '/..' . '/mrclay/minify/min/lib/Minify/ClosureCompiler.php',
-        'Minify_ClosureCompiler_Exception' => __DIR__ . '/..' . '/mrclay/minify/min/lib/Minify/ClosureCompiler.php',
-        'Minify_CommentPreserver' => __DIR__ . '/..' . '/mrclay/minify/min/lib/Minify/CommentPreserver.php',
-        'Minify_Controller_Base' => __DIR__ . '/..' . '/mrclay/minify/min/lib/Minify/Controller/Base.php',
-        'Minify_Controller_Files' => __DIR__ . '/..' . '/mrclay/minify/min/lib/Minify/Controller/Files.php',
-        'Minify_Controller_Groups' => __DIR__ . '/..' . '/mrclay/minify/min/lib/Minify/Controller/Groups.php',
-        'Minify_Controller_MinApp' => __DIR__ . '/..' . '/mrclay/minify/min/lib/Minify/Controller/MinApp.php',
-        'Minify_Controller_Page' => __DIR__ . '/..' . '/mrclay/minify/min/lib/Minify/Controller/Page.php',
-        'Minify_Controller_Version1' => __DIR__ . '/..' . '/mrclay/minify/min/lib/Minify/Controller/Version1.php',
-        'Minify_DebugDetector' => __DIR__ . '/..' . '/mrclay/minify/min/lib/Minify/DebugDetector.php',
-        'Minify_HTML' => __DIR__ . '/..' . '/mrclay/minify/min/lib/Minify/HTML.php',
-        'Minify_HTML_Helper' => __DIR__ . '/..' . '/mrclay/minify/min/lib/Minify/HTML/Helper.php',
-        'Minify_ImportProcessor' => __DIR__ . '/..' . '/mrclay/minify/min/lib/Minify/ImportProcessor.php',
-        'Minify_JS_ClosureCompiler' => __DIR__ . '/..' . '/mrclay/minify/min/lib/Minify/JS/ClosureCompiler.php',
-        'Minify_JS_ClosureCompiler_Exception' => __DIR__ . '/..' . '/mrclay/minify/min/lib/Minify/JS/ClosureCompiler.php',
-        'Minify_Lines' => __DIR__ . '/..' . '/mrclay/minify/min/lib/Minify/Lines.php',
-        'Minify_Loader' => __DIR__ . '/..' . '/mrclay/minify/min/lib/Minify/Loader.php',
-        'Minify_Logger' => __DIR__ . '/..' . '/mrclay/minify/min/lib/Minify/Logger.php',
-        'Minify_Packer' => __DIR__ . '/..' . '/mrclay/minify/min/lib/Minify/Packer.php',
-        'Minify_Source' => __DIR__ . '/..' . '/mrclay/minify/min/lib/Minify/Source.php',
-        'Minify_YUICompressor' => __DIR__ . '/..' . '/mrclay/minify/min/lib/Minify/YUICompressor.php',
-        'Minify_YUI_CssCompressor' => __DIR__ . '/..' . '/mrclay/minify/min/lib/Minify/YUI/CssCompressor.php',
         'Mobile_Detect' => __DIR__ . '/..' . '/mobiledetect/mobiledetectlib/Mobile_Detect.php',
         'Mockery' => __DIR__ . '/..' . '/mockery/mockery/library/Mockery.php',
         'Mockery\\Adapter\\Phpunit\\MockeryPHPUnitIntegration' => __DIR__ . '/..' . '/mockery/mockery/library/Mockery/Adapter/Phpunit/MockeryPHPUnitIntegration.php',
@@ -2297,8 +2220,6 @@ class ComposerStaticInite6c63ca61b830e919cd743d9fd7963b0
         'Monolog\\Processor\\UidProcessor' => __DIR__ . '/..' . '/monolog/monolog/src/Monolog/Processor/UidProcessor.php',
         'Monolog\\Processor\\WebProcessor' => __DIR__ . '/..' . '/monolog/monolog/src/Monolog/Processor/WebProcessor.php',
         'Monolog\\Registry' => __DIR__ . '/..' . '/monolog/monolog/src/Monolog/Registry.php',
-        'MrClay\\Cli' => __DIR__ . '/..' . '/mrclay/minify/min/lib/MrClay/Cli.php',
-        'MrClay\\Cli\\Arg' => __DIR__ . '/..' . '/mrclay/minify/min/lib/MrClay/Cli/Arg.php',
         'PHPUnit\\Exception' => __DIR__ . '/..' . '/phpunit/phpunit/src/Exception.php',
         'PHPUnit\\Framework\\Assert' => __DIR__ . '/..' . '/phpunit/phpunit/src/Framework/Assert.php',
         'PHPUnit\\Framework\\AssertionFailedError' => __DIR__ . '/..' . '/phpunit/phpunit/src/Framework/AssertionFailedError.php',

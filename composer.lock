@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "ed3df92a0f835bed9b93e216ca9b1c29",
+    "content-hash": "1ab6cc1c3695aedb8857937cd82bbc05",
     "packages": [
         {
             "name": "dnoegel/php-xdg-base-dir",
@@ -502,81 +502,6 @@
             "time": "2017-03-20T17:10:46+00:00"
         },
         {
-            "name": "htmlmin/htmlmin",
-            "version": "v5.6.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/HTMLMin/Laravel-HTMLMin.git",
-                "reference": "e3d5e0b1e5019eb701ac68945510518b62d3ff50"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/HTMLMin/Laravel-HTMLMin/zipball/e3d5e0b1e5019eb701ac68945510518b62d3ff50",
-                "reference": "e3d5e0b1e5019eb701ac68945510518b62d3ff50",
-                "shasum": ""
-            },
-            "require": {
-                "illuminate/contracts": "5.1.*|5.2.*|5.3.*|5.4.*|5.5.*|5.6.*",
-                "illuminate/filesystem": "5.1.*|5.2.*|5.3.*|5.4.*|5.5.*|5.6.*",
-                "illuminate/http": "5.1.*|5.2.*|5.3.*|5.4.*|5.5.*|5.6.*",
-                "illuminate/routing": "5.1.*|5.2.*|5.3.*|5.4.*|5.5.*|5.6.*",
-                "illuminate/support": "5.1.*|5.2.*|5.3.*|5.4.*|5.5.*|5.6.*",
-                "illuminate/view": "5.1.*|5.2.*|5.3.*|5.4.*|5.5.*|5.6.*",
-                "mrclay/minify": "^2.2",
-                "php": ">=5.5.9"
-            },
-            "require-dev": {
-                "graham-campbell/testbench": "^3.1|^4.0|^5.0",
-                "mockery/mockery": "^0.9.4|^1.0",
-                "phpunit/phpunit": "^4.8|^5.0|^6.0|^7.0"
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "5.0-dev"
-                },
-                "laravel": {
-                    "providers": [
-                        "HTMLMin\\HTMLMin\\HTMLMinServiceProvider"
-                    ],
-                    "aliases": {
-                        "HTMLMin": "HTMLMin\\HTMLMin\\Facades\\HTMLMin"
-                    }
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "HTMLMin\\HTMLMin\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Graham Campbell",
-                    "email": "graham@alt-three.com"
-                },
-                {
-                    "name": "Raza Mehdi",
-                    "email": "srmk@outlook.com"
-                }
-            ],
-            "description": "HTMLMin Is A Simple HTML Minifier For Laravel 5",
-            "keywords": [
-                "Laravel HTMLMin",
-                "Laravel-HTMLMin",
-                "framework",
-                "html",
-                "html minifier",
-                "htmlmin",
-                "laravel",
-                "minifier"
-            ],
-            "time": "2018-02-19T11:19:54+00:00"
-        },
-        {
             "name": "jakub-onderka/php-console-color",
             "version": "0.1",
             "source": {
@@ -777,62 +702,6 @@
                 "useragent"
             ],
             "time": "2017-11-10T10:35:35+00:00"
-        },
-        {
-            "name": "ken/blade-minify",
-            "version": "1.0.5",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/kenhyuwa/blade-minify.git",
-                "reference": "70bcac4e4587748bd48c137de7378fda50ed55fc"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/kenhyuwa/blade-minify/zipball/70bcac4e4587748bd48c137de7378fda50ed55fc",
-                "reference": "70bcac4e4587748bd48c137de7378fda50ed55fc",
-                "shasum": ""
-            },
-            "require": {
-                "illuminate/support": "5.3.x|5.4.x|5.5.x",
-                "php": ">=5.6"
-            },
-            "require-dev": {
-                "orchestra/testbench": "3.x",
-                "phpunit/phpunit": "^4.8|^5.2",
-                "squizlabs/php_codesniffer": "^2.3"
-            },
-            "type": "library",
-            "extra": {
-                "laravel": {
-                    "providers": [
-                        "Ken\\BladeMinify\\ServiceProvider"
-                    ]
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Ken\\BladeMinify\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "ken",
-                    "email": "wahyu.dhiraashandy8@gmail.com"
-                }
-            ],
-            "description": "Laravel Blade Minify",
-            "keywords": [
-                "blade",
-                "html",
-                "laravel",
-                "litepie",
-                "minify"
-            ],
-            "time": "2017-10-09T12:21:49+00:00"
         },
         {
             "name": "laravel/framework",
@@ -1371,51 +1240,6 @@
             "time": "2017-06-19T01:22:40+00:00"
         },
         {
-            "name": "mrclay/minify",
-            "version": "2.3.3",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/mrclay/minify.git",
-                "reference": "1928e89208d28e91427b2f13b67acdbd8cd01ac9"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/mrclay/minify/zipball/1928e89208d28e91427b2f13b67acdbd8cd01ac9",
-                "reference": "1928e89208d28e91427b2f13b67acdbd8cd01ac9",
-                "shasum": ""
-            },
-            "require": {
-                "ext-pcre": "*",
-                "php": ">=5.2.1"
-            },
-            "require-dev": {
-                "tubalmartin/cssmin": "~2.4.8"
-            },
-            "suggest": {
-                "tubalmartin/cssmin": "Support minify with CSSMin (YUI PHP port)"
-            },
-            "type": "library",
-            "autoload": {
-                "classmap": [
-                    "min/lib/"
-                ]
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "BSD-3-Clause"
-            ],
-            "authors": [
-                {
-                    "name": "Stephen Clay",
-                    "email": "steve@mrclay.org",
-                    "role": "Developer"
-                }
-            ],
-            "description": "Minify is a PHP5 app that helps you follow several rules for client-side performance. It combines multiple CSS or Javascript files, removes unnecessary whitespace and comments, and serves them with gzip encoding and optimal client-side cache headers",
-            "homepage": "http://code.google.com/p/minify/",
-            "time": "2017-11-03T21:04:01+00:00"
-        },
-        {
             "name": "mtdowling/cron-expression",
             "version": "v1.2.1",
             "source": {
@@ -1461,16 +1285,16 @@
         },
         {
             "name": "nesbot/carbon",
-            "version": "1.31.0",
+            "version": "1.31.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/briannesbitt/Carbon.git",
-                "reference": "4dbe0e51d24a4c7e000999324d21fc25edbf7b05"
+                "reference": "385780c8ca2dbfd25452666e3f55e8dc1df58c41"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/briannesbitt/Carbon/zipball/4dbe0e51d24a4c7e000999324d21fc25edbf7b05",
-                "reference": "4dbe0e51d24a4c7e000999324d21fc25edbf7b05",
+                "url": "https://api.github.com/repos/briannesbitt/Carbon/zipball/385780c8ca2dbfd25452666e3f55e8dc1df58c41",
+                "reference": "385780c8ca2dbfd25452666e3f55e8dc1df58c41",
                 "shasum": ""
             },
             "require": {
@@ -1512,7 +1336,7 @@
                 "datetime",
                 "time"
             ],
-            "time": "2018-06-24T14:32:22+00:00"
+            "time": "2018-06-25T13:15:16+00:00"
         },
         {
             "name": "nikic/php-parser",
