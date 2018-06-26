@@ -84,6 +84,12 @@ class Knock extends Model {
 				}
 			}
 		}
+		if (auth()->check() && auth()->user()->isKid() && $this->text_content != null) {
+			$assist = new Assistant();
+			if (!$assist->isValidForKids($this->text_content)) {
+				return 'invalid';
+			}
+		}
 		$reqObject = obj::find($this->object_id);
 		if (!$reqObject->isAvailable($requester)) {
 			return 'invalid';

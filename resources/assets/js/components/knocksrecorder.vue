@@ -2,86 +2,77 @@
 <div  :class = "main_container" @mouseover = "showInterest()">
   <div :class = "recorder_container">
     <el-popover
-  ref="popover1"
-  placement="top-start"
-  v-if = "recoginitionFeatureAvailable"
-  width="200"
-  trigger="click"
-  >
-<div>
-
-             <div class = " row">
-              <div class = "col right">
-              <static_message msg = "Select Your Language"></static_message>
-              <el-select v-model="recognitionLang" slot="prepend"  style = "width :110px !important">
-              <el-option label = "English" value = "en"></el-option>
-              <el-option label = "العربيه" value = "ar-sa"></el-option>
-              </el-select>
-              <span class = "knocks-globe9 blue-text knocks_text_md"></span>
-            </div>
-            </div>
-              <p>{{convertedText}}</p>
-              <transition enter-active-class = "animated bounceInLeft" leave-active-class = "animated bounceOutRight">
-              <div v-if = "loading" class = "animated bounceInLeft">
-                <div class="ui active inline loader"></div>
-                <static_message msg = "Processing your voice.." classes = "blue-text"></static_message>
-              </div>
-            </transition>
-            <transition enter-active-class = "animated bounceInLeft" leave-active-class = "animated bounceOutUp">
-              <div v-if = "speaking" class = "">
-                <a class = "btn btn-floating pulse red">
-                  <span class = "knocks-assistive-listening-systems white-text "></span>
-                </a>
-                <static_message msg = "Listening.." classes = "red-text"></static_message>
-              </div>
-            </transition>
-            <div class = "knocks_tinny_padding">
-              <center>
-                <el-button @click = "pushToKnock()" type = "primary" :disabled = "convertedText.length == 0">
-              <static_message msg = "Add to my knock"></static_message>
-            </el-button>
-              </center>
-            </div>
-
-</div>
-</el-popover>
-     <a v-popover:popover1 v-if = "recoginitionAvailable" ><span class = "knocksapp-list3"></span></a>
+    ref="popover1"
+    placement="top-start"
+    v-if = "recoginitionFeatureAvailable"
+    width="200"
+    trigger="click"
+    >
+    <div>
+      <div class = " row">
+        <div class = "col right">
+          <static_message msg = "Select Your Language"></static_message>
+          <el-select v-model="recognitionLang" slot="prepend"  style = "width :110px !important">
+          <el-option label = "English" value = "en"></el-option>
+          <el-option label = "العربيه" value = "ar-sa"></el-option>
+          </el-select>
+          <span class = "knocks-globe9 blue-text knocks_text_md"></span>
+        </div>
+      </div>
+      <p>{{convertedText}}</p>
+      <transition enter-active-class = "animated bounceInLeft" leave-active-class = "animated bounceOutRight">
+        <div v-if = "loading" class = "animated bounceInLeft">
+          <div class="ui active inline loader"></div>
+          <static_message msg = "Processing your voice.." classes = "blue-text"></static_message>
+        </div>
+      </transition>
+      <transition enter-active-class = "animated bounceInLeft" leave-active-class = "animated bounceOutUp">
+        <div v-if = "speaking" class = "">
+          <a class = "btn btn-floating pulse red">
+            <span class = "knocks-assistive-listening-systems white-text "></span>
+          </a>
+          <static_message msg = "Listening.." classes = "red-text"></static_message>
+        </div>
+      </transition>
+      <div class = "knocks_tinny_padding">
+        <center>
+        <el-button @click = "pushToKnock()" type = "primary" :disabled = "convertedText.length == 0">
+        <static_message msg = "Add to my knock"></static_message>
+        </el-button>
+        </center>
+      </div>
+    </div>
+    </el-popover>
+    <a v-popover:popover1 v-if = "recoginitionFeatureAvailable" ><span class = "knocksapp-list3"></span></a>
     <knockspopover v-if="(currentBlob == null || isRecording) && mainRecorder != null" >
     <template slot = "container">
-
-       <span v-if = "isRecording && timer_right" :class = "timer_class" >{{ displayDuration }}</span>
-    <button @click = "toggleRecord()"  :class = "recordButtonClasses" 
+    <span v-if = "isRecording && timer_right" :class = "timer_class" >{{ displayDuration }}</span>
+    <button @click = "toggleRecord()"  :class = "recordButtonClasses"
     v-if="currentBlob == null || isRecording">
     <span :class = "recordIconClasses"></span>
     </button>
     </template>
     <span slot = "content"  class = "knocks_tooltip animated flipInX" v-if="(currentBlob == null || isRecording) && mainRecorder != null">
-
       <span :class = "record_icon_on_stop"></span>
       <static_message msg = "Hold To Record" v-if = "!isRecording"></static_message>
       <span v-if = "isRecording">Recording{{ displayDuration }}</span>
     </span>
     </knockspopover>
-
     <knockspopover v-if=" mainRecorder == null" >
     <template slot = "container">
-
-       <span v-if = "isRecording && timer_right" :class = "timer_class" >{{ displayDuration }}</span>
-    <button @click = "record()"  :class = "[recordButtonClasses  , {'disabled' : !mediaDevicesSupport} ]" 
+    <span v-if = "isRecording && timer_right" :class = "timer_class" >{{ displayDuration }}</span>
+    <button @click = "record()"  :class = "[recordButtonClasses  , {'disabled' : !mediaDevicesSupport} ]"
     v-if="currentBlob == null || isRecording">
     <span :class = "recordIconClasses"></span>
     </button>
     </template>
     <span slot = "content"  class = "knocks_tooltip animated flipInX"  v-if=" mainRecorder == null || !mainRecorder" >
-
       <span :class = "record_icon_on_stop"></span>
       <static_message msg = "Hold To Record" v-if = "!isRecording && mediaDevicesSupport && mainRecorder != null"></static_message>
       <static_message msg = "Click to Record" v-if = "!isRecording && mediaDevicesSupport && mainRecorder == null" ></static_message>
       <static_message msg = "Recording is not supported for your browser" v-if = "!isRecording && !mediaDevicesSupport && mainRecorder == null" ></static_message>
     </span>
     </knockspopover>
-
-
     <knockspopover v-if="currentBlob != null && !isRecording">
     <template slot = "container">
     <button v-if="currentBlob != null && !isRecording"
@@ -93,65 +84,61 @@
     </template>
     <span slot = "content"  class = "knocks_tooltip animated flipInX" v-if="currentBlob != null && !isRecording" >
       <span :class = "cancel_icon"></span>
-
       <static_message msg = "Cancel Record"></static_message> {{ displayDuration }}
     </span>
     </knockspopover>
-<el-progress text-inside type="circle" :percentage="limitPercentage" status="exception" :width = "35" v-if = "isRecording && !timer_right">
+    <el-progress text-inside type="circle" :percentage="limitPercentage" status="exception" :width = "35" v-if = "isRecording && !timer_right">
     <span  :class = "timer_class" >{{ displayDuration }}</span>
-  </el-progress>
-
+    </el-progress>
     <div  v-if = "  !hide_player">
-    <transition enter-active-class = "animated bounceInLeft" leave-active-class = "animated bounceOutRight">
-              <div v-if = "loading" class = "animated bounceInLeft">
-                <div class="ui active inline loader"></div>
-                <static_message msg = "Processing your voice.." classes = "blue-text"></static_message>
-              </div>
-            </transition>
-            <transition enter-active-class = "animated bounceInLeft" leave-active-class = "animated bounceOutUp">
-              <div v-if = "speaking" class = "">
-                <a class = "btn btn-floating pulse red">
-                  <span class = "knocks-assistive-listening-systems white-text "></span>
-                </a>
-                <static_message msg = "Listening.." classes = "red-text"></static_message>
-              </div>
-            </transition>
+      <transition enter-active-class = "animated bounceInLeft" leave-active-class = "animated bounceOutRight">
+        <div v-if = "loading" class = "animated bounceInLeft">
+          <div class="ui active inline loader"></div>
+          <static_message msg = "Processing your voice.." classes = "blue-text"></static_message>
+        </div>
+      </transition>
+      <transition enter-active-class = "animated bounceInLeft" leave-active-class = "animated bounceOutUp">
+        <div v-if = "speaking" class = "">
+          <a class = "btn btn-floating pulse red">
+            <span class = "knocks-assistive-listening-systems white-text "></span>
+          </a>
+          <static_message msg = "Listening.." classes = "red-text"></static_message>
+        </div>
+      </transition>
+    </div>
   </div>
-  </div>
-
   <transition enter-active-class = "animated zoomIn" leave-active-class = "animated flipOutX">
-  <div :class = "player_container" v-if = "isFired && currentSource != null && !upload_on_finish && !hide_player">
-
-    <knocksplayer
-    :initial_class = "player_initial_class"
-    :play_class = "player_play_class"
-    :pause_class = "player_pause_class"
-    :icon_play_class = "player_icon_play_class"
-    :icon_pause_class = "player_icon_pause_class"
-    :volume_off_class = "player_volume_off_class"
-    :volume_low_class = "player_volume_low_class"
-    :volume_high_class = "player_volume_high_class"
-    :timer_classes = "player_timer_classes"
-    :runtime_classes = "player_runtime_classes"
-    :main_container = "player_main_container"
-    :buttons_container = "player_buttons_container"
-    :sniper_container = "player_sniper_container"
-    :timer_container = "player_timer_container"
-    :show_timer = "player_show_timer"
-    :options_container = "player_options_container"
-    :show_options = "player_show_options"
-    :runtime_container = "player_runtime_container"
-    :show_runtime = "player_show_runtime"
-    :volume_container = "player_volume_container"
-    :show_volume = "player_show_volume"
-    :volume_icon_grid = "player_volume_icon_grid"
-    :volume_sniper_container = "player_volume_sniper_container"
-    :source = "currentBlob"
-    :duration="recordDuration"
-    :gid = "gid+'_player'">
-    </knocksplayer>
-  </div>
-</transition>
+    <div :class = "player_container" v-if = "isFired && currentSource != null && !upload_on_finish && !hide_player">
+      <knocksplayer
+      :initial_class = "player_initial_class"
+      :play_class = "player_play_class"
+      :pause_class = "player_pause_class"
+      :icon_play_class = "player_icon_play_class"
+      :icon_pause_class = "player_icon_pause_class"
+      :volume_off_class = "player_volume_off_class"
+      :volume_low_class = "player_volume_low_class"
+      :volume_high_class = "player_volume_high_class"
+      :timer_classes = "player_timer_classes"
+      :runtime_classes = "player_runtime_classes"
+      :main_container = "player_main_container"
+      :buttons_container = "player_buttons_container"
+      :sniper_container = "player_sniper_container"
+      :timer_container = "player_timer_container"
+      :show_timer = "player_show_timer"
+      :options_container = "player_options_container"
+      :show_options = "player_show_options"
+      :runtime_container = "player_runtime_container"
+      :show_runtime = "player_show_runtime"
+      :volume_container = "player_volume_container"
+      :show_volume = "player_show_volume"
+      :volume_icon_grid = "player_volume_icon_grid"
+      :volume_sniper_container = "player_volume_sniper_container"
+      :source = "currentBlob"
+      :duration="recordDuration"
+      :gid = "gid+'_player'">
+      </knocksplayer>
+    </div>
+  </transition>
 </div>
 </template>
 
@@ -367,10 +354,8 @@ export default {
       speaking : false ,
       loading : false ,
       // limitPercentage : 0 , 
-      recoginitionAvailable : false  , 
-      recoginitionFeatureAvailable : window.hasOwnProperty('webkitSpeechRecognition')
-
-
+      recoginitionAvailable : false ,
+      recoginitionFeatureAvailable : window.hasOwnProperty('webkitSpeechRecognition') , 
     }
   },
   mounted(){
@@ -388,22 +373,6 @@ export default {
         vm.chunks.push(e.data);
         console.log('started');
       }
-    });
-
-     App.$on('knocks_multiple_uploader_reset' , (scope) =>{
-        
-            if(scope != null && scope.length > 0 && vm.scope != null && vm.scope.length > 0){
-            let i;
-            for(i = 0; i < scope.length; i++){
-
-              if(vm.scope.indexOf(scope[i]) != -1){
-               vm.resetRecord();
-               return;
-              }
-            }
-            return;
-           }
-      
     });
 
     this.$on('recordStoped' , () => {
@@ -453,6 +422,22 @@ export default {
             App.$emit('knocks_input_status' , vm.isValid);
          }
       }else return;
+    });
+
+    App.$on('knocks_multiple_uploader_reset' , (scope) =>{
+        
+            if(scope != null && scope.length > 0 && vm.scope != null && vm.scope.length > 0){
+            let i;
+            for(i = 0; i < scope.length; i++){
+
+              if(vm.scope.indexOf(scope[i]) != -1){
+               vm.resetRecord();
+               return;
+              }
+            }
+            return;
+           }
+      
     });
 
 } , 
@@ -630,7 +615,6 @@ methods : {
   if(response.data != 'invalid'){
         App.$emit('recordUploaded');
         App.$emit('knocksMediaQueryLogged' , { scope : vm.scope , token : response.data , query : 'record' , hasRecord : true  });
-       
       }
       
     }).catch((err)=>{

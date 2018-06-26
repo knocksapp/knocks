@@ -45,7 +45,7 @@
   :class = "[{'knocks_full_height': friendsToChat.loading || friendsToChat.response == null}]"
   v-loading = "friendsToChat.loading || friendsToChat.response == null"
   element-loading-text = "Chatting is coming soon"
-  element-loading-spinner="  ">
+  element-loading-spinner="knocks-speech-bubble-2 knocks_text_lg ">
   <div 
   v-if = "friendsToChat != null && friendsToChat.response != null && currentChats.length != friendsToChat.response.length" :class = "{'animated slideOutDown' : hasConversation}">
        <h4 class="ui horizontal divider header transparent">

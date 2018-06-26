@@ -56,6 +56,7 @@ Route::group(['middleware' => 'supportedbrowser'], function () {
 	Route::get('/dev', function () {
 		return view('test.home');
 	});
+
 //Language APIS
 	Route::post('dev/all_langs', 'LanguageController@collect');
 	Route::post('dev/all_msgs', 'StaticMessageController@collect');
@@ -216,11 +217,11 @@ Route::group(['middleware' => 'supportedbrowser'], function () {
 
 	Route::post('user/search', 'UserController@searchForFriends');
 
-    Route::post('child/search', 'UserController@retriveChild');
+	Route::post('child/search', 'UserController@retriveChild');
 
-    Route::post('parent/search', 'UserController@retriveParent');
+	Route::post('parent/search', 'UserController@retriveParent');
 
-    Route::post('check/candy', 'UserController@checkKid');
+	Route::post('check/candy', 'UserController@checkKid');
 
 	Route::post('userlogin', 'UserController@userlogin');
 

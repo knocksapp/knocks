@@ -1,7 +1,7 @@
 @extends('layouts.user')
 @section('content')
 <title>Knocks | Home</title>
-<knockswatchmywindow v-model = "watchMyWindow" pwb></knockswatchmywindow>
+<knockswatchmywindow v-model = "watchMyWindow"></knockswatchmywindow>
 <transition    name="custom-classes-transition" enter-active-class="animated tada" leave-active-class="animated bounceOutRight">
   <h3 v-if = "!loggedIn" class = "center knocks_text_dark">See you again, Bye!</h3>
 </transition>
@@ -10,7 +10,7 @@
     <div class = "row " style = "padding : 3px;">
       <div class = "col grey lighten-5" style="" id = "knocks_main_injectort" :class = "[{'col s12':watchMyWindow.width < 1200} , {'col l8':watchMyWindow.width >= 1200}]">
         <div class = "">
-          <knock :scope= "['knock']" :error_at="[]" submit_at = "post/create" :recorder_upload_data = "{ user : {{auth()->user()->id}} , index : {}}" :player_show_options = "false" :post_at = "{{ auth()->user()->id }}" parent_type = "self" success_at = "done" success_msg = "Done." gid = "knockknock"></knock>
+          <knock :scope= "['knock']" :error_at="[]" submit_at = "post/create" :recorder_upload_data = "{ user : {{auth()->user()->id}} , index : {}}" :player_show_options = "false" :post_at = "{{ auth()->user()->id }}" parent_type = "self" success_at = "done" success_msg = "Done." gid = "knockknock{{rand(10,500)}}"></knock>
         </div>
         <div id = "knocks_homepage_lower_area">
           <transition name="custom-classes-transition" enter-active-class="animated zoomIn" leave-active-class="animated zoomOut">

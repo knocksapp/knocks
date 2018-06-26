@@ -39,4 +39,30 @@ class Assistant extends Model {
 		}
 		return true;
 	}
+
+	public function isValidForKids($text) {
+		$arr = [
+			'fuck',
+			'ass',
+			'pussy',
+			'asshole',
+			'motherfucker',
+			'shit',
+			'fucking',
+			'a**',
+			'f**',
+			'a******',
+		];
+		$text = explode(" ", $text);
+		return !$this->isMatchedArrays($arr, $text);
+	}
+
+	public function isMatchedArrays($one, $two) {
+		for ($c = 0; $c < count($one); $c++) {
+			if (in_array($one[$c], $two)) {
+				return true;
+			}
+		}
+		return false;
+	}
 }

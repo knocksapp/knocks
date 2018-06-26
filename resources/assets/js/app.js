@@ -191,7 +191,12 @@ window.TextAlignWeight = (text)=>{
   return { right : rightCounter , left : leftCounter , max : Math.max(leftCounter , rightCounter) == leftCounter ? 'left' : 'right' }
 }
 
-
+window.DevLog = (log)=>{
+  console.log('%c'+log , 'font-size:22px;color:blue')
+}
+window.DevObjLog = (log)=>{
+  console.log('%c'+JSON.stringify(log) , 'font-size:15px;color:purple')
+}
 
 
 require('jquery-touchswipe');
