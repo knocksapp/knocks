@@ -71,6 +71,22 @@ class Knock extends Model {
 		return !$s || $s == 'invalid' ? false : $this->id;
 	}
 
+	public function discription() {
+		$ind = $this->knockIndex();
+		if ($ind->has_voices) {
+			return 'Voice note';
+		}
+		if ($this->text_content != null || count($this->text_content) > 0) {
+			return $this->text_content;
+		}
+		if ($ind->has_files) {
+			return count($ind->files_specifications) . ' File/s';
+		}
+		if ($ind->has_pictures) {
+			return count($ind->images_specifications) . ' File/s';
+		}
+	}
+
 	public function view($requester) {
 		if ($this->type == 'group') {
 			$group = Group::find($this->at);

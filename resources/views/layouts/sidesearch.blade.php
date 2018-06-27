@@ -43,6 +43,10 @@
           </div>
           <transition enter-active-class = "animated zoomIn" leave-active-class = "animated zoomOut">
             <div class = "row knocks_xs_padding" v-if = "searchTypingResults.length != 0 && searchTypingMode">
+              <button class="fluid ui button blue lighten-5 blue-text" @click = "searchTypingMode = false; sidebarRunSearch()">
+              <span class = "el-icon-search"></span>
+              Show More
+             </button>
               <ul class = "uk-list uk-list-divider" >
                 <li v-for = "query in searchTypingResults" @click = "updateSearchQuery(query.c)" class = "knocks_gray_hover">
                   <span :class = "[
