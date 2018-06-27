@@ -4,21 +4,21 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInite472d8cefad8bdc21a1dedb066bf35cf
+class ComposerStaticInitc812e0800a35de4497d48afe0b1c4851
 {
     public static $files = array (
+        '1d1b89d124cc9cb8219922c9d5569199' => __DIR__ . '/..' . '/hamcrest/hamcrest-php/hamcrest/Hamcrest.php',
         '0e6d7bf4a5811bfa5cf40c5ccd6fae6a' => __DIR__ . '/..' . '/symfony/polyfill-mbstring/bootstrap.php',
         '5255c38a0faeba867671b61dfda6d864' => __DIR__ . '/..' . '/paragonie/random_compat/lib/random.php',
         '023d27dca8066ef29e6739335ea73bad' => __DIR__ . '/..' . '/symfony/polyfill-php70/bootstrap.php',
         '667aeda72477189d0494fecd327c3641' => __DIR__ . '/..' . '/symfony/var-dumper/Resources/functions/dump.php',
-        '1d1b89d124cc9cb8219922c9d5569199' => __DIR__ . '/..' . '/hamcrest/hamcrest-php/hamcrest/Hamcrest.php',
         '320cde22f66dd4f5d3fd621d3e88b98f' => __DIR__ . '/..' . '/symfony/polyfill-ctype/bootstrap.php',
         'c964ee0ededf28c96ebd9db5099ef910' => __DIR__ . '/..' . '/guzzlehttp/promises/src/functions_include.php',
         'a0edc8309cc5e1d60e3047b5df6b7052' => __DIR__ . '/..' . '/guzzlehttp/psr7/src/functions_include.php',
-        '37a3dc5111fe8f707ab4c132ef1dbc62' => __DIR__ . '/..' . '/guzzlehttp/guzzle/src/functions_include.php',
         '2c102faa651ef8ea5874edb585946bce' => __DIR__ . '/..' . '/swiftmailer/swiftmailer/lib/swift_required.php',
-        '6124b4c8570aa390c21fafd04a26c69f' => __DIR__ . '/..' . '/myclabs/deep-copy/src/DeepCopy/deep_copy.php',
+        '37a3dc5111fe8f707ab4c132ef1dbc62' => __DIR__ . '/..' . '/guzzlehttp/guzzle/src/functions_include.php',
         '801c31d8ed748cfa537fa45402288c95' => __DIR__ . '/..' . '/psy/psysh/src/functions.php',
+        '6124b4c8570aa390c21fafd04a26c69f' => __DIR__ . '/..' . '/myclabs/deep-copy/src/DeepCopy/deep_copy.php',
         'f0906e6318348a765ffb6eb24e0d0938' => __DIR__ . '/..' . '/laravel/framework/src/Illuminate/Foundation/helpers.php',
         '58571171fd5812e6e447dce228f52f4d' => __DIR__ . '/..' . '/laravel/framework/src/Illuminate/Support/helpers.php',
     );
@@ -128,8 +128,8 @@ class ComposerStaticInite472d8cefad8bdc21a1dedb066bf35cf
         'phpDocumentor\\Reflection\\' => 
         array (
             0 => __DIR__ . '/..' . '/phpdocumentor/reflection-common/src',
-            1 => __DIR__ . '/..' . '/phpdocumentor/reflection-docblock/src',
-            2 => __DIR__ . '/..' . '/phpdocumentor/type-resolver/src',
+            1 => __DIR__ . '/..' . '/phpdocumentor/type-resolver/src',
+            2 => __DIR__ . '/..' . '/phpdocumentor/reflection-docblock/src',
         ),
         'XdgBaseDir\\' => 
         array (
@@ -3931,11 +3931,11 @@ class ComposerStaticInite472d8cefad8bdc21a1dedb066bf35cf
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInite472d8cefad8bdc21a1dedb066bf35cf::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInite472d8cefad8bdc21a1dedb066bf35cf::$prefixDirsPsr4;
-            $loader->fallbackDirsPsr4 = ComposerStaticInite472d8cefad8bdc21a1dedb066bf35cf::$fallbackDirsPsr4;
-            $loader->prefixesPsr0 = ComposerStaticInite472d8cefad8bdc21a1dedb066bf35cf::$prefixesPsr0;
-            $loader->classMap = ComposerStaticInite472d8cefad8bdc21a1dedb066bf35cf::$classMap;
+            $loader->prefixLengthsPsr4 = ComposerStaticInitc812e0800a35de4497d48afe0b1c4851::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInitc812e0800a35de4497d48afe0b1c4851::$prefixDirsPsr4;
+            $loader->fallbackDirsPsr4 = ComposerStaticInitc812e0800a35de4497d48afe0b1c4851::$fallbackDirsPsr4;
+            $loader->prefixesPsr0 = ComposerStaticInitc812e0800a35de4497d48afe0b1c4851::$prefixesPsr0;
+            $loader->classMap = ComposerStaticInitc812e0800a35de4497d48afe0b1c4851::$classMap;
 
         }, null, ClassLoader::class);
     }
