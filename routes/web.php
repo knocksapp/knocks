@@ -630,8 +630,6 @@ onDublication : the message has already translated to `x`
 
 				Route::get('group/{group_id}/settings', 'GroupController@routeToGroupSettings');
 
-				Route::get('/knock/{knock}/{comment}', 'KnockController@viewKnockWithComment');
-
 				Route::post('insert_reaction/reaction', 'ReactionController@insert_reaction');
 
 				Route::post('delete_reaction/reaction', 'ReactionController@delete_reaction');
@@ -729,6 +727,8 @@ onDublication : the message has already translated to `x`
 		Route::get('/cmnt/{comment}', 'KnockController@viewComment');
 
 		Route::get('/rply/{reply}', 'KnockController@viewReply');
+
+		Route::get('/knock/{knock}/{comment}', 'KnockController@viewKnockWithComment');
 
 		//MAIN SEARCH ROUTES
 		Route::get('/app/search', function () {

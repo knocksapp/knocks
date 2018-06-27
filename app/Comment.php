@@ -49,8 +49,9 @@ class Comment extends Model {
 			return count($ind->files_specifications) . ' File/s';
 		}
 		if ($ind->has_pictures) {
-			return count($ind->images_specifications) . ' File/s';
+			return count($ind->images_specifications) . ' Image/s';
 		}
+		return 'KnocksApp, INC';
 	}
 
 	//Comment methods

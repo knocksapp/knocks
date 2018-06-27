@@ -50,8 +50,9 @@ class Reply extends Model {
 			return count($ind->files_specifications) . ' File/s';
 		}
 		if ($ind->has_pictures) {
-			return count($ind->images_specifications) . ' File/s';
+			return count($ind->images_specifications) . ' Image/s';
 		}
+		return 'KnocksApp, INC';
 	}
 	public function knockIndex() {
 		return json_decode($this->index);
