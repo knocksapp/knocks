@@ -53,8 +53,8 @@
     <meta name="author" content="KnocksApp">
     <link rel = "stylesheet" href = {{asset('css/app.css')}}  />
 
-        <!--Social Scripts-->
-      <script>
+  <!--Social Scripts-->
+  <script>
   window.fbAsyncInit = function() {
     FB.init({
       appId      : '1796023703741381',
