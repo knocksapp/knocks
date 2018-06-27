@@ -5,7 +5,7 @@
     <meta property="og:url"    content="{{Request::url()}}" />
     <meta property="og:title"
     content="KnocksApp, {{ App\User::find($reply->user_id)->first_name }} Replied on {{ App\User::find($comment->user_id)->first_name }}'s comment" />
-    <meta property="og:image"  content="https://knocksapp.com/media/avatar/{{$reply->user_id}}" />
+    <meta property="og:image"  content="{{ asset('media/avatar/'.$reply->user_id)}}" />
     <meta property="og:description" content="{{$reply->discription()}}">
     <meta property="og:site_name" content="KnocksApp, Inc.">
 @endsection
