@@ -70,9 +70,7 @@ class Knock extends Model {
 		$s = $this->view(auth()->check() ? auth()->user()->id : -1);
 		return !$s || $s == 'invalid' ? false : $this->id;
 	}
-	public function knockIndex() {
-		return json_decode($this->index);
-	}
+
 	public function discription() {
 		$ind = $this->knockIndex();
 		if ($ind->has_voices) {

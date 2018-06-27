@@ -53,6 +53,9 @@ class Reply extends Model {
 			return count($ind->images_specifications) . ' File/s';
 		}
 	}
+	public function knockIndex() {
+		return json_decode($this->index);
+	}
 	public function initialize($object) {
 		$parent_object = new obj();
 		$parent_object->initialize('reply');
