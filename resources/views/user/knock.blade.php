@@ -2,7 +2,7 @@
 @section('headers')
 <meta property="fb:app_id" content="1796023703741381" />
     <meta property="og:type"   content="website" />
-    <meta property="og:url"    content="{{Request::url()}}" />
+    <meta property="og:url"    content="{{'https://knocksnow.com/knock/'.$knock->id}}" />
     <meta property="og:title"  content="KnocksApp, Knock by {{ App\User::find($knock->user_id)->first_name }}" />
     <meta property="og:image"  content="https://knocksapp.com/media/avatar/{{$knock->user_id}}" />
     <meta property="og:description" content="{{$knock->discription()}}">
