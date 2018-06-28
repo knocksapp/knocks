@@ -26,7 +26,7 @@
       <i v-if="check" class="knocks-log-out"></i>
       </el-button>
     </div>
-    <div v-if="as_result && group_object != null && !add_member_mode" class="knocks_fair_bounds knocks_sp_top_margin">
+    <div v-if="as_result && group_object != null && !add_member_mode " class="knocks_fair_bounds knocks_sp_top_margin">
       <el-button
       type="primary"
        v-if="group_object.preset == 'public'"
@@ -76,26 +76,32 @@
       <span v-if="wait || group_requests.response"> Requested <i class="knocks-paper-plane"></i></span> 
       </el-button>
     </div>
-    <div class="row" v-if = "as_owner && group_object != null && group_object.preset == 'closed'">
+    <div class="" v-if = "as_owner && group_object != null && group_object.preset == 'closed'">
+      <el-button-group class="right">
       <el-button 
       v-if="!declined"
       @click="isChecked('accpet')"
       type="primary"
       v-loading="isLoading"
       :disabled = "disabled"
+      circle
+      class="green"
       >
-      <span v-if ="accpet"> Accept <i class="knocks-plus2"></i></span>
-      <span v-if="confirmed"> Confirmed <i class="knocks-tick"></i></span>
+      <span v-if ="accpet" class="right"><i class="knocks-plus2"></i></span>
+      <span v-if="confirmed"><i class="knocks-tick"></i></span>
     </el-button>
     <el-button 
       @click="isChecked('decline')"
       type="danger"
+      class="red"
       v-loading="isLoading"
       :disabled = "disabled"
+      circle
       v-if="!confirmed || declined"
       >
-      <span> Decline <i class="knocks-close"></i></span>
+      <span>  <i class="knocks-close"></i></span>
     </el-button>
+  </el-button-group>
     </div>
     </div>
 </template>

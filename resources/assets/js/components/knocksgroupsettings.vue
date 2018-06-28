@@ -137,27 +137,30 @@
     <li v-if="request_count > 0">
       <div v-if="group_requests != null && group_requests.response != null" class="collapsible-header"><i class="knocks-mail4 grey-text"></i>Manage Users Requests </br> <el-badge :value="request_count" class="item"></el-badge></div>
       <div class="collapsible-body" v-if="group_requests != null && group_requests.response != null && group_object != null">
-      	<span v-if="group_requests.response != null"> 
-      		<div  v-for="(user,index) in group_requests.response" >
-            <div v-if="user.response == 'waiting'">
+        <span>
+          <ul class="uk-list uk-list-divider" v-if="group_requests.response != null">
+      		<li  v-for="(user,index) in group_requests.response"  v-if="user.response == 'waiting'">
                      <knocksgroupjoining 
-                     v-if="user.response != 'accepted'" 
-                     class=" right" :group_id="group_object.id" 
-                     as_owner :user_id="user.sender_id" 
+                     class="right"
+                     v-if="user.response != 'accepted'"  
+                     :group_id="group_object.id" 
+                     as_owner 
+                     :user_id="user.sender_id" 
                      @member_added = "addMember($event)"
                      >
                      </knocksgroupjoining>
                      <knocksuser 
                      v-if="user.response != 'accepted'" 
                      :user="user.sender_id" 
-                     as_result 
-                     :show_accept_shortcut="false"
+                     class = "col"
+                     main_container = "col"
                      ></knocksuser>      
-            </div>
-          </div>
+          </li>
+        </ul>
       </span>
   </div>
     </li>
+
      <li>
       <div class="collapsible-header"><i class="knocks-badge3 grey-text"></i>Manage Member Positions</div>
       <div class="collapsible-body">

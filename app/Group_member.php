@@ -3,7 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
-
+use App\Group;
 class Group_member extends Model {
 	//
 
@@ -27,11 +27,11 @@ class Group_member extends Model {
 		$this->group_id = $group_id;
 		$this->position = $position;
 		$this->save();
-		if(auth()->user()->isKid())
+		$user = User::find($user_id);
+		if($user->isKid())
 	 {
 		 $candy_session = new Candy_session();
-
-		 $candy_session->initialize(auth()->user()->id,$this->group_id,'group',$this->group_id,null,null);
+		 $candy_session->initialize($user->id,$this->group_id,'group',$this->group_id,null,null);
 
 	}
 }
