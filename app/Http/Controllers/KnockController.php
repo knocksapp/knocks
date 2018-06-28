@@ -7,6 +7,7 @@ use App\Knock;
 use App\obj;
 use App\Reply;
 use App\User;
+use App\Candy_session;
 use Illuminate\Http\Request;
 
 class KnockController extends Controller {
@@ -14,6 +15,7 @@ class KnockController extends Controller {
 		$knock = new Knock();
 
 		$knock->initialize(json_encode($request->submit_object));
+		
 		return 'done';
 	}
 	public function delete(Request $request) {

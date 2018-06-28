@@ -6,7 +6,7 @@
        <div class = "col l9 s8 knocks_house_keeper">
         <knockspopover v-if = "formNowDate != 'Invalid date' " class = "">
         <span slot = "container" style="padding-left : 0px !important; margin-left:0px;" >
-          <span 
+          <span
           class = "knocks_language_default_font knocks_text_sm    knocks_text_dark">
         <span class = "knocks-clock10  hide-on-small-only"></span> {{ formNowDate }}</span>
         </span>
@@ -28,12 +28,12 @@
       </span>
       </knockspopover>
       <!-- <li class="tab col s14 " :class ="emj" @click="getusers(emj)"> -->
-      <span class=" " @click="getusers(emj)" v-for="(emj,index) in orderedemojiadv" 
+      <span class=" " @click="getusers(emj)" v-for="(emj,index) in orderedemojiadv"
         :style = "{'z-index' : 20 + orderedemojiadv.length - index}">
         <!-- <el-badge :value="usersadv[index].length" class="item badge-font "> -->
         <knockspopover >
           <template slot = "container">
-            <div  class = "btn btn-floating knocks_btn_floating_ssm knocks_reaction_state_btn " uk-toggle :class = "[emj,{'knocks_left_override':index > 0}]"  style="border:1px solid pink !important; margin-top:5px" 
+            <div  class = "btn btn-floating knocks_btn_floating_ssm knocks_reaction_state_btn " uk-toggle :class = "[emj,{'knocks_left_override':index > 0}]"  style="border:1px solid pink !important; margin-top:5px"
              :href="'#'+gid+'_modal'" @click="doMotion()">
               <span  class="icons" ></span>
              </div>
@@ -47,7 +47,7 @@
       </span>
        </div>
         <div class = "col l3 s4 right knocks_house_keeper" v-if = "is_auth">
-         <knocksreactor 
+         <knocksreactor
          v-if = "!no_reactor"
          :candy = "candy"
          :inverse = "inverse_reactor"
@@ -79,7 +79,7 @@
           </span>
         </knockspopover>
        </div>
-      
+
     </div>
     <div >
     </div>
@@ -108,7 +108,7 @@
         <div v-if="current.length >0" class = "col s12 uk-divider">
           <knocksshowkeys class ="pos knocks_language_default_font" list_classes = "uk-list uk-list-divider knocks_list_scroll" :as_label = "false" as_chip :show_input = "current"></knocksshowkeys>
         </div>
-      </transition> 
+      </transition>
     </div>
   </div>
 </div>
@@ -128,11 +128,11 @@ export default {
       required : true
     },
     bar_classes : {
-      type : String , 
+      type : String ,
       default : 'knocks_color_kit_light_active'
     },
     reply_scope : {
-      type : Array , 
+      type : Array ,
       default : null
     },
     parent_type : {
@@ -140,12 +140,12 @@ export default {
       default : 'comment'
     },
     show_reply_on_mount : {
-      type : Boolean , 
+      type : Boolean ,
       default : true
     },
     toggle_same_repliers : {
-      type : Boolean , 
-      default : false 
+      type : Boolean ,
+      default : false
     },
     reactor_initial_class : {
       type : String,
@@ -164,23 +164,23 @@ export default {
       default : 'knocks_reactor_ul'
     },
     parent_date : {
-      type : String , 
+      type : String ,
       default  : ''
     },
     owner_id : {
-      type : Number , 
+      type : Number ,
       default : null
-    } , 
+    } ,
     owner_object : {
-      type : Object , 
+      type : Object ,
       default : null
-    } , 
+    } ,
     mention_on_reply : {
-      type : Boolean , 
-      default : false 
+      type : Boolean ,
+      default : false
     },
     toggle_object_id : {
-      type : Number , 
+      type : Number ,
       default : null ,
     },
     inverse_reactor : {
@@ -188,16 +188,16 @@ export default {
       default : true ,
     },
     candy : {
-      type : Boolean , 
-      default : false , 
+      type : Boolean ,
+      default : false ,
     },
     no_reply_option : {
-      type : Boolean , 
+      type : Boolean ,
       default : false
     },
         no_reactor : {
-      type : Boolean , 
-      default : false 
+      type : Boolean ,
+      default : false
     },
     is_auth : {
       type : Boolean ,
@@ -226,7 +226,7 @@ export default {
     App.$on('knocksReplyState' , (payloads)=>{
       if(payloads.type == vm.parent_type && payloads.scope != vm.reply_scope && payloads.relatives){
         vm.replyState = false;
-      } 
+      }
       if(payloads.type == vm.parent_type && payloads.scope[0] == vm.reply_scope[0]){
         vm.replyState = false;
       }
@@ -248,7 +248,7 @@ export default {
   },
   computed:{
     formNowDate(){
-    
+
       return this.time == null ? '' : moment(this.time).fromNow();
     },
     formNowDateSpliced(){
@@ -299,7 +299,7 @@ export default {
       time : null ,
       windowWidth : WindowWidth,
       interest : false ,
-    
+
     }
   },
   methods :{
@@ -424,17 +424,17 @@ export default {
     },
     cls(){
       const vm = this;
-      
+
         vm.current = [];
-    
+
     },
     totalDisplay(total){
-      return total > 1000 ? parseInt(total/1000)+'K' : total; 
+      return total > 1000 ? parseInt(total/1000)+'K' : total;
     },
     timer(){
       let offset = new Date().getTimezoneOffset();
       this.time = moment(this.parent_date).subtract(offset ,'m');
-      setInterval( ()=>{this.time = ''; 
+      setInterval( ()=>{this.time = '';
         let offset = new Date().getTimezoneOffset();
         this.time = moment(this.parent_date).subtract(offset ,'m');
        }
@@ -442,12 +442,12 @@ export default {
     },
     triggerReplyer(){
       this.showInterest();
-      App.$emit('knocksReplyState' , 
+      App.$emit('knocksReplyState' ,
         { scope : this.reply_scope[0] , state : true  , type : this.parent_type , relatives: this.toggle_same_repliers}
         );
       this.replyState  = true ;
       if(this.mention_on_reply && this.owner_id != null){
-         App.$emit('KnocksReplyMention' , 
+         App.$emit('KnocksReplyMention' ,
         { scope : this.reply_scope[0] , state : true  , type : this.parent_type ,user : this.owner_id , userObject : this.owner_object}
         );
       }

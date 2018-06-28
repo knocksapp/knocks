@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Candy_session;
 use Illuminate\Database\Eloquent\Model;
 
 class Reaction extends Model {
@@ -51,7 +52,7 @@ class Reaction extends Model {
 		$this->parent_id = $object->parent_id;
 		$this->user_id = auth()->user()->id;
 		$this->object_id = $pobject->id;
-		$this->save();
+			$this->save();
 	}
 	function initializeReaction($parent_id, $type) {
 		$req_react_emj = ['like', 'angry', 'sad', 'laugh', 'dislike', 'love', 'middlefinger', 'poker'];

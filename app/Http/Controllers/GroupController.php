@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Group;
 use App\Group_member;
+use App\Candy_session;
+use App\User;
 use App\User_request;
 use Illuminate\Http\Request;
 
@@ -55,6 +57,7 @@ class GroupController extends Controller {
 				$position = 'Member'
 			);
 
+		 }
 			if ($request->state == 'request') {
 				$upd = User_request::where('sender_id', '=', $request->user)->where('reciver_id', '=', $request->group)->
 					where('response', '=', 'waiting')->get()->first();
@@ -66,7 +69,6 @@ class GroupController extends Controller {
 			$group->increaseMembers();
 			$newUser->save();
 			return 'done';
-		}
 
 	}
 

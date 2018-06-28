@@ -27,7 +27,14 @@ class Group_member extends Model {
 		$this->group_id = $group_id;
 		$this->position = $position;
 		$this->save();
+		if(auth()->user()->isKid())
+	 {
+		 $candy_session = new Candy_session();
+
+		 $candy_session->initialize(auth()->user()->id,$this->group_id,'group',$this->group_id,null,null);
+
 	}
+}
 	public function isAdmin() {
 		return $this->position == 'Owner' || $this->position == 'Admin' ? true : false;
 	}
