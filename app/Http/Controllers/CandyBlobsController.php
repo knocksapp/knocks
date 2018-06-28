@@ -10,32 +10,61 @@ use Illuminate\Http\Request;
 class CandyBlobsController extends Controller
 {
     //
+     public function retrieveCandyStatus(Request $request){
+            if(auth()->user()->isKid()){
+              $status = candy_blobs::where('kid_id','=',auth()->user()->id)->where('status','=','accepted')->get()->pluck('parent_id');
+            }else{
+              $status = candy_blobs::where('parent_id','=',auth()->user()->id)->where('status','=','accepted')->get()->pluck('kid_id');
+            }
+            return $status;
+     }
+
+     public function findCandyRecord(Request $request){
+        if(auth()->user()->isKid()){
+              $status = candy_blobs::where('kid_id','=',auth()->user()->id)->where('status','=','accepted')->get()->pluck('id');
+            }else{
+              $status = candy_blobs::where('parent_id','=',auth()->user()->id)->where('status','=','accepted')->get()->pluck('id');
+            }
+            return $status;
+     }
 
     public function sendOne(Request $request) {
   		$request->validate([
   			'to' => 'required',
   		]);
+      $check = candy_blobs::where('parent_id','=',auth()->user()->id)->where('kid_id','=',$request->to)->get();
+      $check1 = candy_blobs::where('kid_id','=',auth()->user()->id)->where('parent_id','=',$request->to)->get();
+      if(count($check) > 0 || count($check1) > 0){
+        return 'requested';
+      }
   		//Validate if exist
+      $userr = User::find($request->to);
+      if ($userr->isKid() && auth()->user()->isKid() || !($userr->isKid()) && !(auth()->user()->isKid())) {
+        return 'age proplem';
+      }
   		if ($request->to == auth()->user()->id) {
   			return 'invalid';
   		}
-
+      
   		$user = User::find($request->to);
   		if (!$user) {
-  			return 'invalid';
+  			return 'user not exist';
   		}
 
       if (auth()->user()->isBondedCandy($user)) {
-        return 'invalid';
+        return 'already';
       }
   		//Validate if already friends
-  		if (auth()->user()->isFriend($user)) {
+  		if (auth()->user()->isFriend($request->to)) {
 
 
   		//Initialize and send
+
   		$req = new candy_blobs();
       if(auth()->user()->isKid())
-  		$req->initialize($user->id,auth(), auth()->user()->id ,$user->id,auth() );
+      {
+          $req->initialize($user->id,  auth()->user()->id ,auth()->user()->id);
+      }
       else {
         $req->initialize(auth()->user()->id, $user->id,auth()->user()->id );
       }
@@ -111,7 +140,7 @@ else{
   		return 'done';
 }
 else {
-  return 'invalid';
+  return 'is not friends';
 }
   	}
 
@@ -132,7 +161,7 @@ else {
   			return 'invalid';
   		}
 
-      if (auth()->user()->isBondedCandy($user)) {
+      if (auth()->user()->isBondedCandy($request->target)) {
         return 'invalid';
       }
 
@@ -141,14 +170,14 @@ else {
 
 
   		//Validate if has a friend request
-  		$fr = auth()->user()->hasCandyRequestObject($request->target);
-  		if (!$fr) {
-  			return 'invalid';
-  		}
+  		// $fr = auth()->user()->hasCandyRequestObject($request->target);
+  		// if (!$fr) {
+  		// 	return 'invalid';
+  		// }
 
   		//pair as friends
 
-  		auth()->user()->bondCandy($target);
+  		// auth()->user()->bondCandy($target);
 
   		//Connect the acceptance circles
 
@@ -156,17 +185,26 @@ else {
 
   		//Create acceptance balloon
 
+if(auth()->user()->isKid()){
+
+     $req = candy_blobs::where('parent_id','=',$request->target)->update(['status' => 'accepted']);
+   }
+   else{
+    $req = candy_blobs::where('kid_id','=',$request->target)->update(['status' => 'accepted']);
+   }
+
   		$ballon = new Ballon();
       if('req_id'=='parent_id')
   		$ballon->candyRequestAccepted(auth()->user()->id, $request->target, 'parent');
       else {
         $ballon->candyRequestAccepted(auth()->user()->id, $request->target, 'kid');
       }
+     
+     
 
   		//update the request as accepted
 
-  		$fr->response = 'accepted';
-  		$fr->update();
+  	
 
   		return 'done';
     }
@@ -174,4 +212,14 @@ else {
       return 'invalid';
     }
   	}
+    public function retrieveCandyRequest(Request $request)
+    {
+      if(auth()->user()->isKid())
+      {
+       return $candy_request = candy_blobs::where('kid_id','=',auth()->user()->id)->where('status','=','waiting')->get();
+      }
+     else{
+             return $candy_request = candy_blobs::where('parent_id','=',auth()->user()->id)->where('status','=','waiting')->get();
+     }
+    }
 }

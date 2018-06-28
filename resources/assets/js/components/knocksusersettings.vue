@@ -974,6 +974,13 @@
 			<knocksshowkeys class = "knocks_mp_top_margin" show_scope = "block" :show_input = "blockedUserIds" as_result blocker :as_label = "false"></knocksshowkeys>
 		</div>
 		</el-tab-pane>
+		<el-tab-pane name = "candySession">
+		<span slot="label" class="left">
+			<i class="knocks-group-1"></i>
+			<static_message msg = "Candy Session"></static_message>
+		</span>
+		      <knockscandyrequest></knockscandyrequest>
+		</el-tab-pane>
 		</el-tabs>
 	</div>
 </div>
@@ -1117,6 +1124,7 @@ export default {
     }
   },
   methods : {
+
   	handleTaps(e){
   		this.seenOnce[this.tabs] = true
   	},
