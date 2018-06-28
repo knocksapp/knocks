@@ -104,12 +104,12 @@ window.leaveIcon = function(node){
 
 
 $(document).ready(function(){
-  setTimeout(()=>{
-    console.clear();
-  console.log("%c Welcome To KnocksApp","color: #922459;font-size:30px;font-family:sans-serif")
-  console.log("%c⊘" , "color:red;font-size:40px;text-align:center")
-  console.log("%cThis browser feature is for developers, incase you need help please visit our own help section, otherwise there is nothing to do here." , "color : red; font-size : 20px;")
-  },2000)
+  // setTimeout(()=>{
+  //   console.clear();
+  // console.log("%c Welcome To KnocksApp","color: #922459;font-size:30px;font-family:sans-serif")
+  // console.log("%c⊘" , "color:red;font-size:40px;text-align:center")
+  // console.log("%cThis browser feature is for developers, incase you need help please visit our own help section, otherwise there is nothing to do here." , "color : red; font-size : 20px;")
+  // },2000)
 
   $('.knocks_language_follower').css({'text-align' : window.currentUserLanguageAlignment , 'font-family' : window.currentUserLanguageFont});
 
@@ -422,6 +422,7 @@ Vue.component('knocksimageviewer', require('./components/knocksimageviewer.vue')
 Vue.component('knocksaddcircle', require('./components/knocksaddcircle.vue'));
 Vue.component('knockscircleseditor', require('./components/knockscircleseditor.vue'));
 Vue.component('knocksknock', require('./components/knocksknock.vue'));
+Vue.component('knockssharedknock', require('./components/knockssharedknock.vue'));
 Vue.component('knockscomment', require('./components/knockscomment.vue'));
 Vue.component('knockschildreply', require('./components/knockschildreply.vue'));
 Vue.component('knocksreply', require('./components/knocksreply.vue'));

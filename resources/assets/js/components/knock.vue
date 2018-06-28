@@ -143,6 +143,10 @@
         </knocksbutton>
       </div>
     </div>
+    <div class="row" v-if = "shared">
+      <knocksknock  :knock = "shared" :gid="gid + '_knock_shared_'+shared" no_reactor
+   :current_user = "auth" replier_message = "Leave a comment" as_shortcut ></knocksknock> 
+    </div>
   </div>
   <!-- Modal Structure -->
   <div :id="gid+'_map_modal'" class="modal modal-fixed-footer  ">
@@ -422,13 +426,17 @@ export default {
     kvc_knock : {
       type : Boolean , 
       default : false 
+    },
+    shared: {
+      type : Number , 
+      default : null
     }
 
 
   },
   data () {
     return {
-
+      auth : window.AuthId , 
     	taggedPeople : [] ,
     	recorder : null ,
     	tokens : [],
@@ -734,7 +742,7 @@ export default {
     },
     prepareSubmit(){
       if(!(this.recorderResponded && this.mfuResponded)) return;
-      if(!this.hasContent || !this.checkContent() ){
+      if((!this.hasContent || !this.checkContent() ) && !this.shared ){
         this.notifiError();
         setTimeout( ()=>{
           App.$emit('knocksButtonVirtualStop' , { scope : this.scope });
@@ -1027,6 +1035,7 @@ export default {
         check_in : this.locationResult ,
         tags : this.tagged ,
         privacy_setting : this.privacy_setting , 
+        shared : this.shared
 
       }
       this.submitObject = res;

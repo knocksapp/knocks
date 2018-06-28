@@ -23,6 +23,7 @@ class CreateKnocksTable extends Migration {
 			$table->json('index')->nullable();
 			$table->string('quick_preset')->nullable()->default(NULL);
 			$table->longText('keywords')->nullable()->default(NULL);
+			$table->bigInteger('shared')->nullable()->default(NULL); //user foreign key
 		});
 		Schema::table('knocks', function (Blueprint $table) {
 			// $table->foreign('user_id')->references('id')->on('users');

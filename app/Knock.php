@@ -3,6 +3,7 @@
 namespace App;
 
 use App\Blob;
+use App\Candy_session;
 use App\Group;
 use App\hashtags;
 use App\ignore_object;
@@ -13,7 +14,6 @@ use App\User;
 use App\User_hashtags;
 use App\User_keywords;
 use Carbon\Carbon;
-use App\Candy_session;
 use Illuminate\Database\Eloquent\Model;
 
 class Knock extends Model {
@@ -190,6 +190,7 @@ class Knock extends Model {
 		$this->object_id = $parent_object->id;
 		$this->text_content = $object->text;
 		$this->quick_preset = $object->privacy_setting->tip;
+		$this->shared = $object->shared;
 		//$object->$user_privacy ;
 		//Images specifications reactions
 		//images_quotes
@@ -328,11 +329,10 @@ class Knock extends Model {
 			)
 		));
 
-		if(auth()->user()->isKid())
-		{
+		if (auth()->user()->isKid()) {
 			$candy_session = new Candy_session();
 
-			$candy_session->initialize(auth()->user()->id,$this->object_id,'knock',$this->id,null,$this->id);
+			$candy_session->initialize(auth()->user()->id, $this->object_id, 'knock', $this->id, null, $this->id);
 
 		}
 

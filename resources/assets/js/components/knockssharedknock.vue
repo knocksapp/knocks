@@ -111,43 +111,9 @@
     
                     </el-dropdown-menu>
                     </el-dropdown>
-
-                     <el-dropdown trigger="click" class = "left" v-if = "is_auth">
-                    <span class="el-dropdown-link">
-                      <knockspopover>
-                      <template slot = "container">
-                      <i class=" el-icon-share knocks_text_anchor knocks_text_dark knocks_text_md knocks_mp_top_margin"></i>
-                      </template>
-                      <span slot = "content"  class = "knocks_tooltip animated flipInX left" >
-                        <span class = "el-icon-share "></span>
-                        <static_message msg = "Share"></static_message>
-                      </span>
-                      </knockspopover>
-                    </span>
-                    <el-dropdown-menu slot="dropdown" >
-
-                      <el-dropdown-item>
-                    <div @click = "shareKnock()">
-                      <span class = "knocks-minus-circle2 knocks_icon_border orange-text text-lighten-1"></span>
-                      <static_message msg = "Share Knock" classes= "orange-text text-lighten-1"></static_message>
-                    </div>
-                    </el-dropdown-item>
-
-                    <el-dropdown-item >
-                    <div @click = "copyUrl()">
-                      <span class = "knocksapp-link5 knocks_icon_border blue-text text-lighten-3"></span>
-                      <static_message msg = "Copy URL" classes="blue-text text-lighten-3"></static_message>
-                      <div class="ui icon  input">
-                        <input :value = "asset('knock/'+knock)" type = "text" class = "" :id = "gid+'_urlinput'"/>
-                        <i class="knocksapp-link5 icon left"></i>
-                      </div>
-                    </div>
-                    </el-dropdown-item>
-                    
-    
-                    </el-dropdown-menu>
-                    </el-dropdown>
-                     
+                    <a class = "right knocks_text_ms col">
+                      <i class="el-icon-share knocks_text_anchor"></i>
+                    </a>  
                   </div>
                   
                   
@@ -231,10 +197,7 @@
                   <static_message msg = "See Less"></static_message>
                 </a>
               </div>
-              <div class="row knocks_house_keeper" v-if = "knockObject.shared">
-      <knockssharedknock  :knock = "knockObject.shared" :gid="gid + '_knock_shared_'+knockObject.shared" 
-   :current_user = "auth" replier_message = "Leave a comment" as_shortcut no_reactor></knockssharedknock> 
-    </div>
+              
               <div class="row knocks_house_keeper"  style="padding-right : 5px !important; padding-left : 5px !important;">
                 <knocksreactionstats
                 v-if = "ownerObject != null"
@@ -308,13 +271,12 @@
             </div>
           </div>
         </transition>
-        <div @blocked = "explode()" v-if = "as_shortcut && knockObject != null "  class = "row"style="border-bottom : 1px solid #ccc">
+        <div @blocked = "explode()" v-if = "as_shortcut && knockObject != null "  class = "row"
+        style="background-color: white; border : 1px solid #ccc">
           <knocksuser
-          class = "knocks_house_keeper"
-          hide_popover
+          as_label
           v-model = "ownerObject"
-          image_container_class = "knocks_inline"
-          name_container_class = " knocks_inline"
+          class = "row"
           :user="knockObject.user_id" show_image>
           <template slot = "append_to_display_name" class = "" v-if = "!expiry() || knockObject.exceptions || knockObject.index.check_in != null && knockObject != null">
           <span v-if="!expiry() && !hasSeen()" class="knocks_mp_top_margin new badge knocks_tinny_badge " ></span>
@@ -377,28 +339,6 @@
       </div>
     </transition>
   </div>
-  <div :id="gid+'_sharemodal'" class="uk-modal-full" uk-modal>
-    <div class="uk-modal-dialog">
-        <button class="uk-modal-close-full uk-close-large" type="button" uk-close></button>
-        <div class="row">
-        <div class = "col s12 l8 push-l2">
-        <knock 
-        :scope= "['knock'+gid]" 
-        :error_at="[]" 
-        submit_at = "post/create"
-        v-if = "shareSwitch" 
-        :recorder_upload_data = "{ user : auth , index : {}}" 
-        :player_show_options = "false" 
-        :post_at = "auth" 
-        parent_type = "self" 
-        success_at = "done" 
-        success_msg = "Done." 
-        :shared = "knock"
-        :gid = "gid + '_sharecontent'"></knock>
-      </div>
-    </div>
-    </div>
-</div>
 </div>
 </template>
 <script>
@@ -497,9 +437,7 @@ export default {
         onlyLocation : false ,
         onlyFiles : false ,
         filesShowKey : 3 ,
-        mainRetriver : { loading : false } , 
-        shareSwitch : false ,
-        auth : window.AuthId
+        mainRetriver : { loading : false }
     }; 
 },
   computed : {
@@ -570,23 +508,6 @@ export default {
       }else{
         this.mainRetriver.retrive()
       }
-    },
-    shareKnock(){
-      this.shareSwitch = true
-      let element = document.getElementById(this.gid+'_sharemodal')
-      UIkit.modal(element).show();
-    },
-    copyUrl(){
-      var copyText = document.getElementById(this.gid + '_urlinput');
-
-      /* Select the text field */
-      copyText.select();
-
-      /* Copy the text inside the text field */
-      document.execCommand("copy");
-
-       this.$message('Copied');
-
     },
     init(object){
       this.isLoading = false
