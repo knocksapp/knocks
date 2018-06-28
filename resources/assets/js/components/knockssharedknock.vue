@@ -271,12 +271,15 @@
             </div>
           </div>
         </transition>
-        <div @blocked = "explode()" v-if = "as_shortcut && knockObject != null "  class = "row"
+        <div v-if = "as_shortcut && knockObject != null "  class = "col s12 knocks_standard_border_radius knocks_house_keeper"
         style="background-color: white; border : 1px solid #ccc">
-          <knocksuser
-          as_label
+           <knocksuser
+          @blocked = "explode()"
+          class = "knocks_house_keeper"
+          hide_popover
           v-model = "ownerObject"
-          class = "row"
+          image_container_class = "knocks_inline"
+          name_container_class = " knocks_inline"
           :user="knockObject.user_id" show_image>
           <template slot = "append_to_display_name" class = "" v-if = "!expiry() || knockObject.exceptions || knockObject.index.check_in != null && knockObject != null">
           <span v-if="!expiry() && !hasSeen()" class="knocks_mp_top_margin new badge knocks_tinny_badge " ></span>
@@ -331,7 +334,7 @@
             :inverse_reactor = "inverse_reactor"
             :object_id = "knockObject.object_id">
             </knocksreactionstats>
-            <a :href ="asset('knock/'+knock)" target="_blank" class = "knocks_text_sm">
+            <a :href ="asset('knock/'+knock)" target="_blank" class = "knocks_text_sm col">
               <span class = "knocksapp-share4"></span>
             <static_message msg = "More Details"></static_message></a>
           </div>

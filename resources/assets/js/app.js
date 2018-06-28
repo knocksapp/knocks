@@ -507,7 +507,6 @@ Vue.component('knockstrendslist', require('./components/knockstrendslist.vue'));
 Vue.component('knocksgenderviewer', require('./components/knocksgenderviewer.vue'));
 Vue.component('knockstextlenhandler', require('./components/knockstextlenhandler.vue'));
 Vue.component('knockscandyrequest', require('./components/knockscandyrequest.vue'));
-Vue.component('knockscandybutton', require('./components/knockscandybutton.vue'));
 Vue.component('knocksglobalsearch', require('./components/knocksglobalsearch.vue'));
 Vue.component('knockstestingsocialize', require('./components/knockstestingsocialize.vue'));
 Vue.component('knockscandysessionlogs', require('./components/knockscandysessionlogs.vue'));

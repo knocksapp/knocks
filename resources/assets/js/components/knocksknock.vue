@@ -68,28 +68,28 @@
                       </p>
                     </a>
                   </div>
-                  <div class = "col s5">
+                  <div class = "col right">
                     <el-dropdown trigger="click" class = "right" v-if = "is_auth">
                     <span class="el-dropdown-link">
                       <knockspopover>
                       <template slot = "container">
-                      <i class=" knocks_icon knocks-more-horizontal knocks_text_anchor knocks_text_dark knocks_text_lmd"></i>
+                      <i class=" el-icon-menu knocks_mp_top_margin knocks_text_anchor knocks_text_dark knocks_text_md"></i>
                       </template>
                       <span slot = "content"  class = "knocks_tooltip animated flipInX left" >
-                        <span class = "knocks-more-horizontal "></span>
+                        <span class = "el-icon-menu "></span>
                         <static_message msg = "More Options"></static_message>
                       </span>
                       </knockspopover>
                     </span>
                     <el-dropdown-menu slot="dropdown" >
-  
+                    
                     <el-dropdown-item v-if="userId == knockObject.user_id || (knockObject.at == userId && (knockObject.type == 'self' || knockObject.type == 'user'))">
                     <div @click = "deletePost()">
                       <span class = "knocks-pencil9 knocks_icon_border red-text"></span>
                       <static_message msg = "Delete" classes="red-text"></static_message>
                     </div>
                     </el-dropdown-item>
-            <!--         <el-dropdown-item v-if = "ownerObject != null && !ownerObject.thatsMe" >
+                    <!--         <el-dropdown-item v-if = "ownerObject != null && !ownerObject.thatsMe" >
                     <div class ="teal-text text-accent-4">
                       <span class = "knocks-star3 knocks_icon_border  teal-text text-accent-4"></span>
                       <static_message msg = "See" classes="teal-text text-accent-4"></static_message> {{ownerObject.name}}
@@ -108,15 +108,14 @@
                       <static_message msg = "Hide always" classes="red-text text-accent-2"></static_message>
                     </div>
                     </el-dropdown-item>
-    
+                    
                     </el-dropdown-menu>
                     </el-dropdown>
-
-                     <el-dropdown trigger="click" class = "left" v-if = "is_auth">
+                    <el-dropdown trigger="click" class = " " v-if = "is_auth">
                     <span class="el-dropdown-link">
                       <knockspopover>
                       <template slot = "container">
-                      <i class=" el-icon-share knocks_text_anchor knocks_text_dark knocks_text_md knocks_mp_top_margin"></i>
+                      <i class=" el-icon-share knocks_text_anchor knocks_text_dark knocks_text_md  knocks_mp_top_margin"></i>
                       </template>
                       <span slot = "content"  class = "knocks_tooltip animated flipInX left" >
                         <span class = "el-icon-share "></span>
@@ -125,14 +124,12 @@
                       </knockspopover>
                     </span>
                     <el-dropdown-menu slot="dropdown" >
-
-                      <el-dropdown-item>
+                    <el-dropdown-item>
                     <div @click = "shareKnock()">
                       <span class = "knocks-minus-circle2 knocks_icon_border orange-text text-lighten-1"></span>
                       <static_message msg = "Share Knock" classes= "orange-text text-lighten-1"></static_message>
                     </div>
                     </el-dropdown-item>
-
                     <el-dropdown-item >
                     <div @click = "copyUrl()">
                       <span class = "knocksapp-link5 knocks_icon_border blue-text text-lighten-3"></span>
@@ -144,10 +141,10 @@
                     </div>
                     </el-dropdown-item>
                     
-    
+                    
                     </el-dropdown-menu>
                     </el-dropdown>
-                     
+                    
                   </div>
                   
                   
@@ -181,7 +178,7 @@
                   </p>
                   </h3>
                   <div  class="knocks_text_dark content knocks_content_padding" :id = "gid" @dblclick = "flowtext()"></div>
-                  <span class = "knocks_text_ms knocks-zoomin4 hide-on-large-only knocks_text_dark" v-if ="knockObject != null && knockObject.body && knockObject.body.length > 0" @click = "flowtext()"></span> 
+                  <span class = "knocks_text_ms knocks-zoomin4 hide-on-large-only knocks_text_dark" v-if ="knockObject != null && knockObject.body && knockObject.body.length > 0" @click = "flowtext()"></span>
                 </div>
                 <div class="row knocks_house_keeper"  v-if="bodyLen > 350" ><div class="top">
                   <a class="rdmore right" :id="gid+'_readmore'" style="padding-left : 0.2 rem !important; padding-right : 0.2 rem !important;"  @click="rd();" href="javascript:void(0);">See more</a></div>
@@ -231,10 +228,10 @@
                   <static_message msg = "See Less"></static_message>
                 </a>
               </div>
-              <div class="row knocks_house_keeper" v-if = "knockObject.shared">
-      <knockssharedknock  :knock = "knockObject.shared" :gid="gid + '_knock_shared_'+knockObject.shared" 
-   :current_user = "auth" replier_message = "Leave a comment" as_shortcut no_reactor></knockssharedknock> 
-    </div>
+              <div class="row knocks_fair_bounds " v-if = "knockObject.shared">
+                <knockssharedknock  :knock = "knockObject.shared" :gid="gid + '_knock_shared_'+knockObject.shared"
+                :current_user = "auth" replier_message = "Leave a comment" as_shortcut no_reactor></knockssharedknock>
+              </div>
               <div class="row knocks_house_keeper"  style="padding-right : 5px !important; padding-left : 5px !important;">
                 <knocksreactionstats
                 v-if = "ownerObject != null"
@@ -308,8 +305,9 @@
             </div>
           </div>
         </transition>
-        <div @blocked = "explode()" v-if = "as_shortcut && knockObject != null "  class = "row"style="border-bottom : 1px solid #ccc">
+        <div  v-if = "as_shortcut && knockObject != null "  class = "row"style="border-bottom : 1px solid #ccc">
           <knocksuser
+          @blocked = "explode()"
           class = "knocks_house_keeper"
           hide_popover
           v-model = "ownerObject"
@@ -325,7 +323,7 @@
             <div class="row knocks_house_keeper">
               <div  class="knocks_text_dark content knocks_content_padding" :id = "gid" @dblclick = "flowtext()"></div>
             </div>
-            <span class = "right knocksapp-zoom-in hide-on-large-only knocks_text_dark" @click = "flowtext()"></span> 
+            <span class = "right knocksapp-zoom-in hide-on-large-only knocks_text_dark" @click = "flowtext()"></span>
             <div class="row knocks_house_keeper"  v-if="bodyLen > 350" ><div class="top">
               <a class="rdmore right" :id="gid+'_readmore'" style="padding-left : 0.2 rem !important; padding-right : 0.2 rem !important;"  @click="rd();" href="javascript:void(0);">See more</a></div>
             </div>
@@ -369,7 +367,7 @@
             :inverse_reactor = "inverse_reactor"
             :object_id = "knockObject.object_id">
             </knocksreactionstats>
-            <a :href ="asset('knock/'+knock)" target="_blank" class = "knocks_text_sm">
+            <a :href ="asset('knock/'+knock)" target="_blank" class = "knocks_text_sm col">
               <span class = "knocksapp-share4"></span>
             <static_message msg = "More Details"></static_message></a>
           </div>
@@ -379,26 +377,37 @@
   </div>
   <div :id="gid+'_sharemodal'" class="uk-modal-full" uk-modal>
     <div class="uk-modal-dialog">
-        <button class="uk-modal-close-full uk-close-large" type="button" uk-close></button>
+      <div class="row">
+        <button @click = "closeShareModal()" class = "knocks_text_lmd right transparent knocks_borderless" >
+        <span class = "el-icon-close right knocks_tex_lg"></span>
+      </button>
+      </div>
+      <div style="">
+        <h4 class="ui horizontal divider header transparent knocks_language_default_font_forced">
+        <i class="el-icon-share"></i>
+        Share
+        </h4>
         <div class="row">
-        <div class = "col s12 l8 push-l2">
-        <knock 
-        :scope= "['knock'+gid]" 
-        :error_at="[]" 
-        submit_at = "post/create"
-        v-if = "shareSwitch" 
-        :recorder_upload_data = "{ user : auth , index : {}}" 
-        :player_show_options = "false" 
-        :post_at = "auth" 
-        parent_type = "self" 
-        success_at = "done" 
-        success_msg = "Done." 
-        :shared = "knock"
-        :gid = "gid + '_sharecontent'"></knock>
+          <div class = "col s12 l8 push-l2">
+            <knock
+            @success = "closeShareModal()"
+            :scope= "['knock'+gid]"
+            :error_at="[]"
+            submit_at = "post/create"
+            v-if = "shareSwitch"
+            :recorder_upload_data = "{ user : auth , index : {}}"
+            :player_show_options = "false"
+            :post_at = "auth"
+            parent_type = "self"
+            success_at = "done"
+            success_msg = "Done."
+            :shared = "knock"
+            :gid = "gid + '_sharecontent'"></knock>
+          </div>
+        </div>
       </div>
     </div>
-    </div>
-</div>
+  </div>
 </div>
 </template>
 <script>
@@ -575,6 +584,10 @@ export default {
       this.shareSwitch = true
       let element = document.getElementById(this.gid+'_sharemodal')
       UIkit.modal(element).show();
+    },
+    closeShareModal(){
+      let element = document.getElementById(this.gid+'_sharemodal')
+      UIkit.modal(element).hide();
     },
     copyUrl(){
       var copyText = document.getElementById(this.gid + '_urlinput');

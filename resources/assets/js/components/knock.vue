@@ -492,7 +492,8 @@ export default {
   computed : {
     hasContent(){
       return !(
-        (this.uploader == null || (this.uploader.images.length == 0 && this.uploader.regularFiles.length == 0 ) )
+        !this.shared
+        && (this.uploader == null || (this.uploader.images.length == 0 && this.uploader.regularFiles.length == 0 ) )
         && !this.hasText 
         && this.locationResult == null &&  (this.recorder == null ||  this.recorder.hasRecord === undefined || this.recorder.hasRecord == false))
     },
