@@ -221,13 +221,13 @@ Route::group(['middleware' => 'supportedbrowser'], function () {
 
 	Route::post('parent/search', 'UserController@retriveParent');
 
-    Route::post('check/candy', 'CandyBlobsController@sendOne');
+	Route::post('check/candy', 'CandyBlobsController@sendOne');
 
-    Route::post('accept/candy', 'CandyBlobsController@accept');
+	Route::post('accept/candy', 'CandyBlobsController@accept');
 
-     Route::post('ignore/candy', 'CandyBlobsController@ignoreOne');
+	Route::post('ignore/candy', 'CandyBlobsController@ignoreOne');
 
-    Route::post('candy/send', 'UserController@checkKid');
+	Route::post('candy/send', 'UserController@checkKid');
 
 	Route::post('userlogin', 'UserController@userlogin');
 
@@ -431,7 +431,6 @@ Route::group(['middleware' => 'supportedbrowser'], function () {
 	Route::post('getlogid', 'CandySessionController@retriveAllLogs');
 
 	Route::post('getlog', 'CandySessionController@retriveLog');
-
 
 // Route::get('add_notification' , function(){
 	//   $not = new App\Ballon();
