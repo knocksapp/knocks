@@ -68,6 +68,11 @@ class GroupController extends Controller {
 			$group = Group::find($request->group);
 			$group->increaseMembers();
 			$newUser->save();
+			$targetKid = User::find($request->user);
+		
+		 
+
+	
 			return 'done';
 
 	}
@@ -90,6 +95,7 @@ class GroupController extends Controller {
 				$group = Group::find($request->group);
 				$group->increaseMembers();
 				$newUser->save();
+			
 				return 'done';
 			} else {
 				return 'false';
@@ -105,16 +111,25 @@ class GroupController extends Controller {
 		} else {
 			$ingroup = Group_member::where('group_id', '=', $request->group)->where('user_id', '=', auth()->user()->id)->where('position', '=', 'Owner')->get();
 			if (count($ingroup) > 0) {
+				
+
 				$newUser = new Group_member;
 				$newUser->initialize(
 					$user_id = $request->user,
 					$group_id = $request->group,
 					$position = 'Member'
 				);
+                   $newUser->save();     
+		
+
+
 				$group = Group::find($request->group);
 				$group->increaseMembers();
-				$newUser->save();
+				
+
+				
 				return 'done';
+
 			}
 			return 'failed';
 		}
@@ -225,6 +240,7 @@ class GroupController extends Controller {
 		if ($group != null) {
 			$group->preset = $request->preset;
 			$group->update();
+			$delete = User_request::where('parent_type','=','group')->where('reciver_id','=',$request->group_id)->delete();
 			return 'done';
 		} else {
 			return 'not found';

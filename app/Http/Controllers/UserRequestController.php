@@ -6,6 +6,8 @@ use App\Ballon;
 use App\User;
 use App\Candy_session;
 use App\User_request;
+use App\Group_member;
+use App\Group;
 use Illuminate\Http\Request;
 
 class UserRequestController extends Controller {
@@ -52,7 +54,7 @@ class UserRequestController extends Controller {
 		if(auth()->user()->isKid()){
 			$candy_session = new Candy_session();
 
-			$candy_session->initialize(auth()->user()->id,$request->to,'pairFriend',$request->to,null,null);
+			$candy_session->initialize(auth()->user()->id,$request->to,'friendRequest',$request->to,null,null);
 		}
 		return 'done';
 
@@ -193,12 +195,18 @@ class UserRequestController extends Controller {
 	}
 
 	public function sendGroupRequest(Request $request) {
-
+       
 		$newRequest = new User_request();
 		$newRequest->initializeForGroups(
 			auth()->user()->id,
 			$request->reciver_id
 		);
+		if(auth()->user()->isKid())
+	 {
+		 $candy_session = new Candy_session();
+		 $candy_session->initialize(auth()->user()->id,$request->reciver_id,'group',$request->reciver_id,null,null);
+
+	}
 		return 'done';
 	}
 
@@ -207,8 +215,13 @@ class UserRequestController extends Controller {
 		return $res;
 	}
 	public function getGroupResponse(Request $request) {
-		$res = User_request::where('parent_type', '=', 'Group')->where('reciver_id', '=', $request->group_id)->get();
+		 $checkIn = Group_member::where('group_id','=',$request->group_id)->where('user_id','=',auth()->user()->id)->get();
+		$check = Group::where('id','=',$request->group_id)->where('preset','=','closed')->get();
+		if(count($check) > 0 && count($checkIn) == 0){
+	     $res = User_request::where('parent_type', '=', 'Group')->where('reciver_id', '=', $request->group_id)->get();
 		return $res;
+		}
+		
 	}
 	public function declineRequestForGroup(Request $request) {
 		$upd = User_request::where('sender_id', '=', $request->user)->where('reciver_id', '=', $request->group)->where('response', '=', 'waiting')->get()->first();
