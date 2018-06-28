@@ -138,6 +138,7 @@
         :label_classes = "btn_label_classes"
         @knocks_submit_accepted = "resetKnock()"
         :materialize_feedback = "false"
+        hide_success_msg
         button_classes = " el-button knocks_color_kit btn-floating knocks_tiny_floating_btn  knocks_btn_color_kit  knocks_right knocks_noshadow_ps knocks_borderless">
         </knocksbutton>
       </div>
@@ -519,7 +520,8 @@ export default {
     }else vm.isSelectingAll = false ;
     if (e.keyCode === 13) {
       // insert 2 br tags (if only one br tag is inserted the cursor won't go to the next line)
-      document.execCommand('insertHTML', false, '<br/>');
+      document.execCommand('insertHTML', false, '<br>');
+
       // prevent the default behaviour of return key pressed
       return false;
     }

@@ -238,7 +238,7 @@ export default {
          }
          if (vm.authposition == null ) vm.authposition = 'Member'
         
-       	
+       	App.$emit('KnocksContentChanged')
        },
         inGroup(id){
               const vm = this

@@ -39,12 +39,12 @@ window.currentUserLanguageAlignment = document.querySelector('meta[name="lang_al
 window.NodeOrgin = 'http://127.0.0.1:3000/'; //NodeJS Requests Orgin %/  in Axsios XHR url no need to specify the root, eg: (url : NodeOrgin + 'parent_x/child_y') /%
 window.LaravelOrgin = window.location.protocol + '//'+ window.location.hostname  +'/' ; //Same as NodeOrgin but scopes Laravel this time.
 window.PNotify = require('pnotify'); //Notifier JS Based Library.
-window.UsersObject = {}; //Empty Object to be contacting knocksuser component, applying dynamic programming, and machine learning approach.
 window.UserAxios = {};
 window.ImgBlobs = {}; //Empty Object to be contacting knockspreview, knocksframelesspreview components, applying dynamic programming, and machine learning approach.
 window.UserCircles = {}; //Empty Object to be contacting circles data, applying dynamic programming, and machine learning approach.
 window.UserId = document.querySelector('meta[name="user"]').getAttribute('content');
-
+window.AuthId = parseInt(window.UserId);
+window.UsersObject =  {}; //Empty Object to be contacting knocksuser component, applying dynamic programming, and machine learning approach.
 window.StaticMessages = {};
 window.ErrorMessageBus = [];
 window.sessionType = document.querySelector('meta[name="session-type"]').getAttribute('content');
@@ -78,7 +78,9 @@ window.axios.defaults.headers.common =
 };
 
 Window.UserNavigator = null;
-
+if(window.AuthId != -1){
+  window.UsersObject[ window.AuthId ] = JSON.parse(document.querySelector('meta[name="auth_mod"]').getAttribute('content'))
+}
 
 //WINDOW METHODS
 
@@ -102,6 +104,12 @@ window.leaveIcon = function(node){
 
 
 $(document).ready(function(){
+  setTimeout(()=>{
+    console.clear();
+  console.log("%c Welcome To KnocksApp","color: #922459;font-size:30px;font-family:sans-serif")
+  console.log("%c⊘" , "color:red;font-size:40px;text-align:center")
+  console.log("%cThis browser feature is for developers, incase you need help please visit our own help section, otherwise there is nothing to do here." , "color : red; font-size : 20px;")
+  },2000)
 
   $('.knocks_language_follower').css({'text-align' : window.currentUserLanguageAlignment , 'font-family' : window.currentUserLanguageFont});
 
@@ -183,11 +191,16 @@ window.TextAlignWeight = (text)=>{
   return { right : rightCounter , left : leftCounter , max : Math.max(leftCounter , rightCounter) == leftCounter ? 'left' : 'right' }
 }
 
-
+window.DevLog = (log)=>{
+  console.log('%c'+log , 'font-size:22px;color:blue')
+}
+window.DevObjLog = (log)=>{
+  console.log('%c'+JSON.stringify(log) , 'font-size:15px;color:purple')
+}
 
 
 require('jquery-touchswipe');
-
+window.Howler = require('howler')
 
 
 
@@ -613,7 +626,7 @@ Vue.component('knockstestingsocialize', require('./components/knockstestingsocia
     username : '' ,
     birthdate : '' ,
     birthdateIsFired: false ,
-    gender : '' ,
+    gender : 'Male' ,
     email : '' ,
     password : '' ,
     password_confirmation : '',
@@ -1731,8 +1744,8 @@ window.NavInstance = new Vue({
       App.$emit('knocksGroupCreationToggle' , {toggle : flag})
     },
     runVoiceSearch(e){
-      this.sidebarSearch = e;
-      this.sidebarRunSearch();
+      this.sidebarSearchControllers.update(e)
+      this.sidebarSearchControllers.autocomplete()
 
     },
     showSidebarGroupRange(){

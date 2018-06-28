@@ -5,24 +5,7 @@
         icon_class = "teal-text lighten-3"
         knocksclass="knocks_teal_input" icon = "knocks-search12" ></knocksinput> --}}
         <form action = "{{asset('app/search')}}" method="get" id = "knocks_sidebar_search_form">
-          <knockselinput
-          class = "knocks_tinny_top_padding knocks_side_padding"
-          name = "q"
-          placeholder="Search"
-          has_slot
-          inner_placeholder
-          autocomplete
-          autocomplete_from = "search/main/sc"
-          @control = "sidebarSearchControllers = $event"
-          @autocomplete = "searchTypingResults = $event"
-          @focus = "sidebarFocus()"
-          @blur = "searchBlur()"
-          @input = "searchTypingMode = true"
-          id="sidebar_search_box"
-          v-model="sidebarSearch" class="input-with-select">
-          <knocksvoicerecognition v-model = "sidebarSearchRecognition" :lang = "sideBarSearchLanguage" @recognition = "runVoiceSearch($event)" @leave="sidebarFocus()" slot = "labelside"></knocksvoicerecognition>
-          <el-button native-type ="submit" slot="aside" icon=" knocks_icon knocks-search2"></el-button>
-          </knockselinput>
+          <knockselinput class = "knocks_tinny_top_padding knocks_side_padding" name = "q" placeholder="Search" has_slot inner_placeholder autocomplete autocomplete_from = "search/main/sc" @control = "sidebarSearchControllers = $event" @autocomplete = "searchTypingResults = $event" @focus = "sidebarFocus()" @blur = "searchBlur()" @input = "searchTypingMode = true" id="sidebar_search_box" v-model="sidebarSearch" class="input-with-select"> <knocksvoicerecognition v-model = "sidebarSearchRecognition" :lang = "sideBarSearchLanguage" @recognition = "runVoiceSearch($event)" @leave="sidebarFocus()" slot = "labelside"></knocksvoicerecognition> <el-button native-type ="submit" slot="aside" icon=" knocks_icon knocks-search2"></el-button> </knockselinput>
           <input type = "hidden" name = "t" :value = "sidebarSearchTaps"/>
         </form>
         <div style = "display : none" id = "sidebar_search_results">
@@ -60,6 +43,10 @@
           </div>
           <transition enter-active-class = "animated zoomIn" leave-active-class = "animated zoomOut">
             <div class = "row knocks_xs_padding" v-if = "searchTypingResults.length != 0 && searchTypingMode">
+              <button class="fluid ui button blue lighten-5 blue-text" @click = "searchTypingMode = false; sidebarRunSearch()">
+              <span class = "el-icon-search"></span>
+              Show More
+             </button>
               <ul class = "uk-list uk-list-divider" >
                 <li v-for = "query in searchTypingResults" @click = "updateSearchQuery(query.c)" class = "knocks_gray_hover">
                   <span :class = "[

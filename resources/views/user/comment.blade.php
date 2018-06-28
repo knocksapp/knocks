@@ -1,4 +1,14 @@
 @extends('layouts.user')
+@section('headers')
+<meta property="fb:app_id" content="1796023703741381" />
+    <meta property="og:type"   content="website" />
+    <meta property="og:url"    content="{{Request::url()}}" />
+    <meta property="og:title"
+    content="KnocksApp, {{ App\User::find($comment->user_id)->first_name }} Commented on {{ App\User::find($knock->user_id)->first_name }}'s Knock" />
+    <meta property="og:image"  content="{{ asset('media/avatar/'.$comment->user_id)}}" />>
+    <meta property="og:description" content="{{$comment->discription()}}">
+    <meta property="og:site_name" content="KnocksApp, Inc.">
+@endsection
 @section('content')
 
 
@@ -16,21 +26,21 @@
 
 
 
-
+  @if(auth()->check())
   <div class = "">
-
   <knock
    :scope= "['knock']"
    :error_at="[]"
    submit_at = "post/create"
    :recorder_upload_data = "{ user : '7esam' , index : {}}"
    :player_show_options = "false"
-   :post_at = "{{ auth()->user()->id }}"
+   :post_at = "{{ auth()->check() ?  auth()->user()->id : -1 }}"
    parent_type = "self"
    success_at = "done"
    success_msg = "yess"
    gid = "knockknock"></knock>
   </div>
+  @endif
 
 
 
@@ -39,7 +49,7 @@
 
 
 
-
+  @if(auth()->check())
 {{--   <knockscircleseditor></knockscircleseditor> --}}
    <div id = "knocks_homepage_lower_area">
 
@@ -117,22 +127,11 @@
    </div>
   </transition>
 </div>
-<hr class="uk-divider-icon">
-  <span class = "knocks-chat-2 knocks_text_dark_active knocks_text_md"></span>
-  <static_message
-  classes = "center knocks_text_md knocks_text_dark_active"
-  msg = "** commented on @@'s Knock" replaceable
-  :replacements = "[
-  { target : '**' , body : '{{$owner->first_name}}'  } ,
-  { target : '@@' , body : '{{$commenter->first_name}}'  }
-  ]"></static_message><br/>
-  <span class = "knocks-clock10  knocks_text_dark "></span>
-  <span class =" knocks_text_dark">{{ fromNowDate( ' <?=$comment->created_at?> ' ) }}</span>
-
-   <knocksknock  :knock = "{{$knock->id}}" gid="knock_on_scope" interested
+@endif
+  <knocksknock  :knock = "{{$knock->id}}" gid="knock_on_scope" interested
     :comments_to_show = "[{{$comment->id}}]" :show_reply_on_mount = "false"
     :show_comment_reply_on_mout = "true"
-   :current_user = "{{auth()->user()->id}}" replier_message = "Leave a comment" ></knocksknock>
+   :current_user = "{{ auth()->check() ? auth()->user()->id : -1}}" replier_message = "Leave a comment" ></knocksknock>
 
 
    </div>
@@ -141,8 +140,7 @@
     style="padding: 1rem; margin-top: -3%;
     margin-bottom: -3%;
     min-height:-webkit-fill-available;" >
-     <div class = "row ">Right</div>
-   </div>
+      </div>
 
   </div>
 
@@ -152,3 +150,5 @@
 
 
 @endsection
+
+

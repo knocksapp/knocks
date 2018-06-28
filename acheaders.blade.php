@@ -8,8 +8,9 @@
   <meta name="lang_alignment" content = "{{ auth()->check() ? auth()->user()->userLanguageAlignment() : 'left' }}"/>
   <meta name="csrf-token" content="{{ csrf_token() }}">
   <meta name="pp_index" content="{{ auth()->check() ? auth()->user()->profile_picture : '-1'}}">
-  <meta name="user" content="{{auth()->check() ? auth()->user()->id : '-1'}}">
-  <meta name="main_circle" content="{{auth()->check() ? auth()->user()->mainCircle()->id : '-1'}}">
+  <meta name="user" content="{{auth()->check() ? auth()->user()->id : -1 }}">
+  <meta name="auth_mod" content="{{auth()->check() ? auth()->user()->retriveForUser( auth()->user()->id ) : '{}'}}">
+    <meta name="main_circle" content="{{auth()->check() ? auth()->user()->mainCircle()->id : '-1'}}">
   <meta http-equiv="Content-Security-Policy" content="
   default-src * data: blob: ws: wss: gap://ready file://*;
   style-src * 'unsafe-inline';

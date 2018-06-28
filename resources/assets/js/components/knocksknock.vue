@@ -206,7 +206,7 @@
                 bar_classes ="transparent"
                 :show_reply_on_mount = "show_reply_on_mount"
                 :parent_date = "knockObject.created_at"
-                :reply_scope="[ gid + '_reply_scope']"
+                :reply_scope="[ gid + '_reply_scope_'+_uid]"
                 parent_type = "knock"
                 :gid = "gid+'_reaction_stats'"
                 :inverse_reactor = "inverse_reactor"
@@ -214,7 +214,7 @@
                 </knocksreactionstats>
                 <knocksreply
                 :replier_message = "replier_message"
-                :scope= "[ gid + '_reply_scope']"
+                :scope= "[ gid + '_reply_scope_'+_uid]"
                 :error_at="[]"
                 :show_on_mount = "show_reply_on_mount"
                 :object_id = "knockObject.object_id"
@@ -227,7 +227,7 @@
                 success_at = "done"
                 success_msg = "yess"
                 toggle_parent_type = "knock"
-                :gid = "gid+'_reply'"></knocksreply>
+                :gid = "gid+'_reply_'+_uid"></knocksreply>
               </div>
               <div class = "knocks_color_kit_light_active row knocks_down_border_radius knocks_house_keeper knocks_gray_top_border" v-if ="comments != null && comments.length > 0">
                 <div class = "row knocks_house_keeper">
@@ -322,7 +322,7 @@
             :no_reactor = "no_reactor"
             :show_reply_on_mount = "show_reply_on_mount"
             :parent_date = "knockObject.created_at"
-            :reply_scope="[ gid + '_reply_scope']"
+            :reply_scope="[ gid + '_reply_scope_'+_uid]"
             no_reply_option
             parent_type = "knock"
             :gid = "gid+'_reaction_stats'"
@@ -654,8 +654,8 @@ export default {
          $('#'+vm.gid+'_lns').addClass('knocks-zoomout3');
          $('#'+vm.gid).removeClass('animated fadeInDown');
          $('#'+vm.gid).removeClass('animated fadeInDown');
-         $('#'+vm.gid).removeClass('animated jello');
-         $('#'+vm.gid).removeClass('animated rubberBand');
+         $('#'+vm.gid).removeClass('animated zoomIn');
+         $('#'+vm.gid).removeClass('animated zoomIn');
          $('#'+vm.gid).addClass('flow-text');
          $('#'+vm.gid).addClass('animated pulse');
          $('.rdmore').addClass('flow-text');
@@ -678,8 +678,8 @@ export default {
          $('.rdmore').removeClass('flow-text');
          $('#'+vm.gid).removeClass('flow-text');
          $('#'+vm.gid).removeClass('animated pulse');
-         $('#'+vm.gid).addClass('animated jello');
-         $('#'+vm.gid).addClass('animated rubberBand');
+         $('#'+vm.gid).addClass('animated zoomIn');
+         $('#'+vm.gid).addClass('animated zoomIn');
             vm.counter = 0;
             //console.log(vm.counter);
             $('#'+vm.gid).css({

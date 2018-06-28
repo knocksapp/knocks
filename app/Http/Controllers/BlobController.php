@@ -19,6 +19,7 @@ class BlobController extends Controller {
 		return $blob->recordBlob(json_encode(array(
 			'blob' => $request->extended,
 			'duration' => $request->duration,
+			'text_content' => $request->text_content,
 		)));
 	}
 	public function retriveRecord(Request $request, $id) {
@@ -31,7 +32,7 @@ class BlobController extends Controller {
 				return 'invalid';
 			}
 
-			if (!$parent->isAvailable(auth()->user()->id)) {
+			if (!$parent->isAvailable(auth()->check() ? auth()->user()->id : -1)) {
 				return 'invalid';
 			}
 
@@ -51,7 +52,7 @@ class BlobController extends Controller {
 				return 'invalid';
 			}
 
-			if (!$parent->isAvailable(auth()->user()->id)) {
+			if (!$parent->isAvailable(auth()->check() ? auth()->user()->id : -1)) {
 				return 'invalid';
 			}
 
@@ -70,11 +71,11 @@ class BlobController extends Controller {
 				return 'invalid';
 			}
 
-			if (!$parent->isAvailable(auth()->user()->id)) {
+			if (!$parent->isAvailable(auth()->check() ? auth()->user()->id : -1)) {
 				return 'invalid';
 			}
 
-			return array('name' => $blob->index()->name, 'extension' => $blob->extension);
+			return array('name' => $blob->index()->name, 'extension' => $blob->extension, 'user' => $blob->user_id);
 
 		}
 	}
@@ -166,7 +167,7 @@ class BlobController extends Controller {
 					return 'invalid';
 				}
 
-				if (!$parent->isAvailable(auth()->user()->id)) {
+				if (!$parent->isAvailable(auth()->check() ? auth()->user()->id : -1)) {
 					return 'invalid';
 				}
 
@@ -183,7 +184,7 @@ class BlobController extends Controller {
 				return 'invalid';
 			}
 
-			if (!$parent->isAvailable(auth()->user()->id)) {
+			if (!$parent->isAvailable(auth()->check() ? auth()->user()->id : -1)) {
 				return 'invalid';
 			}
 
@@ -208,7 +209,7 @@ class BlobController extends Controller {
 				return 'invalid';
 			}
 
-			if (!$parent->isAvailable(auth()->user()->id)) {
+			if (!$parent->isAvailable(auth()->check() ? auth()->user()->id : -1)) {
 				return 'invalid';
 			}
 
@@ -318,7 +319,7 @@ class BlobController extends Controller {
 
 			// $parent = obj::find($blob->parent_object);
 			// if($parent == null) return 'invalid';
-			// if(!$parent->isAvailable(auth()->user()->id)) return 'invalid';
+			// if(!$parent->isAvailable(auth()->check() ? auth()->user()->id : -1)) return 'invalid';
 			return response($blob->retriveImgCompressed())
 				->header('Content-Disposition', 'inline; filename="Knocks')
 				->header('Content-Type', $blob->extension);
@@ -346,7 +347,7 @@ class BlobController extends Controller {
 
 			// $parent = obj::find($blob->parent_object);
 			// if($parent == null) return 'invalid';
-			// if(!$parent->isAvailable(auth()->user()->id)) return 'invalid';
+			// if(!$parent->isAvailable(auth()->check() ? auth()->user()->id : -1)) return 'invalid';
 			return response($blob->retriveImgBlob())
 				->header('Content-Disposition', 'inline; filename="Knocks ')
 				->header('Content-Type', $blob->extension);
@@ -375,7 +376,7 @@ class BlobController extends Controller {
 
 			// $parent = obj::find($blob->parent_object);
 			// if($parent == null) return 'invalid';
-			// if(!$parent->isAvailable(auth()->user()->id)) return 'invalid';
+			// if(!$parent->isAvailable(auth()->check() ? auth()->user()->id : -1)) return 'invalid';
 			return response($blob->retriveImgCompressed())
 				->header('Content-Disposition', 'inline; filename="Knocks')
 				->header('Content-Type', $blob->extension);
@@ -398,7 +399,7 @@ class BlobController extends Controller {
 				return 'invalid';
 			}
 
-			if (!$parent->isAvailable(auth()->user()->id)) {
+			if (!$parent->isAvailable(auth()->check() ? auth()->user()->id : -1)) {
 				return 'invalid';
 			}
 
@@ -416,7 +417,7 @@ class BlobController extends Controller {
 		if ($object == null) {
 			return 'invalid';
 		}
-		if ($object->isAvailable(auth()->user()->id)) {
+		if ($object->isAvailable(auth()->check() ? auth()->user()->id : -1)) {
 			return array('object_id' => $object->id, 'date' => $object->created_at);
 		} else {
 			return 'invalid';
@@ -432,7 +433,7 @@ class BlobController extends Controller {
 		if ($object == null) {
 			return 'invalid';
 		}
-		if ($object->isAvailable(auth()->user()->id)) {
+		if ($object->isAvailable(auth()->check() ? auth()->user()->id : -1)) {
 			$comments = Comment::where('type', '=', 'timelinephoto')
 				->where('at', '=', $req->token)
 				->where('id', '>', $req->max)->orderBy('id')->get()->pluck('id')->chunk(5);

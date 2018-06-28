@@ -56,6 +56,7 @@ Route::group(['middleware' => 'supportedbrowser'], function () {
 	Route::get('/dev', function () {
 		return view('test.home');
 	});
+
 //Language APIS
 	Route::post('dev/all_langs', 'LanguageController@collect');
 	Route::post('dev/all_msgs', 'StaticMessageController@collect');
@@ -216,9 +217,9 @@ Route::group(['middleware' => 'supportedbrowser'], function () {
 
 	Route::post('user/search', 'UserController@searchForFriends');
 
-    Route::post('child/search', 'UserController@retriveChild');
+	Route::post('child/search', 'UserController@retriveChild');
 
-    Route::post('parent/search', 'UserController@retriveParent');
+	Route::post('parent/search', 'UserController@retriveParent');
 
     Route::post('check/candy', 'CandyBlobsController@sendOne');
 
@@ -641,14 +642,6 @@ onDublication : the message has already translated to `x`
 
 				Route::get('group/{group_id}/settings', 'GroupController@routeToGroupSettings');
 
-				Route::get('/knock/{knock}', 'KnockController@viewKnock');
-
-				Route::get('/cmnt/{comment}', 'KnockController@viewComment');
-
-				Route::get('/rply/{reply}', 'KnockController@viewReply');
-
-				Route::get('/knock/{knock}/{comment}', 'KnockController@viewKnockWithComment');
-
 				Route::post('insert_reaction/reaction', 'ReactionController@insert_reaction');
 
 				Route::post('delete_reaction/reaction', 'ReactionController@delete_reaction');
@@ -739,6 +732,15 @@ onDublication : the message has already translated to `x`
 		//USER INFO
 		Route::get('/{user}', 'UserController@routeToProfile');
 		Route::post('user/info', 'UserController@getInfo');
+
+		//Knocks
+		Route::get('/knock/{knock}', 'KnockController@viewKnock');
+
+		Route::get('/cmnt/{comment}', 'KnockController@viewComment');
+
+		Route::get('/rply/{reply}', 'KnockController@viewReply');
+
+		Route::get('/knock/{knock}/{comment}', 'KnockController@viewKnockWithComment');
 
 		//MAIN SEARCH ROUTES
 		Route::get('/app/search', function () {

@@ -33,7 +33,7 @@
         "element-ui": "^2.3.9",
         "fs": "0.0.1-security",
         "google-maps": "^3.3.0",
-        "howler": "^2.0.12",
+        "howler": "^2.0.13",
         "jquery-touchswipe": "^1.6.18",
         "lamejs": "^1.2.0",
         "materialize-css": "^0.100.2",

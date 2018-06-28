@@ -13,6 +13,7 @@
     <meta name="pp_index" content="{{ auth()->user()->profile_picture }}">
     <meta name="user" content="{{auth()->user()->id}}">
     <meta name="main_circle" content="{{auth()->user()->mainCircle()->id}}">
+    <meta name="auth_mod" content="{{auth()->check() ? json_encode(auth()->user()->retriveForUser( auth()->user()->id ) ): '{}'}}">
     <meta http-equiv="Content-Security-Policy" content="
     default-src * data: blob: ws: wss: gap://ready file://*;
     style-src * 'unsafe-inline';

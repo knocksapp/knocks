@@ -691,7 +691,7 @@ export default {
   },
   methods : {
     isKnown(){
-      return window.UsersObject[this.user] === undefined ? false : true ;
+      return window.UsersObject[this.user] !== undefined &&  window.UsersObject[this.user] !== null && window.UsersObject[this.user].id == this.user 
     },
     holdOnChanges(payloads){
       if(payloads === null || payloads == undefined) return;

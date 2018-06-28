@@ -240,6 +240,7 @@ export default {
         }
       }
     });
+    this.emit()
 
     // $('#'+this.gid).hover(function(){
     //   $($(this).find('span')).addClass(vm.hover_class);
@@ -269,6 +270,24 @@ export default {
         console.log(this.errorsStack);
       }
     },
+     emit(){
+      this.$emit('input' ,
+        {
+          isLoading : this.isLoading ,
+          response  : this.response ,
+          networkErrors : this.networkHasErrors ,
+          networkHasErrors :  this.networkErrors ,
+          submit : this.construct , 
+          finalSubmit : this.submit , 
+          reset : this.reset
+        });
+    },
+    reset(){
+      this.isLoading = false 
+       if( !this.no_tryagain && (arguments[0] === undefined || arguments[0] === true) ){
+            this.hasTryAgain = true
+        }
+    },
     elementCategoryNotify(notificationObject) {
       this.$notify({
         title: notificationObject.title,
@@ -291,6 +310,7 @@ export default {
          this.actualLoading = false;
          return
       }
+      this.emit()
       this.hasTryAgain = false
       console.log(this.submit_data);
       App.$emit('knocks_submit_passed');
@@ -303,12 +323,15 @@ export default {
           data : vm.submit_data ,
           onDownloadProgress: function (progressEvent) {
             vm.isLoading = true;
+            vm.emit()
           },
       })
       .then(function(response) {
         vm.hasTryAgain = false
         vm.isLoading = false;
-        vm.$emit('input' , response.data);
+        vm.emit()
+        vm.networkHasErrors = false ;
+        vm.networkErrors = null ;
         if(vm.reset_on_submit)App.$emit('knocks_input_reset' , vm.scope);
         var temp = response.data;
         if((temp == vm.success_at && vm.success_at != null) || vm.computed_response && !vm.isAnError(temp) ){
@@ -332,7 +355,10 @@ export default {
           }
         }
       }).catch((err)=>{
+         vm.networkHasErrors = true ;
+        vm.networkErrors = err ;
         vm.hasTryAgain = true
+        vm.emit()
         vm.$emit('knocks_submit_error' , err);
         Materialize.toast('<span class="knocks_text_danger">'+vm.connection_error+'</span>', 3000, 'rounded');
         vm.isLoading = false ;

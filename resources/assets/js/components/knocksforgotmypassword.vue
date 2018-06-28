@@ -28,6 +28,7 @@
 			icon = "knocks-paper-plane-o"
 			button_classes = "knocks_light_color_kit right"
 			placeholder = "Send me an email"
+			success_at = "done"
 			:error_at = "[
 			{ res : 'not_exist' , msg : 'This email does not belong to any account.' } , 
 			{ res : 'blocked' , msg : 'This account is blocked, check your mail to unblock it first.' } , 

@@ -27,9 +27,9 @@
     </knockspopover>
   </a>
   <div class = "knocks_fair_bouds" v-if = "fileMeta != null && isMedia(fileMeta.extension) && isVideo(fileMeta.extension)">
-    <video :src = "asset(file)" controls  ></video>
+    <video :src = "asset(file)" controls ></video>
   </div>
-  <div class = "row" v-if = "fileMeta != null && isMedia(fileMeta.extension) && isAudio(fileMeta.extension)">
+  <div class = "row" v-if = "fileMeta != null && isMedia(fileMeta.extension) && isAudio(fileMeta.extension)" :poster = "as('media/avatar/compressed/'+fileMeta.user)">
     <audio :src = "asset(file)" controls style="display : block" ></audio>
     <br/>
   </div>
@@ -116,6 +116,9 @@ export default {
   	asset(id){
   		return LaravelOrgin + 'media/file/retrive/'+id;
   	},
+    as(url){
+      return Asset(url)
+    },
   	minimizedText(textToMinimize){
         let splitted = textToMinimize.split('');
         let i;

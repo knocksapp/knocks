@@ -37,6 +37,26 @@ class Reply extends Model {
 	public function reactions() {
 		return $this->hasMany('App\Reaction', 'parent_id');
 	}
+
+	public function discription() {
+		$ind = $this->knockIndex();
+		if ($ind->has_voices) {
+			return 'Voice note';
+		}
+		if ($this->text_content != null && count($this->text_content) > 0) {
+			return $this->text_content;
+		}
+		if ($ind->has_files) {
+			return count($ind->files_specifications) . ' File/s';
+		}
+		if ($ind->has_pictures) {
+			return count($ind->images_specifications) . ' Image/s';
+		}
+		return 'KnocksApp, INC';
+	}
+	public function knockIndex() {
+		return json_decode($this->index);
+	}
 	public function initialize($object) {
 		$parent_object = new obj();
 		$parent_object->initialize('reply');

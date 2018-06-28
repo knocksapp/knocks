@@ -22,6 +22,7 @@
 			anchor_class = " col s4 center knocks_gray_hover knocks_tinny_border_radius knocks_tinny_padding "
 			left_most_class = ""
 			right_most_class = ""
+      :define_with_index = "1"
 			unlabeled
 			@input = "handleTaps()"
 			anchor_regular_class=" grey-text text-darken-2 knocks_text_ms "

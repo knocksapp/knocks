@@ -43,7 +43,9 @@ export default {
     	isLarge : false , 
     	isFocused : true , 
       showWb : false ,
-      fromBlur : false
+      fromBlur : false , 
+      blurInterval : null ,
+      blurCounter : 0 ,
     }
   },
   mounted(){
