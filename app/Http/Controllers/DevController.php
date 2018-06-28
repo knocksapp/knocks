@@ -303,6 +303,7 @@ class DevController extends Controller {
 					"feelings" => [],
 					"check_in" => null,
 					"tags" => [],
+					"shared" => null,
 					"privacy_setting" => array("tip" => "choosedefault")
 				)
 			));
