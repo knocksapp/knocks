@@ -13,6 +13,7 @@ use App\User;
 use App\User_hashtags;
 use App\User_keywords;
 use Carbon\Carbon;
+use App\Candy_session;
 use Illuminate\Database\Eloquent\Model;
 
 class Knock extends Model {
@@ -194,6 +195,7 @@ class Knock extends Model {
 		//images_quotes
 		$images_reactions = array();
 		$images_comments = array();
+
 		if (isset($object->images_specifications) && count($object->images_specifications) > 0) {
 			for ($i = 0; $i < count($object->images_specifications); $i++) {
 				Blob::find((int) $object->images_specifications[$i])->assignParent($parent_object->id);
@@ -325,6 +327,15 @@ class Knock extends Model {
 				'index' => null,
 			)
 		));
+
+		if(auth()->user()->isKid())
+		{
+			$candy_session = new Candy_session();
+
+			$candy_session->initialize(auth()->user()->id,$this->object_id,'knock',$this->id,null,$this->id);
+
+		}
+
 	}
 	public function knockIndex() {
 		return json_decode($this->index);

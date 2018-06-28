@@ -508,8 +508,8 @@ Vue.component('knockstextlenhandler', require('./components/knockstextlenhandler
 Vue.component('knockscandyrequest', require('./components/knockscandyrequest.vue'));
 Vue.component('knocksglobalsearch', require('./components/knocksglobalsearch.vue'));
 Vue.component('knockstestingsocialize', require('./components/knockstestingsocialize.vue'));
-
-
+Vue.component('knockscandysessionlogs', require('./components/knockscandysessionlogs.vue'));
+Vue.component('knockscandysessionlog', require('./components/knockscandysessionlog.vue'));
 
 
  window.App = new Vue();
@@ -649,7 +649,7 @@ Vue.component('knockstestingsocialize', require('./components/knockstestingsocia
 
     username_login : 'username' ,
     password_login : 'password123123',
-    watchMyWindow : { isSmall : false } , 
+    watchMyWindow : { isSmall : false } ,
 
 
     //Document
@@ -1641,7 +1641,7 @@ window.NavInstance = new Vue({
 
 
   });
- 
+
 
   // $(document).on('#sidebar_search_box' , function(){
   //   vm.sidebarSearchFocus = true;

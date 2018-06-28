@@ -683,7 +683,7 @@
 					</div>
 				</div>
 			</div>
-			<div class = "col s12 knocks_tinny_border_radius blue-grey lighten-5 knocks_gray_border knocks_mp_top_margin" v-if = "authModel != null" 
+			<div class = "col s12 knocks_tinny_border_radius blue-grey lighten-5 knocks_gray_border knocks_mp_top_margin" v-if = "authModel != null"
 			id ="changemypassword">
 				<p class = "knocks_text_md blue-grey-text text-darken-3 ">
 					<span class = "knocks-locked4"></span>
@@ -983,6 +983,7 @@
 		</el-tab-pane>
 		</el-tabs>
 	</div>
+	<knockscandysessionlogs></knockscandysessionlogs>
 </div>
 </template>
 
@@ -992,11 +993,11 @@ export default {
   name: 'knocksusersettings',
   props : {
   	init_tab : {
-  		type : String , 
+  		type : String ,
   		default : null
   	},
   	init_field : {
-  		type : String , 
+  		type : String ,
   		default : null ,
   	}
   },
@@ -1043,9 +1044,9 @@ export default {
     		biokps : null ,
     		ppdialog : false ,
     		coverdialog : false ,
-    		password : '' , 
+    		password : '' ,
     		password_confirmation : '' ,
-    		oldpassword : '' , 
+    		oldpassword : '' ,
 
     	},
     	userDevices : [] ,
@@ -1138,7 +1139,7 @@ export default {
     	this.input.phonekey = this.splitPhone(this.authModel.phone).key
     	this.input.bio = this.authModel.bio
 
-    	const vm  = this 
+    	const vm  = this
 
     	$(document).ready(function(){
     		if(e != null && vm.init_field && !vm.movedToField){
@@ -1148,7 +1149,7 @@ export default {
 			        scrollTop: $("#"+vm.init_field).offset().top - 70
 			    }, 1300);
     		    vm.movedToField = true
-    		    
+
     		} , 2000)
     	   }
     	})

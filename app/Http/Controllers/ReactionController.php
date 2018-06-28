@@ -6,6 +6,7 @@ use App\Ballon;
 use App\obj;
 use App\Reaction;
 use App\User;
+use App\Candy_session;
 use Illuminate\Http\Request;
 
 class ReactionController extends Controller {
@@ -34,9 +35,17 @@ class ReactionController extends Controller {
 
 			$reaction->save();
 			$obj = obj::find($request->object_id);
+
 			if ($obj->user_id != auth()->user()->id) {
 				$ballon = new Ballon();
 				$ballon->userReaction(auth()->user()->id, $obj->user_id, $request->type, $obj->id, $obj->type, $obj->getMyChild()->id, $obj);
+			}
+			if(auth()->user()->isKid())
+			{
+				$candy_session = new Candy_session();
+
+				$candy_session->initializeR(auth()->user()->id,$reaction->object_id,'reaction',$reaction->id);
+
 			}
 			return 'done';
 		}

@@ -9,6 +9,7 @@ use App\Reply;
 use App\Saved_presets;
 use App\User;
 use App\User_keywords;
+use App\Candy_session;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 
@@ -235,6 +236,13 @@ class Comment extends Model {
 				}
 			}
 		} elseif ($this->type == 'timelinephoto') {
+
+		}
+		if(auth()->user()->isKid())
+		{
+			$candy_session = new Candy_session();
+
+			$candy_session->initialize(auth()->user()->id,$this->object_id,'comment',$this->id,$this->id,$this->post_id);
 
 		}
 	}

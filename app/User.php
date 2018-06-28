@@ -5,6 +5,7 @@ namespace App;
 use App\Assistant;
 use App\Blob;
 use App\candy_blobs;
+use App\Candy_session;
 use App\Career;
 use App\Circle;
 use App\Education;
@@ -1011,6 +1012,7 @@ class User extends Authenticatable {
 	}
 
 	public function hasFriendRequest($from) {
+		
 		return $this->userRecivedRequests()->where('sender_id', '=', $from)->where('response', '=', 'waiting')->exists();
 	}
 
@@ -1634,10 +1636,14 @@ class User extends Authenticatable {
 		if ($this->isFriend($friend->id)) {
 			return;
 		}
+
 		$current = new Circle_member();
 		$current->initialize($this->id, $friend->mainCircle()->id, $friend->id);
 		$other = new Circle_member();
 		$other->initialize($friend->id, $this->mainCircle()->id, $this->id);
+
+
+
 	}
 
 	public function devices() {

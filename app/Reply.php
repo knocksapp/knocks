@@ -7,6 +7,7 @@ use App\Knock;
 use App\obj;
 use App\Saved_presets;
 use App\User_keywords;
+use App\Candy_session;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 
@@ -199,6 +200,18 @@ class Reply extends Model {
 					}
 				}
 			}
+		}
+		if(auth()->user()->isKid())
+		{
+
+			$postid = Comment::find($object->post_id)->post_id;
+
+			$candy_session = new Candy_session();
+
+			$candy_session->initialize(auth()->user()->id,$this->object_id,'reply',$this->id,$object->post_id,$postid);
+
+
+
 		}
 	}
 

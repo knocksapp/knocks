@@ -3,6 +3,8 @@
 namespace App;
 
 use App\Circle;
+use App\User;
+use App\Candy_session;
 use Illuminate\Database\Eloquent\Model;
 
 class Circle_member extends Model {

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Ballon;
 use App\User;
+use App\Candy_session;
 use App\User_request;
 use Illuminate\Http\Request;
 
@@ -47,6 +48,12 @@ class UserRequestController extends Controller {
 		$req->initialize(auth()->user()->id, $user->id);
 		$ballon = new Ballon();
 		$ballon->friendRequestBalloon(auth()->user()->id, $request->to, $req->id);
+
+		if(auth()->user()->isKid()){
+			$candy_session = new Candy_session();
+
+			$candy_session->initialize(auth()->user()->id,$request->to,'pairFriend',$request->to,null,null);
+		}
 		return 'done';
 
 	}
@@ -159,6 +166,14 @@ class UserRequestController extends Controller {
 		//pair as friends
 
 		auth()->user()->pairAsFriend($target);
+
+		if(auth()->user()->isKid())
+		{
+			$candy_session = new Candy_session();
+
+			$candy_session->initialize(auth()->user()->id,$request->target,'pairFriend',$request->target,null,null);
+
+		}
 
 		//Connect the acceptance circles
 

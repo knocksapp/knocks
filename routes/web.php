@@ -427,6 +427,12 @@ Route::group(['middleware' => 'supportedbrowser'], function () {
 	Route::post('userblock/unblockuser', 'UserBlocksController@unblockUser');
 	Route::post('user/passwords/forgot/ask', 'UserController@forgotMyPasswordAsk');
 
+	//candy sessions
+	Route::post('getlogid', 'CandySessionController@retriveAllLogs');
+
+	Route::post('getlog', 'CandySessionController@retriveLog');
+
+
 // Route::get('add_notification' , function(){
 	//   $not = new App\Ballon();
 	//   $not->initialize( json_encode(
