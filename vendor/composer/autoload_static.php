@@ -4,7 +4,7 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInitc812e0800a35de4497d48afe0b1c4851
+class ComposerStaticInita83108341dba606d8b8118605e40322c
 {
     public static $files = array (
         '1d1b89d124cc9cb8219922c9d5569199' => __DIR__ . '/..' . '/hamcrest/hamcrest-php/hamcrest/Hamcrest.php',
@@ -433,6 +433,7 @@ class ComposerStaticInitc812e0800a35de4497d48afe0b1c4851
         'App\\Http\\Controllers\\TalentController' => __DIR__ . '/../..' . '/app/Http/Controllers/TalentController.php',
         'App\\Http\\Controllers\\TalentObjectController' => __DIR__ . '/../..' . '/app/Http/Controllers/TalentObjectController.php',
         'App\\Http\\Controllers\\UserAddressController' => __DIR__ . '/../..' . '/app/Http/Controllers/UserAddressController.php',
+        'App\\Http\\Controllers\\UserAddressesController' => __DIR__ . '/../..' . '/app/Http/Controllers/UserAddressesController.php',
         'App\\Http\\Controllers\\UserBlocksController' => __DIR__ . '/../..' . '/app/Http/Controllers/UserBlocksController.php',
         'App\\Http\\Controllers\\UserCheckinsController' => __DIR__ . '/../..' . '/app/Http/Controllers/UserCheckinsController.php',
         'App\\Http\\Controllers\\UserController' => __DIR__ . '/../..' . '/app/Http/Controllers/UserController.php',
@@ -484,6 +485,7 @@ class ComposerStaticInitc812e0800a35de4497d48afe0b1c4851
         'App\\Talent_object' => __DIR__ . '/../..' . '/app/Talent_object.php',
         'App\\User' => __DIR__ . '/../..' . '/app/User.php',
         'App\\UserAddress' => __DIR__ . '/../..' . '/app/UserAddress.php',
+        'App\\UserAddresses' => __DIR__ . '/../..' . '/app/UserAddresses.php',
         'App\\User_checkins' => __DIR__ . '/../..' . '/app/User_checkins.php',
         'App\\User_hashtags' => __DIR__ . '/../..' . '/app/User_hashtags.php',
         'App\\User_keywords' => __DIR__ . '/../..' . '/app/User_keywords.php',
@@ -3931,11 +3933,11 @@ class ComposerStaticInitc812e0800a35de4497d48afe0b1c4851
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInitc812e0800a35de4497d48afe0b1c4851::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInitc812e0800a35de4497d48afe0b1c4851::$prefixDirsPsr4;
-            $loader->fallbackDirsPsr4 = ComposerStaticInitc812e0800a35de4497d48afe0b1c4851::$fallbackDirsPsr4;
-            $loader->prefixesPsr0 = ComposerStaticInitc812e0800a35de4497d48afe0b1c4851::$prefixesPsr0;
-            $loader->classMap = ComposerStaticInitc812e0800a35de4497d48afe0b1c4851::$classMap;
+            $loader->prefixLengthsPsr4 = ComposerStaticInita83108341dba606d8b8118605e40322c::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInita83108341dba606d8b8118605e40322c::$prefixDirsPsr4;
+            $loader->fallbackDirsPsr4 = ComposerStaticInita83108341dba606d8b8118605e40322c::$fallbackDirsPsr4;
+            $loader->prefixesPsr0 = ComposerStaticInita83108341dba606d8b8118605e40322c::$prefixesPsr0;
+            $loader->classMap = ComposerStaticInita83108341dba606d8b8118605e40322c::$classMap;
 
         }, null, ClassLoader::class);
     }
