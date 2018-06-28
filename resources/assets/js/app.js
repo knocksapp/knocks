@@ -626,7 +626,7 @@ Vue.component('knockstestingsocialize', require('./components/knockstestingsocia
     username : '' ,
     birthdate : '' ,
     birthdateIsFired: false ,
-    gender : '' ,
+    gender : 'Male' ,
     email : '' ,
     password : '' ,
     password_confirmation : '',

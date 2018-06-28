@@ -42,7 +42,7 @@ class Comment extends Model {
 		if ($ind->has_voices) {
 			return 'Voice note';
 		}
-		if ($this->text_content != null || count($this->text_content) > 0) {
+		if ($this->text_content != null && count($this->text_content) > 0) {
 			return $this->text_content;
 		}
 		if ($ind->has_files) {
