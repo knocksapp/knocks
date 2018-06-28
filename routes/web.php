@@ -220,7 +220,13 @@ Route::group(['middleware' => 'supportedbrowser'], function () {
 
     Route::post('parent/search', 'UserController@retriveParent');
 
-    Route::post('check/candy', 'UserController@checkKid');
+    Route::post('check/candy', 'CandyBlobsController@sendOne');
+
+    Route::post('accept/candy', 'CandyBlobsController@accept');
+
+     Route::post('ignore/candy', 'CandyBlobsController@ignoreOne');
+
+    Route::post('candy/send', 'UserController@checkKid');
 
 	Route::post('userlogin', 'UserController@userlogin');
 
@@ -303,6 +309,12 @@ Route::group(['middleware' => 'supportedbrowser'], function () {
 	Route::post('blob/qoute', 'BlobController@quote');
 
 	Route::post('reply/create', 'ReplyController@create');
+
+	Route::post('retrieve/candy_request', 'CandyBlobsController@retrieveCandyRequest');
+
+	Route::post('retrieve/candy_status', 'CandyBlobsController@retrieveCandyStatus');
+
+	Route::post('delete/candy_records', 'CandyBlobsController@findCandyRecord');
 
 //MultiMedia
 	Route::post('blob/record', 'BlobController@createRecord');

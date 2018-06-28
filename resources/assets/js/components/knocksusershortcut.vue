@@ -455,7 +455,7 @@ export default {
     },
     name_container_class : {
       type : String ,
-      default : 'col s9'
+      default : 'col '
     },
     main_container : {
        type : String ,

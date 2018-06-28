@@ -15,6 +15,7 @@
       :extended = "extended"
       :as_result = "as_result"
 			:blocker = "blocker"
+      :main_container = "main_container"
 			:show_accept_shortcut = "show_accept_shortcut"
 			>
         <div slot = "append_to_name" v-if = "inners">
@@ -70,6 +71,10 @@ export default {
   		type : [String, Array , Object] ,
   		default : 'uk-list uk-list-striped knocks_gray_border knocks_tinny_border_radius'
   	},
+    main_container : {
+      type : String , 
+      default : 'row animated fadeIn'
+    },
 		show_accept_shortcut: {
       type : Boolean ,
       default : false
