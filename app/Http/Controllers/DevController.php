@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Ballon;
 use App\Blob;
+use App\candy_blobs;
 use App\Circle;
 use App\Circle_member;
 use App\Comment;
@@ -5512,6 +5513,14 @@ class DevController extends Controller {
 				$c = User::find(rand(1, $count - 1));
 				if ($c != null) {
 					$one->pairAsFriend($c);
+				}
+				if (!$one->isKid() && $c->isKid()) {
+					$cb = new candy_blobs();
+					$cb->parent_id = $one->id;
+					$cb->kid_id = $c->id;
+					$cb->req_id = 1;
+					$cb->status = 'accepted';
+					$cb->save();
 				}
 
 			}

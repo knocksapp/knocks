@@ -37,12 +37,12 @@
 		<div v-if = "toggler == 'custom'">
       <span :class = "indecatorClasses"></span>
 			<slot name = "toggler"></slot>
+      <knocksmeganumber :num = "side_count" :classes = "side_count_classes" v-if = "side_count"></knocksmeganumber>
 		</div>
 	</div>
 	<!--Content-->
 	<div v-if = "show_content_on_mount || clickedOnce" class = "knocks_collapse_content_container">
 		<slot name = "content"></slot>
-    <knocksmeganumber :num = "side_count" :classes = "side_count_classes" v-if = "side_count"></knocksmeganumber>
 	</div>
 </div>
 </template>
