@@ -16,7 +16,6 @@
      <knocksretriver
   v-model=  "candy_records"
   url = "delete/candy_records"
-  recursed
   >
   </knocksretriver>
   <knockswatchmywindow v-model = "win" @input = "wi()"></knockswatchmywindow>
@@ -49,7 +48,7 @@
         <knocksshowkeys
         class="knocks_fair_bounds"
               main_container = "col s10 knocks_fair_bounds"
-              list_classes = "uk-list uk-list-divider knocks_list_scroll"
+              list_classes = "uk-list uk-list-divider "
               :as_label = "false"
               v-if="candy_status.response != null"
               :show_input = "candy_status.response"

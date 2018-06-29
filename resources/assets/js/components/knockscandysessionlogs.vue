@@ -1,23 +1,31 @@
 <template lang="html">
 <div>
-   <knocksretriver
-  url = "get/my_kids"
-  v-model="myKids"
-  @success="myKidsNow()"
-  >
-  </knocksretriver>
-  <ul class="collapsible">
-    <li v-for="(kid,index) in kids">
-      <div class="collapsible-header"><i class="knocks-child"></i><knocksuser main_container="col s12" :user="kid"></knocksuser></div>
-      <div class="collapsible-body col s12 knocks_fair_bounds"><knockscandysessionkidslog :kid_id="kid"></knockscandysessionkidslog></div>
-    </li>
-  </ul>
-      <div >
-     
-     
-   </div>
-</div>
+  <knockscollapse 
+  title= "My Kids" 
 
+  icon = "knocks-child"
+  comment = "See your kids activities"
+  @control = "collapse = $event" 
+  toggle_on_mount
+  regular_class = "knocks_text_md amber-text text-darken-2"
+  active_class = "knocks_text_md amber-text text-darken-2"
+  side_count_classes = "right blue knocks_standard_border_radius knocks_fair_bounds white-text" >
+
+  <div slot = "content" class = "knocks_gray_border knocks_xs_padding knocks_tinny_border_radius knocks_mp_margin_top" v-loading = "myKids.loading" element-loading-spinner="knocks-speech-bubble-2 knocks_text_lg ">
+    <knocksretriver
+    url = "get/my_kids"
+    v-model="myKids"
+    @success="myKidsNow()"
+    >
+    </knocksretriver>
+    <knocksshowkeys 
+      list_classes = "row knocks_content_padding uk-list uk-list-divider"
+      list_item_class = ""
+    :show_input = "kids" show_scope = "kidlog" v-if = "kids"></knocksshowkeys>
+  </div>
+  </knockscollapse>
+</div>
+</div>
 </template>
 
 <script>
@@ -25,14 +33,18 @@ export default {
   name: 'knockscandysessionlogs',
   data () {
     return {
-      myKids : null,
-      kids : null
+      myKids : { loading : false },
+      kids : null , 
+      myCount : null ,
+      collapse : null ,
     }
   },
   methods : {
       myKidsNow(){
         const vm = this;
         vm.kids = vm.myKids.response;
+        vm.myCount = vm.myKids.response.length
+        vm.collapse.changeCount(vm.myCount)
       }
   }
 

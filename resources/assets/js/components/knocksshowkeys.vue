@@ -5,7 +5,8 @@
 			v-for = "(item , index) in show_input"
 			v-if = "show_input.length != 0"
 			:key = "index"
-			:class = "[{'animated slideOutUp knocks_hidden' : index >= showKey} , {'animated slideInUp' : index < showKey}]">
+			:class = "[ list_item_class , {'animated slideOutUp knocks_hidden' : index >= showKey} , {'animated slideInUp' : index < showKey}]">
+      <slot :name = "'append_'+index"></slot>
 			<knocksuser
 			class = "animated slideInLeft"
 			v-if = "index < showKey && show_scope == 'user'"
@@ -29,6 +30,8 @@
       <knocksdateviewer :date = "item" v-if = "index < showKey && show_scope == 'date'"></knocksdateviewer>
       <knockshashtagchip :hashtag = "item" v-if = "index < showKey && show_scope == 'hashtag'"></knockshashtagchip>
       <knocksaddressviewer :address = "item" v-if = "index < showKey && show_scope == 'address'"></knocksaddressviewer>
+      <knockscandysessionkidslog :kid_id="item" v-if = "index < showKey && show_scope == 'kidlog'"></knockscandysessionkidslog>
+      <knockscandysessionlog :log = "item" v-if = "index < showKey && show_scope == 'candylog'"></knockscandysessionlog>
       <slot :name = "index"></slot>
 		</li>
 	</ul>
@@ -102,6 +105,10 @@ export default {
     empty_message : {
       type : String ,
       default : 'Empty..'
+    },
+    list_item_class : {
+      type : [String, Array , Object] ,
+      default : ''
     },
     empty_icon : {
       type : [String, Array , Object] ,

@@ -10,7 +10,7 @@
         <span>
 				<static_message :msg = "title" v-if = "!unstatic_title"></static_message>
         <span v-if = "unstatic_title" >{{title}}</span>
-        <knocksmeganumber :num = "side_count" :classes = "side_count_classes" v-if = "side_count"></knocksmeganumber>
+        <knocksmeganumber :num = "sideCount" :classes = "side_count_classes" v-if = "sideCount"></knocksmeganumber>
       </span>
         <div slot = "content">
           <span :class = "[icon]"></span>
@@ -31,13 +31,13 @@
 				<span :class = "[icon]"></span>
 				<static_message :msg = "title" :class = "[{'animated fadeIn' : !toggleStatus} , {'knocks_hidden' : toggleStatus}]"></static_message>
 				<static_message :msg = "active_title" :class = "[{'animated fadeIn' : toggleStatus} , {'knocks_hidden' : !toggleStatus}]" ></static_message>
-        <knocksmeganumber :num = "side_count" :classes = "side_count_classes" v-if = "side_count"></knocksmeganumber>
+        <knocksmeganumber :num = "sideCount" :classes = "side_count_classes" v-if = "sideCount"></knocksmeganumber>
 			</span>
 		</div>
 		<div v-if = "toggler == 'custom'">
       <span :class = "indecatorClasses"></span>
 			<slot name = "toggler"></slot>
-      <knocksmeganumber :num = "side_count" :classes = "side_count_classes" v-if = "side_count"></knocksmeganumber>
+      <knocksmeganumber :num = "sideCount" :classes = "side_count_classes" v-if = "sideCount"></knocksmeganumber>
 		</div>
 	</div>
 	<!--Content-->
@@ -138,12 +138,16 @@ export default {
     return {
     	toggleCase : false ,
     	clickedOnce : false ,
+      sideCount : null ,
     }
   },
   mounted(){
     const vm = this
     if(this.toggle_on_mount){
       this.toggleById()
+    }
+    if(this.side_count){
+      this.sideCount = this.side_count
     }
     App.$on('KnocksCollapseToggle' , (payloads)=>{
       if(vm.scope == null || payloads.scope == undefined || payloads.scope == null) return
@@ -175,6 +179,13 @@ export default {
           return
         }   
     })
+
+
+     this.$emit('control' , {
+      changeCount : this.changeSideCount , 
+      toggle : this.toggleById , 
+      toggleCase : this.toggleByCase , 
+     })
   },
   computed : {
   	toggleStatus(){
@@ -200,6 +211,9 @@ export default {
   	}
   },
   methods : {
+    changeSideCount(){
+      this.sideCount = arguments[0]
+    },
   	toggle(e){
   		this.clickedOnce = true;
   		this.toggleCase = !this.toggleCase
@@ -216,6 +230,12 @@ export default {
     toggleById(){
       let toggler = document.getElementById('knocks_'+this._uid+'_toggler')
       this.toggle({currentTarget : toggler})
+    },
+    toggleByCase(){
+      const vm = this
+      if(vm.toggleCase != arguments[0])
+          vm.toggleById()
+          
     }
   }
 }

@@ -5,9 +5,7 @@
   url = "getlog"
   v-model="log_request"
   :xdata = "{id : log_id}"
-  @success="retLog()"
-  >
-  </knocksretriver>
+  @success="retLog()"></knocksretriver>
   <div class="col s12" v-if="log_info != null">
     <h4 class="ui horizontal divider header" style="background-color : transparent !important;" v-if="log_info.type == 'group'">
                 <i class="knocks-group2 icon"></i>
@@ -34,16 +32,16 @@
               </h4>
             <div class="item row knocks_fair_bound" v-if="log_info.type == 'knock'">
               
-              <div class="content col s12">
+              <div class="content col s12 knocks_house_keeper">
                 <a class="header"><knocksuser :user="kid_id" as_name></knocksuser></a>
-                <div class="description col s12 knocks_fair_bound" v-if="log_info != null">
+                <div class="description col s12 knocks_house_keeper" v-if="log_info != null">
                   <div style="margin-left : 5% !important;">
                    <h6 class="grey-text">Wrote this Knock </h6>
                  </div>
                   <knocksknock
                    :knock = "log_info.type_id" 
                    :gid="'log'+log_id"
-                   class="col s12"
+                   class="col s12 knocks_house_keeper"
                    :current_user = "auth"
                     replier_message = "Leave a comment"> 
                     </knocksknock>
@@ -56,16 +54,16 @@
               </h4>
             <div class="item row knocks_fair_bound" v-if="log_info.type == 'comment'">
               
-              <div class="content col s12">
+              <div class="content col s12 knocks_house_keeper">
                 <a class="header"><knocksuser :user="kid_id" as_name></knocksuser></a>
-                <div class="description col s12 knocks_fair_bound" v-if="log_info != null">
+                <div class="description col s12 knocks_house_keeper" v-if="log_info != null">
                   <div style="margin-left : 5% !important;">
                    <h6 class="grey-text">Wrote this Comment </h6>
                  </div>
                   <knocksknock
                     :knock = "log_info.knockid" 
                     :gid="'log'+log_id"
-                    class="col s12"
+                    class="col s12 knocks_house_keeper"
                     :comments_to_show = "[log_info.commentid]" :show_reply_on_mount = "false"
                     :show_comment_reply_on_mout = "true"
                     :current_user = "auth"
@@ -96,16 +94,16 @@
               </h4>
             <div class="item row knocks_fair_bound" v-if="log_info.type == 'reply'">
               
-              <div class="content col s12">
+              <div class="content col s12 knocks_house_keeper">
                 <a class="header"><knocksuser :user="kid_id" as_name></knocksuser></a>
-                <div class="description col s12 knocks_fair_bound" v-if="log_info != null">
+                <div class="description col s12 knocks_house_keeper" v-if="log_info != null">
                   <div style="margin-left : 5% !important;">
                    <h6 class="grey-text">Wrote this Reply </h6>
                  </div>
                   <knocksknock
                     :knock = "log_info.knockid" 
                     :gid="'log'+log_id"
-                    class="col s12"
+                    class="col s12 knocks_house_keeper"
                     :comments_to_show = "[log_info.commentid]" 
                     :replies_to_show = "[log_info.type_id]"
                     :show_reply_on_mount = "false"
@@ -142,20 +140,19 @@
 export default {
   name: 'knockscandysessionlog',
   props:{
-    log_id :{
-      type : Number,
+    log : {
+      type : Object , 
       required : true
     },
-    kid_id:{
-      type : Number,
-      required : true
-    }
+
   },
   data () {
     return {
       log_info : null,
       log_request : null,
-      auth : window.AuthId
+      auth : window.AuthId , 
+      log_id : this.log.log_id , 
+      kid_id : this.log.kid_id , 
 
     }
   },
