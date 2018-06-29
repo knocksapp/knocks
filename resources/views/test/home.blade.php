@@ -849,6 +849,17 @@
       and <code class ="purple-text">unstatic_comment</code>
     </h3>
     </knockscollapse>
+    <knockscollapse toggler = "custom">
+      <div slot = "toggler">
+        <div class="row knocks_text_dark">
+          Custom Toggler <br/>
+          <knocksdateviewer date = "2017-09-12"></knocksdateviewer>
+        </div>
+      </div>
+    <h3 slot = "content">
+      Custom togglers were made to put a custome togglers, eg: this is a text and appended by a custom component by knock <code class = "blue-text">knocksdateviewer</code>
+    </h3>
+    </knockscollapse>
   </div>
 </transition>
 </div>
