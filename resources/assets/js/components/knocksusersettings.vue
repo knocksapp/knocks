@@ -980,10 +980,12 @@
 			<static_message msg = "Candy Session"></static_message>
 		</span>
 		      <knockscandyrequest></knockscandyrequest>
+		      <knockscandysessionlogs></knockscandysessionlogs>
 		</el-tab-pane>
 		</el-tabs>
 	</div>
-	<knockscandysessionlogs></knockscandysessionlogs>
+
+	
 </div>
 </template>
 

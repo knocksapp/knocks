@@ -51,6 +51,7 @@
               main_container = "col s10 knocks_fair_bounds"
               list_classes = "uk-list uk-list-divider knocks_list_scroll"
               :as_label = "false"
+              v-if="candy_status.response != null"
               :show_input = "candy_status.response"
               >
                 <div  v-for="(can,index) in candy_records.response" :slot = "index">
@@ -92,6 +93,7 @@
               main_container = "col s10 knocks_fair_bounds"
               list_classes = "uk-list uk-list-divider knocks_list_scroll"
               :as_label = "false"
+              v-if="candy_status.response != null"
               :show_input = "candy_status.response"
               >
                 <div  v-for="(can,index) in candy_status.response" :slot = "index">
@@ -151,6 +153,7 @@
               main_container = "col s10"
               list_classes = "uk-list uk-list-divider knocks_list_scroll"
               :as_label = "false"
+              v-if="childs != null"
               :show_input = "childs"
               >
                 <div v-for="(child,index) in childs" :slot = "index">
@@ -171,6 +174,7 @@
               main_container = "col s8"
               list_classes = "uk-list uk-list-divider knocks_list_scroll"
               :as_label = "false"
+              v-if="request_req_id != null"
               :show_input = "request_req_id"
               >
                 <div v-for="(req,index) in requests" :slot = "index">
@@ -238,6 +242,7 @@
               main_container = "col s8"
               list_classes = "uk-list uk-list-divider knocks_list_scroll"
               :as_label = "false"
+              v-if="childs != null"
               :show_input = "childs"
               >
                  <div v-for="(child,index) in childs" :slot = "index">
@@ -255,6 +260,7 @@
               main_container = "col s8"
               list_classes = "uk-list uk-list-divider knocks_list_scroll"
               :as_label = "false"
+              v-if = "request_req_id != null"
               :show_input = "request_req_id"
               >
                 <div v-for="(req,index) in requests" :slot = "index">

@@ -229,6 +229,8 @@ Route::group(['middleware' => 'supportedbrowser'], function () {
 
 	Route::post('candy/send', 'UserController@checkKid');
 
+
+
 	Route::post('userlogin', 'UserController@userlogin');
 
 	Route::post('retrive_circle', 'CircleController@retrive');
@@ -428,9 +430,11 @@ Route::group(['middleware' => 'supportedbrowser'], function () {
 	Route::post('user/passwords/forgot/ask', 'UserController@forgotMyPasswordAsk');
 
 	//candy sessions
-	Route::post('getlogid', 'CandySessionController@retriveAllLogs');
+	Route::post('get/mykids/logs', 'CandySessionController@retrieveMyKidsLogs');
 
 	Route::post('getlog', 'CandySessionController@retriveLog');
+
+	Route::post('get/my_kids', 'CandySessionController@retriveMyKids');
 
 // Route::get('add_notification' , function(){
 	//   $not = new App\Ballon();
