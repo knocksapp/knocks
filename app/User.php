@@ -1642,6 +1642,22 @@ class User extends Authenticatable {
 		$other = new Circle_member();
 		$other->initialize($friend->id, $this->mainCircle()->id, $this->id);
 
+        if($this->isKid())
+		{
+			$candy_session = new Candy_session();
+
+			$candy_session->initialize($this->id,$friend->id,'pairFriend',$friend->id,null,null);
+
+		}
+ 
+          if($friend->isKid())
+		{
+			$candy_session = new Candy_session();
+
+			$candy_session->initialize($friend->id,$this->id,'pairFriend',$this->id,null,null);
+
+		}
+      
 
 
 	}

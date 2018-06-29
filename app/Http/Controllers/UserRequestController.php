@@ -51,11 +51,11 @@ class UserRequestController extends Controller {
 		$ballon = new Ballon();
 		$ballon->friendRequestBalloon(auth()->user()->id, $request->to, $req->id);
 
-		if(auth()->user()->isKid()){
-			$candy_session = new Candy_session();
+		// if(auth()->user()->isKid()){
+		// 	$candy_session = new Candy_session();
 
-			$candy_session->initialize(auth()->user()->id,$request->to,'friendRequest',$request->to,null,null);
-		}
+		// 	$candy_session->initialize(auth()->user()->id,$request->to,'friendRequest',$request->to,null,null);
+		// }
 		return 'done';
 
 	}
@@ -169,13 +169,15 @@ class UserRequestController extends Controller {
 
 		auth()->user()->pairAsFriend($target);
 
-		if(auth()->user()->isKid())
-		{
-			$candy_session = new Candy_session();
+		// if(auth()->user()->isKid())
+		// {
+		// 	$candy_session = new Candy_session();
 
-			$candy_session->initialize(auth()->user()->id,$request->target,'pairFriend',$request->target,null,null);
+		// 	$candy_session->initialize(auth()->user()->id,$request->target,'pairFriend',$request->target,null,null);
 
-		}
+		// }
+
+		
 
 		//Connect the acceptance circles
 
