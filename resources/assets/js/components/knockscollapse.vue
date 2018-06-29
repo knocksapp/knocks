@@ -3,12 +3,15 @@
 	<!--Toggler-->
 	<div @click = "toggle($event)" class = "knocks_pointer" :id = "'knocks_'+_uid+'_toggler'">
 		<div v-if = "toggler == 'default'" :class = "toggler_container">
+      <span :class = "indecatorClasses"></span>
 			<span :class = "togglerClasses" v-if = "!dual_title">
 				<span :class = "[icon]"></span>
         <el-tooltip>
+        <span>
 				<static_message :msg = "title" v-if = "!unstatic_title"></static_message>
-        <span v-else >{{title}}</span>
-        <span v-if = "side_count != null"> {{side_count}} </span>
+        <span v-if = "unstatic_title" >{{title}}</span>
+        <knocksmeganumber :num = "side_count" :classes = "side_count_classes" v-if = "side_count"></knocksmeganumber>
+      </span>
         <div slot = "content">
           <span :class = "[icon]"></span>
             <static_message :msg = "title"></static_message>
@@ -22,23 +25,24 @@
            <br><static_message :msg = "comment" v-if ="!unstatic_comment"></static_message>
           <span v-if = "unstatic_comment" >{{comment}}</span>
         </small>
-				<span :class = "indecatorClasses"></span>
 			</span>
 			<span :class = "togglerClasses" v-else>
+        <span :class = "indecatorClasses"></span>
 				<span :class = "[icon]"></span>
 				<static_message :msg = "title" :class = "[{'animated fadeIn' : !toggleStatus} , {'knocks_hidden' : toggleStatus}]"></static_message>
 				<static_message :msg = "active_title" :class = "[{'animated fadeIn' : toggleStatus} , {'knocks_hidden' : !toggleStatus}]" ></static_message>
-        <span v-if = "side_count != null"> {{side_count}} </span>
-				<span :class = "indecatorClasses"></span>
+        <knocksmeganumber :num = "side_count" :classes = "side_count_classes" v-if = "side_count"></knocksmeganumber>
 			</span>
 		</div>
 		<div v-if = "toggler == 'custom'">
+      <span :class = "indecatorClasses"></span>
 			<slot name = "toggler"></slot>
 		</div>
 	</div>
 	<!--Content-->
 	<div v-if = "show_content_on_mount || clickedOnce" class = "knocks_collapse_content_container">
 		<slot name = "content"></slot>
+    <knocksmeganumber :num = "side_count" :classes = "side_count_classes" v-if = "side_count"></knocksmeganumber>
 	</div>
 </div>
 </template>
@@ -125,6 +129,10 @@ export default {
       type : Boolean ,
       default : false
     },
+    side_count_classes : {
+      type : [ Array , Object , String] , 
+      default : 'right red knocks_standard_border_radius knocks_fair_bounds white-text'
+    }
   },
   data () {
     return {

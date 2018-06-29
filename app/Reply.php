@@ -2,12 +2,12 @@
 
 namespace App;
 
+use App\Candy_session;
 use App\Comment;
 use App\Knock;
 use App\obj;
 use App\Saved_presets;
 use App\User_keywords;
-use App\Candy_session;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 
@@ -44,7 +44,7 @@ class Reply extends Model {
 		if ($ind->has_voices) {
 			return 'Voice note';
 		}
-		if ($this->text_content != null && count($this->text_content) > 0) {
+		if ($this->text_content != null && strlen($this->text_content) > 0) {
 			return $this->text_content;
 		}
 		if ($ind->has_files) {
@@ -201,16 +201,13 @@ class Reply extends Model {
 				}
 			}
 		}
-		if(auth()->user()->isKid())
-		{
+		if (auth()->user()->isKid()) {
 
 			$postid = Comment::find($object->post_id)->post_id;
 
 			$candy_session = new Candy_session();
 
-			$candy_session->initialize(auth()->user()->id,$this->object_id,'reply',$this->id,$object->post_id,$postid);
-
-
+			$candy_session->initialize(auth()->user()->id, $this->object_id, 'reply', $this->id, $object->post_id, $postid);
 
 		}
 	}

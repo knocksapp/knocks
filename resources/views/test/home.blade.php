@@ -327,8 +327,7 @@
     <el-button type="primary" @click="reboundInitialData()">Confirm</el-button>
   </span>
   </el-dialog>
-
-    <div class = "col s12">
+  <div class = "col s12">
     <div class="ui horizontal divider transparent">
       SOCIALIZE
     </div>
@@ -339,7 +338,6 @@
       Otherwise, that means that there are still dublicated Memberships, which means you will need to run it again.
     </p>
   </div>
-
   <div class = "col s12">
     <div class="ui horizontal divider transparent">
       Add Random Users
@@ -568,8 +566,8 @@
       v-model="knocksTapsDevMultiple"
       active-color="#13ce66"
       inactive-color="#ff4949"
-      active-value="100"
-      inactive-value="0">
+      :active-value="true"
+      :inactive-value="false">
       </el-switch>
     </div>
     <div class = 'col s6 l3'>
@@ -585,8 +583,8 @@
       v-model="knocksTapsDevRadioReset"
       active-color="#13ce66"
       inactive-color="#ff4949"
-      active-value="100"
-      inactive-value="0">
+      :active-value="true"
+      :inactive-value="false">
       </el-switch>
     </div>
     <div class = 'col s6'>
@@ -735,6 +733,40 @@
     </div>
     <br/><br/><br/>
     <div class = "row">
+      <h3 class = "knocks_text_dark">Knocks Button</h3>
+      <hr/>
+      <div class="row">
+        <knocksbutton
+        placeholder = "Test"
+        submit_at = "dev/test"
+        success_at = "done"
+        :error_at = "[{res : 'error' , msg : 'Error from the server' }]"
+        reset_on_success
+        :submit_data = "{}"
+        icon = "knocks-knocks"
+        gid = "stagetest"
+        :scope = "['testonlytest']"
+        label_classes="knocks_text_sm"
+        :validation_error = "getTranslation('There\'s some feilds we need you to complete it.')">
+        </knocksbutton>
+      </div>
+      <div class="row">
+        <knockselbutton
+        placeholder = "Test"
+        submit_at = "dev/test"
+        success_at = "done"
+        :error_at = "[{res : 'error' , msg : 'Error from the server' }]"
+        reset_on_success
+        :submit_data = "{}"
+        icon = "knocks-knocks"
+        gid = "stagetest"
+        :scope = "['testonlytest']"
+        label_classes="knocks_text_sm"
+        :validation_error = "getTranslation('There\'s some feilds we need you to complete it.')">
+        </knockselbutton>
+      </div>
+    </div>
+    <div class = "row">
       <h3 class = "knocks_text_dark">Knocks Cover Uploader</h3>
       <knockscoveruploader
       gid = "file"
@@ -799,11 +831,23 @@
   </div>
   <div class = "row">
     <h3>Knocks Collapse</h3>
-    <knockscollapse title = "Hello" icon = "knocks-knocks">
-    <h3 slot = "content">Hello There! Hello There! Hello There! Hello There! Hello There! Hello There! Hello There! Hello There! Hello There! Hello There! Hello There! Hello There! Hello There! Hello There! Hello There! Hello There! Hello There! Hello There! Hello There! Hello There! Hello There! Hello There! v Hello There! Hello There! Hello There! v Hello There! Hello There! Hello There!</h3>
+    <knockscollapse title = "Tap One" icon = "knocks-knocks" :side_count = "3">
+    <h5 slot = "content">
+      This is <code class ="blue-text">knockscollapse</code> with <code class ="purple-text">:side_count</code> prop.<br/>
+      in case you need to put a side count in your collapse toggler section, init this with a number, for styling it use
+      <code class ="purple-text">side_count_classes</code> prop and add your classes, it accepts <code class ="amber-text">Array, Object, String</code>
+      for classes values, the side numbers are based on <code class ="blue-text">knocksmeganumber</code> component, so it will handle your numbers out of the box,
+      which means that 1000 and greater numbers will be shown as 1K, and so on.
+    </h5>
     </knockscollapse>
-    <knockscollapse title = "Hello" icon = "knocks-knocks">
-    <h3 slot = "content">Hello There! Hello There! Hello There! Hello There! Hello There! Hello There! Hello There! Hello There! Hello There! Hello There! Hello There! Hello There! Hello There! Hello There! Hello There! Hello There! Hello There! Hello There! Hello There! Hello There! Hello There! Hello There! v Hello There! Hello There! Hello There! v Hello There! Hello There! Hello There!</h3>
+    <knockscollapse title = "Tap Two" icon = "knocks-knocks-circle-fill" comment = "This is a comment">
+    <h3 slot = "content">
+      This is <code class ="blue-text">knockscollapse</code> with <code class ="purple-text">:side_count</code> prop.<br/>
+      you can bind a comment after your title to explain some content, by default it converts both of <code class ="purple-text">title</code>
+      and <code class ="purple-text">comment</code> to a
+      <code class ="blue-text">static_message</code> ,however you can negate it using <code class ="purple-text">unstatic_title</code>
+      and <code class ="purple-text">unstatic_comment</code>
+    </h3>
     </knockscollapse>
   </div>
 </transition>

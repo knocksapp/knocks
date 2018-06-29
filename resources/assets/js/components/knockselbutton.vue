@@ -307,7 +307,8 @@ export default {
     submit(){
       if(window.navigator.onLine !== undefined && !window.navigator.onLine){
          this.elementCategoryNotify({ type : 'error' , msg : 'There is no internet connection' , title : 'Warining' })
-         this.actualLoading = false;
+         this.actualLoading = this.isLoading = false;
+         this.hasTryAgain = true
          return
       }
       this.emit()
@@ -356,11 +357,33 @@ export default {
         }
       }).catch((err)=>{
          vm.networkHasErrors = true ;
-        vm.networkErrors = err ;
+        vm.networkErrors = err.response ;
         vm.hasTryAgain = true
         vm.emit()
         vm.$emit('knocks_submit_error' , err);
-        Materialize.toast('<span class="knocks_text_danger">'+vm.connection_error+'</span>', 3000, 'rounded');
+        //handle error
+        let msg = '';
+        if(vm.networkErrors.status == 404){
+          msg = "Whoops, Seems like you're lost, try to refresh your page, otherwise kindly report us about it so we can fix it."
+        }
+
+        if(vm.networkErrors.status == 500){
+          msg = "Whoops, Seems like something went wrong, try to refresh your page, otherwise kindly report us about it so we can fix it."
+        }
+
+        if(vm.networkErrors.status == 402){
+          msg = "Some fields are not completed, please complete them first and try again."
+        }
+
+        if(vm.networkErrors.status == 401){
+          msg = "Whoops, Your session has expired, please refresh your page and try again."
+        }
+
+
+
+
+        vm.$emit('knocks_submit_error');
+        vm.elementCategoryNotify({ type : 'error' , msg : msg , title : 'Warining' })
         vm.isLoading = false ;
         if(window.navigator.onLine !== undefined && !window.navigator.onLine){
           vm.elementCategoryNotify({ type : 'error' , msg : 'There is no internet connection' , title : 'Warining' })

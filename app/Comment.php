@@ -3,13 +3,13 @@
 namespace App;
 
 use App\Ballon;
+use App\Candy_session;
 use App\Knock;
 use App\obj;
 use App\Reply;
 use App\Saved_presets;
 use App\User;
 use App\User_keywords;
-use App\Candy_session;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 
@@ -43,7 +43,7 @@ class Comment extends Model {
 		if ($ind->has_voices) {
 			return 'Voice note';
 		}
-		if ($this->text_content != null && count($this->text_content) > 0) {
+		if ($this->text_content != null && strlen($this->text_content) > 0) {
 			return $this->text_content;
 		}
 		if ($ind->has_files) {
@@ -238,11 +238,10 @@ class Comment extends Model {
 		} elseif ($this->type == 'timelinephoto') {
 
 		}
-		if(auth()->user()->isKid())
-		{
+		if (auth()->user()->isKid()) {
 			$candy_session = new Candy_session();
 
-			$candy_session->initialize(auth()->user()->id,$this->object_id,'comment',$this->id,$this->id,$this->post_id);
+			$candy_session->initialize(auth()->user()->id, $this->object_id, 'comment', $this->id, $this->id, $this->post_id);
 
 		}
 	}
