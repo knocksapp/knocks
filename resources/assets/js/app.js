@@ -512,6 +512,8 @@ Vue.component('knockstestingsocialize', require('./components/knockstestingsocia
 Vue.component('knockscandysessionlogs', require('./components/knockscandysessionlogs.vue'));
 Vue.component('knockscandysessionlog', require('./components/knockscandysessionlog.vue'));
 Vue.component('knockscandysessionkidslog', require('./components/knockscandysessionkidslog.vue'));
+Vue.component('knockscandybutton', require('./components/knockscandybutton.vue'));
+
 
 
  window.App = new Vue();
