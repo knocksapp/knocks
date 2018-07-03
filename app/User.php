@@ -348,6 +348,25 @@ class User extends Authenticatable {
 			return $arr;
 		}
 	}
+	public function displayName() {
+		$index = $this->cog();
+		$dbDisplayName = $index->display_name;
+		$name = '';
+		for ($i = 0; $i < count($dbDisplayName); $i++) {
+			if ($dbDisplayName[$i] == 'nickname') {
+				if (count($dbDisplayName) == 1) {
+					return $this->nickname;
+				}
+				$name .= '(' . $this->nickname . ') ';
+			} else {
+				$name .= $this[$dbDisplayName[$i]] . ' ';
+			}
+		}
+		if (substr($name, -1) == ' ') {
+			$name = substr($name, 0, strlen($name) - 1);
+		}
+		return $name;
+	}
 
 	public function isSuggestableInList($arr, $user) {
 		return
@@ -1012,7 +1031,7 @@ class User extends Authenticatable {
 	}
 
 	public function hasFriendRequest($from) {
-		
+
 		return $this->userRecivedRequests()->where('sender_id', '=', $from)->where('response', '=', 'waiting')->exists();
 	}
 
@@ -1642,23 +1661,19 @@ class User extends Authenticatable {
 		$other = new Circle_member();
 		$other->initialize($friend->id, $this->mainCircle()->id, $this->id);
 
-        if($this->isKid())
-		{
+		if ($this->isKid()) {
 			$candy_session = new Candy_session();
 
-			$candy_session->initialize($this->id,$friend->id,'pairFriend',$friend->id,null,null);
+			$candy_session->initialize($this->id, $friend->id, 'pairFriend', $friend->id, null, null);
 
 		}
- 
-          if($friend->isKid())
-		{
+
+		if ($friend->isKid()) {
 			$candy_session = new Candy_session();
 
-			$candy_session->initialize($friend->id,$this->id,'pairFriend',$this->id,null,null);
+			$candy_session->initialize($friend->id, $this->id, 'pairFriend', $this->id, null, null);
 
 		}
-      
-
 
 	}
 

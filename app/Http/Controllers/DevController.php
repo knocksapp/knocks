@@ -325,15 +325,16 @@ class DevController extends Controller {
 			if ($k->type == 'group') {
 				$k->user_id = $cuser;
 				$grps = $cuserO->groupMembers()->pluck('group_id')->toArray();
-				$k->at = $grps[rand(0, count($grps) - 1)];
-				$k->update();
+
 			}
 
 			if ($k->type == 'user') {
 				$k->user_id = $cuser;
-				$grps = $cuserO->friends()->pluck('user_id');
-				$k->at = $grps[rand(1, count($grps) - 1)];
-				$k->update();
+				$grps = $cuserO->friends()->pluck('user_id')->toArray();
+				if (count($grps) > 0) {
+					$k->at = $grps[rand(0, count($grps) - 1)];
+					$k->update();
+				}
 			}
 		}
 
@@ -452,8 +453,10 @@ class DevController extends Controller {
 
 			$k->user_id = $cuser;
 			$grps = $cuserO->friends()->pluck('user_id');
-			$k->at = $grps[rand(1, count($grps) - 1)];
-			$k->update();
+			if (count($grps) > 0) {
+				$k->at = $grps[rand(0, count($grps) - 1)];
+				$k->update();
+			}
 
 		}
 		return 'done';

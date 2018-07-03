@@ -684,7 +684,7 @@
 				</div>
 			</div>
 			<div class = "col s12 knocks_tinny_border_radius blue-grey lighten-5 knocks_gray_border knocks_mp_top_margin" v-if = "authModel != null"
-			id ="changemypassword">
+				id ="changemypassword">
 				<p class = "knocks_text_md blue-grey-text text-darken-3 ">
 					<span class = "knocks-locked4"></span>
 					<static_message msg = "Password"></static_message>
@@ -975,16 +975,17 @@
 		</div>
 		</el-tab-pane>
 		<el-tab-pane name = "candySession">
-		<span slot="label" class="left">
-			<i class="knocks-group-1"></i>
-			<static_message msg = "Candy Session"></static_message>
-		</span>
-		      <knockscandyrequest></knockscandyrequest>
-		      <knockscandysessionlogs></knockscandysessionlogs>
+			<span slot="label" class="left">
+				<i class="knocks-group-1"></i>
+				<static_message msg = "Candy Session"></static_message>
+			</span>
+			<div v-if = "seenOnce.candySession">
+				<knockscandyrequest></knockscandyrequest>
+			<knockscandysessionlogs v-if = "authModel && !authModel.isKid"></knockscandysessionlogs>
+			</div>
 		</el-tab-pane>
 		</el-tabs>
 	</div>
-
 	
 </div>
 </template>

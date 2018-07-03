@@ -334,10 +334,15 @@ export default {
     submit(){
       if(window.navigator.onLine !== undefined && !window.navigator.onLine){
           this.elementCategoryNotify({ type : 'error' , msg : 'There is no internet connection' , title : 'Warining' })
-         this.actualLoading = false;
-         this.isLoading = false
-         this.hasTryAgain = true
-         return
+          if(window.location.hostname == 'knocks.dev'){
+            console.warn('%cThere is no internet connection, This is only working because the App is under development.','font-size:18px;color:red;font-family:monospace')
+
+          }else{
+             this.actualLoading = false;
+             this.isLoading = false
+             this.hasTryAgain = true
+             return
+          }
       }
       if(this.actualLoading) {console.log('prevent extra s'); return; }
       this.actualLoading = true;

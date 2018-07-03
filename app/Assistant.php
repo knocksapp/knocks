@@ -53,7 +53,7 @@ class Assistant extends Model {
 			'f**',
 			'a******',
 		];
-		$text = explode(" ", $text);
+		$text = explode(" ", strtolower($text));
 		return !$this->isMatchedArrays($arr, $text);
 	}
 

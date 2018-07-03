@@ -3,9 +3,9 @@
   <knockscollapse toggler = "custom"  @control = "collapse = $event">
     <div slot = "toggler" class = "row">
       <knocksuser main_container="col s10" :user="kid_id"></knocksuser>
-      <span class = "col white-text right blue knocks_standard_border_radius knocks_fair_bounds" v-if = "kidLogs">{{kidLogs.length}}</span> 
+      <knocksmeganumber classes = "col white-text right blue knocks_standard_border_radius knocks_fair_bounds" v-if = "kidLogs" :num="kidLogs.length"></knocksmeganumber> 
     </div>
-  <div slot = "content"  v-loading = "myKidsLogs.loading" element-loading-spinner="knocks-speech-bubble-2 knocks_text_lg ">
+  <div slot = "content"  v-loading = "myKidsLogs.loading" element-loading-spinner="el-icon-loading ">
     <knocksretriver
     url = "get/mykids/logs"
     v-model="myKidsLogs"

@@ -11,7 +11,7 @@
   active_class = "knocks_text_md amber-text text-darken-2"
   side_count_classes = "right blue knocks_standard_border_radius knocks_fair_bounds white-text" >
 
-  <div slot = "content" class = "knocks_gray_border knocks_xs_padding knocks_tinny_border_radius knocks_mp_margin_top" v-loading = "myKids.loading" element-loading-spinner="knocks-speech-bubble-2 knocks_text_lg ">
+  <div slot = "content" class = "knocks_gray_border knocks_xs_padding knocks_tinny_border_radius knocks_mp_margin_top" v-loading = "myKids.loading" element-loading-spinner="el-icon-loading ">
     <knocksretriver
     url = "get/my_kids"
     v-model="myKids"

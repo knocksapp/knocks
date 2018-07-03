@@ -3,7 +3,7 @@
 <meta property="fb:app_id" content="1796023703741381" />
     <meta property="og:type"   content="website" />
     <meta property="og:url"    content="{{Request::url()}}" />
-    <meta property="og:title"  content="KnocksApp, Knock by {{ App\User::find($knock->user_id)->first_name }}" />
+    <meta property="og:title"  content="KnocksApp, Knock by {{ App\User::find($knock->user_id)->displayName() }}" />
     <meta property="og:image"  content="{{ asset('media/avatar/'.$knock->user_id)}}" />
     <meta property="og:description" content="{{$knock->discription()}}">
     <meta property="og:site_name" content="Knocks, Inc.">

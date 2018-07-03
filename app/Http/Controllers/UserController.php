@@ -38,26 +38,26 @@ class UserController extends Controller {
 		}
 		return $req;
 	}
-   public function retriveChild(Request $request){
-        $childs = 
-        User::whereIn('id' , auth()->user()->friendsList()->toArray())
-        ->where('birthdate', '>' ,  date('Y-m-d', strtotime('-12 years')))
-       ->where(function ($query) use ($request) {
-						$query->where('full_name', 'like', '%'.$request->q.'%')
-						->orwhere('nickname', 'like', '%'.$request->q.'%');
-					})->get()->pluck('id');
-        return $childs;
-   }
-   public function retriveParent(Request $request){
-        $childs = 
-        User::whereIn('id' , auth()->user()->friendsList()->toArray())
-        ->where('birthdate', '<' ,  date('Y-m-d', strtotime('-12 years')))
-       ->where(function ($query) use ($request) {
-						$query->where('full_name', 'like', '%'.$request->q.'%')
-						->orwhere('nickname', 'like', '%'.$request->q.'%');
-					})->get()->pluck('id');
-        return $childs;
-   }
+	public function retriveChild(Request $request) {
+		$childs =
+		User::whereIn('id', auth()->user()->friendsList()->toArray())
+			->where('birthdate', '>', date('Y-m-d', strtotime('-12 years')))
+			->where(function ($query) use ($request) {
+				$query->where('full_name', 'like', '%' . $request->q . '%')
+					->orwhere('nickname', 'like', '%' . $request->q . '%');
+			})->get()->pluck('id');
+		return $childs;
+	}
+	public function retriveParent(Request $request) {
+		$childs =
+		User::whereIn('id', auth()->user()->friendsList()->toArray())
+			->where('birthdate', '<', date('Y-m-d', strtotime('-12 years')))
+			->where(function ($query) use ($request) {
+				$query->where('full_name', 'like', '%' . $request->q . '%')
+					->orwhere('nickname', 'like', '%' . $request->q . '%');
+			})->get()->pluck('id');
+		return $childs;
+	}
 	public function userlogin(Request $request) {
 		$user = User::where('email', '=', $request->q)
 			->orwhere('username', '=', $request->q)
@@ -521,7 +521,7 @@ class UserController extends Controller {
 	public function shortMainSearch(Request $request) {
 		$result = [];
 
-		$query = SearchQueries::where('keywords', 'like', '%' . $request->q . '%')->get();
+		$query = SearchQueries::where('keywords', 'like', '%' . strtolower($request->q) . '%')->get();
 		foreach ($query as $q) {
 
 			if ($q->query_type == 'user') {
@@ -556,7 +556,7 @@ class UserController extends Controller {
 		$result['comment'] = array();
 		$result['knock'] = array();
 		$result['groups'] = array();
-		$query = SearchQueries::where('keywords', 'like', '%' . $request->q . '%')->get();
+		$query = SearchQueries::where('keywords', 'like', '%' . strtolower($request->q) . '%')->get();
 		foreach ($query as $q) {
 
 			if ($q->query_type == 'user') {

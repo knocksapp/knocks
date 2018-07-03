@@ -114,11 +114,11 @@
                 </div>
               </div>
             </div>
-            <h4 class="ui horizontal divider header" style="background-color : transparent !important;" v-if="log_info.type == 'friendRequest'">
+            <h4 class="ui horizontal divider header" style="background-color : transparent !important;" v-if="log_info.type == 'pairFriend'">
                 <i class="knocks-tick icon"></i>
                  Friends
               </h4>
-            <div class="item row knocks_fair_bound" v-if="log_info.type == 'friendRequest'">
+            <div class="item row knocks_fair_bound" v-if="log_info.type == 'pairFriend'">
               
               <div class="content col s12">
                 <a class="header"><knocksuser :user="kid_id" as_name></knocksuser></a>
@@ -131,6 +131,7 @@
               </div>
             </div>
           </div>
+          <knocksdateviewer :date = "log_info.created_at" class = " right green-text"></knocksdateviewer>
   </div>
 </div>
 

@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class SearchQueries extends Model {
 	public function init($object) {
-		$this->keywords = $object->keywords;
+		$this->keywords = strtolower($object->keywords);
 		$this->query_id = $object->query_id;
 		$this->query_type = $object->query_type;
 		$this->child_id = $object->child_id;

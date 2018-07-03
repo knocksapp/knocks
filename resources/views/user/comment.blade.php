@@ -4,7 +4,7 @@
     <meta property="og:type"   content="website" />
     <meta property="og:url"    content="{{Request::url()}}" />
     <meta property="og:title"
-    content="KnocksApp, {{ App\User::find($comment->user_id)->first_name }} Commented on {{ App\User::find($knock->user_id)->first_name }}'s Knock" />
+    content="KnocksApp, {{ App\User::find($comment->user_id)->displayName() }} Commented on {{ App\User::find($knock->user_id)->displayName() }}'s Knock" />
     <meta property="og:image"  content="{{ asset('media/avatar/'.$comment->user_id)}}" />>
     <meta property="og:description" content="{{$comment->discription()}}">
     <meta property="og:site_name" content="KnocksApp, Inc.">

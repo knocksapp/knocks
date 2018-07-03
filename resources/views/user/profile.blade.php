@@ -4,14 +4,7 @@
 $currentUser = auth()->check() ? auth()->user() : array('id' => -1);
 ?>
 <title>
-{{$user->first_name}}
-@if($user->middle_name != null)
-{{' '.$user->middle_name}}
-@endif
-{{' '.$user->last_name}}
-@if($user->nickname != null)
-{{' ('.$user->nickname.')'}}
-@endif
+{{ $user->displayName() }}
 </title>
 <knocksuser v-model = "profileModel" class = "knocks_hidden" :user = "{{$user->id}}"></knocksuser>
 <transition    name="custom-classes-transition" enter-active-class="animated tada" leave-active-class="animated bounceOutRight">

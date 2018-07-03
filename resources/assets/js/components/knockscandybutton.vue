@@ -5,7 +5,8 @@
                           placeholder = "Send Request"
                           icon="knocks-send-1"
                           :error_at = "[{res : 'age proplem' , msg : 'Error : incorrect Age'}
-                          ,{res : 'requested' , msg : 'Error : You have already send a request'}
+                          ,{res : 'requested' , msg : 'Error : You have already send a request'} ,
+                          { res : 'toomuch' , msg : 'You already have exceed the maximum limit of candy relations.'}
                           ]"
                           success_at = "done"
                           submit_at = "check/candy"

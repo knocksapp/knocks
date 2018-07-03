@@ -306,10 +306,15 @@ export default {
     },
     submit(){
       if(window.navigator.onLine !== undefined && !window.navigator.onLine){
-         this.elementCategoryNotify({ type : 'error' , msg : 'There is no internet connection' , title : 'Warining' })
-         this.actualLoading = this.isLoading = false;
-         this.hasTryAgain = true
-         return
+          this.elementCategoryNotify({ type : 'error' , msg : 'There is no internet connection' , title : 'Warining' })
+          if(window.location.hostname == 'knocks.dev'){
+            console.warn('%cKnocksApp Warning, There is no internet connection, This is only working because the current host is under development.','font-size:18px;color:#922459;font-family:monospace')
+          }else{
+             this.actualLoading = false;
+             this.isLoading = false
+             this.hasTryAgain = true
+             return
+          }
       }
       this.emit()
       this.hasTryAgain = false
