@@ -63,6 +63,7 @@ window.Cropper = require('cropperjs');
 window.CurrentHref = window.location.href;
 window.ImageViewerStack = [] ;
 window.FontsAlignment = { left : 'titillium' , right : 'cairo' }
+window.IsDevDomain = window.location.hostname == 'knocks.dev' ;
 window.UserMainCircle = window.sessionType == 'user' ? parseInt(document.querySelector('meta[name="main_circle"]').getAttribute('content')) : -1;
 
 //Packages Configration
@@ -104,6 +105,7 @@ window.leaveIcon = function(node){
 
 
 $(document).ready(function(){
+  if(!window.IsDevDomain)
   setTimeout(()=>{
     console.clear();
   console.log("%c Welcome To KnocksApp","color: #922459;font-size:30px;font-family:sans-serif")
