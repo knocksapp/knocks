@@ -336,7 +336,6 @@ export default {
           this.elementCategoryNotify({ type : 'error' , msg : 'There is no internet connection' , title : 'Warining' })
           if(window.location.hostname == 'knocks.dev'){
             console.warn('%cThere is no internet connection, This is only working because the App is under development.','font-size:18px;color:red;font-family:monospace')
-
           }else{
              this.actualLoading = false;
              this.isLoading = false
