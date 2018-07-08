@@ -1,21 +1,12 @@
 <!DOCTYPE html>
 <html>
   <head  prefix="og: http://ogp.me/ns# fb: http://ogp.me/ns/fb# website: http://ogp.me/ns/website#">
-  <?php
-      if(auth()->check()){
-      $log = new App\User_log();
-      $log->addUserLog(auth()->user()->id , Request::url() , Request::ip());
-      }
-      if(!auth()->check()){
-      $log = new App\User_log();
-      $log->addAnanymousLog(Request::url() , Request::ip());
-    }
-  ?>
-  <meta property="fb:app_id" content="1796023703741381" /> 
-  <meta property="og:type"   content="website" /> 
-  <meta property="og:url"    content="https://knocksapp.com/faq/survey/Analysis" /> 
-  <meta property="og:title"  content="Knocks" /> 
-  <meta property="og:image"  content="https://knocksapp.com/snaps/knocks_logo.png" /> 
+<meta name="auth_mod" content="{{auth()->check() ? json_encode(auth()->user()->retriveForUser( auth()->user()->id ) ): '{}'}}">
+  <meta property="fb:app_id" content="1796023703741381" />
+  <meta property="og:type"   content="website" />
+  <meta property="og:url"    content="https://knocksapp.com/faq/survey/Analysis" />
+  <meta property="og:title"  content="Knocks" />
+  <meta property="og:image"  content="https://knocksapp.com/snaps/knocks_logo.png" />
   <meta charset="UTF-8" />
   <link rel="alternate" href="{{Request::url()}}" hreflang="en" />
   <meta name="description" content="Knocks Survey, See what do poeple think about Social Networking.">
@@ -36,7 +27,7 @@
 
     <meta property="og:site_name" content="Knocks, Inc.">
     <meta name="twitter:title" content="Knocks">
-    
+
     <meta name="twitter:description" content=" Knocks Survey Analysis, See what do people think about Social Networking.">
     <meta name="twitter:image" content="{{asset('snaps/knocks.png')}}">
     <meta name="twitter:card" content="knocks">
@@ -66,9 +57,9 @@
       xfbml      : true,
       version    : 'v2.12'
     });
-  
+
     FB.AppEvents.logPageView();
-  
+
   };
 
   (function(d, s, id){
@@ -105,7 +96,7 @@
  {
  "@type": "Person",
  "name": "Khaled Ashraf"
- } 
+ }
  ]
 }
 </script>

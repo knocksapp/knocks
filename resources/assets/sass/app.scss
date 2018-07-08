@@ -1294,7 +1294,9 @@ span.badge.new{
 .knocks_inline{
   display : inline-block !important;
 }
-
+.knocks_inline_flex{
+  display : inline-flex;
+} 
 
 .knocks_hidden{
   display: none;

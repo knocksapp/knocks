@@ -10,9 +10,13 @@
           <div @click="spliceFromTagged(i)" v-for = "(x , i) in tagged" v-if = "alreadyTagged(x)"  >
             <img class="knocks_chip_image animated slideInLeft right"  :src = "asset('media/avatar/compressed/'+x)">
           </div>
-          <div @click="pushToTagged(x , i)" v-for = "(x , i) in userSuggestions" class = "knocks_inline" v-if = "!alreadyTagged(x)">
-            <knocksuser name_class = "knocks_text_anchor knocks_text_ms knocks_text_bold" :user="x" as_chip show_image  v-model = "suggestions[i]" main_container =  "animated bounceInUp" ></knocksuser>
+          <knocksshowkeys 
+          list_classes = " "  list_item_class ="" hide_count hide_on_empty
+          :show_input = "userSuggestions" show_scope = ''>
+            <div @click="pushToTagged(x , i)" v-for = "(x , i) in userSuggestions" class = "knocks_inline" v-if = "!alreadyTagged(x)" :slot = "i">
+            <knocksuser  name_class = "knocks_text_anchor knocks_text_ms knocks_text_bold" :user="x" as_chip show_image  v-model = "suggestions[i]" main_container =  "animated bounceInUp" ></knocksuser>
           </div>
+          </knocksshowkeys>
         </div>
         <div class = "col right knocks_house_keeper">   
           <knockspopover>
@@ -1343,6 +1347,7 @@ export default {
   cursor : pointer;
   border : 1px solid pink;
 }
+
 </style>
 
 

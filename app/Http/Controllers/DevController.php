@@ -5492,12 +5492,11 @@ class DevController extends Controller {
 		];
 		for ($i = 0; $i < $request->count; $i++) {
 			$user = new User();
-			$fname = $names[rand(1, count($names) - 1)];
 			$user->initForTesting(
 				json_encode(array(
-					'first_name' => $fname,
+					'first_name' => $names[rand(1, count($names) - 1)],
 					'last_name' => $names[rand(1, count($names) - 1)],
-					'username' => strtolower($fname) . ($i + $usersCount),
+					'username' => "knockstestuser" . ($i + $usersCount),
 					'gender' => "male",
 					'middle_name' => $names[rand(1, count($names) - 1)],
 					'nickname' => $names[rand(1, count($names) - 1)],

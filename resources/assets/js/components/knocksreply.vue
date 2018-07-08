@@ -79,7 +79,7 @@
                   </knockspopover>
                   <knocksrecorder
                   v-if = "!draggingMode"
-                  
+                  @pushtoknock = "pushToKnock($event)"
                   @recognition="addRecognitionContent($event)"
                   @record_reset="addRecognitionContent('')"
                   v-model = "recorder"
@@ -627,6 +627,10 @@ export default {
      
       this.tokens =  $('#'+this.gid+'_input').html().split(/ |&nbsp;/);
   	},
+    pushToKnock(e){
+      $('#'+this.gid+'_input').append('<span>'+e+'</span>')
+      this.watchMyDom()
+    },
     getThebodyContent(){
       this.bodyContent =  $('#'+this.gid+'_input').html().split(/&nbsp;/).join('');
       

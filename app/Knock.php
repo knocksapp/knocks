@@ -257,7 +257,7 @@ class Knock extends Model {
 			//Default
 			if ($object->privacy_setting->tip == 'choosedefault') {
 				$dps = auth()->user()->defaultPreset();
-				if ($dps != null) {k
+				if ($dps != null) {
 					$udf = Saved_presets::find($dps);
 					if ($udf != null) {
 						$constraints = $udf->constraints();
