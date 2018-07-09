@@ -35,7 +35,7 @@
       <slot :name = "index"></slot>
 		</li>
 	</ul>
-  <center  v-if = "show_input.length == 0 && !w">
+  <center  v-if = "show_input.length == 0 && !hide_on_empty">
   <span :class = "empty_classes" class = "animated slideInUp">
     <span :class = "empty_icon"></span>
     <static_message :msg = "empty_message"></static_message>
