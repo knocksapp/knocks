@@ -205,12 +205,12 @@ class CandyBlobsController extends Controller {
 	public function retrieveCandyRequest(Request $request) {
 		if (auth()->user()->isKid()) {
 			return $candy_request = candy_blobs::where('kid_id', '=', auth()->user()->id)
-			->where('parent_id', '=', 'req_id')
-			->where('status', '=', 'waiting')->get();
+				->where('parent_id', '=', auth()->user()->id)
+				->where('status', '=', 'waiting')->get();
 		} else {
 			return $candy_request = candy_blobs::where('parent_id', '=', auth()->user()->id)
-			->where('kid_id', '=', 'req_id')
-			->where('status', '=', 'waiting')->get();
+				->where('kid_id', '=', auth()->user()->id)
+				->where('status', '=', 'waiting')->get();
 		}
 	}
 }

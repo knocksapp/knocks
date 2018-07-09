@@ -1,8 +1,9 @@
 <template lang="html">
 <div>
+  <knocksuser :user = "auth" class = "knocks_hidden" v-model = "authmodel"></knocksuser>
   <knockscollapse 
   title= "My Kids" 
-
+  v-if = "authmodel && !authmodel.kid"
   icon = "knocks-child"
   comment = "See your kids activities"
   @control = "collapse = $event" 
@@ -37,6 +38,8 @@ export default {
       kids : null , 
       myCount : null ,
       collapse : null ,
+      auth : AuthId , 
+      authmodel : null , 
     }
   },
   methods : {
