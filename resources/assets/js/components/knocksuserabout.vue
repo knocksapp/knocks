@@ -589,7 +589,7 @@ export default {
     retriveCareer($event){
       const vm = this
       axios({
-        url:'career/get',
+        url:LaravelOrgin + 'career/get',
         method:'post' ,
         data : {user : vm.user} ,
         onDownloadProgress : ()=>{ vm.careerIsLoading = true ; }
@@ -604,7 +604,7 @@ export default {
       const vm = this
       axios({
         method:'post',
-        url:'education/get',
+        url:LaravelOrgin + 'education/get',
         data : {user : vm.user} ,
         onDownloadProgress : ()=>{vm.educationIsLoading = true; }
       }).then((response)=>{
@@ -617,7 +617,7 @@ export default {
       const vm = this
       axios({
         method:'post',
-        url:'high_education/get',
+        url:LaravelOrgin + 'high_education/get',
         data : {user : vm.user} ,
         onDownloadProgress : ()=>{vm.higheducationIsLoading = true;}
       }).then((response)=>{
@@ -630,7 +630,7 @@ export default {
       const vm = this
       axios({
         method:'post',
-        url:'hobby/get',
+        url:LaravelOrgin + 'hobby/get',
         data : {user : vm.user} ,
         onDownloadProgress: ()=>{vm.hobbyIsLoading = true;}
       }).then((response)=>{
@@ -643,7 +643,7 @@ export default {
       const vm = this
       axios({
         method:'post',
-        url:'sport/get',
+        url:LaravelOrgin + 'sport/get',
         data : {user : vm.user} ,
         onDownloadProgress: ()=>{vm.sportIsLoading = true;}
       }).then((response)=>{
