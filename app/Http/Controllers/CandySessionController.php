@@ -21,7 +21,9 @@ class CandySessionController extends Controller {
 
 	public function retriveMyKids(Request $request) {
 		if (!auth()->user()->isKid()) {
-			return candy_blobs::where('parent_id', '=', auth()->user()->id)->get()->pluck('kid_id');
+			return candy_blobs::where('parent_id', '=', auth()->user()->id)
+				->where('status', '=', 'accepted')
+				->get()->pluck('kid_id');
 		}
 
 	}
